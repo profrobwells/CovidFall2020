@@ -1,15 +1,17 @@
 ---
-title: "Jour 5283: Data Journalism Reporting on Covid in Arkansas"
-date: "8/19/2020"
+title: "Jour 5283: Fall 2020"
 output: html_document
 ---
 
-### Jour 5283, Fall 2020    
-### School of Journalism and Strategic Media     
-### University of Arkansas     
+### Data Journalism: Reporting on Covid in Arkansas    
+<img src="Images/UARK logo NEW.png" width="300" height="150" />
+
+---  
 
 Remote Delivery. Class Time: Monday-Wednesday,  9:40 a.m.-10:55 a.m.    
 Aug. 24 - Dec. 9, 2020    
+
+---   
 
 Instructor: 	Rob Wells, Ph.D.  
 Office: Remote in Fall 2020  
@@ -18,13 +20,20 @@ Office hours: Monday-Wednesday online 11:00 a.m-12:00 p.m.
 and by appointment: https://calendly.com/rswells/30min    
 E-mail: rswells@uark.edu  
 
+---  
+
+
 **Course Goal:** Students will learn the latest data journalism techniques that drive modern newsrooms and public relations / advertising offices.  Advanced students will receive instruction on analyzing Twitter data.
 
-**Course Description:** This course will teach students how to code in R and how this powerful tool is used in modern news reporting. Quality reporting in newsrooms requires a solid foundation of data analysis. This course will also report on an evolving news story, the COVID-19 outbreak in Arkansas, and will collaborate with students and faculty with the Howard Center for Investigative Journalism and Arkansascovid.com. 
+**Course Description:** The data skills taught in this class are in high demand in newsrooms and corporations.
 
-The class will partner with a local blogger, Misty Orpin, founder of Arkansascovid.com, -- https://arkansascovid.com/ -- a popular data portal. examine Covid-19 data in Arkansas and produce stories based on this data.
+This course will teach students how to code in R and how this powerful tool is used in modern news reporting. Quality reporting in newsrooms requires a solid foundation of data analysis. 
 
-The data skills taught in this class are in high demand in newsrooms and corporations.
+This course will also report on an evolving news story, the COVID-19 outbreak in Arkansas.
+
+The class will partner with a local blogger, Misty Orpin, founder of Arkansascovid.com -- https://arkansascovid.com/ -- a popular data portal. We will examine Covid-19 data in Arkansas and produce stories based on this data, primarily on racial disparities with the disease.
+
+This class also will collaborate with students and faculty with the Howard Center for Investigative Journalism at the University of Maryland's Philip Merrill College of Journalism. 
 
 **Learning Outcomes:** 
 
@@ -47,18 +56,17 @@ https://www.amazon.com/Street-Journal-Guide-Information-Graphics/dp/0393347281
 Machlis, Sharon. Practical R for Mass Communications and Journalism. Chapman & Hall/CRC The R Series. 2018. ISBN 9781138726918
 https://www.amazon.com/gp/search?keywords=9781138726918
 
-http://www.machlis.com/R4Journalists/
-
 
 **Supplementary Texts:**    
 
 Verification Handbook 
 http://verificationhandbook.com/downloads/verification.handbook.pdf
 
-Cohen, Sarah Numbers in the Newsroom: Using Math and Statistics in News.Any edition. Columbia, Mo.: Investigative Reporters & Editors Inc., 2014. 
+Cohen, Sarah Numbers in the Newsroom: Using Math and Statistics in News. Any edition. Columbia, Mo.: Investigative Reporters & Editors Inc., 2014. 
 https://www.ire.org/product/numbers-in-the-newsroom-using-math-and-statistics-in-news-second-edition
 
-Meyer, Philip. The New Precision Journalism. Rowman & Littlefield, 2002. Free version: https://www.unc.edu/~pmeyer/book/Chapter1.htm.
+Meyer, Philip. The New Precision Journalism. Rowman & Littlefield, 2002. Free version: 
+https://carolinadatadesk.github.io/pmeyer/book/
 
 Select readings posted course website 
 
@@ -71,8 +79,10 @@ Select readings posted course website
     FiveThirtyEight
     Vox 
     Reddit Rlanguage
+    Machlis' R website: http://www.machlis.com/R4Journalists/
+
     
-### Grading:   
+**Grading:**   
 
     Assignments: 60 percent
     Homework: 20 percent
@@ -96,55 +106,60 @@ Your work will be marked on the following scale:
       D-: 	62 – 60
       F:   	Below 60
  
-A - The work is of professional quality (for journalism "professional" track students) or high academic quality (for others). It reflects a depth of research, clarity of writing, and a complete grasp of the main concepts presented in the class.
-B - The work is good but needs editing or is flawed in one of the categories mentioned above.
-C – The work is weak, needs major editing or reflects an average understanding of key concepts presented in class.
-D - Work fails to meet requirements and needs a complete rewrite.
-F – Unacceptable.
+      A - The work is of professional quality (for journalism "professional" track students) or high academic   quality (for others). It reflects a depth of research, clarity of writing, and a complete grasp of the main concepts presented in the class.    
+      B - The work is good but needs editing or is flawed in one of the categories mentioned above.     
+      C – The work is weak, needs major editing or reflects an average understanding of key concepts presented in class.    
+      D - Work fails to meet requirements and needs a complete rewrite.    
+      F – Unacceptable.    
  
 **Libel:**  
-Any story that includes libelous material will result in an F (55 percent) Examples would be if you describe someone as a murderer in your story before he or she is convicted, or if you mistype the name of a convicted murder and thereby implicate someone not guilty of the crime.
+Any story that includes libelous material will result in an F (55 percent). Examples would be if you describe someone as a murderer in your story before he or she is convicted, or if you mistype the name of a convicted murder and thereby implicate someone not guilty of the crime.
  
 **Remote Class:**
 
-The course will be taught remotely, with course presentations in Blackboard Collaborate and/or Zoom and course workflow communications in Slack, Google Docs, Google Sheets, GitHub and UofA email. Google Docs/Sheets, GitHub and Slack are tools used in professional newsrooms. 
+The course will be taught remotely and synchronously, which means we all meet online at the same time twice a week. Course presentations will be in Zoom or Blackboard Collaborate. The reporting and assignments and homework will be discussed in Slack. Students will write in Google Docs and use Google Sheets and GitHub to manage and organize data. These are all tools used in professional newsrooms. 
 
 The course will be presented in a flipped format, where homework and watching of pre-recorded video lectures is offline and the class time will be used for collaborative problem solving and discussion.
 
+I will record all class sessions.
+
 **Class Communications:**  
 
-    1) **Slack**: This platform, widely used for project management, will be the heart of our communications. It's better than group emails. Students can create their own discussion groups as circumstances warrant. It will serve as a convenient repository for messages and documents as we collaboratively report through the semester. Breaking news and important documents related to our reporting will be distributed in Slack. Slack makes it easier to reach everyone and have more productive discussions. Like email, I will expect a timely reply to a direct query to a student on a particular issue. Many reporting and data problems will be discussed on Slack. 
+    1) Slack: This platform, widely used for project management, will be the heart of our communications. It's better than group emails. Students can create their own discussion groups as circumstances warrant. It will serve as a convenient repository for messages and documents as we collaboratively report through the semester. Breaking news and important documents related to our reporting will be distributed in Slack. Slack makes it easier to reach everyone and have more productive discussions. Like email, I will expect a timely reply to a direct query to a student on a particular issue. Many reporting and data problems will be discussed on Slack. 
     Please download and activate a Slack account.
     https://slack.com/downloads/mac  and log into this channel: datahogs.slack.com
 
-    2) **GitHub**: This will be the class website, You will see homework assignments and lecture material posted on a  dedicated GitHub site, https://github.com/profrobwells/CovidFall2020. Students will share and update data via GitHub. GitHub is a common platform for coding.
+    2) GitHub: This will be the class website, You will see homework assignments and lecture material posted on a  dedicated GitHub site, https://github.com/profrobwells/CovidFall2020. Students will share and update data via GitHub. GitHub is a common platform for coding.
  
-    3) **Blackboard / UofA email**: The course sessions will be on Blackboard Collaborate video until Zoom becomes available. Grades will be posted on Blackboard. I will send messages to students via the UofA email accounts about important issues but expect much of our communication will be in Slack. 
+    3) Blackboard / UofA email: The course sessions will be on Blackboard Collaborate video until Zoom becomes available. Grades will be posted on Blackboard. I will send messages to students via the UofA email accounts about important issues but expect much of our communication will be in Slack. 
 
-    4) **Google Docs / Google Sheets**: We will write and edit articles in Google Docs, which permits collaborative writing and editing. Google Sheets will be used to keep track of important data and for project management. 
+    4) Google Docs / Google Sheets: We will write and edit articles in Google Docs, which permits collaborative writing and editing. Google Sheets will be used to keep track of important data and for project management. 
+    
+    5) Tableau: We may use Tableau, a popular data visualization program, to supplement our work. 
 
     It is your responsibility to monitor Slack for direct messages and check your UofA email. I respond to email quickly, usually within an hour. I stop responding to student email at 9 p.m.
 
 
 **Attendance:**  
-This is a small class and your attendance to each session is very important. Your colleagues will be replying on you to show up and show up prepared. 
+This is a small class and your attendance to each session is very important. Your colleagues will be relying on you to show up and show up prepared. 
 
 I will note who is attending class and that will be a factor in your class participation grade. I also realize the class is being offered during a pandemic, so I will be flexible in the event health issues prevent your attendance. Please follow this basic rule: communicate with me about any absence as soon as you can. 
 
 **Online Etiquette:**  
-Let us all resist the temptation to multitask during class and instead be present in the brief time we have together. Unless you are talking, please mute your microphone to eliminate outside noise; headsets or earbuds are a good idea.
+Let us all resist the temptation to multitask during class and instead **be present in the brief time we have together.** 
+
+Unless you are talking, please mute your microphone to eliminate outside noise; headsets or earbuds are a good idea.
  
 **Academic Honesty:**  
 Please refer to  http://provost.uark.edu/245.php for the academic integrity policy.
- 
-**Class Weather Policy:**  
-If the university is closed, there will be no class. If I need to cancel class, for whatever reason, I will do my best to notify you by e-mail and notify the journalism office: 479-575-3601. 
+
  
 **CEA, Center for Education Access:**  
 If you are a student with special needs, contact me personally **and as soon as possible**. The CEA is at 479-575-3104. I will accommodate students who require assistance.
  
 **Emergency Preparedness Plan:**  
 The university has a new emergency plan; review it at http://emergency.uark.edu/
+If I need to cancel class, for whatever reason, I will do my best to notify you by e-mail and notify the journalism office: 479-575-3601. 
  
 **About the Instructor:**  
 Rob Wells is an assistant professor of journalism and has been teaching at the University of Arkansas since the Fall 2016 semester. He earned his doctorate in philosophy in Journalism Studies at the University of Maryland's Philip Merrill College of Journalism. His academic research is in business journalism and history, along with data journalism and technology. He is the author of a forthcoming book about the problems and future of business journalism, to be published by the University of Illinois Press in 2019. As an adjunct instructor, he taught reporting classes at the Merrill College between 2010-2016. He was a 2012 Reynolds Visiting Professor at the University of South Carolina, Columbia, a program sponsored by the Donald W. Reynolds National Center for Business Journalism.  
@@ -153,7 +168,7 @@ Wells is the former deputy bureau chief for Dow Jones Newswires/Wall Street Jour
 
 **Schedule of Instruction**  
 
-Please see the course outline: TK TK 
+Please see the course outline: TK TK by Aug. 24
 
 
 **Assignments: **
@@ -163,16 +178,16 @@ Students with excused absences should contact me immediately about making up mis
 
 These assignments topics may shift and evolve as we continue our reporting during the semester. I will provide advance notice of any changes.
 
-### 1: Static Graphic - Managing Data in R.   Due Sept. 14
-Students will use R Studio to gather, analyze and visualize Arkansascovid data by demographic for Arkansas. 
+**1: Static Graphic - Managing Data in R.**   Due Sept. 14
+Students will use R Studio to gather, analyze and visualize Arkansascovid data by demographic for Arkansas and report and write a 600 word story. 
 
-### 2. Graphic with Multiple Data Sources.  Due Oct 12  
-Students will use R Studio to gather, analyze and visualize Arkansascovid data by demographic for Arkansas using Census data or school district data. Results will be posted on GitHub. Data dictionary required
+**2: Graphic with Multiple Data Sources.**  Due Oct 12  
+Students will use R Studio to gather, analyze and visualize Arkansascovid data by demographic for Arkansas using Census data or school district data. Results will be posted on GitHub. Data dictionary required. Report and write a 600 word story.
 
-### 3: Interactive Map. Due Nov 2 
-Students will use R Studio to build interactive maps of Arkansascovid occupational data in Arkansas. Results will be posted on GitHub. Data dictionary required
+**3: Interactive Map.** Due Nov 2 
+Students will use R Studio to build interactive maps of Arkansascovid occupational data in Arkansas. Results will be posted on GitHub. Data dictionary required. Report and write a 600 word story.
 
-### 4. Interactive Data Visualization. Due Nov 30.
-Students will use R Studio to build interactive graphics / maps of Arkansascovid data by school district. Results will be posted on GitHub. Data dictionary required
+**4: Interactive Data Visualization.** Due Nov 30.
+Students will use R Studio to build interactive graphics / maps of Arkansascovid data by school district. Results will be posted on GitHub. Data dictionary required. Report and write a 600 word story.
 
 
