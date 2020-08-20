@@ -128,41 +128,9 @@ XXX VIDEO XXXX
       IRE Conference  IRE20 Conference will be Sept. 21-25 
       R interface explained
 
+**Basic R exercise**
 
-**R interface explained: Four main windows**
-
-      Script writing, R Markdown, Table Viewer: Upper Left  
-      Environment - data loaded in R: Upper Right  
-      Console - write commands in R: Lower Left  
-      File Manager and Html table viewer: Bottom Right
-      
-**Basic R skills**
-
-    Loading software. 
-    Tidyverse  
-    Rio
-    Run demos from Ch. 3  
-
-**Conventions in coding**
-
-    XXXX
-
-**Basic Commands**
-
-    How many rows?
-    nrow(yourdataset)
-
-    How many columns?
-    ncol(yourdataset)
-
-    What is in the first five rows?
-    head(yourdataset)
-
-    rename columns. create columns
-
-    Index to commands
-    http://www.machlis.com/R4Journalists/index.html  
-
+    XXXXX
 
 **Ch 1 & 2 of Machlis: Key Points **  
 
@@ -179,13 +147,6 @@ XXX VIDEO XXXX
 **Software packages**: tidyverse, rio, pacman
 
 <img src="Images/Popular R libraries.png" width="500" height="250" />
-
-**Software: How to get details and help**
-
-    help(package="dplyr")
-    browseVignettes("NameOfPackage”)
-    help("NameOfFunction”)
-    ??median
 
 **Data Types and R**   
 
