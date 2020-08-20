@@ -1,0 +1,1407 @@
+---
+title: "Fall 2020 Data Journalism"
+author: "Rob Wells"
+date: "12/16/2019"
+output:  
+  html_document:
+      toc: true
+      toc_float: true
+      toc_depth: 2
+---
+
+# Reporting on Covid-19 in Arkansas: Data Journalism   
+## Jour 5283, Fall 2020   
+### Remote Delivery, Monday-Wednesday 9:40 a.m.-10:55 a.m.  
+
+
+<img src="Images/RStudio-Logo-Blue-Gradient.png" width="300" height="100" />
+
+**Rob Wells, Ph.D.**   
+**University of Arkansas**   
+**School of Journalism and Strategic Media**   
+> rswells@uark.edu   
+> @rwells1961  
+
+
+![](Images/UARK logo NEW.png)
+
+> [**Syllabus - Jour 5283**: "CNTL" + click for a New Tab](https://profrobwells.github.io/CovidFall2020/Syllabus_Jour5283_Fall2020.html){target="_blank"}   
+
+> [**Course GitHub site**: "CNTL" + click for a New Tab](https://github.com/profrobwells/CovidFall2020){target="_blank"}   
+
+
+## Inspiration:      
+<img src="Images/Conspiracy Theory slide.jpg" width="300" height="100" />
+
+**--**
+
+
+
+--------------------------------------------------------------------
+
+# Week #1: 8/24/2020 - Course Tools, R Basics
+
+**Agenda:**   
+
+    --Discuss syllabus
+    --Blackboard site
+    --Slack
+    --Arkansascovid.com
+    --Intro R and R Studio. Open program.
+    --Read Machlis, Ch. 2
+    --Advanced learners, see below
+    --Intellectual Property / Data Sharing Releases
+
+**Slack**   
+
+      For the first class, please have Slack installed so we can do some exercises.   
+      Please download and activate a Slack account. Do not pay for anything, we'll be using the       free version. 
+      https://slack.com/downloads/mac  and log into this channel: datahogs.slack.com
+    
+**R and R Studio**       
+    
+    Install R and R Studio.
+    
+    This is free and open source software. It is not large and doesn't tax the memory a lot. 
+    R runs on Windows, Mac and Linux, but this course is designed for the Mac version. 
+    If you use Windows, there may be variations in the lessons and instructions. Please see me      for questions.
+    
+    Installing R is a two-step process: 
+    1) Install R, the actual program
+    2) Install RStudio, a common interface 
+
+    1) Download the most recent version of R for Mac:         
+    https://mirrors.nics.utk.edu/cran/bin/macosx/R-4.0.2.pkg
+
+    --If you have a Windows computer, go to: 
+    https://mirrors.nics.utk.edu/cran/bin/windows/base/R-4.0.2-win.exe
+
+    Accept all of the default settings for Mac.
+
+     2) Install RStudio, the interface we use to manage and create R code. Download the open         source edition of R Studio desktop and follow the prompts to install it.   
+     https://rstudio.com/products/rstudio/download/#download
+
+     > [**Good instructions for installing R**](http://www.machlis.com/R4Journalists/download-r-and-rstudio.html){target="_blank"}
+
+    > [**Good overview of the program**](https://docs.google.com/presentation/d/1O0eFLypJLP-PAC63Ghq2QURAnhFo6Dxc7nGt4y_l90s/edit#slide=id.p){target="_blank"}
+
+
+**Intellectual Property / Data Sharing Releases**
+
+    UofA Rules of Conduct
+    https://docs.google.com/document/d/1YkdkRIzIs1WQ3P9KIICvHcppfWvwTyo2bRhGwQPsgVE/edit
+
+    License Agreement
+    https://docs.google.com/document/d/1AahzxDOzTf9Z6PBjBvFBOjnn9_BiM4YldnXW-mHZr9s/edit
+    
+    
+
+
+**Reading Before Monday's Class**   
+
+      Machlis, Sharon. Practical R for Mass Communications and Journalism. Chapman & Hall/CRC The R Series. 2018. ISBN 9781138726918 https://www.amazon.com/gp/search?keywords=9781138726918
+      Chapter 2: Get Started With R in a Few Easy Steps
+
+
+**Reading Before Wednesday's Class**  
+
+       Machlis, Ch. 1, Introduction; Ch. 3, See How Much You Can Do in a Few Lines of Code
+
+XXX VIDEO XXXX
+
+
+**Advanced Corner**
+
+    --Import this data and summarize Washington County trends
+
+> [**Arkansascovid Data**](https://docs.google.com/spreadsheets/d/17M92KbKw1nIOD_co11hN_B0o4AmAW2zs1Nb3QGeDl-I/edit?usp=sharing){target="_blank"}
+
+
+--------------------------------------------------------------------   
+##Wednesday, Aug. 26  
+
+**Agenda**  
+
+      Arkansascovid.com data  
+      Slack
+      Installation issues on laptops?  
+      IRE Conference  IRE20 Conference will be Sept. 21-25 
+      R interface explained
+
+
+**R interface explained: Four main windows**
+
+      Script writing, R Markdown, Table Viewer: Upper Left  
+      Environment - data loaded in R: Upper Right  
+      Console - write commands in R: Lower Left  
+      File Manager and Html table viewer: Bottom Right
+      
+**Basic R skills**
+
+    Loading software. 
+    Tidyverse  
+    Rio
+    Run demos from Ch. 3  
+
+**Conventions in coding**
+
+    XXXX
+
+**Basic Commands**
+
+    How many rows?
+    nrow(yourdataset)
+
+    How many columns?
+    ncol(yourdataset)
+
+    What is in the first five rows?
+    head(yourdataset)
+
+    rename columns. create columns
+
+    Index to commands
+    http://www.machlis.com/R4Journalists/index.html  
+
+
+**Ch 1 & 2 of Machlis: Key Points **  
+
+    Reproducible research 
+    Repetitive tasks in modern newsrooms.  Employment reports, crime stats, budgets
+    Variables - an R object
+    Assignment operator <-
+    Case sensitive
+    Vector: A vector can only have one type of data - all integers, all strings
+    Dataframe - like a spreadsheet
+    Save files - Don’t save workspace: because all of your variables will be stored and re-loaded the next time you launch RStudio. It’s too     easy to forget about previously stored variables that can interfere with later work,
+
+    
+**Software packages**: tidyverse, rio, pacman
+
+<img src="Images/Popular R libraries.png" width="500" height="250" />
+
+**Software: How to get details and help**
+
+    help(package="dplyr")
+    browseVignettes("NameOfPackage”)
+    help("NameOfFunction”)
+    ??median
+
+**Data Types and R**   
+
+    Machlis: 2.4.2 Data types you’re likely to use often
+
+<img src="Images/Slide Data Structures in R.jpeg" width="300" height="100" />
+
+**IRE Conference  IRE20 Conference will be Sept. 21-25* **
+
+      Fellowship: https://www.ire.org/events-and-training/conferences/2020-ire-conference/ire20-fellowships-scholarships
+
+
+
+--EXERCISES: Excel vs R  
+--Load tutorial: Introduction-to-R-January-2019.R
+> [**Download this file and open it in R Studio**](https://bit.ly/2MjSSfJ){target="_blank"}  
+
+--Left click on the page, remove .txt extension, save as all files 
+
+--Keyboard Shortcuts
+    
+    Tab - Autocomplete
+    Control (or Command) + UP arrow - last lines run
+    Control (or Command) + Enter - Runs current or selected lines of code 
+    in the top left box of RStudio
+    Shift + Control (or Command) +P - Reruns previous region code
+    
+**Notes:**
+--Basic descriptive statistics
+—Review ComputerWorld’s Beginner’s Guide To R
+--Stack Overflow at stackoverflow.com
+
+
+**Reading:**  
+
+--Machlis. Chapter 1 & 2. 
+
+--Beginner's guide to R:
+https://www.computerworld.com/article/2497143/business-intelligence/business-intelligence-beginner-s-guide-to-r-introduction.html
+
+
+
+--Review another R tutorial
+https://docs.google.com/presentation/d/1zICxR7qDM3RQ2Nxi5CqHlM3H8I7qoVkNtqcNcnbbDCw/edit#slide=id.p
+
+  
+
+**Resources:**
+RStudio Navigation Tricks You Might’ve Missed
+https://rviews.rstudio.com/2016/11/11/easy-tricks-you-mightve-missed/
+
+How Do I?
+https://smach.github.io/R4JournalismBook/HowDoI.html
+
+Functions
+https://smach.github.io/R4JournalismBook/functions.html
+
+Packages
+https://smach.github.io/R4JournalismBook/packages.html
+**--**  
+
+
+
+--------------------------------------------------------------------
+#Week #2 - 8/31/2019: File management  
+
+##Monday, Aug. 31 Agenda
+
+--Next week Quiz on Basic R functions described so far in exercises. 
+
+--Readings / Coursework for MA Students
+> [**Sign up for this free class from Nick Diakopolous**](https://twitter.com/utknightcenter/status/1085657878361305100){target="_blank"}   
+
+    --Workload TBD - I will assign select videos and readings from this class. 
+
+**Exercise**
+
+--Load tutorial: Introduction-to-R-January-2019.R
+> [**Download this file and open it in R Studio**](https://bit.ly/2MjSSfJ){target="_blank"}  
+
+--Based on this tutorial, perform this exercise:  
+
+    1. Percentage change from 2010-2017.
+    2. Produce a table with 5 counties with most growth. 
+    3. Produce table with 5 counties with greatest population loss
+    4. Graph the top 5 and bottom 5
+    5. Filter just Benton County’s population for 2015
+    6. And if you finish that, bring up AOC.csv. How many rows? How many columns?
+    7. AOC.csv filter the text field for “Pelosi” or “Trump” or “New Deal"
+
+
+**Reading:**
+
+--Machlis. Chapter 3 & 4.  
+
+
+
+--Cohen, "Numbers in the Newsroom," Common Mistakes.    
+
+--String data manipulation
+https://dereksonderegger.github.io/570L/13-string-manipulation.html
+
+--Follow StoryBench, Northeastern Univ.
+https://twitter.com/storybench
+
+**Resources**  
+--Use R instead of Excel: Andrew Ba Tran  
+    Excellent Tutorial Spelling out Excel and Comparable Commands in R  
+https://trendct.org/2015/06/12/r-for-beginners-how-to-transition-from-excel-to-r/  
+Basic data work- head to http://bit.ly/excel_and_r 
+
+
+--All Cheat Sheets
+https://www.rstudio.com/resources/cheatsheets/
+
+**--**  
+
+
+
+--------------------------------------------------------------------
+
+#Week #3- 9/7/2020: R Twitter Data. Data Types. Scripts
+
+##Wednesday, Sept. 9   
+
+--**Quiz on Basic R functions for Wednesday**
+The quiz will be multiple choice and will cover basic file management and data types, stuff I mentioned the first two weeks.
+
+
+--Describe Assignment #1 due Sept. 14: Managing Data / Static Graphic 
+
+      Static Graphic - Managing Data in R.   Due Sept. 14
+      Students will use R Studio to gather, analyze and visualize Arkansascovid data by     demographic for Arkansas and report and write a 600 word story. 
+
+--Announcements  
+
+      Blackboard site has web links for course
+      
+     
+> [ProPublica Sponsoring Students for Conferences](https://www.propublica.org/article/propublica-wants-to-pay-for-students-to-attend-a-journalism-conference-in-2019){target="_blank"}  
+     
+> [Apply for Scholarships: Deadline Feb. 15](https://fulbright.uark.edu/departments/journalism/resources/scholarships.php){target="_blank"}       
+
+     
+> [Special Certification in Crime Data Analysis](https://github.com/profrobwells/Data-Analysis-Class-Jour-405v-5003/blob/master/Images/RTMDx_Flyer_Spring2019.pdf){target="_blank"}   
+
+
+
+**Agenda**
+
+--Continue with week #2 tutorial
+
+--Census Data: Examine median household income; income by women-led households; income by latino-based households; income by black-led households. Compare to state and national averages. Data dictionary required
+
+--**The course GitHub Page**
+> [**Here it is**](https://github.com/profrobwells/Data-Analysis-Class-Jour-405v-5003){target="_blank"}  
+
+--See Data folder  
+
+    Click AOC.csv   
+    "View raw"   
+    Cntl + click (or right click) - Save As - AOC.csv   
+
+**Exercise**    
+
+--Loading Data from U.S. Census & Student Loans    
+--Load tutorial: Downloading Data 12-24-18.R     
+
+
+> [**Download this file and open it in R Studio**](https://bit.ly/2HpApQ7){target="_blank"} 
+
+--Alternate download option: Use read.table() works for importing data:      
+
+![](Images/ImportingDataTip.jpg)
+
+
+
+--**Loading and basic file management**
+
+    Bringing in data
+    Data Frames
+    Extracting interesting details
+    Cleaning the data
+    Reshaping the format
+    Manipulating the data
+    Exporting  
+    Add a column with a math conversion  
+
+
+--**Ch 3 & 4 of Machlis: Key Points**
+
+    Ch 3 Exercises:
+    Stock chart exercise used quantmod is a library for financial analysis. 
+    Median Income for a City
+    Loading packages
+    
+    Ch 4 Importing Data
+    How read.table() works for importing data:      
+    Loading data
+    Manipulating data: dplyr -  stringr
+    Data Management: mutate rename bind_rows 
+
+
+--Math 
+--Summary Statistics
+
+  summary(Crime)
+
+  mean(x) Calculate the mean, or average, for variable x.
+  median(x) Calculate the median.
+  max(x) Find the maximum value.
+  min(x) Find the minimum value.
+  sum(x) Add all the values together.
+  n() Count the number of records. Here there isn’t a variable in the brackets of the function, because the number of records   applies to all variables.
+  n_distinct(x) Count the number of unique values in variable x.
+  
+--Using a function for an equation  
+  percent_change <- function(first_number, second_number) {
+  pc <- (second_number-first_number)/first_number*100
+  return(pc)
+}
+
+  percent_change(100,150)
+  [1] 50
+  
+  This is what’s happening in the code above:
+  * percent_change is the name of the function, and assigned to it is the function function()
+  * Two variables are necessary to be passed to this function, first_number and second_number
+  * A new object pc is created using some math calculating percent change from the two variables passed to it
+  * the function return() assigns the result of the math to percent_change from the first line
+  Build enough functions and you can save them as your own package.
+
+--Set up column for math calculations
+  Example: Total column shows winter snowfall in inches. To add a column    showing totals in Meters, you can use this format:   
+  .snowdata$Meters <- snowdata$Total * 0.0254
+  
+--**Export data**    
+  Write Export output this file to a CSV or Excel  write.csv or write.excel
+  write.csv(AR2016_SMALL,"AR2016_SMALL.csv") 
+  
+**Reading** 
+Machlis Chs. 5 & 6. 
+
+Seth C. Lewis, et al. “Big Data and Journalism: Epistemology, Expertise, Economics and Ethics,” Digital Journalism, 2015
+
+**Resources:**
+
+--For analysis library(dplyr)  
+
+--------------------------------------------------------------------
+
+##Wednesday, xxx   
+
+--**Quiz on Basic R functions**    
+
+--Data Visualization Intro   
+--Load tutorial: Basic Data Visualization 12-26-18.R       
+
+> [**Download this file and open it in R Studio**](https://bit.ly/2RlQtSE){target="_blank"} 
+
+--Visualizing data
+  
+    ggplot2 - charts and maps
+    Export Static chart 
+
+**Exercises**
+
+Basic Data Visualization 12-26-18.R  
+
+--------------------------------------------------------------------   
+
+**Questions on First Assignment**   
+
+--Here is a good question that came in today about the first assignment.    
+
+**Question**:     
+``"What the hell? I converted population to numeric and the calculations come out as NA values!
+This is driving me insane! What is going on?"
+
+**Answer**:   
+One of the obnoxious things about R is it considers commas as text. So it will show 720 as a number but 2,810 as not a number for calculations because it has a friggin comma.   
+
+**Never fear.** There is a solution. Run the find and replace function, called gsub   
+
+Crimedata$Population <- gsub(",", "", Crimedata$Population)   
+
+Translation:   
+Crimedata$Population   
+-- is the population column in your crime dataset     
+gsub(",", "",  
+finds a comma and replaces it with nothing.  --    
+and it found the comma in the column Crimedata$Population)
+and the <- dumps the results back into the Crimedata$Population  column.
+
+Fancy!   
+
+**Question**:
+"How do I get rid of the last row that only has text in the table that I just imported?"   
+
+**Answer**:
+Get rid of row using base R commands   
+Crimedata <- Crimedata[-c(187), ]    
+
+Translation:     
+Crimedata[-c(187), ]    looks for row #187, which has this garbage text, and gives it the big minus sign, which eliminates it.    
+Crimedata <-  dumps this slimmed down table back into your table and so you are good to go.   
+
+
+**--**  
+
+
+--------------------------------------------------------------------
+
+#Week #4 - 9/14/2020: Using R to build basic graphs and charts  
+
+-----------------
+
+##Monday, Sept. 14 
+**Agenda** 
+
+### Assignment #1: Static Graphic - Managing Data in R. Due Sept. 14   
+
+Students will use R Studio to gather, analyze and visualize Arkansascovid data by demographic for Arkansas and report and write a 600 word story. 
+
+--- 
+
+
+--GGplot   
+--Work with sample Twitter data    
+--Conventions in coding      
+ 
+--Visualizing data
+  
+    ggplot2 - charts and maps
+    htmlwidgets - web visualization interactives
+    plotly - exporting charts online
+    Chart
+
+**Exercises**
+--Continue with Basic Data Visualization Exercise questions    
+
+> [**Start at Line 112**](https://bit.ly/2RlQtSE){target="_blank"} 
+
+--Answer to Monday's in-class exercise
+https://bit.ly/2RG6VNy
+
+
+
+--**GGPLOT**
+--A handy explanation of ggplot and its components   
+
+![](Images/GGplot_explainer.png)
+
+If you’re using ggplot: plus it!
+For everything else: pipe it!
+
+ geom_point() 
+ geom_bar()
+ geom_boxplot() 
+ 
+
+--**DPLYR**   
+
+
+--Dplyr Presentation 
+
+Five basic verbs • filter() • select() • arrange() • mutate() • summarize() plus group_by()
+![](Images/Logical_operators.png)   
+
+
+  
+--Pipes - a Much-Used Command to Link Filters, Functions
+
+    pipe %>%
+    CMD +  Shift + M   
+    
+--Presentation from Bob Rudis on Writing Readable Code with Pipes, delivered at the rstudio::conf 2017.    
+
+https://www.rstudio.com/resources/videos/writing-readable-code-with-pipes/   
+
+Pipes as a way of chaining commands.   
+object %>% operation() —> result   
+
+
+--Key Concepts - Moving Forward:    
+
+    Dplyr: Filters, Grouping, Sorting, pipes %>%  
+    Pipe shortcut = CMD + SHIFT + M
+    Basic data visualization  
+    Tidyverse 
+  
+**Notes**   
+--How Do I?
+https://smach.github.io/R4JournalismBook/HowDoI.html
+
+**Resources**  
+Basic Charts in R  
+https://www.youtube.com/watch?v=1EUJ0tsVsUA&t=12s
+
+**Reading**  
+    
+    Machlis Chs. 7 & 8.    
+    
+    Transforming and Analyzing Data dplyr.pdf, Andrew Ba Tran, Washington Post
+    
+    Charts_with_ggplot by Andrew Ba Tran,
+    Washington Post
+
+**--**  
+
+-----------------
+
+##Wednesday, Feb. 5
+
+--Note: Dr. Wells will be late - 10 a.m. - due to data mining presentation in the library       
+--Please begin class by working on this exercise: https://bit.ly/2Sqn1j1
+
+
+
+--GGplot Video from Andrew Ba Tran  
+https://www.youtube.com/watch?v=Sx7d7eGRSj0&t=9s
+
+
+
+--Graphing in GGPlot   
+https://bit.ly/2Gqjfj4   
+
+
+--Multiple variable in a graph
+--Geom_Line, Geom_point, Geom_bar
+--How to alter the colors in a chart.
+
+
+**Notes** 
+
+--Data Wrangling-Text Mining in Twitter. 
+    
+    See entire scraping sequence. Extract from Twitter.
+    
+
+**Exercises**    
+
+
+**Additional Exercises**  
+--Ch. 3.8 Run a remote script to make an interactive map   
+--Median Income For City.R    
+--Work with sample Twitter data     
+
+
+
+--**Other Topics**   
+--Setting up an R Workflow
+
+ 
+
+
+--------------------------------------------------------------------
+
+
+#Week #5 - 9/21/20: Dplyr - Using R to build basic graphs and charts  
+
+##Monday, Sept. 21   
+
+--Review Assignment #1   
+Assignment1_KEY_StaticGraphic_2_9.R    
+
+--Dplyr bootcamp. 
+
+    See this exercise: 
+    DPLYR_bootcamp_Feb_9  
+
+    Dplyr bootcamp, #2. 
+    Dplyr_Tutorial_Tran 
+    Dplyr - Andrew Ba  Tran - pipes-dplyr.pdf
+    
+
+**Homework!**   
+--Hand in your Dplyr Cheat Sheets on Blackboard by 11:59 pm Monday.   
+--Did I say this was Dplyr bootcamp?   
+
+
+**Reading:**  
+Machlis Chs. 9 & 10 
+
+Albert Cairo, "The Functional Art," Principles of Data Visualization.   
+
+----------------- 
+
+##Wednesday, Sept. 23
+
+--Finish last question on DPLYR_bootcamp_Feb_9 
+    
+    6: Calculate a violate crime rate per 1,000 students. 
+    Create a table selecting campuses, enrollment and crime rates 
+    just for the top 5 crime rates
+
+--Andrew Ba Tran dplyr class lesson    
+
+
+**Exercises**   
+
+--Andrew Ba Tran dplyr class lesson   
+
+    The repo for this class is on Github, but can be easily downloaded to your desktop with the following commands:    
+
+    install.packages("usethis")    
+    usethis::use_course("https://github.com/r-journalism/learn-chapter-3/archive/master.zip")    
+
+    --Before running the command, make sure the script is in the working directory folder and that the SHR76_16.sav.zip file is in the data sub folder.   
+    --For example, on my computer, the import_murders.R script is in the dplyr folder and SHR76_16.sav.zip file is in the dplyr/data folder.
+
+
+--And if this *blows up*, we have a backup: Return to dplyr bootcamp, graphing exercises.
+
+--Themes for data viz library(ggthemes) 
+
+
+**Homework**    
+    
+    —Finish Andrew Ba Tran dplyr tutorial.   
+    —Bring questions to class   
+    -Using this data, produce two dplyr queries that investigate the murders dataset for Arkansas.   
+    -In class we looked at black and white victims and unsolved murders. Find other queries that would        yield newsworthy material.  
+    --Bring questions and your queries to class on Monday. I will call on you to discuss.
+    
+    
+
+
+
+**--**  
+
+
+
+--------------------------------------------------------------------
+
+#Week #6 - 9/28/20:   
+
+
+##Monday Sept. 28  
+
+**Agenda**  
+
+--Lubridate
+
+**Class Discussion**     
+  
+    Material we discussed in class, including Mohamed's graphs     
+    https://bit.ly/2GQ1w4O    
+    
+      
+**Homework**    
+    
+    —Finish Andrew Ba Tran dplyr tutorial.   
+    —Bring questions to class   
+    -Using this data, produce two dplyr queries that investigate the murders dataset for Arkansas.   
+    -In class we looked at black and white victims and unsolved murders. Find other queries that would yield newsworthy material.  
+    --Bring questions and your queries to class on Monday. I will call on you to discuss.
+
+**Assignment #2 Details**
+    
+    Visualization of data.  Due Feb 27, 11:59 p.m.   
+    Students will produce publication-ready graphics from data. 
+    Data dictionary required
+    
+    Details:
+    With the assigned dataset, XXXX.csv, students will produce the following tables:
+    --Most common words used in data text field
+    --Most common 
+    --A chart of the volume of Twitter messages by date
+    Based on this information, write a 300-500 word report, following AP style, that describes potential newsworthy trends in this Twitter feed and insights from your analysis.
+
+    By 11:59 pm., you will submit the following on Blackboard:  
+    3 charts in .jpeg format: 1) Common words 2) Common hashtags 3) Date trend chart
+    One Word document with your findings, 300-500 words. Append at the end a brief data dictionary describing the Twitter data fields you used in the assignment.
+    An R script with the coding that shows how you loaded and cleaned the data and produced the charts
+
+
+##Wednesday Sept. 30
+
+**Exercises**
+
+    Extracting Text Strings from data
+    https://bit.ly/2X5V9jL
+    
+    What we will produce
+![](Images/Top Words in AOC Feed.png)
+
+
+**Reading:**  
+Machlis Chs. 11 & 12   
+
+Metadata  
+
+For working with dates library(lubridate)   
+
+Dealing-with-dates.pdf by Andrew Ba Tran  
+
+        https://github.com/profrobwells/Data-Analysis-Class-Jour-405v-5003/blob/master/Readings/dealing-with-dates.pdf
+        
+
+
+**--**  
+
+
+
+--------------------------------------------------------------------
+
+#Week #7: 10/5/20: XXXXXX
+
+##Monday Oct. 5  
+
+**Agenda**    
+
+--Lubridate   
+--Processing and counting hashtags  
+
+
+--Using Lubridate    
+    
+      The exercise   
+      Lubridate_Intro_Feb_20.R
+      https://bit.ly/2H07YpX
+      What we will produce    
+    
+![](Images/AOCTweets_Month.png)  
+
+
+--Key to Lubridate Questions in Exercise:    
+https://bit.ly/2BO92d1
+
+
+
+**Homework**   
+
+Work through this exercise and bring questions to class:    
+
+Splitting Hashtags 2-25-19.R   
+https://bit.ly/2BQIE2i 
+
+##Wednesday Oct. 7
+
+--Solving Problems in R: Bend Templates to Your Will   
+--Analyzing data 
+--Finding Narratives 
+
+**--#1: Solve the chronology problem with the chart**   
+
+![](Images/AOC Year-Months.png)  
+
+
+--**#2: Splitting Hashtags**
+    
+    Questions on Exercise   
+    Splitting Hashtags 2-25-19.R   
+    https://bit.ly/2BQIE2i 
+
+--Data Cleaning    
+--Disaggregating variables for summation   
+--Searching for narratives in Twitter     
+  
+
+
+**Resources:**
+
+Lubridate vignette   
+browseVignettes("lubridate")   
+
+StackOverflow   
+https://stackoverflow.com/questions/46691933/r-sort-by-year-then-month-in-ggplot2  
+
+
+
+Grammar of Graphics
+http://vita.had.co.nz/papers/layered-grammar.html
+
+--Joining Dataframes in R  
+https://www.youtube.com/watch?v=gLg4D9bMIyc&t=13s
+
+--Data Wrangling
+http://learn.r-journalism.com/en/wrangling/
+
+http://learn.r-journalism.com/en/wrangling/dplyr/dplyr/
+
+https://github.com/r-journalism/learn-chapter-3/blob/master/dplyr/pipes-dplyr.R
+
+
+
+**Notes**    
+
+    --The pie chart focuses the reader on large percentages, and encourages the reader to think of the total
+    --The stacked bar plot provides the same information, but makes it easier to accurately determine at a glance how large each group is out of the whole.
+    --This bar chart splits the categories horizontally, and draws attention to how the family members are ordered. It encourages the reader to think about the distribution rather than disconnected categories, and gives a better sense of sense of scale.
+
+
+
+
+
+**Reading** 
+Machlis Chs. 13 & 14.
+
+**Resources:**
+
+
+**--**  
+
+
+
+--------------------------------------------------------------------   
+
+#Week #8: Oct. 12, 2020: Text Mining, Cont. 
+
+##Monday Oct. 12  
+
+*Agenda*
+    
+    Review Assignment #2 
+    Coulter Tweet Analysis #2 Exercise
+    https://bit.ly/2TdY9Mv
+
+###Assignment 2. Graphic with Multiple Data Sources.  Due Oct 12  
+Students will use R Studio to gather, analyze and visualize Arkansascovid data by demographic for Arkansas using Census data or school district data. Results will be posted on GitHub. Data dictionary required
+    
+*Assignment #2 Discussion*   
+
+     Answer Key discussion   
+     top_n function makes life easy  
+     aes - reorder in ggplot   
+ 
+*Homework *    
+
+    Discuss Kavanaugh text mining story   
+    Complete Coulter Tweet Analysis #2 exercises
+
+    
+##Wednesday Oct. 14
+
+*Agenda*
+    
+    Coulter Tweet Analysis #2 Exercise
+    https://bit.ly/2TdY9Mv
+
+    More on this topic!   
+    Comparing AOC and Coulter tweets  
+
+*Misc Items*
+
+     Check what software packages are running: Global Environment
+     
+     ^ + shift + 8 = Zoom to Environment  
+
+
+**Reading**   
+Machlis Chs. 15 & 16
+
+
+--Read Kavanaugh text mining story: Text analysis of Brett Kavanaugh’s opinion.  
+http://www.storybench.org/bringing-textual-analysis-tools-to-judge-brett-kavanaughs-latest-opinion/
+
+Samantha Sunne, “The Challenges and Possible Pitfalls of Data Journalism, and How You Can Avoid Them,” American Press Institute, 2016
+
+
+**Resources:**
+--Create R Markdown document, export to PDF, HTML  
+
+**Exercises**
+
+
+**--**  
+
+
+
+--------------------------------------------------------------------
+
+#Week #9: 10/19/2020: Text Mining, cont. 
+
+##Monday Oct. 19
+
+*Agenda*    
+
+    **Extra Grad Assignment** - Due March 15.   
+    **Report from NICAR Conference** 
+    Resume AOC-Coulter Data Mining Exercise: 
+    Coulter Tweet Analysis #2 Exercise
+    https://bit.ly/2TdY9Mv
+    Key to the exercise:    
+    https://bit.ly/2F3brlh   
+
+
+##Wednesday, Oct. 21
+
+*Agenda*
+
+    Mapping Exercise from Machlis book, Ch. 11      
+    https://bit.ly/2VXCSU2
+    
+
+
+*Bots*   
+
+    Bot or Not: Difficulty determining a bot on Twitter    
+  
+    --An app that uses machine learning to guess if a Twitter account is a bot   
+    https://www.r-bloggers.com/botrnot-an-r-app-to-detect-twitter-bots/    
+    https://mikewk.shinyapps.io/botornot/    
+    
+    --Article about Botometer   
+    https://www.vox.com/technology/2018/4/9/17214720/pew-study-bots-generate-two-thirds-of-twitter-links   
+    
+    --Stanford research paper on this topic    
+    https://pdfs.semanticscholar.org/e219/6b47133c2191d380098744c13ba77133e625.pdf   
+    
+    
+    
+*Resources*  
+
+      --Andrew Ba Tran - Week 4 Mapping    
+      http://learn.r-journalism.com/en/mapping/    
+
+      --Graphing GGplot 12-28.R    
+      Exercises from Machlis Ch. 9. Facets    
+
+      Ch 3 Exercises:
+      Stock chart exercise used quantmod is a library for financial analysis. 
+      dygraphs creates *interactive Web graphics* of data over time.
+
+
+**Reading** 
+Machlis Chs. 17 & 18
+
+
+*Homework Over Spring Break*
+
+    R_Homework <- GiveMeABreak(homework = 0), c("enjoy yourself", "make good life choices", "call your parents")
+
+
+**--**  
+
+--------------------------------------------------------------------
+
+#Week #10: 10/26/2020, Mapping in R
+
+##Monday Oct 26  
+
+**Agenda**
+
+      1) XXXXDue April 3: Assignment #3. Interactive Map
+      Produce a basic interactive map in R
+      
+      2) Updated R software. Open and run script: https://bit.ly/2TdY9Mv
+      
+      3) NewsGuild President Jon Schleuss visits with students, XXXX
+      
+      4) Sign up for a census key:
+      https://api.census.gov/data/key_signup.html
+
+      5) What is an API?
+      
+      6) Video of Machlis mapping  
+      https://www.youtube.com/watch?v=HFJOV5XaU_U
+      See R script:
+      Maps in R March 24 2019
+      https://bit.ly/2FvZDrB
+      
+**Exercises**
+
+    Adapt Machlis - Maps in R Ch 11 exercise for Median Income in Arkansas
+
+![You will make this in the class](Images/ARmed_income3-22-19.png)
+
+
+**Reading** 
+
+APIs - basics   
+
+    https://medium.com/@LewisMenelaws/a-beginners-guide-to-web-apis-and-how-they-will-help-you-23923a0da450
+
+    A gentle introduction to APIs for data journalists
+    https://trendct.org/2016/12/29/fetching-airport-delays-with-python-a-gentle-guide-to-apis-for-journalists/
+    
+
+    
+    “Connecting the Dots” by Jacob Harris (2015) and discuss how people should or should not be represented through news visualizations.
+
+
+
+##Wednesday Oct 28
+
+**Agenda**   
+      
+      Adapt Machlis - Maps in R Ch 11 exercise for Median Income in Arkansas
+      
+      Maps in R March 24 2019 - Using the Census API
+      https://bit.ly/2FvZDrB
+
+      Building a Census tract map
+      
+**We will build this**   
+![](Images/Income by Census Tract Washington Co.png)    
+
+**Resources:** 
+
+    Census Reporter to look up tables
+    https://censusreporter.org/
+
+**--**  
+
+--------------------------------------------------------------------
+
+#Week #11: 11/2/2020, Mapping in R, Sentiment Analysis  
+
+##Monday, Nov. 2
+
+**Agenda**   
+     
+     Due April 3: Assignment #3. Interactive Map
+     Questions on mapping exercises
+     Joins in R: https://bit.ly/2OFnGJ6
+     What is Sentiment Analysis
+     What is TidyText
+     
+###Assignment 3: Interactive Map. Due Nov 2 
+Students will use R Studio to build interactive maps of Arkansascovid occupational data in Arkansas. Results will be posted on GitHub. Data dictionary required
+
+**Resources**
+
+    Sentiment analysis:
+    
+   
+**Exercises**
+ 
+    Joins in R: 
+    https://bit.ly/2OFnGJ6
+    
+
+##Wednesday, Nov. 4
+
+**TAKE A DEEP BREATH, AMERICA**
+
+
+**Agenda**   
+     
+     
+**Reading**
+
+       Tidy text mining
+    https://www.tidytextmining.com/tidytext.html#
+    
+    Joins in R
+    
+   
+**Resources:**
+
+**Reading** 
+Bad data visualizations. Data Translation. 
+
+The Journalist as Programmer: A Case Study of The New York Times Interactive News Technology Department http://isoj.org/wp-content/uploads/2016/10/ISOJ_Journal_V2_N1_2012_Spring.pdf
+
+--Visual Narrative Tricks by Albert Cairo
+https://www.youtube.com/watch?v=TSGaueL4Ggk
+
+What is code? http://www.bloomberg.com/graphics/2015-paul-ford-what-is-code/
+
+
+**--**  
+
+--------------------------------------------------------------------
+
+#Week #12: 11/9/2020 
+
+##Monday, Nov. 9
+
+**Agenda**
+
+
+**Exercises**  
+
+
+
+**Reading** 
+
+    Julia Angwin, Terry Parris Jr., Surya Mattu. “Breaking the Black Box: What Facebook Knows About You,” ProPublica, 2016; 
+
+      Nicholas Diakopolous, “Algorithmic Accountability,” Digital Journalism, 2014.
+
+
+**Resources:**
+
+
+     
+
+##Wednesday, Nov. 11
+
+**Agenda** 
+
+    Julia Angwin article
+
+    Bigrams
+  
+**Exercises**   
+      
+
+
+**--**  
+
+
+
+--------------------------------------------------------------------
+
+#Week #13: 11/16/2020
+
+##Monday, Nov. 16  
+**Agenda**
+
+    Happy Tax Day
+    Happy Boston Marathon Day
+    Online class Wednesday
+
+**Coulter Bigrams - Relationship**   
+![](Images/Coulter Bigram Graphic.jpeg)  
+    
+**Exercise**
+
+
+    
+##Wednesday, Nov. 18
+**Agenda** 
+
+
+**Reading**   
+
+    Amy Webb future of journalism trends
+    https://futuretodayinstitute.wetransfer.com/downloads/0e84e883e140bafe9a3436a6464032be20171003123607/ecda17
+
+    Google search tips  
+    https://blog.expertisefinder.com/top-6-google-search-tips-for-journalists/
+
+    Artificial intelligence in the news  
+    https://aiethicsinitiative.org/news/2019/3/12/artificial-intelligence-and-the-news-seven-ideas-receive-funding-to-ensure-ai-is-used-in-the-public-interest
+    
+    Sharon Machlins Nicar compilation site
+    http://www.machlis.com/nicar19.html
+
+--------------------------------------------------------------------
+
+#Week #14, 11/23/2020:  - Web scraping, GitHub
+
+##Monday, Nov. 23
+
+**Agenda**
+
+    Review quiz
+    Bigrams
+    Simple Web Scraping
+    GitHub
+
+**Coulter Bigrams - Score**   
+![](Images/Coulter bigram score.jpeg)  
+
+    
+**Exercises**   
+
+    Bigrams: 
+    http://bit.ly/bigramz
+    
+    Web Scraping in R: Simple Web Scraper 
+    http://bit.ly/scrapeme
+    
+
+##Wednesday, Nov. 25
+
+**Agenda**
+
+    OFF - THANKSGIVING
+
+
+
+**--**  
+
+
+
+--------------------------------------------------------------------
+
+
+#Week #15, 11/30/2020: Wrap Up
+
+##Monday, NOV. 30
+**Agenda**
+
+    
+    GitHub
+###4. Interactive Data Visualization. Due Nov 30.
+Students will use R Studio to build interactive graphics / maps of Arkansascovid data by school district. Results will be posted on GitHub. Data dictionary required
+
+
+**Resources:**
+
+    This class is intended to teach you modern workflow techniques for coding. A centerpiece of that workflow is GitHub. This is a website with a system that allows you to collaborate with other programmers on coding projects. It manages versions of software code and is a very popular with the tech elite. 
+
+    Your GitHub account, which is public, represents an important professional image. Prospective employers and collaborators will look at your GitHub account.
+
+    --Create a GitHub account.
+    https://github.com/
+
+    --Follow this tutorial
+    https://guides.github.com/activities/hello-world/
+
+    --Max Harlow Presentation on How to Use GitHub
+    https://docs.google.com/presentation/d/1MbltRcOerktc-E26HMDjYj0BO9CTubQWu1Z2bB9CpVY/edit#slide=id.g448ccc227721fe56_10
+
+    --Simplified GitHub- GitHub Desktop
+    https://help.github.com/en/desktop
+
+   
+**Exercises**   
+    
+   See Basic GitHub 4-22-19.R
+   https://bit.ly/2UAMGTd
+   
+
+**Resources**
+Installing Git for a Mac - Andrew Ba Tran
+  
+**Important!**
+
+    Course Evaluation
+    Please do me  a favor and evaluate this course. 
+    It's important to me and the department to get your thoughts
+    on what worked and what did not. 
+
+    I was very happy with how things turned out this semester and 
+    intend to offer this course again. If you think it is important, 
+    then please take five minutes to fill out the survey.
+
+    https://courseval.uark.edu/
+
+
+##Wednesday, DEC. 2
+
+**Agenda**
+
+
+    
+    R Markdown
+    http://bit.ly/2DBLSaX
+    
+    Turn your R cheatsheet into a PDF
+    Turn your R cheatsheet into a web page on GitHub
+    
+--------------------------------------------------------------------
+
+
+#Week #16, 12/7/2020: Wrap Up
+
+##Monday, DEC. 7
+**Agenda**
+
+
+
+
+##Wednesday, DEC. 8
+**Agenda**
+
+
+**Congratulations!**
+    
+     We covered a lot this semester
+  
+![Code in Fun](Images/Cat coding.gif)  
+
+
+
+
+
+**--**  
+
+--Setting up an R Workflow
+http://learn.r-journalism.com/en/publishing/workflow/r-projects/
+
+
+**Resources on GitHub**  
+
+--GitHub flow   
+https://guides.github.com/introduction/flow/
+
+--GitHub Guides  
+https://guides.github.com/
+
+--Another GitHub guide  
+https://andrewbtran.github.io/NICAR/2018/workflow/docs/03-integrating_github.html  
+
+
+
+--------------------------------------------------------------------
+# RESOURCES  
+
+# Twitter Exercises
+    Return to Twitter Engagement
+    http://bit.ly/2GParD5
+        Twitter historical API
+    https://developer.twitter.com/en/docs/tutorials/choosing-historical-api
+--AOC Twitter feed   
+https://bit.ly/2Sqn1j1  
+
+--Discuss Twitter Metadata     
+--Work with sample Twitter data    
+https://developer.twitter.com/en/docs/tweets/data-dictionary/overview/user-object   
+--Study Twitter meta data  
+https://developer.twitter.com/en/docs/tweets/data-dictionary/overview/tweet-object.html
+
+--Look at this example: Ocasio.csv  (in data folder of course page)
+--Twitter analysis of Trump Tweets
+http://varianceexplained.org/r/trump-tweets/
+
+--Show Collins results  
+
+
+--Twitter analysis of Trump Tweets http://varianceexplained.org/r/trump-tweets/   
+
+
