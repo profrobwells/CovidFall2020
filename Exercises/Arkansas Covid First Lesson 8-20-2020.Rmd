@@ -1,7 +1,7 @@
 ---
-title: "Arkansas Covid"
+title: "Arkansas Covid Lesson #1"
 author: "Rob Wells"
-date: "6/22/2020"
+date: "8/21/2020"
 output: html_document
 ---
 
