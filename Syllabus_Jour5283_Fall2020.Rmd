@@ -1,5 +1,5 @@
 ---
-title: "Jour 5283: Fall 2020"
+title: "Jour 5283: Fall 2020 Syllabus"
 output: html_document
 ---
 
@@ -117,7 +117,7 @@ Any story that includes libelous material will result in an F (55 percent). Exam
  
 **Remote Class:**
 
-The course will be taught remotely and synchronously, which means we all meet online at the same time twice a week. Course presentations will be in Zoom or Blackboard Collaborate. The reporting and assignments and homework will be discussed in Slack. Students will write in Google Docs and use Google Sheets and GitHub to manage and organize data. These are all tools used in professional newsrooms. 
+The course will be taught remotely and synchronously, which means we all meet online at the same time twice a week. Course presentations will be in Zoom or Blackboard Collaborate. The reporting and assignments and homework will be discussed in Microsoft Teams. Students will write in Google Docs and use Google Sheets and GitHub to manage and organize data. These are all tools used in professional newsrooms. 
 
 The course will be presented in a flipped format, where homework and watching of pre-recorded video lectures is offline and the class time will be used for collaborative problem solving and discussion.
 
@@ -125,19 +125,18 @@ I will record all class sessions.
 
 **Class Communications:**  
 
-    1) Slack: This platform, widely used for project management, will be the heart of our communications. It's better than group emails. Students can create their own discussion groups as circumstances warrant. It will serve as a convenient repository for messages and documents as we collaboratively report through the semester. Breaking news and important documents related to our reporting will be distributed in Slack. Slack makes it easier to reach everyone and have more productive discussions. Like email, I will expect a timely reply to a direct query to a student on a particular issue. Many reporting and data problems will be discussed on Slack. 
-    Please download and activate a Slack account.
-    https://slack.com/downloads/mac  and log into this channel: datahogs.slack.com
+    1) Teams: This platform, widely used for project management, will be the heart of our communications. It's better than group emails. Students can create their own discussion groups as circumstances warrant. It will serve as a convenient repository for messages and documents as we collaboratively report through the semester. Breaking news and important documents related to our reporting will be distributed in Teams. Teams makes it easier to reach everyone and have more productive discussions. Like email, I will expect a timely reply to a direct query to a student on a particular issue. Many reporting and data problems will be discussed on Teams.
+    Teams is free through your university Office365 account. Download the Teams App through the Office365 suite https://its.uark.edu/communication-collaboration/office365/office365-desktop-apps.php
 
     2) GitHub: This will be the class website, You will see homework assignments and lecture material posted on a  dedicated GitHub site, https://github.com/profrobwells/CovidFall2020. Students will share and update data via GitHub. GitHub is a common platform for coding.
  
-    3) Blackboard / UofA email: The course sessions will be on Blackboard Collaborate video until Zoom becomes available. Grades will be posted on Blackboard. I will send messages to students via the UofA email accounts about important issues but expect much of our communication will be in Slack. 
+    3) Blackboard / UofA email: The course sessions will be on Blackboard Collaborate video until Zoom becomes available. Grades will be posted on Blackboard. I will send messages to students via the UofA email accounts about important issues but expect much of our communication will be in Teams. 
 
     4) Google Docs / Google Sheets: We will write and edit articles in Google Docs, which permits collaborative writing and editing. Google Sheets will be used to keep track of important data and for project management. 
     
     5) Tableau: We may use Tableau, a popular data visualization program, to supplement our work. 
 
-    It is your responsibility to monitor Slack for direct messages and check your UofA email. I respond to email quickly, usually within an hour. I stop responding to student email at 9 p.m.
+    It is your responsibility to monitor Teams for direct messages and check your UofA email. I respond to email quickly, usually within an hour. I stop responding to student email at 9 p.m.
 
 
 **Attendance:**  

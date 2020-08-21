@@ -31,92 +31,66 @@ library(tidyr)
 # vignette("basic-usage", package="googlesheets")
 ```
 
+
+
+
 ```{r}
-kk <- ("https://docs.google.com/spreadsheets/d/1skW4ol6p2OSrybjSdUwip7et3SmEzqR3gQzMG3juSvs/edit#gid=185420588")
+url <- ("https://docs.google.com/spreadsheets/d/17M92KbKw1nIOD_co11hN_B0o4AmAW2zs1Nb3QGeDl-I/edit#gid=1357388768")
 
-test <- read_sheet(kk)
-
-
+covid <- read_sheet(url, sheet="BeAll")
 ```
 
+- **Plan B: You may need to copy this Google sheet to your own Google account and then load that URL on to Line 38 above**
+https://docs.google.com/spreadsheets/d/17M92KbKw1nIOD_co11hN_B0o4AmAW2zs1Nb3QGeDl-I/edit#gid=1357388768
+
+
+- **Clean Names**
 ```{r}
-
-drive_download("Travel Request Form")
-
-```
-
-
-
-```{r}
-covid <- rio::import("https://docs.google.com/spreadsheets/d/17M92KbKw1nIOD_co11hN_B0o4AmAW2zs1Nb3QGeDl-I/edit?usp=sharing", which = "BeAll")
-
 
 covid <- janitor::clean_names(covid)
+```
 
-#covid <- covid[ -c(8:10) ]
+**Examine the Data Fields**
+```{r}
 glimpse(covid)
 ```
 
+- **Simplify: Get a subset table**
 ```{r}
-drive_download("covid", path = "https://docs.google.com/spreadsheets/d/17M92KbKw1nIOD_co11hN_B0o4AmAW2zs1Nb3QGeDl-I/edit?usp=sharing", overwrite = TRUE)
+cases <- covid %>% 
+  select(county, date, current_infections, new_cases_today)
+head(cases)
 ```
 
-
-#notes below
-
-```{r}
-# using tidyr: https://uc-r.github.io/tidyr
-covid2 <- covid %>% 
-  filter(type=="Deaths")
-
-colnames(covid2)[6:7] <- c("deaths", "new.deaths")
-
-covid3 <- covid %>% 
-  filter(type=="Case")
-
-colnames(covid3)[6:7] <- c("cases", "new.cases")
-
-```
+- **Filter: Just the state totals**
 
 ```{r}
-covid_all <- covid3 %>% 
-  left_join(covid2, by= c("date", "detail", "sub_detail"))
+state <- cases %>% 
+  select(county, date, current_infections, new_cases_today) %>% 
+  filter(county=="Arkansas (All counties)") 
+head(state)
 ```
+
+- **Graph state totals**
 
 ```{r}
-###Eliminate columns
-covid_all <- covid_all[ -c(2,8,9) ]
+ggplot(state, aes(x = date, y = new_cases_today, fill=new_cases_today)) + 
+  geom_bar(stat = "identity", show.legend = FALSE) +
+  #geom_text(aes(label = new_cases_today), hjust = -.1, size = 2.2) +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
+  labs(title = "Arkansas: New Covid-19 Cases Per Day", 
+       subtitle = "Source: Arkansascovid.com",
+       caption = "Graphic by Wells",
+       y="New cases per day",
+       x="Date")
+
+#ggsave("/Users/rswells/Dropbox/Classes/Data Fall 2020/CovidFall2020/Xx.png",device = "png",width=9,height=6, dpi=800)
 ```
 
-```{r}
-write.csv(covid_all, "wells_demographic_6_22.csv")
-```
+- **Your Turn**
 
+      Build a table with deaths by state 
+      Build a table with new cases and deaths by state
+      Build a table with news cases and deaths by Washington County
 
-
-```{r}
-covid.age <- covid_all %>% 
-  filter(detail=="Age")
-```
-
-```{r}
-covid.race <- covid_all %>% 
-  filter(detail=="Race or Ethnicity")
-```
-
-```{r}
-covid.facility <- covid_all %>% 
-  filter(detail=="Facility Type")
-```
-
-```{r}
-covid_all2 <- rbind(covid.age, covid.race, covid.facility)
-```
-
-
-
-# Notes Below 
-
-###Doesn't work
-covid <- rio::import("https://docs.google.com/spreadsheets/d/1_GfwSL24ShDNY6fctXVpgdzZIuB-jDoKl3V2AK-HUcE/edit#gid=1524217413", which="Demographics+",  header = TRUE, fill=TRUE, skipNul= TRUE)
-download.file("https://docs.google.com/spreadsheets/d/1_GfwSL24ShDNY6fctXVpgdzZIuB-jDoKl3V2AK-HUcE/edit?usp=sharing", "covid.csv",  mode='wb')
+**--30--**
