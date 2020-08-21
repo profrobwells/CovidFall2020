@@ -1,0 +1,122 @@
+---
+title: "Arkansas Covid"
+author: "Rob Wells"
+date: "6/22/2020"
+output: html_document
+---
+
+# Analyzing Arkansas Covid Data
+### Data analysis by Rob Wells
+
+
+- **The records come from this website**  
+
+https://arkansascovid.com/
+
+Using this sheet:
+https://docs.google.com/spreadsheets/d/17M92KbKw1nIOD_co11hN_B0o4AmAW2zs1Nb3QGeDl-I/edit?usp=sharing
+
+--------------------------------------------------------------------
+# Part 1: Fix the data structure
+
+```{r include=FALSE}
+library(tidyverse)
+library(janitor)
+library(lubridate)
+#install.packages("googledrive")
+#install.packages("googlesheets4")
+library(googlesheets4)
+library("googledrive")
+library(tidyr)
+# vignette("basic-usage", package="googlesheets")
+```
+
+```{r}
+kk <- ("https://docs.google.com/spreadsheets/d/1skW4ol6p2OSrybjSdUwip7et3SmEzqR3gQzMG3juSvs/edit#gid=185420588")
+
+test <- read_sheet(kk)
+
+
+```
+
+```{r}
+
+drive_download("Travel Request Form")
+
+```
+
+
+
+```{r}
+covid <- rio::import("https://docs.google.com/spreadsheets/d/17M92KbKw1nIOD_co11hN_B0o4AmAW2zs1Nb3QGeDl-I/edit?usp=sharing", which = "BeAll")
+
+
+covid <- janitor::clean_names(covid)
+
+#covid <- covid[ -c(8:10) ]
+glimpse(covid)
+```
+
+```{r}
+drive_download("covid", path = "https://docs.google.com/spreadsheets/d/17M92KbKw1nIOD_co11hN_B0o4AmAW2zs1Nb3QGeDl-I/edit?usp=sharing", overwrite = TRUE)
+```
+
+
+#notes below
+
+```{r}
+# using tidyr: https://uc-r.github.io/tidyr
+covid2 <- covid %>% 
+  filter(type=="Deaths")
+
+colnames(covid2)[6:7] <- c("deaths", "new.deaths")
+
+covid3 <- covid %>% 
+  filter(type=="Case")
+
+colnames(covid3)[6:7] <- c("cases", "new.cases")
+
+```
+
+```{r}
+covid_all <- covid3 %>% 
+  left_join(covid2, by= c("date", "detail", "sub_detail"))
+```
+
+```{r}
+###Eliminate columns
+covid_all <- covid_all[ -c(2,8,9) ]
+```
+
+```{r}
+write.csv(covid_all, "wells_demographic_6_22.csv")
+```
+
+
+
+```{r}
+covid.age <- covid_all %>% 
+  filter(detail=="Age")
+```
+
+```{r}
+covid.race <- covid_all %>% 
+  filter(detail=="Race or Ethnicity")
+```
+
+```{r}
+covid.facility <- covid_all %>% 
+  filter(detail=="Facility Type")
+```
+
+```{r}
+covid_all2 <- rbind(covid.age, covid.race, covid.facility)
+```
+
+
+
+# Notes Below 
+
+###Doesn't work
+covid <- rio::import("https://docs.google.com/spreadsheets/d/1_GfwSL24ShDNY6fctXVpgdzZIuB-jDoKl3V2AK-HUcE/edit#gid=1524217413", which="Demographics+",  header = TRUE, fill=TRUE, skipNul= TRUE)
+download.file("https://docs.google.com/spreadsheets/d/1_GfwSL24ShDNY6fctXVpgdzZIuB-jDoKl3V2AK-HUcE/edit?usp=sharing", "covid.csv",  mode='wb')
