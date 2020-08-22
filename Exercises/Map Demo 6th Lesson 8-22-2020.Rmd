@@ -1,0 +1,130 @@
+---
+title: "Maps Demos 6th Lesson 8-22-2020"
+author: "Rob Wells"
+date: "8/22/2020"
+output: html_document
+---
+
+	demo(webmap)
+	---- ~~~~~~
+
+```{r} 
+library(sp)
+```
+
+```{r} 
+library(ggmap)
+```
+Loading required package: ggplot2
+Google's Terms of Service: https://cloud.google.com/maps-platform/terms/.
+Please cite ggmap if you use it! See citation("ggmap") for details.
+
+```{r} 
+demo(meuse, ask=FALSE, echo = FALSE)
+```
+
+```{r} 
+merc = CRS("+init=epsg:3857")
+```
+
+```{r} 
+WGS84 = CRS("+init=epsg:4326")
+```
+
+```{r} 
+meuse = spTransform(meuse, WGS84)
+```
+
+```{r} 
+bgMap = get_map(as.vector(bbox(meuse)), source = "google", zoom = 13) # useless without zoom level
+```
+Source : http://tile.stamen.com/terrain/13/4226/2742.png
+Source : http://tile.stamen.com/terrain/13/4227/2742.png
+Source : http://tile.stamen.com/terrain/13/4226/2743.png
+Source : http://tile.stamen.com/terrain/13/4227/2743.png
+Source : http://tile.stamen.com/terrain/13/4226/2744.png
+Source : http://tile.stamen.com/terrain/13/4227/2744.png
+
+# plot with ggmap-google bg:
+```{r} 
+plot(spTransform(meuse, merc), bgMap = bgMap, pch = 16, cex = .5)
+```
+
+# spplot with ggmap-google bg:
+```{r} 
+spplot(spTransform(meuse, merc), c("zinc",  "lead"), colorkey = TRUE,
++ 	sp.layout = list(panel.ggmap, bgMap, first = TRUE))
+```
+# plot with ggmap-osm bg:
+```{r} 
+bb = t(apply(bbox(meuse), 1, bbexpand, .04))
+```
+
+```{r} 
+bgMap = get_map(as.vector(bb), source = "osm") # WGS84 for background map
+```
+Source : http://tile.stamen.com/terrain/15/16904/10971.png
+Source : http://tile.stamen.com/terrain/15/16905/10971.png
+Source : http://tile.stamen.com/terrain/15/16906/10971.png
+Source : http://tile.stamen.com/terrain/15/16907/10971.png
+Source : http://tile.stamen.com/terrain/15/16908/10971.png
+Source : http://tile.stamen.com/terrain/15/16904/10972.png
+Source : http://tile.stamen.com/terrain/15/16905/10972.png
+Source : http://tile.stamen.com/terrain/15/16906/10972.png
+Source : http://tile.stamen.com/terrain/15/16907/10972.png
+Source : http://tile.stamen.com/terrain/15/16908/10972.png
+Source : http://tile.stamen.com/terrain/15/16904/10973.png
+Source : http://tile.stamen.com/terrain/15/16905/10973.png
+Source : http://tile.stamen.com/terrain/15/16906/10973.png
+Source : http://tile.stamen.com/terrain/15/16907/10973.png
+Source : http://tile.stamen.com/terrain/15/16908/10973.png
+Source : http://tile.stamen.com/terrain/15/16904/10974.png
+Source : http://tile.stamen.com/terrain/15/16905/10974.png
+Source : http://tile.stamen.com/terrain/15/16906/10974.png
+Source : http://tile.stamen.com/terrain/15/16907/10974.png
+Source : http://tile.stamen.com/terrain/15/16908/10974.png
+Source : http://tile.stamen.com/terrain/15/16904/10975.png
+Source : http://tile.stamen.com/terrain/15/16905/10975.png
+Source : http://tile.stamen.com/terrain/15/16906/10975.png
+Source : http://tile.stamen.com/terrain/15/16907/10975.png
+Source : http://tile.stamen.com/terrain/15/16908/10975.png
+Source : http://tile.stamen.com/terrain/15/16904/10976.png
+Source : http://tile.stamen.com/terrain/15/16905/10976.png
+Source : http://tile.stamen.com/terrain/15/16906/10976.png
+Source : http://tile.stamen.com/terrain/15/16907/10976.png
+Source : http://tile.stamen.com/terrain/15/16908/10976.png
+
+```{r} 
+plot(spTransform(meuse, merc), bgMap = bgMap, pch = 16, cex = .5)
+```
+# RgoogleMaps:
+```{r} 
+center = apply(coordinates(meuse), 2, mean)[2:1]
+```
+
+```{r} 
+library(RgoogleMaps)
+```
+
+```{r} 
+g = GetMap(center=center, zoom=13) # google
+```
+
+```{r} 
+par(mar = rep(0,4)) # fill full device
+```
+
+```{r} 
+plot(spTransform(meuse, merc), bgMap = g, pch = 16, cex = .5)
+```
+
+```{r} 
+spplot(spTransform(meuse, merc), c("zinc",  "lead"), colorkey = TRUE,
++ 	sp.layout = list(panel.RgoogleMaps, g, first = TRUE),
++ 	scales = list(draw = TRUE))
+```
+
+# Norway boundary example:
+```{r} 
+library(cshapes)
+```
