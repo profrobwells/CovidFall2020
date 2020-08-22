@@ -1,0 +1,29 @@
+#-----------------------------#
+# Notes on Machlis, Ch. 4
+#-----------------------------#  
+
+Ch 4 Import Data into R
+* rio
+* htmltab
+* readxl
+* googlesheets
+* pacman
+* janitor
+* rmiscutils (GitHub) or readr
+* tibble
+
+rio
+install.packages("rio") 
+--rio handles more than two dozen formats including tab-separated data (with the extension .tsv), JSON, Stata, and fixed-width format data (.fwf).
+Chr to Numeric
+This is one of R’s small annoyances: R generally doesn’t understand that 8,550 is a number. I dealt with this problem myself by writing my own function in my own rmiscutils package to turn all those “character strings” that are really numbers with commas back into numbers. Anyone can download the package from GitHub and use it.
+Skip rows
+Beginning rows that aren’t part of the data. If you know that the first few rows of an Excel spreadsheeet don’t have data you want, you can tell rio to skip one or more lines. The syntax is rio::import("mySpreadsheet.xlsx", skip=3) to exclude the first three rows. skip takes an integer.
+Import and create new column names
+Or, use a syntax such as rio::import("mySpreadsheet.xlsx", col_names = c("City", "State", "Population")) to set your own column names.
+Import second tab of SS
+If there are multiple tabs in your spreadsheet, the which argument will override the default of reading in the first worksheet. rio::import("mySpreadsheet.xlsx", which = 2) reads in the second worksheet.
+Slick trick to add a column and do a conversion
+It’s easy to add a column to a data frame. Currently, the Total column shows winter snowfall in inches. To add a column showing totals in Meters, you can use this format:
+  snowdata$Meters <- snowdata$Total * 0.0254
+4.5 Convert zip codes into usable data. Boston zip codes with leading zeroes.

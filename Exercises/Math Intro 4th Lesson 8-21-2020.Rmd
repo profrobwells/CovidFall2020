@@ -1,0 +1,41 @@
+---
+title: "Math Intro 4th Lesson 8-21-2020"
+author: "Rob Wells"
+date: "8/21/2020"
+output: html_document
+---
+
+# Math 
+
+- **Summary Statistics**
+
+
+  summary(Crime)
+
+  mean(x) Calculate the mean, or average, for variable x.
+  median(x) Calculate the median.
+  max(x) Find the maximum value.
+  min(x) Find the minimum value.
+  sum(x) Add all the values together.
+  n() Count the number of records. Here there isn’t a variable in the brackets of the function, because the number of records   applies to all variables.
+  n_distinct(x) Count the number of unique values in variable x.
+  
+--Using a function for an equation  
+  percent_change <- function(first_number, second_number) {
+  pc <- (second_number-first_number)/first_number*100
+  return(pc)
+}
+
+  percent_change(100,150)
+  [1] 50
+  
+  This is what’s happening in the code above:
+  * percent_change is the name of the function, and assigned to it is the function function()
+  * Two variables are necessary to be passed to this function, first_number and second_number
+  * A new object pc is created using some math calculating percent change from the two variables passed to it
+  * the function return() assigns the result of the math to percent_change from the first line
+  Build enough functions and you can save them as your own package.
+
+--Set up column for math calculations
+  Example: Total column shows winter snowfall in inches. To add a column    showing totals in Meters, you can use this format:   
+  .snowdata$Meters <- snowdata$Total * 0.0254

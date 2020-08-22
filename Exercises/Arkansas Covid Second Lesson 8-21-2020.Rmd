@@ -1,0 +1,209 @@
+---
+title: "Arkansas Covid Lesson #2"
+author: "Rob Wells"
+date: "8/21/2020"
+output: html_document
+---
+
+# Analyzing Arkansas Covid Data
+### Data analysis by Rob Wells
+
+
+- **The records come from this website**  
+
+https://arkansascovid.com/
+
+Using this sheet:
+https://docs.google.com/spreadsheets/d/17M92KbKw1nIOD_co11hN_B0o4AmAW2zs1Nb3QGeDl-I/edit?usp=sharing
+
+--------------------------------------------------------------------
+# Part 1: Fix the data structure
+
+```{r include=FALSE}
+library(tidyverse)
+library(janitor)
+library(lubridate)
+#install.packages("googledrive")
+#install.packages("googlesheets4")
+library(googlesheets4)
+library("googledrive")
+library(tidyr)
+# vignette("basic-usage", package="googlesheets")
+```
+
+
+
+
+```{r}
+url <- ("https://docs.google.com/spreadsheets/d/17M92KbKw1nIOD_co11hN_B0o4AmAW2zs1Nb3QGeDl-I/edit#gid=1357388768")
+
+covid <- read_sheet(url, sheet="BeAll")
+```
+
+- **Plan B: You may need to copy this Google sheet to your own Google account and then load that URL on to Line 38 above**
+https://docs.google.com/spreadsheets/d/17M92KbKw1nIOD_co11hN_B0o4AmAW2zs1Nb3QGeDl-I/edit#gid=1357388768
+
+
+- **Clean Names**
+```{r}
+
+covid <- janitor::clean_names(covid)
+```
+
+**Examine the Data Fields**
+```{r}
+glimpse(covid)
+```
+
+- **Simplify: Get a subset table**
+```{r}
+cases <- covid %>% 
+  select(county, date, current_infections, new_cases_today)
+head(cases)
+```
+
+- **Filter: Just the state totals**
+
+```{r}
+state <- cases %>% 
+  select(county, date, current_infections, new_cases_today) %>% 
+  filter(county=="Arkansas (All counties)") 
+head(state)
+```
+
+- **Graph state totals**
+
+```{r}
+ggplot(state, aes(x = date, y = new_cases_today, fill=new_cases_today)) + 
+  geom_bar(stat = "identity", show.legend = FALSE) +
+  #geom_text(aes(label = new_cases_today), hjust = -.1, size = 2.2) +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
+  labs(title = "Arkansas: New Covid-19 Cases Per Day", 
+       subtitle = "Source: Arkansascovid.com",
+       caption = "Graphic by Wells",
+       y="New cases per day",
+       x="Date")
+
+#ggsave("/Users/rswells/Dropbox/Classes/Data Fall 2020/CovidFall2020/Xx.png",device = "png",width=9,height=6, dpi=800)
+```
+
+- **Your Turn**
+
+      Build a table with deaths by state 
+      Build a table with new cases and deaths by state
+      Build a table with news cases and deaths by Washington County
+
+
+---
+
+- **Lesson #2**
+
+--Based on this tutorial, perform this exercise:  
+
+    1. Percentage change from March-August.
+    2. Produce a table with 5 counties with most growth in cases. 
+    3. Graph the top 5 and bottom 5
+    4. Filter just Benton County new cases and deaths for July
+    
+    
+#Edit Below
+
+
+#Get census data
+#Check the website: 
+https://factfinder.census.gov/bkmk/table/1.0/en/PEP/2017/PEPANNRES/0400000US05.05000
+
+
+#Load table - ArkCensus.csv - 
+download.file("https://bit.ly/2FxLJHj", "ArkCensus.csv")
+
+#It downloaded it to your current working directory. Use this command to find where it is
+getwd() 
+
+#Import using Rio. Make sure ArkCensus is in your working directory!
+ArkCensus <- rio::import("ArkCensus.csv")
+
+#Look at the table
+View(ArkCensus)
+
+# another method Rename a specific column
+colnames(ArkCensus)[5] <- "BaseEstimate"
+View(ArkCensus)
+
+
+#Create a New Column and a Formula: Percents of Washington County as Whole of the state of Arkansas
+
+ArkCensus$Pct2017 <- ((ArkCensus$x2017-ArkCensus$x2016)/(ArkCensus$x2016))
+
+#To quickly format into percents, load
+install.packages("formattable")
+library(formattable)
+
+ArkCensus$Pct2017 <- percent(ArkCensus$Pct2017)
+
+View(ArkCensus)
+
+
+# Sort to see biggest-smallest descending in population from 2016-2017 
+
+ArkCensus <- ArkCensus[order(-ArkCensus$Pct2017),]
+View(ArkCensus)
+
+# What is the average population change?
+
+mean(ArkCensus$Pct2017)
+median(ArkCensus$Pct2017)
+
+#Find all counties with population growth above 1%
+
+Above1pct <- ArkCensus%>%select(county, Pct2017)%>%filter(Pct2017 > .01)
+
+#Build a table with places with upper quantile of crime
+quantile(ArkCensus$Pct2017)
+
+# the Upper Quantile is 0.74% to 2.94%
+TopGrowth <- ArkCensus%>%select(county, Pct2017)%>%filter(Pct2017 > 0.0074)
+
+#Find all places with below average crime
+
+MajorLosers <- ArkCensus%>%select(county, Pct2017)%>%filter(Pct2017 < -0.0093)
+
+#Filter
+Filter
+Washington1 <- subset(ArkCensus, County=="Washington County, Arkansas")  
+
+Using Wildcards
+WashingtonCo <- subset(ArkCensus, grepl("^Washington", County))
+
+
+#Write.csv
+write.csv(Washington1, "Washington1.csv")
+
+
+#-------------------------------------------------------------------#
+#Build a chart - Total loan disbursement
+#-------------------------------------------------------------------#
+
+library(ggplot2)
+
+TopGrowthChart <- ggplot(TopGrowth, aes(x = county, y=Pct2017)) +
+geom_bar(stat = "identity") +
+coord_flip() +     #this makes it a horizontal bar chart instead of vertical
+labs(title = "Your title here", 
+subtitle = "Subtitle and source ",
+caption = "Graphic by Rob Wells",
+x="County",
+y="Population growth 2016-2017")
+plot(TopGrowthChart)
+
+
+#-------------------------------------------------------------------#
+#      What You Have Learned So Far
+#-------------------------------------------------------------------#  
+
+# How to navigate in R studio
+# How to install libraries and packages 
+# How to import a .csv file into R: read.csv
+# How to obtain summary statistics (summary)
+# How to create a new calculated field
+
