@@ -7,31 +7,28 @@ output:
       toc_depth: 2
 ---
 
-# Reporting on Covid-19 in Arkansas: Data Journalism   
-## Jour 5283, Fall 2020   
-### Remote Delivery, Monday-Wednesday 9:40 a.m.-10:55 a.m.  
-
-
-<img src="Images/RStudio-Logo-Blue-Gradient.png" width="300" height="100" />
-
-**Rob Wells, Ph.D.**   
-**University of Arkansas**   
-**School of Journalism and Strategic Media**   
-> rswells@uark.edu   
-> @rwells1961  
-
+**Reporting on Covid-19 in Arkansas: Data Journalism**   
+**Jour 5283, Fall 2020**      
+**Remote Delivery, Monday-Wednesday 9:40 a.m.-10:55 a.m.**  
 
 ![](Images/UARK logo NEW.png)
+
+**Rob Wells, Ph.D.**   
+    rswells@uark.edu   
+    @rwells1961  
+
 
 > [**Syllabus - Jour 5283**: "CNTL" + click for a New Tab](https://profrobwells.github.io/CovidFall2020/Syllabus_Jour5283_Fall2020.html){target="_blank"}   
 
 > [**Course GitHub site**: "CNTL" + click for a New Tab](https://github.com/profrobwells/CovidFall2020){target="_blank"}   
 
+--------------------------------------------------------------------
+
 
 ## Inspiration:      
 <img src="Images/Conspiracy Theory slide.jpg" width="300" height="100" />
 
-**--**
+
 
 
 
@@ -57,6 +54,9 @@ output:
      Teams is free through your university Office365 account. Download the Teams App through the Office365 suite https://its.uark.edu/communication-collaboration/office365/office365-desktop-apps.php
     
 **R and R Studio**       
+
+
+<img src="Images/RStudio-Logo-Blue-Gradient.png" width="300" height="100" />
     
     Install R and R Studio.
     
@@ -242,7 +242,8 @@ Arkansascovid.com
     Beginner's guide to R:
     https://www.computerworld.com/article/2497143/business-intelligence/business-intelligence-beginner-s-guide-to-r-introduction.html
 
---------------------------------------------------------------------
+---   
+
 # Week #3 - 9/7/2020: Data Types. Loading Data
 
 ## Monday, Sept. 7. 
@@ -279,9 +280,9 @@ Ch. 2: Chart Smart
 
 Charts_with_ggplot by Andrew Ba Tran,
 
---------------------------------------------------------------------
+---   
 
-#Week #4 - 9/14/2020: Using R to build basic graphs and charts  
+# Week #4 - 9/14/2020: Using R to build basic graphs and charts
 
 ## Monday, Sept. 14 
 
@@ -335,7 +336,7 @@ Students will use R Studio to gather, analyze and visualize Arkansascovid data b
     ggplot2 - charts and maps
 
     
-> [**GGplot Video from Andrew Ba Tran**](https://www.youtube.com/watch?v=Sx7d7eGRSj0&t=9s){target="_blank"} 
+    > [**GGplot Video from Andrew Ba Tran**](https://www.youtube.com/watch?v=Sx7d7eGRSj0&t=9s){target="_blank"} 
 --  
 
 - **Exercise**
@@ -359,10 +360,9 @@ Students will use R Studio to gather, analyze and visualize Arkansascovid data b
     
     Albert Cairo, "The Functional Art," Principles of Data Visualization.
 
---------------------------------------------------------------------
+---   
 
-
-#Week #5 - 9/21/20: Dplyr Bootcamp
+# Week #5 - 9/21/20: Dplyr Bootcamp
 
 ## Monday, Sept. 21   
 
@@ -422,6 +422,7 @@ Students will use R Studio to gather, analyze and visualize Arkansascovid data b
     Machlis: Ch. 8 Analyze data by groups
     Transforming and Analyzing Data dplyr.pdf, Andrew Ba Tran, Washington Post
     Dplyr - Andrew Ba  Tran - pipes-dplyr.pdf
+    
 ----------------- 
 
 ## Wednesday, Sept. 23
@@ -450,9 +451,9 @@ Students will use R Studio to gather, analyze and visualize Arkansascovid data b
     https://github.com/profrobwells/Data-Analysis-Class-Jour-405v-5003/blob/master/Readings/dealing-with-dates.pdf
         
 
---------------------------------------------------------------------
+---   
 
-#Week #6 - 9/28/20:  Dealing With Dates 
+# Week #6 - 9/28/20:  Dealing With Dates 
 
 
 ## Monday Sept. 28  
@@ -501,11 +502,11 @@ Students will use R Studio to gather, analyze and visualize Arkansascovid data b
     Machlis Ch. 12 Putting it all Together: R on Election Day
 
 
---------------------------------------------------------------------
+---   
 
-#Week #7: 10/5/20: Maps in R
+# Week #7: 10/5/20: Maps in R
 
-##Monday Oct. 5  
+## Monday Oct. 5  
 
 **Agenda**    
 
@@ -517,9 +518,11 @@ Students will use R Studio to gather, analyze and visualize Arkansascovid data b
           https://bit.ly/2VXCSU2
 
 #### Reading Before Next Class 
+
+
 ------------------
 
-##Wednesday Oct. 7
+## Wednesday Oct. 7
 
 **Agenda**
 
@@ -532,11 +535,11 @@ Students will use R Studio to gather, analyze and visualize Arkansascovid data b
 
 #### Reading Before Next Class 
 
---------------------------------------------------------------------   
+---   
 
-#Week #8: Oct. 12, 2020: Mapping
+# Week #8: Oct. 12, 2020: Mapping
 
-##Monday Oct. 12  
+## Monday Oct. 12  
 
 **Agenda**
     
@@ -573,7 +576,7 @@ https://www.youtube.com/watch?v=TSGaueL4Ggk
 
 -----------------------------------------
     
-##Wednesday Oct. 14: Mapping 
+## Wednesday Oct. 14: Mapping 
 
 **Agenda**
       
@@ -585,14 +588,14 @@ https://www.youtube.com/watch?v=TSGaueL4Ggk
       Building a Census tract map
       
 **We will build this**   
-![](Images/Income by Census Tract Washington Co.png)    
+TK TK Images/Income by Census Tract Washington Co.png)    
 
 
 **Exercises**
 
     Adapt Machlis - Maps in R Ch 11 exercise for Median Income in Arkansas
 
-![You will make this in the class](Images/ARmed_income3-22-19.png)
+![You will make this in the class]TK TK Images/ARmed_income3-22-19.png
   
    
 
@@ -609,7 +612,7 @@ APIs - basics
 
     https://medium.com/@LewisMenelaws/a-beginners-guide-to-web-apis-and-how-they-will-help-you-23923a0da450
 
---------------------------------------------------------------------
+---   
 
 # Week #9: 10/19/2020: APIs
 
@@ -623,9 +626,10 @@ APIs - basics
 
 #### Reading Before Next Class   
 
+A gentle introduction to APIs for data journalists:   
 
-    A gentle introduction to APIs for data journalists
-    https://trendct.org/2016/12/29/fetching-airport-delays-with-python-a-gentle-guide-to-apis-for-journalists/ 
+https://trendct.org/2016/12/29/fetching-airport-delays-with-python-a-gentle-guide-to-apis-for-journalists/ 
+
 --------------------------------------------
 
 
@@ -643,11 +647,11 @@ Machlis Chs. 17 & 18
     https://censusreporter.org/
  
 
---------------------------------------------------------------------
+---   
 
-#Week #10: 10/26/2020, APIs
+# Week #10: 10/26/2020, APIs
 
-##Monday Oct 26  
+## Monday Oct 26  
 
 **Agenda**
 
@@ -661,7 +665,7 @@ Machlis Chs. 17 & 18
 
 ------------------------------------
 
-##Wednesday Oct 28: GitHub
+## Wednesday Oct 28: GitHub
 
 **Agenda**   
 **Resources:**
@@ -692,11 +696,11 @@ Installing Git for a Mac - Andrew Ba Tran
     --Follow this tutorial
     https://guides.github.com/activities/hello-world/
     
---------------------------------------------------------------------
+---    
 
-#Week #11: 11/2/2020, GitHub 
+# Week #11: 11/2/2020, GitHub 
 
-##Monday, Nov. 2
+## Monday, Nov. 2
 
 **Agenda**   
  
@@ -717,7 +721,7 @@ https://guides.github.com/
 https://andrewbtran.github.io/NICAR/2018/workflow/docs/03-integrating_github.html  
 
      
-###Assignment 3: Interactive Map. Due Nov 2 
+### Assignment 3: Interactive Map. Due Nov 2 
 Students will use R Studio to build interactive maps of Arkansascovid occupational data in Arkansas. Results will be posted on GitHub. Data dictionary required
 
 **Resources**
@@ -733,7 +737,8 @@ Students will use R Studio to build interactive maps of Arkansascovid occupation
 #### Reading Before Next Class     
 
 
-----------
+----------  
+
 ## Wednesday, Nov. 4
 
 **TAKE A DEEP BREATH, AMERICA**
@@ -756,11 +761,11 @@ The Journalist as Programmer: A Case Study of The New York Times Interactive New
 What is code? http://www.bloomberg.com/graphics/2015-paul-ford-what-is-code/
 
 
---------------------------------------------------------------------
+---   
 
-#Week #12: 11/9/2020 
+# Week #12: 11/9/2020 
 
-##Monday, Nov. 9
+##  Monday, Nov. 9
 
 **Agenda**
 
@@ -778,7 +783,7 @@ What is code? http://www.bloomberg.com/graphics/2015-paul-ford-what-is-code/
 
 -------------------
 
-##Wednesday, Nov. 11
+## Wednesday, Nov. 11
 
 **Agenda** 
 
@@ -791,16 +796,17 @@ What is code? http://www.bloomberg.com/graphics/2015-paul-ford-what-is-code/
 
 #### Reading Before Next Class   
 
---------------------------------------------------------------------
+---   
 
-#Week #13: 11/16/2020
+# Week #13: 11/16/2020
 
-##Monday, Nov. 16  
+## Monday, Nov. 16  
+
 **Agenda**
 
 
 **Coulter Bigrams - Relationship**   
-![](Images/Coulter Bigram Graphic.jpeg)  
+TK TK Images/Coulter Bigram Graphic.jpeg)  
     
 **Exercise**
 
@@ -808,7 +814,7 @@ What is code? http://www.bloomberg.com/graphics/2015-paul-ford-what-is-code/
 
 --------------------------------
     
-##Wednesday, Nov. 18
+## Wednesday, Nov. 18
 **Agenda** 
 
 #### Reading Before Next Class   
@@ -825,11 +831,11 @@ What is code? http://www.bloomberg.com/graphics/2015-paul-ford-what-is-code/
     Sharon Machlins Nicar compilation site
     http://www.machlis.com/nicar19.html
 
---------------------------------------------------------------------
+---   
 
-#Week #14, 11/23/2020:  - Web scraping, GitHub
+# Week #14, 11/23/2020:  - Web scraping, GitHub
 
-##Monday, Nov. 23
+## Monday, Nov. 23
 
 **Agenda**
 
@@ -839,7 +845,7 @@ What is code? http://www.bloomberg.com/graphics/2015-paul-ford-what-is-code/
     GitHub
 
 **Coulter Bigrams - Score**   
-![](Images/Coulter bigram score.jpeg)  
+TK TK Images/Coulter bigram score.jpeg)  
 
     
 **Exercises**   
@@ -855,7 +861,7 @@ What is code? http://www.bloomberg.com/graphics/2015-paul-ford-what-is-code/
 ----------------------
 
 
-##Wednesday, Nov. 25
+## Wednesday, Nov. 25
 
 **Agenda**
 
@@ -864,12 +870,12 @@ What is code? http://www.bloomberg.com/graphics/2015-paul-ford-what-is-code/
 
 #### Reading Before Next Class   
 
---------------------------------------------------------------------
+---    
 
+#  Week #15, 11/30/2020: Wrap Up
 
-#Week #15, 11/30/2020: Wrap Up
+## Monday, NOV. 30
 
-##Monday, NOV. 30
 **Agenda**
 
     
@@ -894,7 +900,7 @@ Students will use R Studio to build interactive graphics / maps of Arkansascovid
     https://courseval.uark.edu/
 
 
-##Wednesday, DEC. 2
+## Wednesday, DEC. 2
 
 **Agenda**
 
@@ -906,18 +912,17 @@ Students will use R Studio to build interactive graphics / maps of Arkansascovid
     Turn your R cheatsheet into a PDF
     Turn your R cheatsheet into a web page on GitHub
     
---------------------------------------------------------------------
+---    
 
+# Week #16, 12/7/2020: Wrap Up
 
-#Week #16, 12/7/2020: Wrap Up
-
-##Monday, DEC. 7
+## Monday, Dec. 7
 **Agenda**
 
 
 
 
-##Wednesday, DEC. 8
+## Wednesday, Dec. 8
 **Agenda**
 
 
@@ -927,14 +932,8 @@ Students will use R Studio to build interactive graphics / maps of Arkansascovid
   
 ![Code in Fun](Images/Cat coding.gif)  
 
+---   
 
-
-
-
-**--**  
-
-
---------------------------------------------------------------------
 # RESOURCES  
 
       Questions on mapping exercises
@@ -958,7 +957,7 @@ Students will use R Studio to build interactive graphics / maps of Arkansascovid
 
 **--#1: Solve the chronology problem with the chart**   
 
-![](Images/AOC Year-Months.png)  
+TK TK Images/AOC Year-Months.png)  
 
 
 --**#2: Splitting Hashtags**
@@ -980,7 +979,7 @@ Students will use R Studio to build interactive graphics / maps of Arkansascovid
     https://bit.ly/2X5V9jL
     
     What we will produce
-![](Images/Top Words in AOC Feed.png)
+TK TK Images/Top Words in AOC Feed.png)
 
 
 Work through this exercise and bring questions to class:    
