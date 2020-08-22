@@ -14,7 +14,7 @@ install.packages("rio")
 #JSON, Stata, and fixed-width format data (.fwf).
 
 ```{r}
-StudentLoans <- rio::import('./Data/AR2016_SMALL.csv')
+StudentLoans <- rio::import('https://raw.githubusercontent.com/profrobwells/CovidFall2020/master/Data/AR2016_SMALL.csv')
 View(StudentLoans)
 ```
 # Number columns
@@ -88,6 +88,12 @@ StudentLoans[!complete.cases(StudentLoans)]
 ```{r}
 sum(StudentLoans$UGDS_WHITE, na.rm=TRUE)
 mean(StudentLoans$TUITIONFEE_IN, na.rm=TRUE)
+```
+
+- **Export data**    
+  Write Export output this file to a CSV or Excel  write.csv or write.excel
+```{r}
+write.csv(AR2016_SMALL,"AR2016_SMALL.csv") 
 ```
 
 
@@ -447,6 +453,44 @@ citytable$PopEst2017 <- number_with_commas(citytable$`2017estimate`)
 ```{r}  
 citytable$PopEst2017 <- readr::parse_number(citytable$`2017 estimate`)
 ```
+
+
+--------------------------------------------------------------------   
+
+- **Common Problems**   
+
+    ``"What the hell? I converted population to numeric and the calculations come out as NA values!
+      This is driving me insane! What is going on?"
+
+**Answer**:   
+One of the obnoxious things about R is it considers commas as text. So it will show 720 as a number but 2,810 as not a number for calculations because it has a friggin comma.   
+
+**Never fear.** There is a solution. Run the find and replace function, called gsub   
+
+Example:
+Crimedata$Population <- gsub(",", "", Crimedata$Population)   
+
+Translation:   
+Crimedata$Population   
+-- is the population column in your crime dataset     
+gsub(",", "",  
+finds a comma and replaces it with nothing.  --    
+and it found the comma in the column Crimedata$Population)
+and the <- dumps the results back into the Crimedata$Population  column.
+
+Fancy!   
+
+**Question**:
+"How do I get rid of the last row that only has text in the table that I just imported?"   
+
+**Answer**:
+Get rid of row using base R commands   
+Crimedata <- Crimedata[-c(187), ]    
+
+Translation:     
+Crimedata[-c(187), ]    looks for row #187, which has this garbage text, and gives it the big minus sign, which eliminates it.    
+Crimedata <-  dumps this slimmed down table back into your table and so you are good to go.   
+
 
  **--30--**
 

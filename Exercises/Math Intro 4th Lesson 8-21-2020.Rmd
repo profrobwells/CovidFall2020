@@ -7,35 +7,96 @@ output: html_document
 
 # Math 
 
+```{r}
+library(tidyverse)
+StudentLoans <- rio::import('https://raw.githubusercontent.com/profrobwells/CovidFall2020/master/Data/AR2016_SMALL.csv')
+View(StudentLoans)
+```
+
+Cut it down to size
+
+```{r}
+StLoans2 <- StudentLoans %>% 
+  select(INSTNM, CITY, UGDS_WHITE, UGDS_BLACK)
+head(StLoans2)
+```
+
+
 - **Summary Statistics**
+    
+    A quick way to view the range of your data  
 
+```{r}
+summary(StLoans2$UGDS_WHITE)
+```
 
-  summary(Crime)
+- **Your Turn**
 
-  mean(x) Calculate the mean, or average, for variable x.
-  median(x) Calculate the median.
-  max(x) Find the maximum value.
-  min(x) Find the minimum value.
-  sum(x) Add all the values together.
-  n() Count the number of records. Here there isn’t a variable in the brackets of the function, because the number of records   applies to all variables.
-  n_distinct(x) Count the number of unique values in variable x.
+    Run individual calculations using the following operators
+    mean(x) Calculate the mean, or average, for variable x.
+    median(x) Calculate the median.
+    max(x) Find the maximum value.
+    min(x) Find the minimum value.
+    sum(x) Add all the values together.
+    n() Count the number of records. 
+    n_distinct(x) Count the number of unique values in variable x.
   
---Using a function for an equation  
+```{r}
+
+  your code here(
+    
+```
+  
+Good R Tutorial with Basic Statistics
+https://www.princeton.edu/~otorres/sessions/s2r.pdf
+
+
+- **Create a new average column **   
+
+```{r}
+StLoans2$Combo <- (StLoans2$UGDS_WHITE + StLoans2$UGDS_BLACK) / 2 
+head(StLoans2)
+```
+  
+- **Using a function for an equation**
+
+```{r}
   percent_change <- function(first_number, second_number) {
   pc <- (second_number-first_number)/first_number*100
   return(pc)
 }
+```
 
-  percent_change(100,150)
-  [1] 50
-  
-  This is what’s happening in the code above:
-  * percent_change is the name of the function, and assigned to it is the function function()
-  * Two variables are necessary to be passed to this function, first_number and second_number
-  * A new object pc is created using some math calculating percent change from the two variables passed to it
-  * the function return() assigns the result of the math to percent_change from the first line
-  Build enough functions and you can save them as your own package.
+```{r}
+percent_change(100,150)
+```
 
---Set up column for math calculations
-  Example: Total column shows winter snowfall in inches. To add a column    showing totals in Meters, you can use this format:   
-  .snowdata$Meters <- snowdata$Total * 0.0254
+- **What Happened**
+
+      * percent_change is the name of the function, and assigned to it is the function function()
+      * Two variables are necessary to be passed to this function, first_number and second_number
+      * A new object pc is created using some math calculating percent change from the two variables passed to it
+      * the function return() assigns the result of the math to percent_change from the first line
+      Build enough functions and you can save them as your own package.
+
+
+- **Doing math on columns with missing values**
+
+```{r}
+sum(StudentLoans$UGDS_WHITE, na.rm=TRUE)
+```
+```{r}
+mean(StudentLoans$TUITIONFEE_IN, na.rm=TRUE)
+```
+
+
+
+- **Set up column for math calculations**   
+      Example: Total column shows winter snowfall in inches. To add a column    showing totals in Meters, you can use this format:   
+
+```{r}      
+snowdata$Meters <- snowdata$Total * 0.0254
+```
+
+
+**--30--**
