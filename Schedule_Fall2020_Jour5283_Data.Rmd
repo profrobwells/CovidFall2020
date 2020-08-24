@@ -43,11 +43,12 @@ output:
     --Discuss syllabus
     --Blackboard site
     --Teams
+    --Intellectual Property / Data Sharing Releases
     --Arkansascovid.com
     --Intro R and R Studio. Open program.
     --Read Machlis, Ch. 2
     --Advanced learners, see below
-    --Intellectual Property / Data Sharing Releases
+
 
 **Teams**   
 
@@ -119,7 +120,14 @@ http://www.machlis.com/PracticalR4Journalism/index.html (first six chapters are 
 #### Read Before Wednesday's Class  
 
        Machlis, Ch. 1, Introduction; Ch. 3, See How Much You Can Do in a Few Lines of Code
+       
+       Basic tutorial on R:
+       
 https://profrobwells.github.io/Guest_Lectures/Intro_To_R/R1_Intro-to-R.html
+
+Download the code and try it yourself (Left click, download, remove.txt extension)
+
+https://github.com/profrobwells/CovidFall2020/blob/master/Exercises/R1_Intro%20to%20R.Rmd
 
 **Advanced Corner**
 
@@ -188,6 +196,12 @@ Ch. 1: The Basics
 
 Arkansascovid.com
 
+    Importing Census Data examples
+https://video.uark.edu/media/Census1+-+Importing+Data/1_xykm3ovj
+
+    File Management (On Blackboard)
+https://learn.uark.edu/webapps/blackboard/content/listContent.jsp?course_id=_276555_1&content_id=_8815471_1
+
 ---
 
 # Week #2: File management  
@@ -214,7 +228,9 @@ Arkansascovid.com
 #### Read Before Next Class 
 
     Machlis. Ch 4: Import Data into R  
-    Cohen, "Numbers in the Newsroom," Common Mistakes.    
+    Cohen, "Numbers in the Newsroom," Common Mistakes. 
+    Basics of Data Analysis (On Blackboard)
+https://learn.uark.edu/webapps/blackboard/content/listContent.jsp?course_id=_276555_1&content_id=_8815471_1
 ---
 
 ## Wednesday, Sept. 2 
@@ -258,6 +274,11 @@ Arkansascovid.com
 #### Read Before Next Class   
 
      Machlis, Ch. 6: Beginning data visualization
+     Video: Basic Charts in R  
+  https://www.youtube.com/watch?v=1EUJ0tsVsUA&t=12s
+  
+    Refresher: Numbers in the Newsroom (On Blackboard)
+https://learn.uark.edu/webapps/blackboard/content/listContent.jsp?course_id=_276555_1&content_id=_8815471_1
 
 ## Wednesday, Sept. 9   
 
@@ -281,6 +302,7 @@ Arkansascovid.com
       Check what software packages are running: Global Environment
       Navigation: 
      ^ + shift + 8 = Zoom to Environment  
+     AP Style on numbers: AP Numerals Entry.pdf
      
 **Notes**    
 
@@ -317,6 +339,10 @@ Arkansascovid.com
 
 Students will use R Studio to gather, analyze and visualize Arkansascovid data by demographic for Arkansas and report and write a 600 word story. 
 
+**Exercise**
+
+      Tutorial: Graphing Introducton Jan 11 2020.R
+
 
 - **GGPLOT**
   
@@ -343,9 +369,9 @@ Students will use R Studio to gather, analyze and visualize Arkansascovid data b
 
     Wong, Dona M. The Wall Street Journal Guide to Information Graphics. 
     Ch. 3 & 4: Ready Reference and Tricky Situations
-    
-    Basic Charts in R  
-  https://www.youtube.com/watch?v=1EUJ0tsVsUA&t=12s
+
+    Prof. Alberto Cairo on Data Visualization    
+https://video.uark.edu/media/Alberto+Cairo+Data+Viz/0_10pblm1b
 
 --------------------------------------------------------------------
 
@@ -627,6 +653,7 @@ http://learn.r-journalism.com/en/wrangling/dplyr/dplyr/
 
 **Exercises**
 
+    Map Demo: Interactive Map.R
     Adapt Machlis - Maps in R Ch 11 exercise for Median Income in Arkansas
     ![You will make this in the class]TK TK Images/ARmed_income3-22-19.png
 
@@ -953,6 +980,8 @@ http://bit.ly/scrapeme
     R Markdown: 
 http://bit.ly/2DBLSaX
 
+    Video:
+https://video.uark.edu/media/R+Markdown1/0_k08o7izd
 
 ---    
 
