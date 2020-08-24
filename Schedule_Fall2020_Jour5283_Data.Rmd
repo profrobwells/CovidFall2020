@@ -110,25 +110,30 @@ https://docs.google.com/document/d/1YkdkRIzIs1WQ3P9KIICvHcppfWvwTyo2bRhGwQPsgVE/
     License Agreement
 https://docs.google.com/document/d/1AahzxDOzTf9Z6PBjBvFBOjnn9_BiM4YldnXW-mHZr9s/edit
     
-#### Read Before Monday's Class   
-
-      Machlis, Sharon. Practical R for Mass Communications and Journalism. Chapman & Hall/CRC The R Series. 2018. ISBN 9781138726918 https://www.amazon.com/gp/search?keywords=9781138726918
-      Chapter 2: Get Started With R in a Few Easy Steps
+#### Read Before Wednesday's Class  
+      
+        Machlis, Sharon. Practical R for Mass Communications and Journalism. Chapman & Hall/CRC The R Series. 2018. ISBN 9781138726918 https://www.amazon.com/gp/search?keywords=9781138726918
+        Ch. 1, Introduction; Ch. 3, See How Much You Can Do in a Few Lines of Code
+       Chapter 2: Get Started With R in a Few Easy Steps
+       
+       Here is the link to the firts six chapters for free
+       
 http://www.machlis.com/PracticalR4Journalism/index.html (first six chapters are free)
 
-
-#### Read Before Wednesday's Class  
-
-       Machlis, Ch. 1, Introduction; Ch. 3, See How Much You Can Do in a Few Lines of Code
-       
+ 
        Basic tutorial on R:
        
 https://profrobwells.github.io/Guest_Lectures/Intro_To_R/R1_Intro-to-R.html
 
-Download the code and try it yourself (Left click, download, remove.txt extension)
+---
 
-https://github.com/profrobwells/CovidFall2020/blob/master/Exercises/R1_Intro%20to%20R.Rmd
+**CORRECT LINK: Download the code and try it yourself**
+   
+      (Left click, download, remove.txt extension)
+    
+https://github.com/profrobwells/CovidFall2020/raw/master/Exercises/R1_Intro%20to%20R.Rmd
 
+---
 **Advanced Corner**
 
     --Import Arkansascovid.com data and summarize Washington County trends
