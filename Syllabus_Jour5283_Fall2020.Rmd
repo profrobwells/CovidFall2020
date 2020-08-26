@@ -9,7 +9,8 @@ output: html_document
 ---  
 
 Remote Delivery. Class Time: Monday-Wednesday,  9:40 a.m.-10:55 a.m.    
-Aug. 24 - Dec. 9, 2020    
+Aug. 24 - Dec. 9, 2020   
+**Syllabus updated Aug. 26, 2020**  
 
 ---   
 
@@ -27,21 +28,21 @@ E-mail: rswells@uark.edu
 
 **Course Description:** The data skills taught in this class are in high demand in newsrooms and corporations.
 
-This course will teach students how to code in R and how this powerful tool is used in modern news reporting. Quality reporting in newsrooms requires a solid foundation of data analysis. 
+This course will report on an evolving news story, the COVID-19 outbreak in Arkansas.
 
-This course will also report on an evolving news story, the COVID-19 outbreak in Arkansas.
+The class will run Arkansascovid.com -- https://arkansascovid.com/ -- a popular data portal. We will examine Covid-19 data in Arkansas and produce stories based on this data, primarily on racial disparities with the disease. We will send out Tweets and produce podcasts.
 
-The class will partner with a local blogger, Misty Orpin, founder of Arkansascovid.com -- https://arkansascovid.com/ -- a popular data portal. We will examine Covid-19 data in Arkansas and produce stories based on this data, primarily on racial disparities with the disease.
+Students will use Tableau for data visualization and will learn how to code in R. Both are powerful tools used in modern news reporting. Quality reporting in newsrooms requires a solid foundation of data analysis. 
 
-This class also will collaborate with students and faculty with the Howard Center for Investigative Journalism at the University of Maryland's Philip Merrill College of Journalism. 
 
 **Learning Outcomes:** 
 
-    Proficiency in R and R Studio
+    Operation of a real-time multimedia news site   
     Reporting and producing multimedia stories with data
     Best practices in data project management
+    Best practices for news reporting with Twitter
     Create basic data visualizations for web publication
-    Manage GitHub into a data journalism workflow
+    Proficiency in R and R Studio
     Identify the limitations, strengths and weaknesses of datasets
     Determine how data management by governments may impact the public
     Understand how data analysis and reporting can advance journalism
@@ -84,8 +85,8 @@ Select readings posted course website
     
 **Grading:**   
 
-    Assignments: 60 percent
-    Homework: 20 percent
+    Assignments: 45 percent
+    Homework: 35 percent
     Class Participation: 20 percent
  
 Plagiarism or fabrication will result in your dismissal from class with an F for the course and a recommendation you be dismissed from the college.
@@ -140,9 +141,12 @@ I will record all class sessions.
 
 
 **Attendance:**  
-This is a small class and your attendance to each session is very important. Your colleagues will be relying on you to show up and show up prepared. 
 
-I will note who is attending class and that will be a factor in your class participation grade. I also realize the class is being offered during a pandemic, so I will be flexible in the event health issues prevent your attendance. Please follow this basic rule: communicate with me about any absence as soon as you can. 
+We will be publishing Arkansascovid.com, so your attendance will be very important. Your colleagues will be relying on you to show up and show up prepared. 
+
+If for some reason you cannot make a class or a publishing assignment, please let me know as soon as possible so I can arrange for a substitute.
+
+The class is being offered during a pandemic, so I will be flexible in the event health issues prevent your attendance. Please follow this basic rule: communicate with me about any absence as soon as you can. 
 
 **Online Etiquette:**  
 Let us all resist the temptation to multitask during class and instead **be present in the brief time we have together.** 
@@ -167,8 +171,12 @@ Wells is the former deputy bureau chief for Dow Jones Newswires/Wall Street Jour
 
 **Schedule of Instruction**  
 
-Please see the course outline: TK TK by Aug. 24
+Please see the course outline: https://profrobwells.github.io/CovidFall2020/Schedule_Fall2020_Jour5283_Data.html
 
+
+**Homework:**
+
+We will spread some of the daily publishing duties of Arkansascovid.com through the homework assignments. On a rotating schedule, students will produce Tweets for daily publication.
 
 **Assignments: **
 An assignment uploaded late (after 11:59 p.m. on the designated day, according to Blackboard) will be reduced by one grade, and will be reduced a full grade for every subsequent day.
