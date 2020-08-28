@@ -120,24 +120,14 @@ daily1 <- daily1 %>%
 ##Change with Austin
 New Cases = Positive Today - Positive Yesterday
 
-for (i in nrow(daily1)) {
-  if (daily1$county[i]==daily1$county[i + 1]){
-  daily1$county[i] %>% 
-  mutate(new_cases_today = (lag(positive)-positive)) %>% 
-  mutate(recovered_since_yesterday = (lag(recovered)-recovered)) %>% 
-  mutate(new_deaths_today = (lag(total_deaths)-total_deaths)) %>% 
-  mutate(new_tests_dashboard = (lag(number_tested)-number_tested)) }
-  }
-
-
-
-New Cases = Positive Today - Positive Yesterday
 ```{r}
-daily1 <- daily1 %>% 
-  mutate(new_cases_today = (lag(positive)-positive)) %>% 
-  mutate(recovered_since_yesterday = (lag(recovered)-recovered)) %>% 
-  mutate(new_deaths_today = (lag(total_deaths)-total_deaths)) %>% 
-  mutate(new_tests_dashboard = (lag(number_tested)-number_tested)) 
+daily1 <- daily1 %>%
+  mutate(new_cases_today = (positive-lead(positive))) %>%
+  mutate(recovered_since_yesterday = (recovered-lead(recovered))) %>%
+  mutate(new_deaths_today = (total_deaths-lead(total_deaths))) %>%
+  mutate(new_tests_dashboard = (number_tested-lead(number_tested)))
+
+daily1 <- daily1 %>% filter(date > "2020-08-18")
 ```
 
 Fact Check
