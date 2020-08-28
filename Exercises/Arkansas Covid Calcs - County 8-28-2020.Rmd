@@ -117,6 +117,20 @@ daily1 <- daily1 %>%
   arrange(county) 
 ```
 
+##Change with Austin
+New Cases = Positive Today - Positive Yesterday
+
+for (i in nrow(daily1)) {
+  if (daily1$county[i]==daily1$county[i + 1]){
+  daily1$county[i] %>% 
+  mutate(new_cases_today = (lag(positive)-positive)) %>% 
+  mutate(recovered_since_yesterday = (lag(recovered)-recovered)) %>% 
+  mutate(new_deaths_today = (lag(total_deaths)-total_deaths)) %>% 
+  mutate(new_tests_dashboard = (lag(number_tested)-number_tested)) }
+  }
+
+
+
 New Cases = Positive Today - Positive Yesterday
 ```{r}
 daily1 <- daily1 %>% 
