@@ -55,6 +55,12 @@ covid <- janitor::clean_names(covid)
 glimpse(covid)
 ```
 
+```{r}
+names(covid)
+#County data = Columns 1-24
+#Hospital data = Columns 25-46
+```
+
 - **Extract Population**
 ```{r}
 population <- covid %>% 
@@ -106,36 +112,181 @@ head(daily)
 - **Now We Do The Math**
 - **Previous Date Calculations**
 
-Create Two Days' Worth of Data, Sort Alphbetically and Run Calculations
+Create Temporary Table Two Days' Worth of Data
+Sort Alphbetically and Run Calculations
+You should get a df with 152 observations (two days' worth a data)
 ```{r}
-daily1 <- daily %>% 
+temp <- daily %>% 
   filter(date > "2020-08-17") #select YESTERDAY to get two days of data
 ```
 
 ```{r}
-daily1 <- daily1 %>% 
+temp <- temp %>% 
   arrange(county) 
 ```
 
-##Change with Austin
-New Cases = Positive Today - Positive Yesterday
+```{r}
+glimpse(temp)
+```
+
+-**The Today-Yesterday Calculations**
+
+    This calculates:
+    Column K (New Cases Today)=J2-J3 
+    Column N (Recovered Since Yesterday: =M2-M3)
+    Column P (New Deaths Today: =O2-O3)
+    Column R (New Tests Dashboard: =Q2-Q3)
+    
 
 ```{r}
-daily1 <- daily1 %>%
+temp <- temp %>%
   mutate(new_cases_today = (positive-lead(positive))) %>%
   mutate(recovered_since_yesterday = (recovered-lead(recovered))) %>%
   mutate(new_deaths_today = (total_deaths-lead(total_deaths))) %>%
   mutate(new_tests_dashboard = (number_tested-lead(number_tested)))
 
-daily1 <- daily1 %>% filter(date > "2020-08-18")
+temp <- temp %>% filter(date > "2020-08-18")
 ```
+
+
+```{r}
+glimpse(temp)
+```
+
+**Fact Checked: OK**
+Math on the 136-139
+x <- temp %>% 
+  select(date, county, recovered, recovered_since_yesterday)
+x
+Math on 171
+x <- temp %>% 
+  select(date, county, pct_positive_new_today, new_cases_today,new_tests_dashboard )
+
+```{r}
+x <- temp %>% 
+  select(date, county, pct_positive_new_today, new_cases_today,new_tests_dashboard )
+x
+```
+
+```{r}
+names(temp)
+```
+
+-**The Percentage Calculations**
+
+This calculates
+Column E (Cases/population = (positive / population) *100
+Column F (Tested/population = (Number tested / population) *100
+Column G (New Cases Today per 10k Population = (New Cases Today / population) *10000
+Column H (Active Cases per 10k = (current_infections / population) *10000
+Column T (% Positive Cumulative = (positive / Number tested) *100
+Column U (% Positive New to Dashboard = New Cases Today / New Tests Dashboard) * 100
+Column V (Closed = Recovered + Total Deaths)
+Column W (% Deaths vs. Recoveries = Total Deaths / Closed) * 100
+Column X (% Recoveries vs. Deaths = Recovered / Closed) * 100
+
+
+```{r}
+temp <- temp %>%
+  mutate(cases_population = (positive / population)*100) %>% 
+  mutate(tested_population = (number_tested / population)*100) %>% 
+  mutate(new_cases_today_10k_pop = (new_cases_today/population)*10000) %>% 
+  mutate(active_cases_10k_pop = (current_infections/population)*10000) %>% 
+  mutate(pct_positive_cumulative = (positive/number_tested)*100) %>% 
+  mutate(pct_positive_new_to_dashboard = (new_cases_today/new_tests_dashboard)*100) %>% 
+  mutate(closed = (recovered + total_deaths)) %>% 
+  mutate(pct_deaths_vs_recoveries = (total_deaths/closed)*100) %>% 
+  mutate(pct_recoveries_vs_deaths = (recovered/closed)*100)
+  
+temp
+```
+```{r}
+glimpse(temp)
+```
+
+-**This now matches Columns A-X in BeAll Sheet, DateMaster**
+Hospital and state calculations in a separate sheet
+```{r}
+names(temp)
+```
+
+align names in order of covid table
+```{r}
+temp <- temp %>% 
+  select(county,date,population,cases_population,tested_population,new_cases_today_10k_pop,active_cases_10k_pop,current_infections,positive, new_cases_today, negative, recovered, recovered_since_yesterday, total_deaths, new_deaths_today, number_tested, new_tests_dashboard, pct_positive_cumulative, pct_positive_new_to_dashboard, closed, pct_deaths_vs_recoveries, pct_recoveries_vs_deaths)
+names(temp)
+```
+
+colnames(covid_temp)[6,7,18,19,21,22] <- c("new_cases_today_10k_pop", "active_cases_10k_pop", "pct_positive_cumulative", "pct_positive_new_to_dashboard", "pct_deaths_vs_recoveries", "pct_recoveries_vs_deaths")
+
+
+# Part #3: JOINING AND ARCHIVING   
+
+-**Update the main sheet, archiving**
+```{r}
+#Create a standalone copy of the TODAY'S data with the calculations
+Day_8292020 <- temp
+#Create a backup of the main db
+covid_temp <- covid
+
+```
+
+RENAME COLUMNS TO MATCH NEW FILE
+```{r}
+covid_temp <- covid_temp %>% 
+  #rename(NEW NAME = EXISTING NAME) %>% 
+  rename(new_cases_today_10k_pop = new_cases_today_per_10k_population) %>% 
+  rename(active_cases_10k_pop = active_cases_per_10k) %>% 
+  rename(pct_positive_cumulative = percent_positive_cumulative) %>% 
+  rename(pct_positive_new_to_dashboard = percent_positive_new_to_dashboard) %>% 
+  rename(pct_deaths_vs_recoveries = percent_deaths_vs_recoveries) %>% 
+  rename(pct_recoveries_vs_deaths = percent_recoveries_vs_deaths)
+```    
+
+This aligns DateMaster to the Day_8292020 file
+```{r}
+#Data cleaning and normalization. Cut state (C), new case date corrected (S) column, hospital data (Y-AT)
+#Hospital data is a separate process
+covid_temp <- covid_temp[ -c(3,19,25:46) ]
+glimpse(covid_temp)
+names(covid_temp)
+```
+
+One time cut latest day's data 
+```{r}
+covid_temp <- covid_temp %>% 
+   filter(date < "2020-08-18")
+head(covid_temp)
+```
+
+-**Join Append the New and Existing**
+```{r}
+covid_update <- rbind(Day_8292020,covid_temp)
+
+```
+
+
+
+
+
+
+
+```{r}
+daily <- api %>% 
+  # filter(date > "2020-08-18") %>% filtered one time for data validation - all ok
+  inner_join(population1, by="county")
+head(daily)
+```
+
+
+
 
 NORMALIZE DATES BEFORE JOINING
 ```{r}
 
 daily$date <- as.Date(daily$date) 
 
-daily2$date <- as.Date(daily2$date) 
+daily1$date <- as.Date(daily1$date) 
 ```
 
 ```{r}
