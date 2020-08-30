@@ -18,6 +18,9 @@ output:
     @rwells1961  
 
 
+<img src="Images/ArkansasCovid.png" width="100" height="100" />
+
+
 > [**Syllabus - Jour 5283**: "CNTL" + click for a New Tab](https://profrobwells.github.io/CovidFall2020/Syllabus_Jour5283_Fall2020.html){target="_blank"}   
 
 > [**Course GitHub site**: "CNTL" + click for a New Tab](https://github.com/profrobwells/CovidFall2020){target="_blank"}   
@@ -244,28 +247,161 @@ https://video.uark.edu/media/Census1+-+Importing+Data/1_xykm3ovj
 
 **Agenda**
 
-    Prepare Questions for Misty Orpin
-    Arkansascovid.com workflow
+    Update on Daily Work Process
+    Who Are We?  
+    Review Tweet Assignment. Tableau     
+    Story Pitches    
+    Arkansascovid.com workflow    
+    R Basics    
+    Prepare Questions for Misty Orpin  
+    What is Wrong With This Picture
+**_________________________________________________________________________________________**
     
+**Random: My nephew, Nick Wells, on a 40-mile trail run Saturday on Mt Hood in Oregon**
+
+<img src="Images/Nick Wells on Mt Hood.jpeg" width="200" height="200" />
+
+<img src="Images/MtHood.jpeg" width="200" height="400" />
+
+**_________________________________________________________________________________________**
+
+**Here's an update**
+
+I made a lot of progress over the weekend figuring out the automation process to gather and crunch the daily numbers. I will discuss this in class but I want you all to check this short video before class tomorrow.
+
+https://video.uark.edu/media/ADH+Data+Flow+to+Arkcovid/0_c6hn4feo
+
+
+After looking at everything, I turned to R to streamline the data gathering and analysis process. So I will be teaching you guys the basic R in tandem with Tableau. They fit hand in hand. 
+
+<img src="Images/ArkansasCovid.png" width="100" height="100" />
+
+
+For this class, the grading be based on a combination of daily task work to keep the site running and a few assignments that highlight the data skills I want you to learn this semester.
+
+- **Daily Tasks** 
+            
+            Some combination of these each week:   
+             
+            See link to Daily Tasks in Teams    
+            Tweeting duties: 
+               Prepare and monitor twitter for research requests, feedback, engagement.    
+               Draft responses. Post in Teams     
+            Data Visualizations   
+            Data Maintenance for Site    
+            Web design, posting   
+            Shorter stories    
+            Improvements   
+            UATV or other media partnership / appearance 
+            Work with another class
+            Tasks TBD 
+            
+Each week you'll put a report of your activities in the "Daily Tasks" Assignment in Blackboard. Instructions are on that assignment.
+
+The grading will be guided by this concept: Meaningful contributions to the website each week will get an A. Anything short of that will get a lower grade. **I expect you guys will get As each week.** The term "meaningful contributions" is deliberately vague since we are in an evolving process. I don't want to set a floor for minimal behavior - I am going to push you pretty hard and want you to multitask effectively. I would view the grading like this: Someone will get less than an A if they don't communicate or flake out on an assignment. If you demonstrate to me that you are trying, we don't have a problem.
+
+
+
+- **Assignments**
+
+            There are still four in the semester but there will be more flexibility on when they are handed in and what the content will involve. The basic skills I want everyone to learn remain the same: 
+            
+            —Carefully reported enterprise stories   
+            —Data Visualization in R, Tableau (or Flourish)   
+            -R Data Analysis with a basic chart   
+            —Major Data Maintenance, Restructuring for Site      
+            
+ 
+The R and Tableau instructional material will be delivered like before. I will count on you guys to work through the exercises and gain basic competency. 
+
+Teams Has Two Standing Documents Posted for Daily Tasks and Story Pitches, which I will discuss below
+
+
+- **Who Are We?**
+
+    I have done a few media interviews since the announcement Thursday. First, the announcement was met by a great deal of enthusiasm in the community, among senior faculty and the like.   
+    A few questions came up.   
+    
+    --Will we have the opinions that Misty offered in her Twitter feed? My response is Misty came to her opinions after some very in-depth reporting. My class is oriented towards the Associated Press style of reporting, hard news and analysis. Our posts will be rooted in-depth reporting that is transparent to the readers.     
+    
+    --How do we respond to people who ask us Covid-19 questions? If you have the answer and can supply the source, then reply, noting you are speaking for yourself. If you are in doubt, say you don't know and that you'll raise the issue for the class.   
+    
+    This should serve as a reminder that everyone in this class will be in a social media fishbowl. People may troll us and look in our social media feeds to find things to embarass the project. Keeping your personal social media feeds professional will be important. This is one thing all journalists need to acknowledge.  
+    
+    
+
+- **Tasks To Do**
+
+    See document in Teams
+    Suggest a task here. put a comment on it and tag me. If I agree, I'll add it
+    
+
+
+- **Story Pitches**
+
+    See document in Teams. If you have a story idea, even if it is not fully developed, put it here and the class can examine and discuss it.
+    
+**_________________________________________________________________________________________**
 
 **Exercise**
 
     Arkansascovid.com Tableau Lesson #2
     
+**Basic R exercise**
+
+https://profrobwells.github.io/Guest_Lectures/Intro_To_R/R1_Intro-to-R.html
+
+--Left click on the link below, remove .txt extension, save as all files 
+
+https://github.com/profrobwells/CovidFall2020/blob/master/Exercises/Intro%20to%20R%208-20-2020.Rmd
+
+
+
+**Ch 1 & 2 of Machlis: Key Points **  
+
+    Reproducible research 
+    Repetitive tasks in modern newsrooms.  Employment reports, crime stats, budgets
+    Variables - an R object
+    Assignment operator <-
+    Case sensitive
+    Vector: A vector can only have one type of data - all integers, all strings
+    Dataframe - like a spreadsheet
+    Save files - Don’t save workspace: because all of your variables will be stored and re-loaded the next time you launch RStudio. It’s too     easy to forget about previously stored variables that can interfere with later work,
+
+    
+**Software packages**: tidyverse, rio, pacman
+
+<img src="Images/Popular R libraries.png" width="500" height="250" />
+
+**Data Types and R**   
+
+    Machlis: 2.4.2 Data types you’re likely to use often
+
+<img src="Images/Slide Data Structures in R.jpeg" width="300" height="100" />
+
+**_________________________________________________________________________________________**
+
+#### Homework due Tuesday, Sept. 1, 11:59 p.m.
+
+1) Three specific questions for Misty Orpin, our guest speaker Wednesday. Ask about the site's workflow, her tone and voice on Twitter, her interactions with the public on social media, her concerns about the state data, or something else of significance. Post your questions in Teams
+      
+2) What Is Wrong With This Picture?   
+      Examine this graphic and the data. 
+      
+<img src="Images/ADHPositivitymap8_28_2020.jpeg" width="300" height="500" />      
+      
+Consider the news reporting on Covid-19 trends in Arkansas and issues with data. Tell me what you think are the issues with this graphic. Post your comment on Teams. One paragraph or so.
 
 #### Read Before Next Class 
 
     
-    Cohen, "Numbers in the Newsroom," Common Mistakes. 
-    Basics of Data Analysis (On Blackboard)
+    Cohen, "Numbers in the Newsroom," Common Mistakes.   
+    Machlis. Ch 4: Import Data into R    
+    Basics of Data Analysis (On Blackboard)   
 https://learn.uark.edu/webapps/blackboard/content/listContent.jsp?course_id=_276555_1&content_id=_8815471_1
+    
 
-#### Homework due Tuesday, Sept. 1, 11:59 p.m.
-
-      Three specific questions for Misty Orpin. Ask about the site's workflow, her Twitter feed, her concerns about the state data, or something else of significance. Post your questions in Teams
-
-
----
+**_________________________________________________________________________________________**
 
 ## Wednesday, Sept. 2 
 
