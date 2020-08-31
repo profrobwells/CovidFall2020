@@ -254,15 +254,19 @@ https://video.uark.edu/media/Census1+-+Importing+Data/1_xykm3ovj
     Arkansascovid.com workflow    
     R Basics    
     Prepare Questions for Misty Orpin  
-    What is Wrong With This Picture
+    What is Wrong With This Picture    
+    
 **_________________________________________________________________________________________**
     
 **Random: My nephew, Nick Wells, on a 40-mile trail run Saturday on Mt Hood in Oregon**
+
+<center>
 
 <img src="Images/Nick Wells on Mt Hood.jpeg" width="200" height="200" />
 
 <img src="Images/MtHood.jpeg" width="200" height="400" />
 
+</center>
 **_________________________________________________________________________________________**
 
 **Here's an update**
@@ -298,7 +302,7 @@ For this class, the grading be based on a combination of daily task work to keep
             
 Each week you'll put a report of your activities in the "Daily Tasks" Assignment in Blackboard. Instructions are on that assignment.
 
-The grading will be guided by this concept: Meaningful contributions to the website each week will get an A. Anything short of that will get a lower grade. **I expect you guys will get As each week.** The term "meaningful contributions" is deliberately vague since we are in an evolving process. I don't want to set a floor for minimal behavior - I am going to push you pretty hard and want you to multitask effectively. I would view the grading like this: Someone will get less than an A if they don't communicate or flake out on an assignment. If you demonstrate to me that you are trying, we don't have a problem.
+The grading will be guided by this concept: Make meaningful contributions to the website each week. The term "meaningful contributions" is deliberately vague since we are in an evolving process. I don't want to set a floor for minimal behavior - I am going to push you pretty hard and want you to multitask effectively. I would view the grading like this: Someone will get less than an A if they don't communicate or flake out on an assignment. If you demonstrate to me that you are trying, we don't have a problem.
 
 
 
@@ -345,7 +349,11 @@ Teams Has Two Standing Documents Posted for Daily Tasks and Story Pitches, which
 
 **Exercise**
 
-    Arkansascovid.com Tableau Lesson #2
+Arkansascovid.com Tableau Lesson #2
+--Notes are in Teams
+
+https://wordpressua.uark.edu/datareporting/tableau/
+
     
 **Basic R exercise**
 
@@ -355,6 +363,11 @@ https://profrobwells.github.io/Guest_Lectures/Intro_To_R/R1_Intro-to-R.html
 
 https://github.com/profrobwells/CovidFall2020/blob/master/Exercises/Intro%20to%20R%208-20-2020.Rmd
 
+Second option: If that isn't successful, then go to the 
+https://raw.githubusercontent.com/profrobwells/CovidFall2020/master/Exercises/Intro%20to%20R%208-20-2020.Rmd
+
+Third option: Download "Intro to R 8_20_2020.rmd from your browser directly.
+https://github.com/profrobwells/CovidFall2020/tree/master/Exercises
 
 
 **Ch 1 & 2 of Machlis: Key Points **  
