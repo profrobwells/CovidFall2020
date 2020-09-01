@@ -31,7 +31,7 @@ library(lubridate)
 #install.packages("googledrive")
 #install.packages("googlesheets4")
 library(googlesheets4)
-library("googledrive")
+library(googledrive)
 library(tidyr)
 # vignette("basic-usage", package="googlesheets")
 ```
@@ -40,6 +40,11 @@ library(tidyr)
 url <- ("https://docs.google.com/spreadsheets/d/16mdoWm0k3JUllm3InhoD_Jiq0lbArO_UGum8NMp9USU/edit#gid=0")
 
 covid <- read_sheet(url)
+```
+
+-**Google Pain in the Ass Workaround**
+```{r}
+covid <- rio::import("THE DOWNLOADED FILE HERE")
 ```
 
 - **Clean Names**
@@ -82,7 +87,7 @@ Sort Alphbetically and Run Calculations
 You should get a df with 150 observations (two days' worth a data)
 ```{r}
 temp <- daily %>% 
-  filter(date > "2020-08-26") %>%  #INPUT A DATE FROM TWO DAYS AGO to get two days' of data
+  filter(date > "2020-08-28") %>%  #INPUT A DATE FROM TWO DAYS AGO to get two days' of data
 arrange(county) 
 ```
 
