@@ -36,21 +36,7 @@ library(tidyr)
 # vignette("basic-usage", package="googlesheets")
 ```
 
--**Call Google for access
-```{r}
-#gs_auth(path ="Google.access.arkcovid.json")
 
-#library(googledrive)
-
-# method 1: direct provision client ID and secret
-google_app <- httr::oauth_app(
-  "ArkCovid",
-  key = "675313068698-7mgde8142jsmecqppt3ume6san11l1l6.apps.googleusercontent.com",
-  secret = "b1xvgkqcdWcJGVUpQ6dQgYuY"
-)
-drive_auth_configure(app = google_app)
-
-```
 
 ```{r}
 url <- ("https://docs.google.com/spreadsheets/d/16mdoWm0k3JUllm3InhoD_Jiq0lbArO_UGum8NMp9USU/edit#gid=0")
