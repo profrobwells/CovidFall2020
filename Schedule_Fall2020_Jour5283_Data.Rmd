@@ -357,7 +357,7 @@ https://wordpressua.uark.edu/datareporting/tableau/
     
 **Basic R exercise**
 
-https://profrobwells.github.io/Guest_Lectures/Intro_To_R/R1_Intro-to-R.html
+
 
 --Left click on the link below, remove .txt extension, save as all files 
 
@@ -365,6 +365,9 @@ https://github.com/profrobwells/CovidFall2020/blob/master/Exercises/Intro%20to%2
 
 Second option: If that isn't successful, then go to the 
 https://raw.githubusercontent.com/profrobwells/CovidFall2020/master/Exercises/Intro%20to%20R%208-20-2020.Rmd
+--Left Click on document
+--Save as ALL FILES. REMOVE .TXT extension
+
 
 Third option: Download "Intro to R 8_20_2020.rmd from your browser directly.
 https://github.com/profrobwells/CovidFall2020/tree/master/Exercises
@@ -430,28 +433,26 @@ https://learn.uark.edu/webapps/blackboard/content/listContent.jsp?course_id=_276
    
 #### Homework due Saturday, Sept. 5, 11:59 p.m.
 
-      Another exercise will test out your Twitter skills. It is not a live Tweeting exercise. That will come this week!
-    
-      Tweeting: Examine the Arkansascovid.com data for Sept. 4.   
-    
-      Create a Google Doc.   
-    
-    Produce four draft tweets based on new cases, deaths and two other items based on Gov. Hutchison's Sept. 4 press conference, found here:
-    
-    https://www.youtube.com/channel/UCLJcNdgp2PMEmiqJEoYzqwQ
-    
-    Provide a Tableau image for each Tweet.   
-    
-    Post the Google Doc link on the Blackboard assignment.
+For **Kendal, Obed, Quincy**: 
+      Tableau Skills Part 2, Sept. 2, 2020
+      Work on this exercise on calculated fields. Make the assigned graphcs, insert into a Google Doc. Put that in your weekly memo due Saturday.    
+https://wordpressua.uark.edu/datareporting/tableau/
 
----   
+For **Mary and Abby**:
+      
+      Look in the Machlis book about how to navigate R Markdown files.
+      Load this tutorial in your R Studio and run it. 
+      Contact me with questions.
+      Introduction to R
+https://raw.githubusercontent.com/profrobwells/CovidFall2020/master/Exercises/Intro%20to%20R%208-20-2020.Rmd
 
-# Week #3: Data Types. Loading Data
+      --Left Click on document
+      --Save as ALL FILES. REMOVE .TXT extension
+      
+For **Katy**:
 
-## Monday, Sept. 7. 
-  
-**Happy Labor Day!** 
-**No Class**
+      Continue testing Arkansascovid scripts
+      Work with Wells on GitHub account
     
 #### Read Before Next Class   
 
@@ -461,6 +462,16 @@ https://learn.uark.edu/webapps/blackboard/content/listContent.jsp?course_id=_276
   
     Refresher: Numbers in the Newsroom (On Blackboard)
 https://learn.uark.edu/webapps/blackboard/content/listContent.jsp?course_id=_276555_1&content_id=_8815471_1
+
+---   
+
+# Week #3: Data Types. Loading Data
+
+## Monday, Sept. 7. 
+  
+**Happy Labor Day!** 
+**No Class**
+
 
 ## Wednesday, Sept. 9   
 
