@@ -69,8 +69,8 @@ glimpse(state)
 **Rename data to align with Arkansascovid's Date Master BeAll sheet**
 
 ```{r}
-colnames(state)[2:12] <- c("date", "recovered","new_cases_today", "hospitalized","vent", "ever_hospitalized", "ever_on_a_vent", "total_deaths",
-"positive", "current_infections", "negative")
+colnames(state)[2:12] <- c("Date", "Recovered","New_Cases_Today", "Hospitalized","Vent", "Ever_Hospitalized", "Ever_on_a_Vent", "Total_Deaths",
+"Positive", "Current_Infections", "Negative")
 
 ```
 
@@ -78,9 +78,9 @@ colnames(state)[2:12] <- c("date", "recovered","new_cases_today", "hospitalized"
 - **Add State Population, Convert to dataframe**
 ```{r}
 state <- state %>% 
-  mutate(population ="3017804")
+  mutate(Population ="3017804")
 
-state$population <- as.numeric(state$population)
+state$Population <- as.numeric(state$Population)
 #cut timestamp column
 state <- state[ -c(1) ]
 #create dataframe
@@ -94,7 +94,8 @@ glimpse(state)
 -**Create Number Tested Field**
 ```{r}
 state <- state %>% 
-  mutate(number_tested=(positive+negative))
+  #mutate(Number_Tested=(Positive+Negative)) %>% 
+  arrange(desc(Date))
 
 ```
 
@@ -116,13 +117,30 @@ today <- Sys.Date()
 yesterday <- (today-1)
 
 ```
-
+-**One Time* building yesterday's data
+```{r}
+#Sept 2 date
+today <- Sys.Date()-1
+#Sept 1 date
+yesterday <- (today-1)
+```
 --**Check the dates are correct and that the data is filtered for today, yesterday**
-
+-**One Time for Sept 1 data
 ```{r}
 twodays <- state %>% 
-  filter(date >= yesterday) %>%  #get two days' of data
-arrange(desc(date)) 
+  filter(Date >= "2020-08-31") %>%  #get two days' of data
+arrange(desc(Date)) 
+```
+
+```{r}
+twodaysbak <- twodays
+```
+
+-**end of one time**
+```{r}
+twodays <- state %>% 
+  filter(Date >= yesterday) %>%  #get two days' of data
+arrange(desc(Date)) 
 ```
 
 ```{r}
@@ -146,16 +164,16 @@ head(twodays)
 
 ```{r}
 temp <- twodays %>%
-  mutate(new_cases_today = (positive-lead(positive))) %>%
-  mutate(recovered_since_yesterday = (recovered-lead(recovered))) %>%
-  mutate(new_deaths_today = (total_deaths-lead(total_deaths))) %>%
-  mutate(new_tests_dashboard = (number_tested-lead(number_tested))) %>% 
-  mutate(hosp_change_from_yesterday = (hospitalized-lead(hospitalized))) %>% 
-  mutate(new_admits = (ever_hospitalized-lead(ever_hospitalized))) %>% 
-  mutate(new_discharges_deaths = (new_admits-hosp_change_from_yesterday)) %>% 
-  mutate(pct_hospitalized = (hospitalized/current_infections)*100) %>% 
-  mutate(new_on_vent = (ever_on_a_vent-lead(ever_on_a_vent))) %>% 
-  mutate(pct_vent = (vent/hospitalized)*100) 
+  mutate(New_Cases_Today = (Positive-lead(Positive))) %>%
+  mutate(Recovered_Since_Yesterday = (Recovered-lead(Recovered))) %>%
+  mutate(New_Deaths_Today = (Total_Deaths-lead(Total_Deaths))) %>%
+  mutate(New_Tests_Dashboard = (Number_Tested-lead(Number_Tested))) %>% 
+  mutate(Hosp_Change_from_Yesterday = (Hospitalized-lead(Hospitalized))) %>% 
+  mutate(New_Admits = (Ever_Hospitalized-lead(Ever_Hospitalized))) %>% 
+  mutate(New_Discharges_Deaths = (New_Admits-Hosp_Change_from_Yesterday)) %>% 
+  mutate(Pct_Hospitalized = (Hospitalized/Current_Infections)*100) %>% 
+  mutate(New_on_Vent = (Ever_on_a_Vent-lead(Ever_on_a_Vent))) %>% 
+  mutate(Pct_Vent = (Vent/Hospitalized)*100) 
 ```
 
 
@@ -175,7 +193,7 @@ wholetable <- state %>%
 
 - **IMPORTANT: FILTER TABLE TO TODAY'S RESULTS**
 ```{r}
-temp <- temp %>% filter(date >= today) 
+temp <- temp %>% filter(Date >= today) 
 ```
 
 **One Time Only - filter on Sept 1**
@@ -212,16 +230,16 @@ glimpse(temp)
 
 ```{r}
 temp <- temp %>%
-  mutate(cases_population = (positive / population)*100) %>% 
-  mutate(tested_population = (number_tested / population)*100) %>% 
-  mutate(new_cases_today_10k_pop = (new_cases_today/population)*10000) %>% 
-  mutate(active_cases_10k_pop = (current_infections/population)*10000) %>% 
-  mutate(pct_positive_cumulative = (positive/number_tested)*100) %>% 
-  mutate(pct_positive_new_to_dashboard = (new_cases_today/new_tests_dashboard)*100) %>% 
-  mutate(closed = (recovered + total_deaths)) %>% 
-  mutate(pct_deaths_vs_recoveries = (total_deaths/closed)*100) %>% 
-  mutate(pct_recoveries_vs_deaths = (recovered/closed)*100) %>% 
-  mutate(county = "Arkansas_all_counties")
+  mutate(Cases_Population = (Positive / Population)*100) %>% 
+  mutate(Tested_Population = (Number_Tested / Population)*100) %>% 
+  mutate(New_Cases_Today_10k_Pop = (New_Cases_Today/Population)*10000) %>% 
+  mutate(Active_Cases_10k_Pop = (Current_Infections/Population)*10000) %>% 
+  mutate(Pct_Positive_Cumulative = (Positive/Number_Tested)*100) %>% 
+  mutate(Pct_Positive_New_to_Dashboard = (New_Cases_Today/New_Tests_Dashboard)*100) %>% 
+  mutate(Closed = (Recovered + Total_Deaths)) %>% 
+  mutate(Pct_Deaths_vs_Recoveries = (Total_Deaths/Closed)*100) %>% 
+  mutate(Pct_Recoveries_vs_Deaths = (Recovered/Closed)*100) %>% 
+  mutate(County = "Arkansas_all_counties")
   
 temp
 ```
@@ -231,7 +249,7 @@ glimpse(temp)
 ```
 
 - **ONE TIME - CALCULATIONS FOR WHOLE TABLE **
-```{r}
+
 wholetable <- wholetable %>%
   mutate(cases_population = (positive / population)*100) %>% 
   mutate(tested_population = (number_tested / population)*100) %>% 
@@ -243,7 +261,7 @@ wholetable <- wholetable %>%
   mutate(pct_deaths_vs_recoveries = (total_deaths/closed)*100) %>% 
   mutate(pct_recoveries_vs_deaths = (recovered/closed)*100) %>% 
   mutate(county = "Arkansas_all_counties")
-```
+
 
 **Fact Checked: OK**
 Math on 142-150
@@ -256,16 +274,16 @@ x
 - **Align names in order of covid table**
 ```{r}
 temp <- temp %>% 
-  select(county, date,population,cases_population,tested_population,new_cases_today_10k_pop,active_cases_10k_pop,current_infections,positive, new_cases_today, negative, recovered, recovered_since_yesterday, total_deaths, new_deaths_today, number_tested, new_tests_dashboard, pct_positive_cumulative, pct_positive_new_to_dashboard, closed, pct_deaths_vs_recoveries, pct_recoveries_vs_deaths, hospitalized, hosp_change_from_yesterday, ever_hospitalized, new_admits, new_discharges_deaths, pct_hospitalized, vent, ever_on_a_vent, new_on_vent, pct_vent)
+  select(County, Date, Population, Cases_Population,Tested_Population,New_Cases_Today_10k_Pop,Active_Cases_10k_Pop,Current_Infections,Positive, New_Cases_Today, Negative, Recovered, Recovered_Since_Yesterday, Total_Deaths, New_Deaths_Today, Number_Tested, New_Tests_Dashboard, Pct_Positive_Cumulative, Pct_Positive_New_to_Dashboard, Closed, Pct_Deaths_vs_Recoveries, Pct_Recoveries_vs_Deaths, Hospitalized, Hosp_Change_from_Yesterday, Ever_Hospitalized, New_Admits, New_Discharges_Deaths, Pct_Hospitalized, Vent, Ever_on_a_Vent, New_on_Vent, Pct_Vent)
 names(temp)
 ```
 
 - **ONE TIME - CALCULATIONS FOR WHOLE TABLE **
 
-```{r}
+
 wholetable <- wholetable %>%
   select(county, date,population,cases_population,tested_population,new_cases_today_10k_pop,active_cases_10k_pop,current_infections,positive, new_cases_today, negative, recovered, recovered_since_yesterday, total_deaths, new_deaths_today, number_tested, new_tests_dashboard, pct_positive_cumulative, pct_positive_new_to_dashboard, closed, pct_deaths_vs_recoveries, pct_recoveries_vs_deaths, hospitalized, hosp_change_from_yesterday, ever_hospitalized, new_admits, new_discharges_deaths, pct_hospitalized, vent, ever_on_a_vent, new_on_vent, pct_vent) 
-```
+
 
 ```{r}
 write.csv(wholetable, "all_state_and_hospital_9_1_2020.csv")
@@ -281,8 +299,69 @@ Missing County, state and New tests date corrected (Column S – state only calc
 -**Update the main sheet, archiving**
 ```{r}
 #Create a standalone copy of the TODAY'S data with the calculations
-Day_8_31_2020 <- temp
+Day_9_2_2020 <- temp
 ```
+
+```{r}
+glimpse(wholetable)
+```
+
+-**Import Whole Table**
+```{r}
+wholetable <- rio::import("all_state_and_hospital_9_1_2020.csv")
+```
+
+StudentLoans[10:102] <- lapply(StudentLoans[10:102], as.numeric)
+```{r}
+wholetable$date <- as.POSIXct(wholetable$date)
+#Day_9_2_2020$Date <- as.POSIXct(Day_9_2_2020$Date)
+#Day_9_2_2020$Date <- as.POSIXct(Day_9_2_2020$Date)
+wholetable[4:32] <- lapply(wholetable[4:32], as.numeric)
+wholetable <- wholetable[ -c(1) ]
+```
+
+```{r}
+glimpse(wholetable)
+```
+
+
+```{r}
+colnames(wholetable)[1:32] <- c("County", "Date", "Population", "Cases_Population","Tested_Population","New_Cases_Today_10k_Pop","Active_Cases_10k_Pop","Current_Infections", "Positive", "New_Cases_Today", "Negative", "Recovered", "Recovered_Since_Yesterday", "Total_Deaths", "New_Deaths_Today", "Number_Tested", "New_Tests_Dashboard", "Pct_Positive_Cumulative", "Pct_Positive_New_to_Dashboard", "Closed", "Pct_Deaths_vs_Recoveries", "Pct_Recoveries_vs_Deaths", "Hospitalized", "Hosp_Change_from_Yesterday", "Ever_Hospitalized", "New_Admits", "New_Discharges_Deaths", "Pct_Hospitalized", "Vent", "Ever_on_a_Vent", "New_on_Vent", "Pct_Vent")
+```
+
+```{r}
+head(wholetable)
+```
+
+
+
+```{r}
+
+```
+-**Join with Wholetable**
+```{r}
+wholetable2 <- rbind(wholetable, Day_9_2_2020)
+
+wholetable2 <- wholetable2 %>% 
+  arrange(desc(Date))
+```
+
+```{r}
+temp$Date <- as.POSIXct(temp$Date)
+glimpse(temp)
+```
+
+#Remove rows with NA
+wholetable2 <- wholetable[-c(2,183), ] 
+
+-**Join with Wholetable**
+```{r}
+wholetable <- rbind(wholetable, temp)
+```
+wholetable <- wholetable %>% 
+  arrange(desc(Date))
+```
+
 
 
 - **Retrieve BeAll from DateMaster**

@@ -1,7 +1,7 @@
 ---
 title: "Arkansas Covid Daily Update - County"
 author: "Rob Wells"
-date: "8/29/2020"
+date: "9/3/2020"
 output: pdf_document
 ---
 
@@ -87,18 +87,32 @@ head(daily)
 Create Temporary Table Two Days' Worth of Data
 Sort Alphbetically and Run Calculations
 You should get a df with 150 observations (two days' worth a data)
+--**Check the date is correct**
+
 ```{r}
-temp <- daily %>% 
-  filter(date > "2020-08-28") %>%  #INPUT A DATE FROM TWO DAYS AGO to get two days' of data
+#today's date
+today <- Sys.Date()
+#yesterday's date
+yesterday <- (today-1)
+
+```
+
+
+```{r}
+countytemp <- daily %>% 
+  filter(date >= yesterday) %>%  
 arrange(county) 
+
+countytemp$date <- as.Date(countytemp$date)
+countytemp$population <- as.numeric(countytemp$population)
 ```
 
 ```{r}
-head(temp) 
+head(countytemp) 
 ```
 
 ```{r}
-glimpse(temp)
+glimpse(countytemp)
 ```
 
 -**The Today-Yesterday Calculations**
@@ -111,7 +125,7 @@ glimpse(temp)
     
 
 ```{r}
-temp <- temp %>%
+countytemp <- countytemp %>%
   mutate(new_cases_today = (positive-lead(positive))) %>%
   mutate(recovered_since_yesterday = (recovered-lead(recovered))) %>%
   mutate(new_deaths_today = (total_deaths-lead(total_deaths))) %>%
@@ -120,22 +134,11 @@ temp <- temp %>%
 
 - **IMPORTANT: FILTER TABLE TO TODAY'S RESULTS**
 ```{r}
-temp <- temp %>% filter(date > "2020-08-27") #USE PRIOR DAY - SHOULD GET 75 ROWS IN Temp
+countytemp <- countytemp %>% filter(date > yesterday) #SHOULD GET 75 ROWS IN countytemp
 ```
 
-**Fact Checked: OK**
-
-Math on the 106-110
-x <- temp %>% 
-  select(date, county, positive, new_cases_today)
-x
-Math on the 106-110
-x <- temp %>% 
-  select(date, county, recovered, recovered_since_yesterday)
-x
-
 ```{r}
-glimpse(temp)
+glimpse(countytemp)
 ```
 
 -**The Percentage Calculations**
@@ -151,7 +154,7 @@ glimpse(temp)
     Column X (% Recoveries vs. Deaths = Recovered / Closed) * 100
 
 ```{r}
-temp <- temp %>%
+countytemp <- countytemp %>%
   mutate(cases_population = (positive / population)*100) %>% 
   mutate(tested_population = (number_tested / population)*100) %>% 
   mutate(new_cases_today_10k_pop = (new_cases_today/population)*10000) %>% 
@@ -162,39 +165,35 @@ temp <- temp %>%
   mutate(pct_deaths_vs_recoveries = (total_deaths/closed)*100) %>% 
   mutate(pct_recoveries_vs_deaths = (recovered/closed)*100)
   
-temp
+countytemp
 ```
 
 ```{r}
-glimpse(temp)
+glimpse(countytemp)
 ```
 
+**Rename data to align with Arkansascovid's Date Master BeAll sheet**
 
-**Fact Checked: OK**
-Math on 142-150
-# Column U (% Positive New to Dashboard = New Cases Today / New Tests Dashboard) * 100
-x <- temp %>% 
-  select(date, county, new_cases_today, new_tests_dashboard, pct_positive_new_to_dashboard)
-x
-- **IMPORTANT: Hospital and state calculations in a separate sheet**
-
-
-align names in order of covid table
 ```{r}
-temp <- temp %>% 
-  select(county,date,population,cases_population,tested_population,new_cases_today_10k_pop,active_cases_10k_pop,current_infections,positive, new_cases_today, negative, recovered, recovered_since_yesterday, total_deaths, new_deaths_today, number_tested, new_tests_dashboard, pct_positive_cumulative, pct_positive_new_to_dashboard, closed, pct_deaths_vs_recoveries, pct_recoveries_vs_deaths)
-names(temp)
-```
+colnames(countytemp)[1:22] <- c("County", "Date", "Positive", "Negative", "Recovered", "Total_Deaths", "Number_Tested", "Current_Infections", "Population", "New_Cases_Today", "Recovered_Since_Yesterday", "New_Deaths_Today", "New_Tests_Dashboard", "Cases_Population", "Tested_Population", "New_Cases_Today_10k_Pop", "Active_Cases_10k_Pop", "Pct_Positive_Cumulative", "Pct_Positive_New_to_Dashboard", "Closed", "Pct_Deaths_vs_Recoveries", "Pct_Recoveries_vs_Deaths")
 
--**This now matches Columns A-X in BeAll Sheet, DateMaster**
+```
 
 # Part #3: JOINING AND ARCHIVING   
 
 -**Update the main sheet, archiving**
 ```{r}
 #Create a standalone copy of the TODAY'S data with the calculations
-Day_8_29_2020 <- temp
+TODAYCOUNTY <- countytemp %>% 
+  arrange("County", "Date", "Population", "Cases_Population", "Tested_Population", "New_Cases_Today_10k_Pop", "Active_Cases_10k_Pop", "Current_Infections", "Positive",
+ "New_Cases_Today", "Negative", "Recovered", "Recovered_Since_Yesterday", "Total_Deaths", "New_Deaths_Today", "Number_Tested", "New_Tests_Dashboard",
+ "Pct_Positive_Cumulative", "Pct_Positive_New_to_Dashboard", "Closed", "Pct_Deaths_vs_Recoveries", "Pct_Recoveries_vs_Deaths")
+
+TODAYCOUNTY <- as.data.frame(TODAYCOUNTY)
+glimpse(TODAYCOUNTY)
 ```
+
+
 
 
 - **Retrieve BeAll from DateMaster**
@@ -236,11 +235,57 @@ glimpse(covid_temp)
 names(covid_temp)
 ```
 
+```{r}
+colnames(covid_temp)[1:22] <- c("County", "Date", "Population", "Cases_Population", "Tested_Population", "New_Cases_Today_10k_Pop", "Active_Cases_10k_Pop", "Current_Infections", "Positive",
+ "New_Cases_Today", "Negative", "Recovered", "Recovered_Since_Yesterday", "Total_Deaths", "New_Deaths_Today", "Number_Tested", "New_Tests_Dashboard",
+ "Pct_Positive_Cumulative", "Pct_Positive_New_to_Dashboard", "Closed", "Pct_Deaths_vs_Recoveries", "Pct_Recoveries_vs_Deaths")
+
+```
 -**Join Append the New and Existing**
 ```{r}
-covid_update <- rbind(Day_8_29_2020,covid_temp)
+covid_update <- rbind(TODAYCOUNTY,covid_temp)
 write.csv(covid_update, "covid_update.csv")
-write.csv(Day_8_29_2020, "Day_8_29_2020.csv")
+write.csv(TODAYCOUNTY, "Day_9_3_2020.csv")
+```
+
+
+-**Side Table to Be Joined Later of Hospital Data**
+```{r}
+hospital <- wholetable %>% 
+  select("County", "Date", "Hospitalized", "Hosp_Change_from_Yesterday", "Ever_Hospitalized","New_Admits", "New_Discharges_Deaths","Pct_Hospitalized","Vent","Ever_on_a_Vent","New_on_Vent","Pct_Vent")
+
+```
+
+-**Cannot Seem to Join the Hospital Table, which has only state data, to the covid_update table, which has counties and state data**
+
+**This joins the tables but the hospital data is missing**
+```{r}
+master <- covid_update %>% 
+  left_join(hospital, by=c("Date", "County"))
+
+```
+
+
+
+```{r}
+master <- merge(covid_update, hospital, by="Date", "County", all.x=TRUE)
+```
+
+```{r}
+glimpse(hospital)
+```
+
+```{r}
+glimpse(covid_update)
+```
+
+```{r}
+wholetable2 <- wholetable[ -c(23:32) ]
+```
+
+-**Join with wholetable**
+```{r}
+wholetable3 <- rbind(wholetable2, TODAYCOUNTY)
 ```
 
 
