@@ -37,7 +37,7 @@ library(tidyr)
 ```
 
 
-
+-**This loads the daily county data. The source is Austin's API sheet**
 ```{r}
 url <- ("https://docs.google.com/spreadsheets/d/16mdoWm0k3JUllm3InhoD_Jiq0lbArO_UGum8NMp9USU/edit#gid=0")
 
@@ -172,6 +172,15 @@ countytemp
 glimpse(countytemp)
 ```
 
+```{r}
+glimpse(TODAY)
+```
+
+```{r}
+TODAY_FOR_STATE <- TODAY %>% 
+  select("County", "Date", "Positive", "Negative", "Recovered", "Total_Deaths", "Number_Tested", "Current_Infections", "Population", "New_Cases_Today", "Recovered_Since_Yesterday", "New_Deaths_Today", "New_Tests_Dashboard", "Cases_Population", "Tested_Population", "New_Cases_Today_10k_Pop", "Active_Cases_10k_Pop", "Pct_Positive_Cumulative", "Pct_Positive_New_to_Dashboard", "Closed", "Pct_Deaths_vs_Recoveries", "Pct_Recoveries_vs_Deaths")
+```
+
 **Rename data to align with Arkansascovid's Date Master BeAll sheet**
 
 ```{r}
@@ -179,22 +188,27 @@ colnames(countytemp)[1:22] <- c("County", "Date", "Positive", "Negative", "Recov
 
 ```
 
+-**ADD DAILY STATE TOTALS**
+```{r}
+countytemp <- rbind(countytemp, TODAY_FOR_STATE)
+```
+
 # Part #3: JOINING AND ARCHIVING   
 
 -**Update the main sheet, archiving**
 ```{r}
 #Create a standalone copy of the TODAY'S data with the calculations
-TODAYCOUNTY <- countytemp %>% 
+TODAYCOUNTYSTATE <- countytemp %>% 
   arrange("County", "Date", "Population", "Cases_Population", "Tested_Population", "New_Cases_Today_10k_Pop", "Active_Cases_10k_Pop", "Current_Infections", "Positive",
  "New_Cases_Today", "Negative", "Recovered", "Recovered_Since_Yesterday", "Total_Deaths", "New_Deaths_Today", "Number_Tested", "New_Tests_Dashboard",
  "Pct_Positive_Cumulative", "Pct_Positive_New_to_Dashboard", "Closed", "Pct_Deaths_vs_Recoveries", "Pct_Recoveries_vs_Deaths")
 
-TODAYCOUNTY <- as.data.frame(TODAYCOUNTY)
-glimpse(TODAYCOUNTY)
+TODAYCOUNTYSTATE <- as.data.frame(TODAYCOUNTYSTATE)
+glimpse(TODAYCOUNTYSTATE)
 ```
 
 
-
+#CUT THIS FROM THE FINAL#
 
 - **Retrieve BeAll from DateMaster**
 ```{r include=FALSE}
@@ -228,31 +242,102 @@ Data cleaning and normalization. Cut state (C), new case date corrected (S) colu
 
 - **Hospital data is a separate process**
 
+
+
+#END OF CUT#
+#END OF CUT#
+#END OF CUT#
+
+-**LOAD STATE-COUNTY MASTERFILE**
+```{r}
+covid_temp <- rio::import("county_state_master.csv")
+
+```
+
+
 ```{r}
 
-covid_temp <- covid_temp[ -c(3,19,25:46) ]
+covid_temp <- covid_temp[ -c(1) ]
 glimpse(covid_temp)
 names(covid_temp)
 ```
 
-```{r}
+##not needed any longer
+##not needed any longer
+##not needed any longer
 colnames(covid_temp)[1:22] <- c("County", "Date", "Population", "Cases_Population", "Tested_Population", "New_Cases_Today_10k_Pop", "Active_Cases_10k_Pop", "Current_Infections", "Positive",
  "New_Cases_Today", "Negative", "Recovered", "Recovered_Since_Yesterday", "Total_Deaths", "New_Deaths_Today", "Number_Tested", "New_Tests_Dashboard",
  "Pct_Positive_Cumulative", "Pct_Positive_New_to_Dashboard", "Closed", "Pct_Deaths_vs_Recoveries", "Pct_Recoveries_vs_Deaths")
 
-```
--**Join Append the New and Existing**
+
+-**One time - remove Sept 3 from covid_temp**
+
+covid_temp <- covid_temp %>% 
+  filter(Date < "2020-09-02")
+##not needed any longer
+##not needed any longer
+##not needed any longer
+
+
+-**Join New County-State Data and Append to Existing Master File**
+-**Change the date of the file Day_9_4_2020.csv to today's day**
 ```{r}
-covid_update <- rbind(TODAYCOUNTY,covid_temp)
-write.csv(covid_update, "covid_update.csv")
-write.csv(TODAYCOUNTY, "Day_9_3_2020.csv")
+county_state_master <- rbind(TODAYCOUNTYSTATE,covid_temp)
+write.csv(county_state_master, "county_state_master.csv")
+write.csv(TODAYCOUNTYSTATE, "Day_9_4_2020.csv")
 ```
+
+
+##FIX MASTERFILE AND ADD STATE TOTALS FOR 9/3/2020
+##FIX MASTERFILE AND ADD STATE TOTALS FOR 9/3/2020
+```{r}
+sept3 <- wholetable %>% 
+  filter(Date==("2020-09-03"))
+
+sept3 <- sept3 %>% 
+  mutate(County = case_when(County=="Arkansas_all_counties" ~ "	Arkansas (All counties)"))
+```
+
+covid_temp_x <- covid_temp
+
+covid_temp <- covid_temp[-c(11486), ] 
+
+sept3$Date <- as.Date(sept3$Date)
+covid_temp$Date <- as.Date(covid_temp$Date)
+<-
+#Remove rows with NA
+newdata <- ArkCensus[-c(1,3,5), ] 
+View(newdata)
+
+
+
+```{r}
+sept3 <- sept3 %>% 
+  select("County", "Date", "Positive", "Negative", "Recovered", "Total_Deaths", "Number_Tested", "Current_Infections", "Population", "New_Cases_Today", "Recovered_Since_Yesterday", "New_Deaths_Today", "New_Tests_Dashboard", "Cases_Population", "Tested_Population", "New_Cases_Today_10k_Pop", "Active_Cases_10k_Pop", "Pct_Positive_Cumulative", "Pct_Positive_New_to_Dashboard", "Closed", "Pct_Deaths_vs_Recoveries", "Pct_Recoveries_vs_Deaths")
+```
+
+```{r}
+covid_temp <- rbind(covid_temp, sept3)
+
+covid_temp <- covid_temp %>% 
+  arrange(("County"))
+```
+
+##FIX MASTERFILE AND ADD STATE TOTALS FOR 9/3/2020
+##FIX MASTERFILE AND ADD STATE TOTALS FOR 9/3/2020
+
 
 
 -**Side Table to Be Joined Later of Hospital Data**
 ```{r}
 hospital <- wholetable %>% 
   select("County", "Date", "Hospitalized", "Hosp_Change_from_Yesterday", "Ever_Hospitalized","New_Admits", "New_Discharges_Deaths","Pct_Hospitalized","Vent","Ever_on_a_Vent","New_on_Vent","Pct_Vent")
+
+```
+
+-**Create Separate Hospital Table**
+```{r}
+write.csv(hospital, "hospital_test.csv")
 
 ```
 
