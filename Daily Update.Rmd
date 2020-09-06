@@ -1,0 +1,649 @@
+---
+title: "Daily Update Arkansas Covid"
+author: "Rob Wells"
+date: "9/6/2020"
+output: pdf_document
+---
+
+# State Data Daily Update Arkansascovid.com Calculations
+
+- **This notebook retrieves data from a Google sheet, performs all of the county calculations and rejoins it with the main DateMaster sheet.**
+
+-**It creates a masterfile: all_state_and_hospitals.csv**
+
+# Part 1: Import State Data, Clean It
+
+```{r include=FALSE}
+library(tidyverse)
+library(janitor)
+library(lubridate)
+#install.packages("googledrive")
+#install.packages("googlesheets4")
+library(googlesheets4)
+library(googledrive)
+library(tidyr)
+# vignette("basic-usage", package="googlesheets")
+```
+
+## Retrieve State Arkansas Covid Data from ADH FEED
+
+- **Using this sheet: Copy Date Master API testing**
+https://docs.google.com/spreadsheets/d/1ikblX8tikM59ma1AftkqgGbyeZkXB6DuBtwMsVeoGYw/edit#gid=701586163
+
+
+**Read in "Daily State Data - Manual Input" from Google Sheet**
+
+
+```{r}
+url <- ("https://docs.google.com/spreadsheets/d/1ikblX8tikM59ma1AftkqgGbyeZkXB6DuBtwMsVeoGYw/edit#gid=701586163")
+
+state <- read_sheet(url, sheet = "DailyState",  col_types = NULL, na = "",trim_ws = TRUE)
+```
+```{r}
+glimpse(state)
+```
+
+
+- **Clean Names**
+```{r}
+
+state <- janitor::clean_names(state)
+```
+
+- **Cleaning: Convert data from List variables to numeric**
+```{r include=FALSE}
+state$recoveries_recovered <- as.numeric(state$recoveries_recovered)
+state$cases_added_today_new_cases_today <- as.numeric(state$cases_added_today_new_cases_today)
+state$hospitalized <- as.numeric(state$hospitalized)
+state$on_ventilators_vent <- as.numeric(state$on_ventilators_vent)
+state$ever_hospitalized_ever_hospitalized <- as.numeric(state$ever_hospitalized_ever_hospitalized)
+state$ever_on_ventilator_ever_on_a_vent  <- as.numeric(state$ever_on_ventilator_ever_on_a_vent)
+state$total_deaths_total_deaths  <- as.numeric(state$total_deaths_total_deaths)
+state$total_cases_positive  <- as.numeric(state$total_cases_positive)
+state$active_cases_current_infections  <- as.numeric(state$active_cases_current_infections)
+#Here is the Negative Test data
+state$total_negative_tests_reported_negatives <- as.numeric(state$total_negative_tests_reported_negatives) 
+
+```
+
+```{r}
+glimpse(state)
+```
+
+**Rename data to align with Arkansascovid's Date Master BeAll sheet**
+
+```{r}
+colnames(state)[2:12] <- c("Date", "Recovered","New_Cases_Today", "Hospitalized","Vent", "Ever_Hospitalized", "Ever_on_a_Vent", "Total_Deaths",
+"Positive", "Current_Infections", "Negative")
+
+```
+
+
+- **Add State Population, Convert to dataframe**
+```{r}
+state <- state %>% 
+  mutate(Population ="3017804")
+
+state$Population <- as.numeric(state$Population)
+#cut timestamp column
+state <- state[ -c(1) ]
+#convert date field
+state$Date <- as.Date(state$Date)
+#create dataframe
+state <- as.data.frame(state)
+
+state <- state %>% 
+  arrange(desc("Date"))  
+```
+
+```{r} 
+glimpse(state)
+```
+
+# Part 2: Math on State Data   
+
+- **Now We Do The Math**
+- **Previous Date Calculations**
+
+Create Temporary Table Two Days' Worth of Data
+Sort Alphbetically and Run Calculations
+You should get a df with 150 observations (two days' worth a data)
+
+--**Check the date is correct**
+
+```{r}
+#today's date
+today <- Sys.Date()
+#yesterday's date
+yesterday <- (today-1)
+
+```
+
+--**Check the dates are correct and that the data is filtered for today, yesterday**
+
+```{r}
+twodays <- state %>% 
+  filter(Date >= yesterday) %>%  #get two days' of data
+arrange(desc(Date)) 
+```
+
+```{r}
+head(twodays) 
+```
+
+
+-**The Today-Yesterday Calculations**
+
+    This calculates:
+    Column K (New Cases Today)=J2-J3 
+    Column N (Recovered Since Yesterday: =M2-M3)
+    Column P (New Deaths Today: =O2-O3)
+    Column R (New Tests Dashboard: =Q2-Q3)
+    Column Z (hosp_change_from_yesterday: Hospitals -(yesterday) Hospitals
+    Column AB (new_admits = ever_hospitalized-(yesterday) ever_hospitalized)
+    Column AC (new_discharges_deaths = Hospital change- new admits)
+    Column AD (pct_hospitalized = hospitalized / current infections) * 100
+    Column AG (new_on_vent = ever_on_a_vent - (yesterday) ever_on_a_vent
+    Column AH (pct_vent = vent / hospitalized) * 100                  
+
+```{r}
+temp <- twodays %>%
+  mutate(New_Cases_Today = (Positive-lead(Positive))) %>%
+  mutate(Recovered_Since_Yesterday = (Recovered-lead(Recovered))) %>%
+  mutate(New_Deaths_Today = (Total_Deaths-lead(Total_Deaths))) %>%
+  #mutate(New_Tests_Dashboard = (Number_Tested-lead(Number_Tested))) %>% 
+  mutate(Hosp_Change_from_Yesterday = (Hospitalized-lead(Hospitalized))) %>% 
+  mutate(New_Admits = (Ever_Hospitalized-lead(Ever_Hospitalized))) %>% 
+  mutate(New_Discharges_Deaths = (New_Admits-Hosp_Change_from_Yesterday)) %>% 
+  mutate(Pct_Hospitalized = (Hospitalized/Current_Infections)*100) %>% 
+  mutate(New_on_Vent = (Ever_on_a_Vent-lead(Ever_on_a_Vent))) %>% 
+  mutate(Pct_Vent = (Vent/Hospitalized)*100) 
+```
+
+```{r}
+glimpse(temp)
+```
+
+-**More Percentage Calculations**
+
+    Column E (Cases/population = (positive / population) *100
+    Column F (Tested/population = (Number tested / population) *100
+    Column G (New Cases Today per 10k Population = (New Cases Today / population) *10000
+    Column H (Active Cases per 10k = (current_infections / population) *10000
+    Column T (% Positive Cumulative = (positive / Number tested) *100
+    Column U (% Positive New to Dashboard = New Cases Today / New Tests Dashboard) * 100
+    Column V (Closed = Recovered + Total Deaths)
+    Column W (% Deaths vs. Recoveries = Total Deaths / Closed) * 100
+    Column X (% Recoveries vs. Deaths = Recovered / Closed) * 100
+
+```{r}
+temp <- temp %>%
+  mutate(Cases_Population = (Positive / Population)*100) %>% 
+  #mutate(Tested_Population = (Number_Tested / Population)*100) %>% 
+  mutate(New_Cases_Today_10k_Pop = (New_Cases_Today/Population)*10000) %>% 
+  mutate(Active_Cases_10k_Pop = (Current_Infections/Population)*10000) %>% 
+  #mutate(Pct_Positive_Cumulative = (Positive/Number_Tested)*100) %>% 
+  #mutate(Pct_Positive_New_to_Dashboard = (New_Cases_Today/New_Tests_Dashboard)*100) %>% 
+  mutate(Closed = (Recovered + Total_Deaths)) %>% 
+  mutate(Pct_Deaths_vs_Recoveries = (Total_Deaths/Closed)*100) %>% 
+  mutate(Pct_Recoveries_vs_Deaths = (Recovered/Closed)*100) %>% 
+  mutate(County = "Arkansas_all_counties")
+  
+temp
+```
+
+```{r}
+glimpse(temp)
+```
+
+- **Align names in order of covid table**
+#Cut Tested_Population, Number_Tested,New_Tests_Dashboard,Pct_Positive_Cumulative, Pct_Positive_New_to_Dashboard
+```{r}
+temp <- temp %>% select(County, Date, Population, Cases_Population,,New_Cases_Today_10k_Pop,Active_Cases_10k_Pop,Current_Infections,Positive, New_Cases_Today, Recovered, Recovered_Since_Yesterday, Total_Deaths, New_Deaths_Today, Closed, Pct_Deaths_vs_Recoveries, Pct_Recoveries_vs_Deaths, Hospitalized, Hosp_Change_from_Yesterday, Ever_Hospitalized, New_Admits, New_Discharges_Deaths, Pct_Hospitalized, Vent, Ever_on_a_Vent, New_on_Vent, Pct_Vent)
+
+names(temp)
+```
+
+
+# Part 3: Joining and Archiving   
+
+-**Update the main sheet, archiving**
+```{r}
+#Create a standalone copy of the TODAY'S data with the calculations
+TODAY <- temp %>% 
+  filter(Date > yesterday)
+glimpse(TODAY)
+```
+
+```{r}
+glimpse(wholetable2)
+```
+
+-**Import Whole Table**
+#IMPORTANT - CHECK THIS TABLE HAS YESTERDAY'S DATA
+```{r}
+#revision - cut later
+#XwholetableX <- rio::import("all_state_and_hospitals_9_5_2020.csv")
+wholetable <- rio::import("state_hospitals_part1.csv")
+
+```
+
+-**Fix Date, Eliminate V1 index**
+```{r}
+wholetable$Date <- as.Date(wholetable$Date)
+#cut timestamp column
+wholetable <- wholetable[ -c(1) ]
+#wholetable <- wholetable[ -c(27:33) ]
+
+
+```
+
+```{r}
+#one time - cut duplicative dates prior to April 9 
+#this to be fixed later by rejoining older data
+wholetable <- wholetable %>% 
+  filter(Date > "2020-04-08")
+
+```
+
+
+```{r}
+names(TODAY)
+```
+
+```{r}
+names(wholetable)
+```
+
+-**Join with Wholetable**
+```{r}
+wholetable <- rbind(wholetable, TODAY)
+
+wholetable <- wholetable %>% 
+  arrange(desc(Date))
+```
+
+
+```{r}
+head(wholetable)
+```
+
+
+-**Change File Name to Today's Date**
+
+```{r}
+write.csv(wholetable, "state_hospitals_part1.csv")
+```
+
+```{r}
+glimpse(wholetable)
+```
+
+## Negative Test Calculations
+
+
+-**Import Data**
+```{r}
+url <- ("https://docs.google.com/spreadsheets/d/1ikblX8tikM59ma1AftkqgGbyeZkXB6DuBtwMsVeoGYw/edit#gid=701586163")
+
+negToday <- read_sheet(url, sheet = "Negative Tests",  col_types = NULL, na = "",trim_ws = TRUE)
+```
+- **Clean Names**
+```{r}
+
+negToday <- janitor::clean_names(negToday)
+```
+
+```{r}
+glimpse(negToday)
+```
+
+- **Cleaning: Convert data from List variables to numeric**
+```{r include=FALSE}
+#Here is the Negative Test data
+negToday$Negative <- as.numeric(negToday$total_negative_tests_reported_negatives) 
+
+negToday$Date <- as.Date(negToday$date)
+
+negToday <- negToday %>% 
+  select(Date, Negative)
+
+#one time - cut duplicative dates prior to April 9 
+negToday <- negToday %>% 
+  filter(Date > "2020-04-08")
+```
+
+```{r}
+names(negToday)
+```
+
+## Join to Main Data
+
+```{r}
+df <- wholetable %>% 
+  inner_join(negToday, by=("Date"))
+```
+
+-**Create Number Tested Field**
+
+```{r}
+#LINE 104 NEGATIVE TESTS CALCULATION
+negative <- df %>% 
+  mutate(Number_Tested=(Positive+Negative)) %>% 
+  arrange(desc(Date))
+
+```
+--**Check the date is correct**
+
+```{r}
+#today's date
+today <- Sys.Date()
+#yesterday's date
+yesterday <- (today-1)
+
+```
+
+```{r}
+twodays_neg <- negative %>% 
+  filter(Date >= yesterday) %>%  #get two days' of data
+arrange(desc(Date)) 
+```
+
+```{r}
+#LINE 161 - New_Tests_Dashboard
+temp_neg <- twodays_neg %>%
+  mutate(New_Tests_Dashboard = (Number_Tested-lead(Number_Tested))) 
+```
+
+```{r}
+#LINE 189 - TESTED POPULATION
+temp_neg <- temp_neg %>%
+  mutate(Tested_Population = (Number_Tested / Population)*100) %>% 
+  mutate(Pct_Positive_Cumulative = (Positive/Number_Tested)*100) %>% 
+  mutate(Pct_Positive_New_to_Dashboard = (New_Cases_Today/New_Tests_Dashboard)*100) 
+  
+temp_neg
+```
+```{r}
+names(temp_neg)
+```
+
+-**Creates Negatives for Latest Day: 7 Columns including date**
+-**Statewide Data**
+```{r}
+NEGATIVES_TODAY <- temp_neg %>% 
+  select(Date, Negative,Number_Tested, New_Tests_Dashboard, Tested_Population,  Pct_Positive_Cumulative, Pct_Positive_New_to_Dashboard)
+
+NEGATIVES_TODAY <- NEGATIVES_TODAY %>% 
+  filter(Date==today)
+```
+
+## Join Today's Negatives With Prior Days' Data
+
+-**Import History file**
+```{r}
+glimpse(neghistory)
+```
+
+```{r}
+neghistory <- rio::import("negatives_history_master.csv")
+neghistory[3:8] <- lapply(neghistory[3:8], as.numeric)
+neghistory$Date <- as.Date(neghistory$Date)
+neghistory <- neghistory[ -c(1) ]
+
+#ONE TIME CLEANING
+#neghistory <- neghistory %>% 
+#  filter(Date > "2020-04-08")
+```
+
+-**JOIN TODAY'S NEGATIVES WITH NEGATIVE HISTORY FILE**
+```{r}
+NEGATIVES_MASTER <- rbind(neghistory, NEGATIVES_TODAY)
+
+NEGATIVES_MASTER <- NEGATIVES_MASTER %>% 
+  arrange(desc(Date))
+```
+
+```{r}
+glimpse(NEGATIVES_MASTER)
+```
+
+# Part 4: Master File -State
+-**Creates Master File all_state_and_hospitals**
+```{r}
+all_state_and_hospitals <- wholetable %>% 
+  left_join(NEGATIVES_MASTER, by=("Date"))
+
+write.csv(all_state_and_hospitals, "all_state_and_hospitals.csv")
+```
+
+```{r}
+glimpse(all_state_and_hospitals)
+```
+#  .
+# COUNTY DATA SECTION 
+#  .
+## Data Available > 4:30 pm
+
+- **This section retrieves the daily API feed on the Austin Wilkins spreadsheet, performs all of the county calculations and rejoins it with the main DateMaster sheet.**
+
+--**It creates a masterfile: "county_state_master.csv"**
+
+- **The records come from Arkansascovid Google Drive**  
+https://drive.google.com/drive/u/1/folders/1tsNmE6zeDdwpr6mVFacEXDOjn2RAjlJ3
+
+
+- **Using this sheet: Date Master API testing**
+https://docs.google.com/spreadsheets/d/16mdoWm0k3JUllm3InhoD_Jiq0lbArO_UGum8NMp9USU/edit#gid=0
+
+
+# Part 5: Import County Data, Clean It
+
+-**This loads the daily county data. The source is Austin's API sheet**
+```{r}
+url2 <- ("https://docs.google.com/spreadsheets/d/16mdoWm0k3JUllm3InhoD_Jiq0lbArO_UGum8NMp9USU/edit#gid=0")
+
+covid <- read_sheet(url2)
+```
+
+-**Google Pain in the Ass Workaround**
+Only use this if the import of the Date Master API testing doesn't work 
+```{r}
+#covid <- rio::import("THE DOWNLOADED FILE HERE")
+```
+
+- **Clean Names**
+```{r}
+covid <- janitor::clean_names(covid)
+```
+
+**Examine the Data Fields**
+```{r}
+glimpse(covid)
+```
+
+```{r}
+names(covid)
+
+```
+
+- **Extract Population**
+```{r}
+population <- rio::import("./Exercises/population.csv")
+```
+
+
+- **Each Day:** We join the new data, api, with the population and then perform the calculations
+
+```{r}
+daily <- covid %>% 
+   inner_join(population, by="county")
+head(daily)
+```
+
+# Part 6: Math on County Data  
+
+- **Now We Do The Math**
+- **Previous Date Calculations**
+
+Create Temporary Table Two Days' Worth of Data
+Sort Alphbetically and Run Calculations
+You should get a df with 150 observations (two days' worth a data)
+--**Check the date is correct**
+
+```{r}
+#today's date
+today <- Sys.Date()
+#NOTE: IF YOU ARE RUNNING THIS A DAY LATE, USE THIS CODE TO WORK PROPERLY
+#today <- Sys.Date()-1
+#yesterday's date
+yesterday <- (today-1)
+
+```
+
+
+```{r}
+countytemp <- daily %>% 
+  filter(date >= yesterday) %>%  
+arrange(county) 
+
+countytemp$date <- as.Date(countytemp$date)
+countytemp$population <- as.numeric(countytemp$population)
+```
+
+```{r}
+head(countytemp) 
+```
+
+```{r}
+glimpse(countytemp)
+```
+
+-**The Today-Yesterday Calculations**
+
+    This calculates:
+    Column K (New Cases Today)=J2-J3 
+    Column N (Recovered Since Yesterday: =M2-M3)
+    Column P (New Deaths Today: =O2-O3)
+    Column R (New Tests Dashboard: =Q2-Q3)
+    
+
+```{r}
+countytemp <- countytemp %>%
+  mutate(new_cases_today = (positive-lead(positive))) %>%
+  mutate(recovered_since_yesterday = (recovered-lead(recovered))) %>%
+  mutate(new_deaths_today = (total_deaths-lead(total_deaths))) %>%
+  mutate(new_tests_dashboard = (number_tested-lead(number_tested)))
+```
+
+- **IMPORTANT: FILTER TABLE TO TODAY'S RESULTS**
+```{r}
+countytemp <- countytemp %>% filter(date > yesterday) #SHOULD GET 75 ROWS IN countytemp
+```
+
+```{r}
+glimpse(countytemp)
+```
+
+-**The Percentage Calculations**
+
+    Column E (Cases/population = (positive / population) *100
+    Column F (Tested/population = (Number tested / population) *100
+    Column G (New Cases Today per 10k Population = (New Cases Today / population) *10000
+    Column H (Active Cases per 10k = (current_infections / population) *10000
+    Column T (% Positive Cumulative = (positive / Number tested) *100
+    Column U (% Positive New to Dashboard = New Cases Today / New Tests Dashboard) * 100
+    Column V (Closed = Recovered + Total Deaths)
+    Column W (% Deaths vs. Recoveries = Total Deaths / Closed) * 100
+    Column X (% Recoveries vs. Deaths = Recovered / Closed) * 100
+
+```{r}
+countytemp <- countytemp %>%
+  mutate(cases_population = (positive / population)*100) %>% 
+  mutate(tested_population = (number_tested / population)*100) %>% 
+  mutate(new_cases_today_10k_pop = (new_cases_today/population)*10000) %>% 
+  mutate(active_cases_10k_pop = (current_infections/population)*10000) %>% 
+  mutate(pct_positive_cumulative = (positive/number_tested)*100) %>% 
+  mutate(pct_positive_new_to_dashboard = (new_cases_today/new_tests_dashboard)*100) %>% 
+  mutate(closed = (recovered + total_deaths)) %>% 
+  mutate(pct_deaths_vs_recoveries = (total_deaths/closed)*100) %>% 
+  mutate(pct_recoveries_vs_deaths = (recovered/closed)*100)
+  
+countytemp
+```
+
+```{r}
+glimpse(countytemp)
+```
+
+-**GRAB ONE-DAY TOTAL FROM STATE_HOSPITAL*
+
+```{r}
+TODAY_STATE <- all_state_and_hospitals %>% 
+  filter(Date==today)
+```
+
+```{r}
+glimpse(TODAY)
+```
+
+```{r}
+TODAY_STATE <- TODAY_STATE %>% 
+  select("County", "Date", "Positive", "Negative", "Recovered", "Total_Deaths", "Number_Tested", "Current_Infections", "Population", "New_Cases_Today", "Recovered_Since_Yesterday", "New_Deaths_Today", "New_Tests_Dashboard", "Cases_Population", "Tested_Population", "New_Cases_Today_10k_Pop", "Active_Cases_10k_Pop", "Pct_Positive_Cumulative", "Pct_Positive_New_to_Dashboard", "Closed", "Pct_Deaths_vs_Recoveries", "Pct_Recoveries_vs_Deaths")
+```
+
+**Rename data to align with Arkansascovid's Date Master BeAll sheet**
+
+```{r}
+glimpse(countytemp)
+```
+
+-**Rename countytemp labels**
+```{r}
+colnames(countytemp)[1:22] <- c("County", "Date", "Positive", "Negative", "Recovered", "Total_Deaths", "Number_Tested", "Current_Infections", "Population", "New_Cases_Today", "Recovered_Since_Yesterday", "New_Deaths_Today", "New_Tests_Dashboard", "Cases_Population", "Tested_Population", "New_Cases_Today_10k_Pop", "Active_Cases_10k_Pop", "Pct_Positive_Cumulative", "Pct_Positive_New_to_Dashboard", "Closed", "Pct_Deaths_vs_Recoveries", "Pct_Recoveries_vs_Deaths")
+
+```
+
+-**ADD DAILY STATE TOTALS**
+```{r}
+countytemp <- rbind(countytemp, TODAY_STATE)
+```
+
+# Part 7: County Joining, Archiving
+-**Update the main sheet, archiving**
+```{r}
+#Create a standalone copy of the TODAY'S data with the calculations
+TODAYCOUNTYSTATE <- countytemp %>% 
+  arrange("County", "Date", "Population", "Cases_Population", "Tested_Population", "New_Cases_Today_10k_Pop", "Active_Cases_10k_Pop", "Current_Infections", "Positive",
+ "New_Cases_Today", "Negative", "Recovered", "Recovered_Since_Yesterday", "Total_Deaths", "New_Deaths_Today", "Number_Tested", "New_Tests_Dashboard",
+ "Pct_Positive_Cumulative", "Pct_Positive_New_to_Dashboard", "Closed", "Pct_Deaths_vs_Recoveries", "Pct_Recoveries_vs_Deaths")
+
+TODAYCOUNTYSTATE <- as.data.frame(TODAYCOUNTYSTATE)
+glimpse(TODAYCOUNTYSTATE)
+```
+
+-**LOAD STATE-COUNTY MASTERFILE**
+```{r}
+covid_temp <- rio::import("county_state_master.csv")
+
+```
+
+
+```{r}
+
+covid_temp <- covid_temp[ -c(1) ]
+glimpse(covid_temp)
+names(covid_temp)
+```
+
+# Part 8: Master File - County
+-**Join New County-State Data and Append to Existing Master File**
+-**Change the date of the file Day_9_4_2020.csv to today's day**
+```{r}
+county_state_master <- rbind(TODAYCOUNTYSTATE,covid_temp)
+write.csv(county_state_master, "county_state_master.csv")
+write.csv(TODAYCOUNTYSTATE, "Day_9_5_2020.csv")
+```
+
+
+-**30**
