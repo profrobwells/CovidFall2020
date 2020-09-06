@@ -268,7 +268,8 @@ wholetable <- wholetable %>%
 head(wholetable)
 ```
 
-
+# Part 1 State Calculations Finished. 
+# Upload This to Google Drive: state_hospitals_part1.csv
 -**Change File Name to Today's Date**
 
 ```{r}
@@ -281,6 +282,7 @@ glimpse(wholetable)
 
 ## Negative Test Calculations
 
+## Data Available > 4:30 pm
 
 -**Import Data**
 ```{r}
@@ -409,6 +411,7 @@ glimpse(NEGATIVES_MASTER)
 ```
 
 # Part 4: Master File -State
+## Upload this file to Google Drive: all_state_and_hospitals.csv
 -**Creates Master File all_state_and_hospitals**
 ```{r}
 all_state_and_hospitals <- wholetable %>% 
@@ -637,6 +640,8 @@ names(covid_temp)
 ```
 
 # Part 8: Master File - County
+## Upload this file to Google Drive: county_state_master.csv
+
 -**Join New County-State Data and Append to Existing Master File**
 -**Change the date of the file Day_9_4_2020.csv to today's day**
 ```{r}
