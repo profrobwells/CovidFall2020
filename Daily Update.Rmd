@@ -215,15 +215,9 @@ TODAY <- temp %>%
 glimpse(TODAY)
 ```
 
-```{r}
-glimpse(wholetable2)
-```
-
 -**Import Whole Table**
 #IMPORTANT - CHECK THIS TABLE HAS YESTERDAY'S DATA
 ```{r}
-#revision - cut later
-#XwholetableX <- rio::import("all_state_and_hospitals_9_5_2020.csv")
 wholetable <- rio::import("state_hospitals_part1.csv")
 
 ```
@@ -235,14 +229,6 @@ wholetable$Date <- as.Date(wholetable$Date)
 wholetable <- wholetable[ -c(1) ]
 #wholetable <- wholetable[ -c(27:33) ]
 
-
-```
-
-```{r}
-#one time - cut duplicative dates prior to April 9 
-#this to be fixed later by rejoining older data
-wholetable <- wholetable %>% 
-  filter(Date > "2020-04-08")
 
 ```
 
@@ -336,12 +322,13 @@ negative <- df %>%
 
 ```
 --**Check the date is correct**
+--**run this only if the date is off**
 
 ```{r}
 #today's date
-today <- Sys.Date()
+#today <- Sys.Date()
 #yesterday's date
-yesterday <- (today-1)
+#yesterday <- (today-1)
 
 ```
 
@@ -377,15 +364,13 @@ NEGATIVES_TODAY <- temp_neg %>%
   select(Date, Negative,Number_Tested, New_Tests_Dashboard, Tested_Population,  Pct_Positive_Cumulative, Pct_Positive_New_to_Dashboard)
 
 NEGATIVES_TODAY <- NEGATIVES_TODAY %>% 
-  filter(Date==today)
+ filter(Date>=today)
+ 
 ```
 
 ## Join Today's Negatives With Prior Days' Data
 
 -**Import History file**
-```{r}
-glimpse(neghistory)
-```
 
 ```{r}
 neghistory <- rio::import("negatives_history_master.csv")
@@ -404,6 +389,8 @@ NEGATIVES_MASTER <- rbind(neghistory, NEGATIVES_TODAY)
 
 NEGATIVES_MASTER <- NEGATIVES_MASTER %>% 
   arrange(desc(Date))
+
+write.csv(NEGATIVES_MASTER, "negatives_history_master.csv")
 ```
 
 ```{r}
@@ -420,9 +407,6 @@ all_state_and_hospitals <- wholetable %>%
 write.csv(all_state_and_hospitals, "all_state_and_hospitals.csv")
 ```
 
-```{r}
-glimpse(all_state_and_hospitals)
-```
 #  .
 # COUNTY DATA SECTION 
 #  .
@@ -587,7 +571,7 @@ TODAY_STATE <- all_state_and_hospitals %>%
 ```
 
 ```{r}
-glimpse(TODAY)
+glimpse(TODAY_STATE)
 ```
 
 ```{r}
@@ -643,11 +627,16 @@ names(covid_temp)
 ## Upload this file to Google Drive: county_state_master.csv
 
 -**Join New County-State Data and Append to Existing Master File**
--**Change the date of the file Day_9_4_2020.csv to today's day**
+
 ```{r}
 county_state_master <- rbind(TODAYCOUNTYSTATE,covid_temp)
+```
+
+-**After checking county_state_master for accuracy, then write it to the file**
+-**Change the date of the file Day_9_4_2020.csv to today's day**
+```{r}
 write.csv(county_state_master, "county_state_master.csv")
-write.csv(TODAYCOUNTYSTATE, "Day_9_5_2020.csv")
+write.csv(TODAYCOUNTYSTATE, "Day_9_6_2020.csv")
 ```
 
 
