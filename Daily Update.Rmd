@@ -39,6 +39,9 @@ url <- ("https://docs.google.com/spreadsheets/d/1ikblX8tikM59ma1AftkqgGbyeZkXB6D
 
 state <- read_sheet(url, sheet = "DailyState",  col_types = NULL, na = "",trim_ws = TRUE)
 ```
+
+
+
 ```{r}
 glimpse(state)
 ```
@@ -449,11 +452,6 @@ covid <- janitor::clean_names(covid)
 glimpse(covid)
 ```
 
-```{r}
-names(covid)
-
-```
-
 - **Extract Population**
 ```{r}
 population <- rio::import("./Exercises/population.csv")
@@ -571,19 +569,11 @@ TODAY_STATE <- all_state_and_hospitals %>%
 ```
 
 ```{r}
-glimpse(TODAY_STATE)
-```
-
-```{r}
 TODAY_STATE <- TODAY_STATE %>% 
   select("County", "Date", "Positive", "Negative", "Recovered", "Total_Deaths", "Number_Tested", "Current_Infections", "Population", "New_Cases_Today", "Recovered_Since_Yesterday", "New_Deaths_Today", "New_Tests_Dashboard", "Cases_Population", "Tested_Population", "New_Cases_Today_10k_Pop", "Active_Cases_10k_Pop", "Pct_Positive_Cumulative", "Pct_Positive_New_to_Dashboard", "Closed", "Pct_Deaths_vs_Recoveries", "Pct_Recoveries_vs_Deaths")
 ```
 
 **Rename data to align with Arkansascovid's Date Master BeAll sheet**
-
-```{r}
-glimpse(countytemp)
-```
 
 -**Rename countytemp labels**
 ```{r}
@@ -636,7 +626,7 @@ county_state_master <- rbind(TODAYCOUNTYSTATE,covid_temp)
 -**Change the date of the file Day_9_4_2020.csv to today's day**
 ```{r}
 write.csv(county_state_master, "county_state_master.csv")
-write.csv(TODAYCOUNTYSTATE, "Day_9_6_2020.csv")
+write.csv(TODAYCOUNTYSTATE, "Day_9_7_2020.csv")
 ```
 
 
