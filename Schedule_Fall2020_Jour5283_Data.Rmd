@@ -504,7 +504,9 @@ https://learn.uark.edu/webapps/blackboard/content/listContent.jsp?course_id=_276
 
 - **Exercise**    
     
-      Downloading Data 3rd Lesson 3 8-21-2020.Rmd
+      Downloading Data 9-9-2020.Rmd
+https://raw.githubusercontent.com/profrobwells/CovidFall2020/master/Exercises/Downloading%20Data%209-9-2020.Rmd
+
       Check what software packages are running: Global Environment
       Navigation: 
      ^ + shift + 8 = Zoom to Environment  
