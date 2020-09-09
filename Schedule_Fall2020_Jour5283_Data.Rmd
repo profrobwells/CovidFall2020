@@ -480,6 +480,7 @@ https://learn.uark.edu/webapps/blackboard/content/listContent.jsp?course_id=_276
     Weekly memos
     Story pitches. Due Saturday with weekly memo
     Review Task List on Teams. Tweets
+    Editing the Tweets. Have the Image Match the Narrative
     Volunteer editor W-T-F (pardon the pun)
     Audience Engagement. Read the Feed! Twitter Response Hour.
     Continue with R tutorial
@@ -499,7 +500,6 @@ https://learn.uark.edu/webapps/blackboard/content/listContent.jsp?course_id=_276
       Assignment #1: (Due Sept. 21): Managing Data / Static Graphic
       Static Graphic - Managing Data in R / Tableau.        
       Students will use R Studio to gather, analyze and visualize Arkansascovid data and report and write a 600 word story. 
-
 
 
 - **Exercise**    
