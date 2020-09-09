@@ -476,18 +476,31 @@ https://learn.uark.edu/webapps/blackboard/content/listContent.jsp?course_id=_276
 ## Wednesday, Sept. 9   
 
 **Agenda**
-
-    Describe Assignment #1 
+    
+    Weekly memos
+    Story pitches. Due Saturday with weekly memo
+    Review Task List on Teams. Tweets
+    Volunteer editor W-T-F
+    Audience Engagement. Read the Feed! Twitter Response Hour.
     Continue with R tutorial
     Exercise: Loading Data from U.S. Census & Student Loans
     top_n function makes life easy  
     Sorting
 
-**Assignment #1**     
-      
-      Due Sept. 14: Managing Data / Static Graphic 
-      Static Graphic - Managing Data in R.  
-      Students will use R Studio to gather, analyze and visualize Arkansascovid data by                  demographic for Arkansas and report and write a 600 word story. 
+**Weekly memos**
+   
+    Please supply links to documents and data you worked on.
+    The memos will be my resource for finding stuff. Help me find things
+
+**Story Pitch for Assignment #1. Due With Weekly Memo, Saturday**
+
+      Story Pitch for this assignment. 200 Words on your idea, list 3 sources and the data you plan to use.
+
+      Assignment #1: (Due Sept. 21): Managing Data / Static Graphic
+      Static Graphic - Managing Data in R / Tableau.        
+      Students will use R Studio to gather, analyze and visualize Arkansascovid data and report and write a 600 word story. 
+
+
 
 - **Exercise**    
     
@@ -527,10 +540,6 @@ https://learn.uark.edu/webapps/blackboard/content/listContent.jsp?course_id=_276
     Export Static chart 
     Discuss Ch 5, Machlis: See Notes
 
-
-### Assignment #1: Static Graphic - Managing Data in R. Due Sept. 14   
-
-Students will use R Studio to gather, analyze and visualize Arkansascovid data by demographic for Arkansas and report and write a 600 word story. 
 
 **Exercise**
 
@@ -616,6 +625,13 @@ http://learn.r-journalism.com/en/wrangling/dplyr/dplyr/
     Dplyr bootcamp. 
     IRE Conference
 
+
+#### Assignment #1     
+      
+      Assignment #1: (Due Sept. 21): Managing Data / Static Graphic
+      Static Graphic - Managing Data in R / Tableau.        
+      Students will use R Studio to gather, analyze and visualize Arkansascovid data for Arkansas and report and write a 600 word story. 
+      
 
 - **Dplyr Presentation*   
 

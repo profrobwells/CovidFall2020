@@ -1,51 +1,50 @@
 ---
-title: "Downloading Data 8-21-2020"
+title: "Downloading Data 9-9-2020"
 author: "Rob Wells"
-date: "8/21/2020"
+date: "9/9/2020"
 output: html_document
 ---
 
 
 #rio
 ```{r}
-install.packages("rio") 
+library(tidyverse)
+#install.packages("rio") 
 ```
 #rio handles more than two dozen formats including tab-separated data (with the extension .tsv), 
 #JSON, Stata, and fixed-width format data (.fwf).
 
 ```{r}
-StudentLoans <- rio::import('https://raw.githubusercontent.com/profrobwells/CovidFall2020/master/Data/AR2016_SMALL.csv')
-View(StudentLoans)
+state_hospitals_part1 <- rio::import('https://github.com/profrobwells/CovidFall2020/raw/master/state_hospitals_part1.csv')
+View(state_hospitals_part1)
 ```
 # Number columns
 ```{r}
-ncol(StudentLoans)
+ncol(state_hospitals_part1)
 ```
+# Number columns
+```{r}
+nrow(state_hospitals_part1)
+```
+
 #vignettes: Learn about packages and commands
 ```{r}
-browseVignettes("rio")
+browseVignettes("tidyverse")
 ```
 
 ```{r}
-??rio
+??tidyverse
 ```
 
 #--------------------------------------------------------------------#
 #Converting character strings into numeric
 #--------------------------------------------------------------------#
   
-#What is the character type?
+#What is the character type? Glimpse function
 ```{r}
-library(dplyr)
-```    
-#Tibble or Dplyr for the glimpse function
-```{r}
-dplyr::glimpse(StudentLoans)
+glimpse(state_hospitals_part1)
 ```
 
-```{r}
-tibble::glimpse(StudentLoans)  
-```
 #chr stands for character vectors, or strings.
 #int stands for integers.
 #dbl stands for doubles, or real numbers.
@@ -55,47 +54,263 @@ tibble::glimpse(StudentLoans)
 #We want to turn all columns after HMC2 into numeric
 #HMC2 is Column #10
 
-#Check you have the right names you want to convert
+
+# Part 1: Import State Data, Clean It
+
+```{r include=FALSE}
+library(tidyverse)
+library(janitor)
+library(lubridate)
+library(tidyr)
+
+#We're not using these now - long story
+#library(googlesheets4)
+#library(googledrive)
+#install.packages("googledrive")
+#install.packages("googlesheets4")
+# vignette("basic-usage", package="googlesheets")
+```
+
+## Retrieve State Arkansas Covid Data from ADH FEED
+
+- **Download spreadsheet Date Master API testing**
+https://docs.google.com/spreadsheets/d/1ikblX8tikM59ma1AftkqgGbyeZkXB6DuBtwMsVeoGYw/edit#gid=701586163
+
+**Read in "Daily State Data - Manual Input" from Google Sheet**
+
+
 ```{r}
-colnames(StudentLoans[10:102])
+state <- rio::import("FILE NAME OF THE SPREADSHEET")
+```
+
+
+
+```{r}
+glimpse(state)
+```
+
+
+- **Clean Names**
+```{r}
+
+state <- janitor::clean_names(state)
+```
+
+- **Cleaning: Convert data from List variables to numeric**
+```{r include=FALSE}
+state$recoveries_recovered <- as.numeric(state$recoveries_recovered)
+state$cases_added_today_new_cases_today <- as.numeric(state$cases_added_today_new_cases_today)
+state$hospitalized <- as.numeric(state$hospitalized)
+state$on_ventilators_vent <- as.numeric(state$on_ventilators_vent)
+state$ever_hospitalized_ever_hospitalized <- as.numeric(state$ever_hospitalized_ever_hospitalized)
+state$ever_on_ventilator_ever_on_a_vent  <- as.numeric(state$ever_on_ventilator_ever_on_a_vent)
+state$total_deaths_total_deaths  <- as.numeric(state$total_deaths_total_deaths)
+state$total_cases_positive  <- as.numeric(state$total_cases_positive)
+state$active_cases_current_infections  <- as.numeric(state$active_cases_current_infections)
+#Here is the Negative Test data
+state$total_negative_tests_reported_negatives <- as.numeric(state$total_negative_tests_reported_negatives) 
+
 ```
 
 ```{r}
-StudentLoans[10:102] <- lapply(StudentLoans[10:102], as.numeric)
-glimpse(StudentLoans)  
+glimpse(state)
 ```
-#Data changed from <chr> to <dbl>
 
-
-#Run stats
-```{r}
-summary(StudentLoans)
-```
-#Do some math - average number of white students
-```{r}
-mean(StudentLoans$UGDS_WHITE)
-```
-#Why the NA result? NA= Missing Value
-
-# list rows of data that have missing values 
-#mydata[!complete.cases(mydata),]
+**Rename data to align with Arkansascovid's Date Master BeAll sheet**
 
 ```{r}
-StudentLoans[!complete.cases(StudentLoans)]
+colnames(state)[2:12] <- c("Date", "Recovered","New_Cases_Today", "Hospitalized","Vent", "Ever_Hospitalized", "Ever_on_a_Vent", "Total_Deaths",
+"Positive", "Current_Infections", "Negative")
+
 ```
-#Doing math on columns with missing values
+
+
+- **Add State Population, Convert to dataframe**
+```{r}
+state <- state %>% 
+  mutate(Population ="3017804")
+
+state$Population <- as.numeric(state$Population)
+#cut timestamp column
+state <- state[ -c(1) ]
+#convert date field
+state$Date <- as.Date(state$Date)
+#create dataframe
+state <- as.data.frame(state)
+
+state <- state %>% 
+  arrange(desc("Date"))  
+```
+
+```{r} 
+glimpse(state)
+```
+
+# Part 2: Math on State Data   
+
+- **Now We Do The Math**
+- **Previous Date Calculations**
+
+Create Temporary Table Two Days' Worth of Data
+Sort Alphbetically and Run Calculations
+You should get a df with 150 observations (two days' worth a data)
+
+--**Check the date is correct**
 
 ```{r}
-sum(StudentLoans$UGDS_WHITE, na.rm=TRUE)
-mean(StudentLoans$TUITIONFEE_IN, na.rm=TRUE)
+#today's date
+today <- Sys.Date()
+#yesterday's date
+yesterday <- (today-1)
+
 ```
 
-- **Export data**    
-  Write Export output this file to a CSV or Excel  write.csv or write.excel
+--**Check the dates are correct and that the data is filtered for today, yesterday**
+
 ```{r}
-write.csv(AR2016_SMALL,"AR2016_SMALL.csv") 
+twodays <- state %>% 
+  filter(Date >= yesterday) %>%  #get two days' of data
+arrange(desc(Date)) 
 ```
 
+```{r}
+head(twodays) 
+```
+
+
+-**The Today-Yesterday Calculations**
+
+    This calculates:
+    CHECKED Column K New Cases Today=Positive - (yesterday) Positive) J2-J3 
+    CHECKED Column N Recovered Since Yesterday: Recovered - (yesterday) Recovered =M2-M3)
+    CHECKED Column P New Deaths Today: = Total Deaths-(yesterday(Total Deaths) O2-O3)
+    
+    (FIELD IS IN STATE-HOSPITALS)
+    CHECKED Column R New Tests Dashboard: = Number tested-(YESTERDAY) Number tested Q2-Q3)
+    
+    CHECKED Column Z (hosp_change_from_yesterday: Hospitals -(yesterday) Hospitals
+    
+    CHECKED Column AB (new_admits = ever_hospitalized-(yesterday) ever_hospitalized)
+    CHECKED Column AC (new_discharges_deaths = new admits - HOSPITAL CHANGE)
+    CHECKED Column AD (pct_hospitalized = hospitalized / current infections) * 100
+    CHECKED Column AG (new_on_vent = ever_on_a_vent - (yesterday) ever_on_a_vent
+    CHECKED Column AH (pct_vent = vent / hospitalized) * 100                  
+
+```{r}
+temp <- twodays %>%
+  mutate(New_Cases_Today = (Positive-lead(Positive))) %>%
+  mutate(Recovered_Since_Yesterday = (Recovered-lead(Recovered))) %>%
+  mutate(New_Deaths_Today = (Total_Deaths-lead(Total_Deaths))) %>%
+  #mutate(New_Tests_Dashboard = (Number_Tested-lead(Number_Tested))) %>% 
+  mutate(Hosp_Change_from_Yesterday = (Hospitalized-lead(Hospitalized))) %>% 
+  mutate(New_Admits = (Ever_Hospitalized-lead(Ever_Hospitalized))) %>% 
+  mutate(New_Discharges_Deaths = (New_Admits-Hosp_Change_from_Yesterday)) %>% 
+  mutate(Pct_Hospitalized = (Hospitalized/Current_Infections)*100) %>% 
+  mutate(New_on_Vent = (Ever_on_a_Vent-lead(Ever_on_a_Vent))) %>% 
+  mutate(Pct_Vent = (Vent/Hospitalized)*100) 
+```
+
+```{r}
+glimpse(temp)
+```
+
+-**More Percentage Calculations**
+
+    CHECKED Column E (Cases/population = (positive / population) *100
+    CHECKED ***MAYBE ELIMINATE*** Column F (Tested/population = (Number tested / population) *100
+    CHECKED Column G (New Cases Today per 10k Population = (New Cases Today / population) *10000
+    CHECKED Column H (Active Cases per 10k = (current_infections / population) *10000
+    CHECKED Column T (% Positive Cumulative = (positive / Number tested) *100
+    CHECKED Column U (% Positive New to Dashboard = New Cases Today / New Tests Dashboard) * 100
+    CHECKED Column V (Closed = Recovered + Total Deaths)
+    CHECKED Column W (% Deaths vs. Recoveries = Total Deaths / Closed) * 100
+    CHECKED Column X (% Recoveries vs. Deaths = Recovered / Closed) * 100
+
+```{r}
+temp <- temp %>%
+  mutate(Cases_Population = (Positive / Population)*100) %>% 
+  #mutate(Tested_Population = (Number_Tested / Population)*100) %>% 
+  mutate(New_Cases_Today_10k_Pop = (New_Cases_Today/Population)*10000) %>% 
+  mutate(Active_Cases_10k_Pop = (Current_Infections/Population)*10000) %>% 
+  #mutate(Pct_Positive_Cumulative = (Positive/Number_Tested)*100) %>% 
+  #mutate(Pct_Positive_New_to_Dashboard = (New_Cases_Today/New_Tests_Dashboard)*100) %>% 
+  mutate(Closed = (Recovered + Total_Deaths)) %>% 
+  mutate(Pct_Deaths_vs_Recoveries = (Total_Deaths/Closed)*100) %>% 
+  mutate(Pct_Recoveries_vs_Deaths = (Recovered/Closed)*100) %>% 
+  mutate(County = "Arkansas_all_counties")
+  
+temp
+```
+
+```{r}
+glimpse(temp)
+```
+
+- **Align names in order of covid table**
+#Cut Tested_Population, Number_Tested,New_Tests_Dashboard,Pct_Positive_Cumulative, Pct_Positive_New_to_Dashboard
+```{r}
+temp <- temp %>% select(County, Date, Population, Cases_Population,,New_Cases_Today_10k_Pop,Active_Cases_10k_Pop,Current_Infections,Positive, New_Cases_Today, Recovered, Recovered_Since_Yesterday, Total_Deaths, New_Deaths_Today, Closed, Pct_Deaths_vs_Recoveries, Pct_Recoveries_vs_Deaths, Hospitalized, Hosp_Change_from_Yesterday, Ever_Hospitalized, New_Admits, New_Discharges_Deaths, Pct_Hospitalized, Vent, Ever_on_a_Vent, New_on_Vent, Pct_Vent)
+
+names(temp)
+```
+
+
+# Part 3: Joining and Archiving   
+
+-**Update the main sheet, archiving**
+```{r}
+#Create a standalone copy of the TODAY'S data with the calculations
+TODAY <- temp %>% 
+  filter(Date > yesterday)
+glimpse(TODAY)
+```
+
+-**Import Whole Table**
+#IMPORTANT - CHECK THIS TABLE HAS YESTERDAY'S DATA
+```{r}
+wholetable <- rio::import("state_hospitals_part1.csv")
+
+```
+
+-**Fix Date, Eliminate V1 index**
+```{r}
+wholetable$Date <- as.Date(wholetable$Date)
+#cut timestamp column
+wholetable <- wholetable[ -c(1) ]
+#wholetable <- wholetable[ -c(27:33) ]
+
+
+```
+
+
+```{r}
+names(TODAY)
+```
+
+```{r}
+names(wholetable)
+```
+
+-**Join with Wholetable**
+```{r}
+wholetable <- rbind(wholetable, TODAY)
+
+wholetable <- wholetable %>% 
+  arrange(desc(Date))
+```
+
+
+```{r}
+head(wholetable)
+```
+
+# Part 1 State Calculations Finished. 
+# Upload This to Google Drive: state_hospitals_part1.csv
+-**Change File Name to Today's Date**
+
+```{r}
+write.csv(wholetable, "state_hospitals_part1.csv")
+```
 
 - **Loading and basic file management**
 
@@ -148,13 +363,6 @@ glimpse(ArkCo_Income_2017)
 ```
 
 #What is the issue? (Don't read ahead and spoil the fun)
-
-#You are reading ahead
-#Caught you.
-
-
-#What is the issue? 
-
 
 #Delete First Row Headers
 #Reimport the data and skip the first row

@@ -138,16 +138,20 @@ head(twodays)
 -**The Today-Yesterday Calculations**
 
     This calculates:
-    Column K (New Cases Today)=J2-J3 
-    Column N (Recovered Since Yesterday: =M2-M3)
-    Column P (New Deaths Today: =O2-O3)
-    Column R (New Tests Dashboard: =Q2-Q3)
-    Column Z (hosp_change_from_yesterday: Hospitals -(yesterday) Hospitals
-    Column AB (new_admits = ever_hospitalized-(yesterday) ever_hospitalized)
-    Column AC (new_discharges_deaths = Hospital change- new admits)
-    Column AD (pct_hospitalized = hospitalized / current infections) * 100
-    Column AG (new_on_vent = ever_on_a_vent - (yesterday) ever_on_a_vent
-    Column AH (pct_vent = vent / hospitalized) * 100                  
+    CHECKED Column K New Cases Today=Positive - (yesterday) Positive) J2-J3 
+    CHECKED Column N Recovered Since Yesterday: Recovered - (yesterday) Recovered =M2-M3)
+    CHECKED Column P New Deaths Today: = Total Deaths-(yesterday(Total Deaths) O2-O3)
+    
+    (FIELD IS IN STATE-HOSPITALS)
+    CHECKED Column R New Tests Dashboard: = Number tested-(YESTERDAY) Number tested Q2-Q3)
+    
+    CHECKED Column Z (hosp_change_from_yesterday: Hospitals -(yesterday) Hospitals
+    
+    CHECKED Column AB (new_admits = ever_hospitalized-(yesterday) ever_hospitalized)
+    CHECKED Column AC (new_discharges_deaths = new admits - HOSPITAL CHANGE)
+    CHECKED Column AD (pct_hospitalized = hospitalized / current infections) * 100
+    CHECKED Column AG (new_on_vent = ever_on_a_vent - (yesterday) ever_on_a_vent
+    CHECKED Column AH (pct_vent = vent / hospitalized) * 100                  
 
 ```{r}
 temp <- twodays %>%
@@ -169,15 +173,15 @@ glimpse(temp)
 
 -**More Percentage Calculations**
 
-    Column E (Cases/population = (positive / population) *100
-    Column F (Tested/population = (Number tested / population) *100
-    Column G (New Cases Today per 10k Population = (New Cases Today / population) *10000
-    Column H (Active Cases per 10k = (current_infections / population) *10000
-    Column T (% Positive Cumulative = (positive / Number tested) *100
-    Column U (% Positive New to Dashboard = New Cases Today / New Tests Dashboard) * 100
-    Column V (Closed = Recovered + Total Deaths)
-    Column W (% Deaths vs. Recoveries = Total Deaths / Closed) * 100
-    Column X (% Recoveries vs. Deaths = Recovered / Closed) * 100
+    CHECKED Column E (Cases/population = (positive / population) *100
+    CHECKED ***MAYBE ELIMINATE*** Column F (Tested/population = (Number tested / population) *100
+    CHECKED Column G (New Cases Today per 10k Population = (New Cases Today / population) *10000
+    CHECKED Column H (Active Cases per 10k = (current_infections / population) *10000
+    CHECKED Column T (% Positive Cumulative = (positive / Number tested) *100
+    CHECKED Column U (% Positive New to Dashboard = New Cases Today / New Tests Dashboard) * 100
+    CHECKED Column V (Closed = Recovered + Total Deaths)
+    CHECKED Column W (% Deaths vs. Recoveries = Total Deaths / Closed) * 100
+    CHECKED Column X (% Recoveries vs. Deaths = Recovered / Closed) * 100
 
 ```{r}
 temp <- temp %>%
@@ -279,6 +283,11 @@ url <- ("https://docs.google.com/spreadsheets/d/1ikblX8tikM59ma1AftkqgGbyeZkXB6D
 
 negToday <- read_sheet(url, sheet = "Negative Tests",  col_types = NULL, na = "",trim_ws = TRUE)
 ```
+--**Backup in case Google oauth import fails**
+```{r}
+#negToday <- rio::import("https://docs.google.com/spreadsheets/d/1ikblX8tikM59ma1AftkqgGbyeZkXB6DuBtwMsVeoGYw/edit#gid=701586163", which = "Negative Tests")
+```
+
 - **Clean Names**
 ```{r}
 
@@ -376,15 +385,14 @@ NEGATIVES_TODAY <- NEGATIVES_TODAY %>%
 -**Import History file**
 
 ```{r}
-neghistory <- rio::import("negatives_history_master.csv")
+neghistory2 <- rio::import("https://github.com/profrobwells/CovidFall2020/raw/master/negatives_history_master.csv")
 neghistory[3:8] <- lapply(neghistory[3:8], as.numeric)
 neghistory$Date <- as.Date(neghistory$Date)
 neghistory <- neghistory[ -c(1) ]
 
-#ONE TIME CLEANING
-#neghistory <- neghistory %>% 
-#  filter(Date > "2020-04-08")
+
 ```
+
 
 -**JOIN TODAY'S NEGATIVES WITH NEGATIVE HISTORY FILE**
 ```{r}
@@ -626,7 +634,7 @@ county_state_master <- rbind(TODAYCOUNTYSTATE,covid_temp)
 -**Change the date of the file Day_9_4_2020.csv to today's day**
 ```{r}
 write.csv(county_state_master, "county_state_master.csv")
-write.csv(TODAYCOUNTYSTATE, "Day_9_7_2020.csv")
+write.csv(TODAYCOUNTYSTATE, "Day_9_8_2020.csv")
 ```
 
 
