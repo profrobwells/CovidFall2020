@@ -385,7 +385,7 @@ NEGATIVES_TODAY <- NEGATIVES_TODAY %>%
 -**Import History file**
 
 ```{r}
-neghistory2 <- rio::import("https://github.com/profrobwells/CovidFall2020/raw/master/negatives_history_master.csv")
+neghistory <- rio::import("https://github.com/profrobwells/CovidFall2020/raw/master/negatives_history_master.csv")
 neghistory[3:8] <- lapply(neghistory[3:8], as.numeric)
 neghistory$Date <- as.Date(neghistory$Date)
 neghistory <- neghistory[ -c(1) ]
