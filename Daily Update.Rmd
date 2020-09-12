@@ -42,7 +42,6 @@ state <- read_sheet(url, sheet = "DailyState",  col_types = NULL, na = "",trim_w
 state <- janitor::clean_names(state)
 ```
 
-
 - **Cleaning: Convert data from List variables to numeric**
 ```{r include=FALSE}
 state$recoveries_recovered <- as.numeric(state$recoveries_recovered)
@@ -129,6 +128,7 @@ temp <- twodays %>%
   mutate(Pct_Hospitalized = (Hospitalized/Current_Infections)*100) %>% 
   mutate(New_on_Vent = (Ever_on_a_Vent-lead(Ever_on_a_Vent))) %>% 
   mutate(Pct_Vent = (Vent/Hospitalized)*100) 
+
 glimpse(temp)
 ```
 
@@ -201,16 +201,23 @@ head(wholetable)
 write.csv(wholetable, "state_hospitals_part1.csv")
 ```
 #
-#
+
+
+
+#.
 # Negative Test Calculations and County Data
-#
-#
-## Data Available > 4:30 pm
+#.
+
+
+
+-**Data Available > 4:30 pm**
 
 -**Import Yesterday's all_state_and_hospitals Data**
 -**Creates negative history table**
 ```{r}
 state2 <- rio::import("all_state_and_hospitals.csv")
+#Backup
+#state2 <- rio::import("https://raw.githubusercontent.com/Arkansascovid/Main/master/all_state_and_hospitals.csv")
 
 neghistory <- state2 %>% 
   select(Date, Negative)
@@ -306,9 +313,13 @@ glimpse(add_to_allstate_hospitals)
 state2$Date <- as.Date(state2$Date)
 #cut timestamp column
 state2 <- state2[ -c(1) ]
-glimpse(state2)
+
 #join with today's data
 all_state_and_hospitals <- rbind(state2, add_to_allstate_hospitals)
+
+all_state_and_hospitals <- all_state_and_hospitals %>% 
+  arrange(desc(Date))
+
 glimpse(all_state_and_hospitals)
 ```
 
