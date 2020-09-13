@@ -537,11 +537,35 @@ https://raw.githubusercontent.com/profrobwells/CovidFall2020/master/Exercises/Do
 
 **Agenda** 
     
+    Teams Housecleaning: Master Work Document
+    Review Task List
+    Data - R quick viz on publication
+    GitHub data
+    Twitter: Voice, engagement, training wheels: sign up
+    Twitter schedule this week
+    White House Report
     Data Visualization
     ggplot2 - charts and maps
     Export Static chart 
     Discuss Ch 5, Machlis: See Notes
 
+-**GitHub Site for Arkansascovid**
+https://github.com/Arkansascovid/Main
+
+
+-**White House coronavirus task force report on Arkansas**
+Places the state in the "red zone" for cases. If someone wants to write a quick piece or do a Tweet based on this, excellent. https://www.documentcloud.org/documents/7204533-Arkansas-9-6-20.html  The document was obtained by the Center for Public Integrity, an investigative journalism outlet in DC. https://publicintegrity.org/health/coronavirus-and-inequality/white-house-coronavirus-red-zone-reports-covid/
+
+
+-**Discuss Downloading Data 9-9-2020.Rmd**
+
+https://raw.githubusercontent.com/profrobwells/CovidFall2020/master/Exercises/Downloading%20Data%209-9-2020.Rmd
+
+
+-**Discuss**
+
+Wong, Dona M. The Wall Street Journal Guide to Information Graphics. 
+Ch. 2: Chart Smart
 
 **Exercise**
 
@@ -569,13 +593,30 @@ https://raw.githubusercontent.com/profrobwells/CovidFall2020/master/Exercises/Do
 
 > [**Download this file and open it in R Studio**](https://bit.ly/2RlQtSE){target="_blank"} 
 
+#### Post in Teams Before Next Class
+
+-**Read our reader feedback on the new site. Draft a response to this person. We'll discuss and then send one**
+See "Stacy Robinson Your Post on Twitter" in Files | Teams
+
+https://teams.microsoft.com/l/file/0C1260C1-91AA-433E-9332-662CD6AF7C3F?tenantId=79c742c4-e61c-4fa5-be89-a3cb566a80d1&fileType=pdf&objectUrl=https%3A%2F%2Fuark.sharepoint.com%2Fteams%2FDataJournalismFall2020%2FShared%20Documents%2FGeneral%2FStacy%20Robinson%20Your%20post%20on%20Twitter%209-10-20.pdf&baseUrl=https%3A%2F%2Fuark.sharepoint.com%2Fteams%2FDataJournalismFall2020&serviceName=teams&threadId=19:a669382a31534ac8a1b588012f22be44@thread.tacv2&groupId=8c19e8e1-4bf3-4f65-9afa-6104d37b5bd2
+
+-**IRE Conference Schedule**
+
+    Identify two events you plan to attend and tell the class why
+https://www.ire.org/events-and-training/event/4125
+    
+
 #### Read Before Next Class 
 
+
+    
     Wong, Dona M. The Wall Street Journal Guide to Information Graphics. 
     Ch. 3 & 4: Ready Reference and Tricky Situations
 
     Prof. Alberto Cairo on Data Visualization    
 https://video.uark.edu/media/Alberto+Cairo+Data+Viz/0_10pblm1b
+
+
 
 --------------------------------------------------------------------
 
@@ -585,6 +626,8 @@ https://video.uark.edu/media/Alberto+Cairo+Data+Viz/0_10pblm1b
     
     Data Visualization
     ggplot2 - charts and maps
+    IRE Conference Schedule - what are you attending
+    
 
     
     > [**GGplot Video from Andrew Ba Tran**](https://www.youtube.com/watch?v=Sx7d7eGRSj0&t=9s){target="_blank"} 
@@ -676,6 +719,10 @@ http://learn.r-journalism.com/en/wrangling/dplyr/dplyr/
 
 
 - **You are in Dplyr bootcamp!**
+
+-**Date Corrected Data**
+https://video.uark.edu/media/Date+Corrected+Data/1_2rmzgzwu
+
 
 
 #### Read Before Next Class 

@@ -22,7 +22,7 @@ View(state_hospitals_part1)
 ```{r}
 ncol(state_hospitals_part1)
 ```
-# Number columns
+# Number rows
 ```{r}
 nrow(state_hospitals_part1)
 ```
@@ -73,22 +73,30 @@ library(tidyr)
 
 ## Retrieve State Arkansas Covid Data from ADH FEED
 
-- **Download spreadsheet Date Master API testing**
+- **Download Daily State Data - Manual Input" from Google Sheet**
 https://docs.google.com/spreadsheets/d/1ikblX8tikM59ma1AftkqgGbyeZkXB6DuBtwMsVeoGYw/edit#gid=701586163
 
-**Read in "Daily State Data - Manual Input" from Google Sheet**
+- **Get the File Path on Your Hard Drive**
+    
+    1) Find the File and LEFT CLICK on it (or Control + Click).
+        A menu appears. 
+    2) Continue holding down CONTROL. 
+    3) Now Hold down CONTROL + OPTION at same time. 
+    Copy "Daily State Data - Manual Input" as Path. 
+    It will look like this:
+    /Users/rswells/Downloads/Daily State Data - Manual Input.xlsx
+    4) Paste that path below
 
 
 ```{r}
-state <- rio::import("FILE NAME OF THE SPREADSHEET")
+state <- rio::import("/Users/rswells/Downloads/Daily State Data - Manual Input.xlsx")
+#This loads in "Daily State Data - Manual Input" from Google Sheet
+
 ```
-
-
-
 ```{r}
+#Check it out
 glimpse(state)
 ```
-
 
 - **Clean Names**
 ```{r}
@@ -113,6 +121,7 @@ state$total_negative_tests_reported_negatives <- as.numeric(state$total_negative
 ```
 
 ```{r}
+#Check to see the names andvariables changed
 glimpse(state)
 ```
 
@@ -160,6 +169,10 @@ You should get a df with 150 observations (two days' worth a data)
 ```{r}
 #today's date
 today <- Sys.Date()
+
+#NOTE - IF YOU DON'T HAVE TODAY'S DATA, THEN RUN THIS LINE INSTEAD AND COMMENT OUT today <- Sys.Date()
+#today <- Sys.Date()-1
+
 #yesterday's date
 yesterday <- (today-1)
 
@@ -268,7 +281,7 @@ glimpse(TODAY)
 -**Import Whole Table**
 #IMPORTANT - CHECK THIS TABLE HAS YESTERDAY'S DATA
 ```{r}
-wholetable <- rio::import("state_hospitals_part1.csv")
+wholetable <- rio::import("https://raw.githubusercontent.com/Arkansascovid/Main/master/state_hospitals_part1.csv")
 
 ```
 
@@ -279,7 +292,9 @@ wholetable$Date <- as.Date(wholetable$Date)
 wholetable <- wholetable[ -c(1) ]
 #wholetable <- wholetable[ -c(27:33) ]
 
-
+#If you need to eliminate today's data, run this
+#wholetable <- wholetable %>% 
+#  filter(Date < today)
 ```
 
 
@@ -288,7 +303,7 @@ names(TODAY)
 ```
 
 ```{r}
-names(wholetable)
+glimpse(wholetable)
 ```
 
 -**Join with Wholetable**
@@ -304,7 +319,49 @@ wholetable <- wholetable %>%
 head(wholetable)
 ```
 
-# Part 1 State Calculations Finished. 
+-**You've finished Part 1 State Calculations**
+
+
+# Part 2: Build Simple Charts and Tables with Data
+
+-**Main Numbers for the Day**
+
+-**The goal is to build code to create this table automatically**
+ 
+    Here is a quick look at today’s COVID-19 numbers:  
+    66,804 Positive Cases (+398 today) 
+    60,668 Recoveries (+748 today) 
+    940 Total Deaths (+12 today) 
+    *5,196 Total Active Cases Today 
+    All charts will be updated on the website later this afternoon with cou @maryhennigan_ 
+
+```{r}
+DailyUpdate <- wholetable %>% 
+  select(Date, Positive, Current_Infections, Total_Deaths, New_Admits) %>% 
+  filter(Date >= yesterday)
+DailyUpdate
+```
+
+
+```{r}
+DailyUpdate %>% 
+  ggplot(aes(x = Date, y = Total_Deaths, fill=Total_Deaths)) + 
+  geom_bar(stat = "identity", show.legend = FALSE) +
+  scale_y_continuous(limits=c(0, 1200)) +
+  geom_text(aes(label = Total_Deaths), vjust = -1.1, size = 5) +
+  #coord_flip() +    #this makes it a horizontal bar chart instead of vertical
+  labs(title = "Today's Death Trends", 
+       subtitle = "Source: ADH ",
+       caption = "Graphic by Wells",
+       y="Total Deaths",
+       x="Date")
+```
+
+#Now we will refine it further
+
+
+
+
 # Upload This to Google Drive: state_hospitals_part1.csv
 -**Change File Name to Today's Date**
 
