@@ -48,7 +48,7 @@ q <- fromJSON('https://services.arcgis.com/PwY9ZuZRDiI5nXUB/ArcGIS/rest/services
 
 df3 <- q[["features"]][["attributes"]]
 #print's today's date as a date field
-df3$mydate <- Sys.Date()
+df3$mydate <- Sys.Date()-1
 #file.exists(filename)
 #austin help on that
 #if file exists = check if current data is different and if that is true then append today's data set to master dataset and resave
@@ -111,6 +111,9 @@ x
 ```
 
 
+```{r}
+write.csv(newcounty, "new_county_data_9_13_2020.csv")
+```
 NOTES BELOW - BUILD A NEW COUNTY TABLE
 
 ```{r}

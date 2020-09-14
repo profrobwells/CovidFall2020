@@ -558,9 +558,21 @@ https://github.com/Arkansascovid/Main
 https://docs.google.com/document/d/1pLIqBGnEiYLVZg48qVDrm3Cajp4jiTwgxrWCKStaJwg/edit?usp=sharing 
 
 
-**Exercise: Downloading Data 9-9-2020.Rmd**    
+**Maps in Tableau**    
 
-https://raw.githubusercontent.com/profrobwells/CovidFall2020/master/Exercises/Downloading%20Data%209-9-2020.Rmd
+New County Data    
+https://prod-useast-a.online.tableau.com/t/datareportinguofa/views/PCR-AntigenMAPS9-14-2020/PCR-Antigen?:origin=card_share_link&:embed=n
+
+New county data
+https://raw.githubusercontent.com/profrobwells/CovidFall2020/master/new_county_data_9_13_2020.csv   
+Also here:
+https://docs.google.com/spreadsheets/d/1jILA2AQaSt36RsBPJLoAGAY_bpKd2UK0wWsXlXkS2cQ/edit#gid=1515682069
+
+Basic maps for antigen and PCR testing today.
+
+Create a new dashboard using the Homepage Numbers as a template   
+
+
 
 
 -**Discuss**
@@ -640,7 +652,10 @@ Wong, Dona M. The Wall Street Journal Guide to Information Graphics.
 Ch. 2: Chart Smart. p 70->   
 
 
-- **Exercise**
+**Exercise: Downloading Data 9-9-2020.Rmd**    
+
+https://raw.githubusercontent.com/profrobwells/CovidFall2020/master/Exercises/Downloading%20Data%209-9-2020.Rmd
+
 
     Graphing in GGPlot   
  https://bit.ly/2Gqjfj4   
