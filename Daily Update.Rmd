@@ -468,7 +468,7 @@ write.csv(county_state_master, "county_state_master.csv")
 -**Change the Date of the file Day_9_4_2020.csv to today's day**
 
 ```{r}
-write.csv(TODAYCOUNTYSTATE, "Day_XXX_2020.csv")
+write.csv(TODAYCOUNTYSTATE, "Day XXX_2020.csv")
 ```
 
 
