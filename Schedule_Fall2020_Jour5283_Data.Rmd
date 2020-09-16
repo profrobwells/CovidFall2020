@@ -497,7 +497,7 @@ https://learn.uark.edu/webapps/blackboard/content/listContent.jsp?course_id=_276
 
       Story Pitch for this assignment. 200 Words on your idea, list 3 sources and the data you plan to use.
 
-      Assignment #1: (Due Sept. 21): Managing Data / Static Graphic
+      Assignment #1: (Due Sept. 23): Managing Data / Static Graphic
       Static Graphic - Managing Data in R / Tableau.        
       Students will use R Studio to gather, analyze and visualize Arkansascovid data and report and write a 600 word story. 
 
@@ -623,6 +623,67 @@ https://video.uark.edu/media/Alberto+Cairo+Data+Viz/0_10pblm1b
 
 **Agenda** 
     
+    Assignment #1 Pushed to Sept. 23   
+    Second Eyes on Tweets - Editing Help   
+    Access to Google Drive and WordPress   
+    Workshop  
+    
+
+**Assignment #1 Progress**   
+
+      Assignment #1: (Due Sept. 23): Managing Data / Static Graphic
+      Static Graphic - Managing Data in R / Tableau.        
+      Students will use R Studio to gather, analyze and visualize Arkansascovid data and report and write a 600 word story. 
+
+**Workshop**
+
+    Time to Divide and Conquer The Task List
+    Details in the Task List
+    
+    Katie join the new data with the old and document it
+    Kendall fix the mobile Wordpress links
+    Obed pull together the Spanish workbooks for the state update. Then the counties
+    Abby prepare text snippets to run out at 2 pm from the tweet slide. Look at new data releases and come up with additional snippets
+    Mary fix the demographic data and join it to the new version. Build Tableau templates
+
+
+#### Read Before Next Class 
+
+    Wong, Dona M. The Wall Street Journal Guide to Information Graphics. 
+    Ch. 5: Charting Your Course
+    
+    Albert Cairo, "The Functional Art," Principles of Data Visualization.
+
+http://learn.r-journalism.com/en/wrangling/dplyr/dplyr/
+
+
+#### For Weekend Memo. Due on Blackboard, 11:59 p.m. Saturday, Sept. 19
+
+      1) Describe Two Lessons Learned from Dona Wong, The Wall Street Journal Guide to Information Graphics, Ch. 2 and how that will apply to your Tableau work.     
+ 
+      2) Reader feedback: Draft a response to this person. See "Stacy Robinson Your Post on Twitter" in Files | Teams    
+https://bit.ly/32tw7Q1  
+
+      3) IRE Conference Schedule, Identify two events you plan to attend and tell the class why. 
+https://www.ire.org/events-and-training/event/4125
+
+      4) White House coronavirus task force report on Arkansas. Describe two key points that struck you as interesting and worth a story, and explain why in a few paragraphs.      
+
+https://www.documentcloud.org/documents/7204533-Arkansas-9-6-20.html  
+
+
+      5) Describe your weekly tasks, including status of pending projects, and put in links to your work
+
+---   
+
+# Week #5: IRE Conference, Data Visualization
+
+## Monday, Sept. 21   
+
+**Agenda** 
+
+
+    
     Data Visualization
     ggplot2 - charts and maps
     IRE Conference Schedule - what are you attending
@@ -630,17 +691,20 @@ https://video.uark.edu/media/Alberto+Cairo+Data+Viz/0_10pblm1b
     ggplot2 - charts and maps
     Export Static chart 
     Discuss Ch 5, Machlis: See Notes
-    White House Report
+
 
     
     > [**GGplot Video from Andrew Ba Tran**](https://www.youtube.com/watch?v=Sx7d7eGRSj0&t=9s){target="_blank"} 
---  
+-- 
+
+    Review Assignment #1   
+    Assignment1_KEY_StaticGraphic_2_9.R    
+    Dplyr bootcamp. 
+    IRE Conference
 
 
 
--**White House coronavirus task force report on Arkansas**     
 
-https://www.documentcloud.org/documents/7204533-Arkansas-9-6-20.html  
 
 Document obtained by the Center for Public Integrity.   
 
@@ -663,10 +727,7 @@ https://raw.githubusercontent.com/profrobwells/CovidFall2020/master/Exercises/Do
     Multiple variable in a graph
     Geom_Line, Geom_point, Geom_bar
     How to alter the colors in a chart.
-
-
-
-      Tutorial: Graphing Introducton Jan 11 2020.R
+    Tutorial: Graphing Introducton Jan 11 2020.R
 
 
 - **GGPLOT**
@@ -691,29 +752,71 @@ https://raw.githubusercontent.com/profrobwells/CovidFall2020/master/Exercises/Do
 > [**Download this file and open it in R Studio**](https://bit.ly/2RlQtSE){target="_blank"} 
 
 
-
 #### Read Before Next Class 
-
-    Wong, Dona M. The Wall Street Journal Guide to Information Graphics. 
-    Ch. 5: Charting Your Course
+  
+    Machlis: Ch. 8 Analyze data by groups
+    Transforming and Analyzing Data dplyr.pdf, Andrew Ba Tran, Washington Post
+    Dplyr - Andrew Ba  Tran - pipes-dplyr.pdf
     
-    Albert Cairo, "The Functional Art," Principles of Data Visualization.
+----------------- 
 
-http://learn.r-journalism.com/en/wrangling/dplyr/dplyr/
+## Wednesday, Sept. 23
 
+**Agenda** 
+    
+    Guest Speaker: Arkansas State Rep. Nicole Clowney, D-Fayetteville.
+    IRE Conference
+    Dplyr boot camp!!!
+    There is nothing else. Focus!!!
+    Assignment #1: (Due Sept. 23): Managing Data / Static Graphic
+
+**Guest Speaker: Rep. Nicole Clowney**
+
+![](Images/Nicole Clowney slide.png)
+
+
+
+**Assignment #1: (Due Sept. 23): Managing Data / Static Graphic**  
+
+      Static Graphic - Managing Data in R / Tableau.        
+      Students will use R Studio to gather, analyze and visualize Arkansascovid data and report and write a 600 word story. 
+
+
+
+- **DPLYR**   
+
+    DPLYR BOOT CAMP 5th Lesson 8-21-2020.Rmd
+
+![Code in Fun](Images/Cat coding.gif)  
+
+    
+**Notes: How Do I?**
+    
+  https://smach.github.io/R4JournalismBook/HowDoI.html
+
+
+#### Read Before Next Class  
+    
+    Machlis 
+    Ch. 13 Date calculations
+    Dealing-with-dates.pdf by Andrew Ba Tran  
+  https://github.com/profrobwells/Data-Analysis-Class-Jour-405v-5003/blob/master/Readings/dealing-with-dates.pdf
+        
 
 ---   
 
-# Week #5: Dplyr Bootcamp
+# Week #6: Dealing With Dates 
 
-## Monday, Sept. 21   
 
-**Agenda** 
+## Monday Sept. 28  
 
-    Review Assignment #1   
-    Assignment1_KEY_StaticGraphic_2_9.R    
-    Dplyr bootcamp. 
-    IRE Conference
+**Agenda**  
+
+    Lubridate
+    Review Ch. 13 Machlis
+    Review Tran and Lubridate
+    
+**Exercises**    
 
 
 #### Assignment #1     
@@ -774,57 +877,6 @@ https://video.uark.edu/media/Date+Corrected+Data/1_2rmzgzwu
 
 
 
-
-#### Read Before Next Class 
-  
-    Machlis: Ch. 8 Analyze data by groups
-    Transforming and Analyzing Data dplyr.pdf, Andrew Ba Tran, Washington Post
-    Dplyr - Andrew Ba  Tran - pipes-dplyr.pdf
-    
------------------ 
-
-## Wednesday, Sept. 23
-
-**Agenda** 
-    
-    IRE Conference
-    Dplyr boot camp!!!
-    There is nothing else. Focus!!!
-
-- **DPLYR**   
-
-    DPLYR BOOT CAMP 5th Lesson 8-21-2020.Rmd
-
-![Code in Fun](Images/Cat coding.gif)  
-
-    
-**Notes: How Do I?**
-    
-  https://smach.github.io/R4JournalismBook/HowDoI.html
-
-
-#### Read Before Next Class  
-    
-    Machlis 
-    Ch. 13 Date calculations
-    Dealing-with-dates.pdf by Andrew Ba Tran  
-  https://github.com/profrobwells/Data-Analysis-Class-Jour-405v-5003/blob/master/Readings/dealing-with-dates.pdf
-        
-
----   
-
-# Week #6: Dealing With Dates 
-
-
-## Monday Sept. 28  
-
-**Agenda**  
-
-    Lubridate
-    Review Ch. 13 Machlis
-    Review Tran and Lubridate
-    
-**Exercises**    
 
 --Using Lubridate    
     
