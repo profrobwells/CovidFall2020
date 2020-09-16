@@ -638,7 +638,7 @@ https://video.uark.edu/media/Alberto+Cairo+Data+Viz/0_10pblm1b
 **Workshop**
 
     Time to Divide and Conquer The Task List
-    Details in the Task List
+    Latest Details in the Task List
     
     Katie join the new data with the old and document it
     Kendall fix the mobile Wordpress links
@@ -659,20 +659,15 @@ http://learn.r-journalism.com/en/wrangling/dplyr/dplyr/
 
 #### For Weekend Memo. Due on Blackboard, 11:59 p.m. Saturday, Sept. 19
 
-      1) Describe Two Lessons Learned from Dona Wong, The Wall Street Journal Guide to Information Graphics, Ch. 2 and how that will apply to your Tableau work.     
- 
-      2) Reader feedback: Draft a response to this person. See "Stacy Robinson Your Post on Twitter" in Files | Teams    
-https://bit.ly/32tw7Q1  
-
-      3) IRE Conference Schedule, Identify two events you plan to attend and tell the class why. 
+      1) IRE Conference Schedule, Identify two events you plan to attend and tell the class why. 
 https://www.ire.org/events-and-training/event/4125
 
-      4) White House coronavirus task force report on Arkansas. Describe two key points that struck you as interesting and worth a story, and explain why in a few paragraphs.      
+      2) White House coronavirus task force report on Arkansas. Describe two key points that struck you as interesting and worth a story, and explain why in a few paragraphs.      
 
 https://www.documentcloud.org/documents/7204533-Arkansas-9-6-20.html  
 
 
-      5) Describe your weekly tasks, including status of pending projects, and put in links to your work
+      3) Describe your weekly tasks, including status of pending projects, and put in links to your work
 
 ---   
 
@@ -751,6 +746,13 @@ https://raw.githubusercontent.com/profrobwells/CovidFall2020/master/Exercises/Do
 
 > [**Download this file and open it in R Studio**](https://bit.ly/2RlQtSE){target="_blank"} 
 
+
+      Questions for Nicole Clowney
+
+      1) Describe Two Lessons Learned from Dona Wong, The Wall Street Journal Guide to Information Graphics, Ch. 2 and how that will apply to your Tableau work.     
+ 
+      2) Reader feedback: Draft a response to this person. See "Stacy Robinson Your Post on Twitter" in Files | Teams    
+https://bit.ly/32tw7Q1  
 
 #### Read Before Next Class 
   
