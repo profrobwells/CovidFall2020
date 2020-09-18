@@ -1,0 +1,188 @@
+---
+title: "Creating master_file"
+author: "Katy Seiter and Rob Wells"
+date: "9/18/2020"
+output: html_document
+---
+
+###This script created our new master file on Sept. 18.
+
+It created joined_county_state_master.csv on Sept. 17 by joining the former master file,county_state_master, with the new expanded data that began to be released Sept 11. The expanded data provides detail about confirmed PCR positives, deaths etc versus "probable_pos" and "probable_deaths" which would be antigen or other means of establishing a covid case besides the gold standard of a PCR test.
+
+Our new data begins Sept. 13 since we lost out on the Sept 11 and Sept 12 releases due to confusion over the weekend about the scale of the changes. 
+
+This script creates new legacy data columns from yhe county_state_master that reflect the old PCR totals back to March 23. For a time series going beyond Sept 13, 2020, you will use the PCR totals and for comparison use the "confirmed_pos" or "confirmed_neg" 
+
+Documentation:
+
+https://docs.google.com/spreadsheets/d/1ZZuOUGzFapB4rwn-sGu50Vi2Ei7onaop8nVQs42K5yw/edit?usp=sharing
+on on the transfer can be found here:
+
+
+
+```{r setup, include=FALSE}
+library(tidyverse)
+library(janitor)
+library(lubridate)
+library(googlesheets4)
+library(googledrive)
+library(tidyr)
+library(rio)
+library(dplyr)
+```
+
+#Import new data version since Sept 13
+```{r}
+newcountydata <- rio::import("new_county_data_to_9_17.csv")
+#newcountydata <- new_county_data_to_9_17
+janitor::clean_names(newcountydata)
+
+newcountydata <- newcountydata [ -c(1) ]
+
+newcountydata$mydate <- as.Date(newcountydata$date)
+newcountydata$POP_5YR_EST_2018 <- as.numeric(newcountydata$POP_5YR_EST_2018)
+newcountydata <- newcountydata [ -c(38) ]
+
+
+
+glimpse(newcountydata)
+
+```
+
+#Import and clean the data file up from March 23-Sept 17
+```{r}
+county_state_master <- rio::import("county_state_master.csv")
+
+county_state_master <- county_state_master [ -c(1) ]
+
+county_state_master$Date <- as.Date(county_state_master$Date)
+glimpse(county_state_master)
+```
+
+Match names
+```{r}
+colnames(county_state_master)[1] <- "county_nam"
+colnames(county_state_master)[2] <- "mydate"
+colnames(county_state_master)[3] <- "confirmed_pos"
+colnames(county_state_master)[4] <- "confirmed_neg"
+colnames(county_state_master)[5] <- "confirmed_recov"
+colnames(county_state_master)[6] <- "confirmed_death"
+colnames(county_state_master)[7] <- "pcr_test"
+colnames(county_state_master)[8] <- "confirmed_active"
+
+```
+
+
+
+Match names
+colnames(county_state_master)[1] <- "county_name"
+colnames(county_state_master)[2] <- "date"
+colnames(county_state_master)[3] <- "positive_legacy"
+colnames(county_state_master)[4] <- "negative_legacy"
+colnames(county_state_master)[5] <- "recoveries_legacy"
+colnames(county_state_master)[6] <- "deaths_legacy"
+colnames(county_state_master)[7] <- "total_tests_legacy"
+colnames(county_state_master)[8] <- "active_cases_legacy"
+colnames(newcountydata)[1] <- "county_name"
+colnames(newcountydata)[38] <- "date"
+
+
+
+#Creates Statewide Totals for New County Data 
+
+```{r}
+z13 <- newcountydata %>% 
+  filter(mydate==("2020-09-13")) %>% 
+  janitor::adorn_totals("row") %>% 
+  mutate(mydate=("2020-09-13")) %>% 
+  filter(county_nam=="Total")
+
+z14 <- newcountydata %>% 
+  filter(mydate==("2020-09-14")) %>% 
+  janitor::adorn_totals("row") %>% 
+  mutate(mydate=("2020-09-14"))  %>% 
+  filter(county_nam=="Total")
+
+z15 <- newcountydata %>% 
+  filter(mydate==("2020-09-15")) %>% 
+  janitor::adorn_totals("row") %>% 
+  mutate(mydate=("2020-09-15")) %>% 
+  filter(county_nam=="Total")
+
+z16 <- newcountydata %>% 
+  filter(mydate==("2020-09-16")) %>% 
+  janitor::adorn_totals("row") %>% 
+  mutate(mydate=("2020-09-16")) %>% 
+  filter(county_nam=="Total")
+
+z17 <- newcountydata %>% 
+  filter(mydate==("2020-09-17")) %>% 
+  janitor::adorn_totals("row") %>% 
+  mutate(mydate=("2020-09-17")) %>% 
+  filter(county_nam=="Total")
+
+all <- rbind(z13, z14, z15, z16, z17)
+
+all$county_nam <- str_replace_all(all$county_nam, pattern=fixed('Total'), replacement=fixed('Arkansas_all_counties') )
+```
+
+#joins statewide totals to newcountydata
+```{r}
+bfd <- rbind(newcountydata,all)
+
+bfd <- bfd %>% 
+  arrange(desc(mydate))
+
+newcountydata <- bfd
+```
+
+#Filtering the County_State_Master to end at Sept 12 so to cleanly join with newcountydata
+```{r}
+old_filtered <- county_state_master %>% 
+  filter(mydate < "2020-09-13")
+
+```
+
+#Joining Old and New Tables
+```{r}
+#install.packages("gtools")
+library(gtools)
+f <- smartbind(newcountydata, old_filtered, fill=0)
+```
+```{r}
+
+f <- f [ -c(39:52) ]
+glimpse(f)
+f$mydate <- as.Date(f$mydate)
+```
+
+
+#create separate calculations table to be rejoined with full data
+```{r}
+calcs <- county_state_master %>% 
+  select(county_nam, mydate, New_Cases_Today, Recovered_Since_Yesterday, New_Deaths_Today, New_Tests_Dashboard, Cases_Population, Tested_Population, New_Cases_Today_10k_Pop, Active_Cases_10k_Pop, Pct_Positive_Cumulative, Pct_Positive_New_to_Dashboard, Closed, Pct_Deaths_vs_Recoveries, Pct_Recoveries_vs_Deaths)
+```
+
+#Combines with the calculation filters out the older repeats prior to April 9
+```{r}
+newdf <- inner_join(calcs, f, by=c("mydate", "county_nam")) %>% 
+  distinct()
+
+#cleans up variations on county name
+newdf$county_nam <- str_replace_all(newdf$county_nam, pattern=fixed('Arkansas (All counties)'), replacement=fixed('Arkansas_all_counties') )
+newdf$county_nam <- str_replace_all(newdf$county_nam, pattern=fixed('Missing County Info Info'), replacement=fixed('Missing County Info') )
+
+newdf$county_nam  <- gsub("[[:space:]]", "", newdf$county_nam)
+```
+
+
+```{r}
+write.csv(newdf, "master_file.csv")
+```
+
+
+#--30--
+
+
+
+
