@@ -21,6 +21,8 @@ library(googlesheets4)
 library(googledrive)
 library(tidyr)
 library(jsonlite)
+library(gtools)
+#install.packages("gtools")
 # vignette("basic-usage", package="googlesheets")
 #install.packages("googledrive")
 #install.packages("googlesheets4")
@@ -44,7 +46,6 @@ today_county <- df3
 
 ```{r}
 today_county <- janitor::clean_names(today_county)
-glimpse(today_county)
 ```
 
 
@@ -73,23 +74,17 @@ today_county <- today_county %>%
 today_county$county_nam <- str_replace_all(today_county$county_nam, pattern=fixed('Total'), replacement=fixed('Arkansas_all_counties') )
 today_county$county_nam  <- gsub("[[:space:]]", "", today_county$county_nam)
 today_county$mydate <- as.Date(today_county$mydate)
-glimpse(today_county)
 ```
 
 -**Import and Clean Yesterday's Data**
 ```{r}
 yesterday_county <- rio::import("master_file.csv")
-yesterday_county <- yesterday_county [ -c(1) ]
+#yesterday_county <- yesterday_county [ -c(1) ]
 yesterday_county$mydate <- as.Date(yesterday_county$mydate)
 #ran this to test it out on today's data
 #x <- yesterday_county %>% 
 #  filter(mydate==(yesterday))
-#Match names
-colnames(yesterday_county)[23] <- "recoveries"
-colnames(yesterday_county)[31] <- "pop_5yr_est_2018"
-
-
-names(yesterday_county)
+yesterday_county[4:45] <- lapply(yesterday_county[4:45], as.numeric)
 ```
 # .
 # COUNTY DATA SECTION 
@@ -102,16 +97,10 @@ names(yesterday_county)
 Create Temporary Table Two Days' Worth of Data
 Sort Alphbetically and Run Calculations
 
-
 ```{r}
-#yesterday comes from Line 124
 countytemp <- yesterday_county %>% 
-  filter(mydate >= yesterday) %>%  
-  arrange(county_nam) #%>% 
- # filter(county_nam!="Arkansas_all_counties")
-
-countytemp$mydate <- as.Date(countytemp$mydate)
-countytemp$pop_5yr_est_2018 <- as.numeric(countytemp$pop_5yr_est_2018)
+  filter(mydate>=(yesterday)) %>%  
+  arrange(county_nam) 
 ```
 
 You should get a df with 154 observations (two days' worth a data)
