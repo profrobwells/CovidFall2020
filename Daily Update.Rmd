@@ -198,6 +198,8 @@ glimpse(hospital)
 
 
 #Need to Import and Create Hospital Master File to Run Hospital Calculations
+#Data comes from daily email but only M-F
+#No good on the weekends
 #Create a temporary version of master file with hospital data for Sept 18 and add it back later
 Match names
 ```{r}

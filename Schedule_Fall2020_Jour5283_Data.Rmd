@@ -677,88 +677,33 @@ https://www.documentcloud.org/documents/7204533-Arkansas-9-6-20.html
 
 **Agenda** 
 
+    Progress report on stories   
+    IRE Conference Schedule - what are you attending. Take notes, grab tipsheets
+    Strategic Plan
+    Divide and Conquer List
+    Context and analysis
+    Nicole Clowney, guest speaker Wednesday
 
+-**Discuss** 
+
+    Context and Analysis
+    --Hutchinson statements: Gov. Asa Hutchinson @AsaHutchinson. There are 549 new COVID-19 cases in Arkansas. With over 8,800 PCR tests performed yesterday, we’re on track to meet and exceed our testing goal for this month. Continue to wear your mask to protect your friends and family.
+    --Static vs active: antigen numbers vs difference in tests. 
     
-    Data Visualization
-    ggplot2 - charts and maps
-    IRE Conference Schedule - what are you attending
-    Data Visualization
-    ggplot2 - charts and maps
-    Export Static chart 
-    Discuss Ch 5, Machlis: See Notes
-
-
-    
-    > [**GGplot Video from Andrew Ba Tran**](https://www.youtube.com/watch?v=Sx7d7eGRSj0&t=9s){target="_blank"} 
--- 
-
-    Review Assignment #1   
-    Assignment1_KEY_StaticGraphic_2_9.R    
-    Dplyr bootcamp. 
-    IRE Conference
-
-
-
-
-
-Document obtained by the Center for Public Integrity.   
-
+    Document obtained by the Center for Public Integrity.   
 https://publicintegrity.org/health/coronavirus-and-inequality/white-house-coronavirus-red-zone-reports-covid/
 
--**Discuss**    
 
-Wong, Dona M. The Wall Street Journal Guide to Information Graphics. 
-Ch. 2: Chart Smart. p 70->   
+     Wong, Dona M. The Wall Street Journal Guide to Information Graphics. Ch. 2: Chart Smart. p 70->   
 
 
-**Exercise: Downloading Data 9-9-2020.Rmd**    
+-**For Wednesday**
 
-https://raw.githubusercontent.com/profrobwells/CovidFall2020/master/Exercises/Downloading%20Data%209-9-2020.Rmd
+    1) Questions for Arkansas State Rep. Nicole Clowney. https://www.arkansashouse.org/district/86  Twitter: @NicoleClowneyAR
+    
+![](Images/Nicole Clowney slide.png)
 
-
-    Graphing in GGPlot   
- https://bit.ly/2Gqjfj4   
-
-    Multiple variable in a graph
-    Geom_Line, Geom_point, Geom_bar
-    How to alter the colors in a chart.
-    Tutorial: Graphing Introducton Jan 11 2020.R
-
-
-- **GGPLOT**
-  
-    A handy explanation of ggplot and its components   
-
-![](Images/GGplot_explainer.png)
-
-    If you’re using ggplot: plus it!
-    For everything else: pipe it!
-
-    aes - reorder in ggplot 
-     
-    geom_point() 
-    geom_bar()
-    geom_boxplot() 
- 
-- **Data Visualization Intro**
-
-    Load tutorial: Basic Data Visualization 12-26-18.R       
-
-> [**Download this file and open it in R Studio**](https://bit.ly/2RlQtSE){target="_blank"} 
-
-
-      Questions for Nicole Clowney
-
-      1) Describe Two Lessons Learned from Dona Wong, The Wall Street Journal Guide to Information Graphics, Ch. 2 and how that will apply to your Tableau work.     
- 
-      2) Reader feedback: Draft a response to this person. See "Stacy Robinson Your Post on Twitter" in Files | Teams    
-https://bit.ly/32tw7Q1  
-
-#### Read Before Next Class 
-  
-    Machlis: Ch. 8 Analyze data by groups
-    Transforming and Analyzing Data dplyr.pdf, Andrew Ba Tran, Washington Post
-    Dplyr - Andrew Ba  Tran - pipes-dplyr.pdf
+    2) **Assignment #1: (Due Sept. 23, 11:59 pm): Managing Data / Static Graphic**  
     
 ----------------- 
 
@@ -814,6 +759,7 @@ https://bit.ly/32tw7Q1
 
 **Agenda**  
 
+    ggplot2 - charts and maps
     Lubridate
     Review Ch. 13 Machlis
     Review Tran and Lubridate
@@ -826,7 +772,62 @@ https://bit.ly/32tw7Q1
       Assignment #1: (Due Sept. 21): Managing Data / Static Graphic
       Static Graphic - Managing Data in R / Tableau.        
       Students will use R Studio to gather, analyze and visualize Arkansascovid data for Arkansas and report and write a 600 word story. 
-      
+
+
+
+    Discuss Ch 5, Machlis: See Notes
+    Export Static chart 
+    Data Visualization
+    ggplot2 - charts and maps
+
+    > [**GGplot Video from Andrew Ba Tran**](https://www.youtube.com/watch?v=Sx7d7eGRSj0&t=9s){target="_blank"} 
+-- 
+
+    Review Assignment #1   
+    Assignment1_KEY_StaticGraphic_2_9.R    
+    Dplyr bootcamp. 
+    IRE Conference
+
+
+
+
+
+
+**Exercise: Downloading Data 9-9-2020.Rmd**    
+
+https://raw.githubusercontent.com/profrobwells/CovidFall2020/master/Exercises/Downloading%20Data%209-9-2020.Rmd
+
+
+    Graphing in GGPlot   
+ https://bit.ly/2Gqjfj4   
+
+    Multiple variable in a graph
+    Geom_Line, Geom_point, Geom_bar
+    How to alter the colors in a chart.
+    Tutorial: Graphing Introducton Jan 11 2020.R
+
+
+- **GGPLOT**
+  
+    A handy explanation of ggplot and its components   
+
+![](Images/GGplot_explainer.png)
+
+    If you’re using ggplot: plus it!
+    For everything else: pipe it!
+
+    aes - reorder in ggplot 
+     
+    geom_point() 
+    geom_bar()
+    geom_boxplot() 
+ 
+- **Data Visualization Intro**
+
+    Load tutorial: Basic Data Visualization 12-26-18.R       
+
+> [**Download this file and open it in R Studio**](https://bit.ly/2RlQtSE){target="_blank"} 
+
 
 - **Dplyr Presentation*   
 
@@ -891,6 +892,17 @@ https://video.uark.edu/media/Date+Corrected+Data/1_2rmzgzwu
       What we will produce    
     
 ![](Images/AOCTweets_Month.png)  
+
+      1) Describe Two Lessons Learned from Dona Wong, The Wall Street Journal Guide to Information Graphics, Ch. 2 and how that will apply to your Tableau work.     
+ 
+      2) Reader feedback: Draft a response to this person. See "Stacy Robinson Your Post on Twitter" in Files | Teams    
+https://bit.ly/32tw7Q1  
+
+#### Read Before Next Class 
+  
+    Machlis: Ch. 8 Analyze data by groups
+    Transforming and Analyzing Data dplyr.pdf, Andrew Ba Tran, Washington Post
+    Dplyr - Andrew Ba  Tran - pipes-dplyr.pdf
 
 
 #### Read Before Next Class 
