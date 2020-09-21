@@ -159,6 +159,7 @@ master2 <- smartbind(twodays, yesterday_county, fill=0)
 master2 <- master2 %>% 
   select("county_nam","mydate","deaths","fhwa_numbe","fips","positive","negative","recoveries","total_tests","active_cases","pop_5yr_est_2018","confirmed_pos","probable_pos","confirmed_neg","probable_neg","confirmed_recov","probable_recov","confirmed_death","probable_death", "confirmed_active","probable_active","pcr_test","antigen_test","pcr_pos_test", "pcr_neg_test","antigen_pos_test","antigen_neg_test","total_pos_test","total_neg_test",
 "New_Cases_Today","Recovered_Since_Yesterday","New_Deaths_Today","New_Tests_Dashboard","Cases_Population","Tested_Population","New_Cases_Today_10k_Pop","Active_Cases_10k_Pop","Pct_Positive_Cumulative","Pct_Positive_New_to_Dashboard","Closed","Pct_Deaths_vs_Recoveries","Pct_Recoveries_vs_Deaths","lab_prvt","lab_pub")
+master2$mydate <- as.Date(master2$mydate)
 glimpse(master2)
 ```
 
@@ -182,100 +183,106 @@ write.csv(top_numbers, "top numbers.csv")
 # Hospital Data
 #.
 #.
-# IMPORT THE DAILY HOSPITAL DATA FROM THE GOOGLE Form
+# IMPORT THE DAILY TWEET HOSPITAL DATA FROM THE GOOGLE Form
 
-```{r}
-url <- ("https://docs.google.com/spreadsheets/d/1ikblX8tikM59ma1AftkqgGbyeZkXB6DuBtwMsVeoGYw/edit#gid=701586163")
+```{r include=FALSE}
+url2 <- ("https://docs.google.com/spreadsheets/d/1ikblX8tikM59ma1AftkqgGbyeZkXB6DuBtwMsVeoGYw/edit?usp=sharing")
 
-hospital <- read_sheet(url, sheet = "Hospital Data",  col_types = NULL, na = "",trim_ws = TRUE)
+hospital <- read_sheet(url2, sheet = "Hospital-TWEET SLIDE",  col_types = NULL, na = "",trim_ws = TRUE)
 #clean names
 hospital <- janitor::clean_names(hospital)
 hospital <- hospital %>% 
   arrange(desc(date))
 hospital <- hospital [ -c(1) ]
+colnames(hospital)[2:5] <- c("Hospitalized", "Vent", "Ever_Hospitalized", "Ever_on_a_Vent")
+hospital[2:5] <- lapply((hospital)[2:5], as.numeric)
+hospital$date <- as.Date(hospital$date)
+```
+
+```{r}
 glimpse(hospital)
+#glimpse(master2)
 ```
 
 
-#Need to Import and Create Hospital Master File to Run Hospital Calculations
-#Data comes from daily email but only M-F
-#No good on the weekends
-#Create a temporary version of master file with hospital data for Sept 18 and add it back later
-Match names
 ```{r}
-colnames(hospital) [1] <- "Date"
-colnames(hospital) [2] <- "Hospitalized"
-colnames(hospital) [3] <- "Total_Beds_Available"
-colnames(hospital) [4] <- "Total_ICU_Beds"
-colnames(hospital) [5] <- "Total_ICU_Beds_Available"
-colnames(hospital) [6] <- "Total_Vents"
-colnames(hospital) [7] <- "Total_Vents_Available"
-colnames(hospital) [8] <- "Total_Covid_In_ICU"
-colnames(hospital) [9] <- "Vent"
-hospital$Date <- as.Date(hospital$Date)
+main_hospital <- master2 %>% 
+  filter(county_nam=="Arkansas_all_counties") %>% 
+  select(mydate, confirmed_active, active_cases)
+
+main_hospital2 <- left_join(hospital, main_hospital, by=c("date"="mydate"))
+glimpse(main_hospital2)
 ```
-
-
--**Import Yesterday's all_state_and_hospitals Data**
--**Creates negative history table**
-```{r}
-master_hospital <- rio::import("all_state_and_hospitals.csv")
-master_hospital <- master_hospital [ -c(1) ]
-master_hospital$Date <- as.Date(master_hospital$Date)
-glimpse(master_hospital)
-```
-
-
 
 #Hospital Math
-```{r}
-hospital1 <- hospital %>% 
-  mutate(Hosp_Change_from_Yesterday = (Hospitalized-lead(Hospitalized))) %>% 
-  mutate(Pct_Vent = (Vent/Hospitalized)*100) 
-
-
-hospital1 <- as.data.frame(hospital1)
-
-
-df <- left_join(master_hospital, hospital1, by=c("Date", "Hospitalized", "Hosp_Change_from_Yesterday"))
-
-
-glimpse(df)
-```
-
-#If the data below isn't ready, then you can do a temporary update with this table
 
 ```{r}
-hospital_master1 <- df
-write.csv(hospital_master1, "hospital_master1.csv")
-
-```
-
-
-#Ever Hospitalized Equations
-#Requires Ever_Hospitalized from the Tweet
-```{r}
-hospital2 <- hospital %>% 
+hospital1 <- main_hospital2 %>% 
   mutate(New_Admits = (Ever_Hospitalized-lead(Ever_Hospitalized))) %>% 
+  mutate(Hosp_Change_from_Yesterday = (Hospitalized-lead(Hospitalized))) %>% 
   mutate(New_Discharges_Deaths = (New_Admits-Hosp_Change_from_Yesterday)) %>% 
-  mutate(Pct_Hospitalized = (Hospitalized/confirmed_active)*100) %>% 
-  mutate(New_on_Vent = (Ever_on_a_Vent-lead(Ever_on_a_Vent))) 
+  mutate(Pct_Vent = (Vent/Hospitalized)*100) %>% 
+  mutate(New_on_Vent = (Ever_on_a_Vent-lead(Ever_on_a_Vent,na.rm=TRUE)))%>% 
+  mutate(Pct_Hospitalized = (Hospitalized/active_cases)*100)
+
+hospital1 <- hospital1 %>% 
+  filter(date > "2020-09-12")
+
+hospital1
+```
+
+```{r}
+#To make Pct_Hospialized consistent in time series:
+#Archive File For "Active Cases" Sept 12 and Earlier: Only PCR Data
+
+hospital2 <- main_hospital2 %>% 
+  mutate(New_Admits = (Ever_Hospitalized-lead(Ever_Hospitalized))) %>% 
+  mutate(Hosp_Change_from_Yesterday = (Hospitalized-lead(Hospitalized))) %>% 
+  mutate(New_Discharges_Deaths = (New_Admits-Hosp_Change_from_Yesterday)) %>% 
+  mutate(Pct_Vent = (Vent/Hospitalized)*100) %>% 
+  mutate(New_on_Vent = (Ever_on_a_Vent-lead(Ever_on_a_Vent,na.rm=TRUE)))%>% 
+  mutate(Pct_Hospitalized = (Hospitalized/confirmed_active)*100)
 
 hospital2 <- hospital2 %>% 
-  select(Date, Hospitalized, New_Admits, New_Discharges_Deaths, Pct_Hospitalized, New_on_Vent)
-```
+  filter(date < "2020-09-12")
 
-#Join hospital2 calcs
+hospital2
+```
 ```{r}
-all_state_and_hospitals <- left_join(master_hospital, hospital2, by=c("Date", "Hospitalized"))
-
+glimpse(hospital2)
 ```
 
-# Part 4: Master File -State
-## Upload this file to Google Drive: all_state_and_hospitals.csv
+
 ```{r}
-write.csv(all_state_and_hospitals, "all_state_and_hospitals.csv")
+#make new historic hospital table
+
+hospital_master <- rbind(hospital1, hospital2)
+write.csv(hospital_master, "hospital_master.csv")
 ```
+
+
+# IMPORT THE DAILY EMAILED HOSPITAL DATA FROM THE GOOGLE Form
+
+```{r include=FALSE}
+url3 <- ("https://docs.google.com/spreadsheets/d/1ikblX8tikM59ma1AftkqgGbyeZkXB6DuBtwMsVeoGYw/edit?usp=sharing")
+
+hospitalemail <- read_sheet(url2, sheet = "Hospital_email",  col_types = NULL, na = "",trim_ws = TRUE)
+#clean names
+hospitalemail <- janitor::clean_names(hospitalemail)
+hospitalemail  <- hospitalemail  %>% 
+  arrange(desc(date))
+hospitalemail  <- hospitalemail  [ -c(1) ]
+glimpse(hospitalemail)
+colnames(hospitalemail)[1:10] <- c("Date", "Hospitalized", "Total_Beds", "Total_Beds_Available", "Total_ICU_Beds", "Total_ICU_Beds_Available", "Total_Vents", "Total_Vents_Available","Total_Covid_In_ICU","Total_Covid_Patients_Vent")
+hospitalemail$Date <- as.Date(hospitalemail$Date)
+```
+
+
+```{r}
+write.csv(hospitalemail, "hospital_email_data.csv")
+head(hospitalemail)
+```
+
 
 
 -**30**
