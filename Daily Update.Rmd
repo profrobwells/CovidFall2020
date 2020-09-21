@@ -201,15 +201,14 @@ hospital$date <- as.Date(hospital$date)
 
 ```{r}
 glimpse(hospital)
-#glimpse(master2)
 ```
 
 
 ```{r}
 main_hospital <- master2 %>% 
   filter(county_nam=="Arkansas_all_counties") %>% 
-  select(mydate, confirmed_active, active_cases)
-
+  select(mydate, confirmed_active, active_cases) %>%
+ 
 main_hospital2 <- left_join(hospital, main_hospital, by=c("date"="mydate"))
 glimpse(main_hospital2)
 ```
@@ -226,37 +225,25 @@ hospital1 <- main_hospital2 %>%
   mutate(Pct_Hospitalized = (Hospitalized/active_cases)*100)
 
 hospital1 <- hospital1 %>% 
-  filter(date > "2020-09-12")
+  filter(date ==(today))
 
 hospital1
 ```
 
 ```{r}
-#To make Pct_Hospialized consistent in time series:
-#Archive File For "Active Cases" Sept 12 and Earlier: Only PCR Data
-
-hospital2 <- main_hospital2 %>% 
-  mutate(New_Admits = (Ever_Hospitalized-lead(Ever_Hospitalized))) %>% 
-  mutate(Hosp_Change_from_Yesterday = (Hospitalized-lead(Hospitalized))) %>% 
-  mutate(New_Discharges_Deaths = (New_Admits-Hosp_Change_from_Yesterday)) %>% 
-  mutate(Pct_Vent = (Vent/Hospitalized)*100) %>% 
-  mutate(New_on_Vent = (Ever_on_a_Vent-lead(Ever_on_a_Vent,na.rm=TRUE)))%>% 
-  mutate(Pct_Hospitalized = (Hospitalized/confirmed_active)*100)
-
-hospital2 <- hospital2 %>% 
-  filter(date < "2020-09-12")
-
-hospital2
-```
-```{r}
-glimpse(hospital2)
+#Joint today's with hospital master.csv
+hospital_master <- rio::import("https://raw.githubusercontent.com/Arkansascovid/Main/master/hospital_master.csv")
+hospital_master <- hospital_master [ -c(1) ]
+hospital_master[2:13] <- lapply((hospital_master)[2:13], as.numeric)
+hospital_master$date <- as.Date(hospital_master$date)
+glimpse(hospital_master)
 ```
 
 
 ```{r}
-#make new historic hospital table
+#make hospital_master.csv
 
-hospital_master <- rbind(hospital1, hospital2)
+hospital_master <- rbind(hospital1, hospital_master)
 write.csv(hospital_master, "hospital_master.csv")
 ```
 
