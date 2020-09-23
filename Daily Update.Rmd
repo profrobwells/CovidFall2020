@@ -207,7 +207,7 @@ glimpse(hospital)
 ```{r}
 main_hospital <- master2 %>% 
   filter(county_nam=="Arkansas_all_counties") %>% 
-  select(mydate, confirmed_active, active_cases) %>%
+  select(mydate, confirmed_active, active_cases) 
  
 main_hospital2 <- left_join(hospital, main_hospital, by=c("date"="mydate"))
 glimpse(main_hospital2)
