@@ -55,6 +55,121 @@ covid <- janitor::clean_names(covid)
 glimpse(covid)
 ```
 
+- **Extract Population**
+```{r}
+population <- covid %>% 
+  select(county, date, population)
+```
+
+- **One Time - Filter Arkansas Counties and One Entry**
+```{r}
+population_AR <- population %>% 
+  filter(county == "Arkansas (All counties)") %>% 
+  filter(date > "2020-08-18")
+write_csv(population_AR, "population_AR.csv")
+```
+
+
+- **One Time - Filter To One Date For Just Counties and Population**
+```{r}
+population1 <- population %>% 
+  filter(date > "2020-08-18") %>% 
+  filter(!(county == "Arkansas (All counties)")) 
+
+population1 <- population1 %>% 
+  select(county, population)
+  
+  write_csv(population1, "population.csv")
+```
+
+- **One Time: Extract The Equivalent of the API Feed**
+County	Date	Positive	Negative	Recovered	Total Deaths	Number Tested	Current Infections
+
+```{r}
+api <- covid %>% 
+  select(county, date, positive, negative, recovered, total_deaths, number_tested, current_infections) %>% 
+  filter(!(county == "Arkansas (All counties)"))
+```
+
+
+- **Each Day:** We join the new data, api, with the population and then perform the calculations
+
+```{r}
+daily <- api %>% 
+  # filter(date > "2020-08-18") %>% filtered one time for data validation - all ok
+  inner_join(population1, by="county")
+head(daily)
+```
+
+## MATH!   
+
+- **Now We Do The Math**
+- **Previous Date Calculations**
+
+Create Two Days' Worth of Data, Sort Alphbetically and Run Calculations
+```{r}
+daily1 <- daily %>% 
+  filter(date > "2020-08-17") #select YESTERDAY to get two days of data
+```
+
+```{r}
+daily1 <- daily1 %>% 
+  arrange(county) 
+```
+
+New Cases = Positive Today - Positive Yesterday
+```{r}
+daily1 <- daily1 %>% 
+  mutate(new_cases_today = (lag(positive)-positive)) %>% 
+  mutate(recovered_since_yesterday = (lag(recovered)-recovered)) %>% 
+  mutate(new_deaths_today = (lag(total_deaths)-total_deaths)) %>% 
+  mutate(new_tests_dashboard = (lag(number_tested)-number_tested)) 
+```
+
+Fact Check
+Problem: Correct Answer is Displayed on the YESTERDAY FIELD
+```{r}
+x <- daily1 %>% 
+  select(county, date, number_tested, new_tests_dashboard)
+x
+```
+
+WORKAROUND
+BUILD A SEPARATE TABLE THAT SORT BY PREVIOUS DATE
+RENAME FIELDS, REJOIN WITH MASTER
+```{r}
+daily2 <- daily1 %>% 
+  select(county, date, new_cases_today, recovered_since_yesterday, new_deaths_today, new_tests_dashboard) %>% 
+    filter(date < "2020-08-18") #CAPTURES RESULTS ON THE YESTERDAY LINE
+```
+
+RENAMES THE DATE TO TODAY
+```{r}
+daily2$date <- str_replace_all(daily2$date, pattern=fixed('2020-08-18'), replacement=fixed('2020-08-19') )
+```
+
+NORMALIZE DATES BEFORE JOINING
+```{r}
+
+daily$date <- as.Date(daily$date) 
+
+daily2$date <- as.Date(daily2$date) 
+```
+
+```{r}
+glimpse(daily)
+```
+
+```{r}
+glimpse(daily2)
+```
+REJOIN WITH DAILY
+```{r}
+daily_w_cals <- daily %>% 
+  inner_join(daily2, by=c("county" = "county", "date" = "date"))
+```
+
+
 - **Simplify: Get a subset table**
 ```{r}
 cases <- covid %>% 

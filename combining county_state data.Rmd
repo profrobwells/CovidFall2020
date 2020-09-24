@@ -7,11 +7,11 @@ output: html_document
 
 ###This script created our new master file on Sept. 18.
 
-It created joined_county_state_master.csv on Sept. 17 by joining the former master file,county_state_master, with the new expanded data that began to be released Sept 11. The expanded data provides detail about confirmed PCR positives, deaths etc versus "probable_pos" and "probable_deaths" which would be antigen or other means of establishing a covid case besides the gold standard of a PCR test.
+It created master_file.csv on Sept. 17 by joining the former master file,county_state_master, with the new expanded data that began to be released Sept 11. The expanded data provides detail about confirmed PCR positives, deaths etc versus "probable_pos" and "probable_deaths" which would be antigen or other means of establishing a covid case besides the gold standard of a PCR test.
 
 Our new data begins Sept. 13 since we lost out on the Sept 11 and Sept 12 releases due to confusion over the weekend about the scale of the changes. 
 
-This script creates new legacy data columns from yhe county_state_master that reflect the old PCR totals back to March 23. For a time series going beyond Sept 13, 2020, you will use the PCR totals and for comparison use the "confirmed_pos" or "confirmed_neg" 
+This script merge legacy data columns from the county_state_master that reflect the old PCR totals back to March 23. For a time series going beyond Sept 13, 2020, you will use the PCR totals and for comparison use the "confirmed_pos" or "confirmed_neg" 
 
 Documentation:
 
@@ -71,20 +71,6 @@ colnames(county_state_master)[7] <- "pcr_test"
 colnames(county_state_master)[8] <- "confirmed_active"
 
 ```
-
-
-
-Match names
-colnames(county_state_master)[1] <- "county_name"
-colnames(county_state_master)[2] <- "date"
-colnames(county_state_master)[3] <- "positive_legacy"
-colnames(county_state_master)[4] <- "negative_legacy"
-colnames(county_state_master)[5] <- "recoveries_legacy"
-colnames(county_state_master)[6] <- "deaths_legacy"
-colnames(county_state_master)[7] <- "total_tests_legacy"
-colnames(county_state_master)[8] <- "active_cases_legacy"
-colnames(newcountydata)[1] <- "county_name"
-colnames(newcountydata)[38] <- "date"
 
 
 
@@ -149,6 +135,8 @@ old_filtered <- county_state_master %>%
 library(gtools)
 f <- smartbind(newcountydata, old_filtered, fill=0)
 ```
+
+#This cuts out all of the calculations
 ```{r}
 
 f <- f [ -c(39:52) ]

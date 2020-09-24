@@ -22,6 +22,9 @@ library(googledrive)
 library(tidyr)
 library(jsonlite)
 library(gtools)
+library(zoo)  
+library(reshape2)
+#install.packages("zoo")
 #install.packages("gtools")
 # vignette("basic-usage", package="googlesheets")
 #install.packages("googledrive")
@@ -43,6 +46,10 @@ df3$mydate <- Sys.Date()
 today_county <- df3
 ```
 
+```{r}
+#If this fails, check the backup from Austin
+#https://docs.google.com/spreadsheets/d/1WRITgZZdI5PwiJiJeutBjJigSifOaNPDyTW_jHizfGQ/edit?usp=sharing
+```
 
 
 
@@ -91,15 +98,12 @@ yesterday_county$mydate <- as.Date(yesterday_county$mydate)
 yesterday_county[4:45] <- lapply(yesterday_county[4:45], as.numeric)
 ```
 # .
-# COUNTY DATA SECTION 
+# Previous Date Calculations
 #  .
-- **This section performs all of the county calculations .**
---**It creates XXXX **
-
-- **Previous Date Calculations**
-
-Create Temporary Table Two Days' Worth of Data
-Sort Alphbetically and Run Calculations
+-**This section performs all of the county calculations**   
+-**It updates master_file.csv**  
+-**Create Temporary Table Two Days' Worth of Data**   
+-**Sort Alphbetically and Run Calculations**   
 
 ```{r}
 countytemp <- yesterday_county %>% 
@@ -158,12 +162,21 @@ twodays
 ```{r}
 master2 <- smartbind(twodays, yesterday_county, fill=0)
 ```
+
 ```{r}
 
 master2 <- master2 %>% 
   select("county_nam","mydate","deaths","fhwa_numbe","fips","positive","negative","recoveries","total_tests","active_cases","pop_5yr_est_2018","confirmed_pos","probable_pos","confirmed_neg","probable_neg","confirmed_recov","probable_recov","confirmed_death","probable_death", "confirmed_active","probable_active","pcr_test","antigen_test","pcr_pos_test", "pcr_neg_test","antigen_pos_test","antigen_neg_test","total_pos_test","total_neg_test",
 "New_Cases_Today","Recovered_Since_Yesterday","New_Deaths_Today","New_Tests_Dashboard","Cases_Population","Tested_Population","New_Cases_Today_10k_Pop","Active_Cases_10k_Pop","Pct_Positive_Cumulative","Pct_Positive_New_to_Dashboard","Closed","Pct_Deaths_vs_Recoveries","Pct_Recoveries_vs_Deaths","lab_prvt","lab_pub")
 master2$mydate <- as.Date(master2$mydate)
+
+# #5 day rolling Average of Positives
+# master2 <- master2 %>%
+#     dplyr::arrange(desc(mydate)) %>% 
+#     dplyr::mutate(positive05da = zoo::rollmean(positive, k = 5, fill = NA)) %>% 
+#   dplyr::ungroup()
+
+
 glimpse(master2)
 ```
 
@@ -173,7 +186,7 @@ glimpse(master2)
 write.csv(master2, "master_file.csv")
 ```
 
-#Quick Update File for Twitter
+
 #Latest Tweet Slide Data
 ```{r}
 top_numbers <- master2 %>% 
@@ -182,6 +195,33 @@ top_numbers <- master2 %>%
   select(county_nam, mydate, New_Cases_Today, positive, confirmed_pos, recoveries, deaths, confirmed_death, New_Deaths_Today, active_cases, confirmed_active,  Recovered_Since_Yesterday)
 write.csv(top_numbers, "top numbers.csv")
 ```
+
+#Slide on deaths vs new cases
+```{r}
+df <- master2 %>% 
+  filter(county_nam=="Arkansas_all_counties") %>% 
+  filter(mydate>=(yesterday))
+
+# Date <- df$mydate
+# New_Cases <- df$New_Cases_Today
+# Deaths <- df$deaths
+
+df2 <- melt(df[,c("mydate", "New_Deaths_Today", "New_Cases_Today")], id.vars = 1)
+
+ggplot(df2,aes(x = mydate, y = value, label = value, fill= variable)) + 
+  #geom_bar(aes(fill = variable), stat = "identity", position = "dodge") +
+  geom_col(position = position_dodge2(width = 0.9, preserve = "single"), show.legend = T) +
+  geom_text(position = position_dodge2(width = 0.9, preserve = "single"), vjust=-1, hjust=+1) +
+  scale_y_continuous(limits=c(0, 1400)) + 
+  labs(title = "New Cases & Deaths in Arkansas Announced Today", 
+       subtitle = "Confirmed + Probable,  ADH Data for Sept. 24, 2020",
+       caption = "Graphic by ArkansasCovid.com",
+       y="Amount",
+       x="Date")
+ggsave("Today_Deaths_Cases.png",device = "png",width=9,height=6, dpi=400)
+```
+
+
 #.
 #.
 # Hospital Data
@@ -247,6 +287,10 @@ glimpse(hospital_master)
 #make hospital_master.csv
 
 hospital_master <- rbind(hospital1, hospital_master)
+head(hospital_master)
+```
+
+```{r}
 write.csv(hospital_master, "hospital_master.csv")
 ```
 
