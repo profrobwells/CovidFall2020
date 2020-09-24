@@ -44,6 +44,8 @@ today_county <- df3
 ```
 
 
+
+
 ```{r}
 today_county <- janitor::clean_names(today_county)
 ```
@@ -53,8 +55,10 @@ today_county <- janitor::clean_names(today_county)
 ```{r}
 #today's date
 today <- Sys.Date()
+
 #NOTE: IF YOU ARE RUNNING THIS A DAY LATE, USE THIS CODE TO WORK PROPERLY
 #today <- Sys.Date()-1
+#today_county$mydate <-"2020-09-22- THE OLD DATE...."
 
 #yesterday's date
 yesterday <- (today-1)
@@ -203,7 +207,6 @@ hospital$date <- as.Date(hospital$date)
 glimpse(hospital)
 ```
 
-
 ```{r}
 main_hospital <- master2 %>% 
   filter(county_nam=="Arkansas_all_counties") %>% 
@@ -253,7 +256,7 @@ write.csv(hospital_master, "hospital_master.csv")
 ```{r include=FALSE}
 url3 <- ("https://docs.google.com/spreadsheets/d/1ikblX8tikM59ma1AftkqgGbyeZkXB6DuBtwMsVeoGYw/edit?usp=sharing")
 
-hospitalemail <- read_sheet(url2, sheet = "Hospital_email",  col_types = NULL, na = "",trim_ws = TRUE)
+hospitalemail <- read_sheet(url3, sheet = "Hospital_email",  col_types = NULL, na = "",trim_ws = TRUE)
 #clean names
 hospitalemail <- janitor::clean_names(hospitalemail)
 hospitalemail  <- hospitalemail  %>% 
