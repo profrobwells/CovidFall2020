@@ -274,7 +274,7 @@ hospital1
 ```
 
 ```{r}
-#Joint today's with hospital master.csv
+#Join today's with hospital master.csv
 hospital_master <- rio::import("https://raw.githubusercontent.com/Arkansascovid/Main/master/hospital_master.csv")
 hospital_master <- hospital_master [ -c(1) ]
 hospital_master[2:13] <- lapply((hospital_master)[2:13], as.numeric)
