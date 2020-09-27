@@ -89,7 +89,7 @@ today_county$mydate <- as.Date(today_county$mydate)
 
 -**Import and Clean Yesterday's Data**
 ```{r}
-yesterday_county <- rio::import("master_file.csv")
+yesterday_county <- rio::import("https://raw.githubusercontent.com/Arkansascovid/Main/master/master_file.csv")
 #yesterday_county <- yesterday_county [ -c(1) ]
 yesterday_county$mydate <- as.Date(yesterday_county$mydate)
 #ran this to test it out on today's data
@@ -245,6 +245,12 @@ hospital$date <- as.Date(hospital$date)
 
 ```{r}
 glimpse(hospital)
+```
+
+```{r}
+#if restart and need to reimport
+#master2 <- rio::import("master_file.csv")
+#master2$mydate <- as.Date(master2$mydate)
 ```
 
 ```{r}
