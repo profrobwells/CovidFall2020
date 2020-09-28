@@ -1,0 +1,835 @@
+---
+title: "Hospital Data - GGPLOT 9-28-2020"
+author: "Rob Wells"
+date: "9/28/2020"
+output: html_document
+---
+
+
+#rio
+```{r}
+library(tidyverse)
+#install.packages("rio") 
+```
+#rio handles more than two dozen formats including tab-separated data (with the extension .tsv), 
+#JSON, Stata, and fixed-width format data (.fwf).
+
+
+
+
+```{r}
+test <- rio::import('https://raw.githubusercontent.com/Arkansascovid/Main/master/hospital_master.csv')
+head(test)
+```
+# Number columns
+```{r}
+ncol(test)
+```
+# Number rows
+```{r}
+nrow(test)
+```
+
+#YOUR TURN
+
+## Retrieve Arkansas Covid Data for Hospitals
+
+- **Download Daily Hospital Data - Manual Input" from Google Sheet**
+https://docs.google.com/spreadsheets/d/1ikblX8tikM59ma1AftkqgGbyeZkXB6DuBtwMsVeoGYw/edit#gid=701586163
+
+- **Get the File Path on Your Hard Drive**
+    
+    1) Find the File and LEFT CLICK on it (or Control + Click).
+        A menu appears. 
+    2) Continue holding down CONTROL. 
+    3) Now Hold down CONTROL + OPTION at same time. 
+    Copy "Daily State Data - Manual Input" as Path. 
+    It will look like this:
+    /Users/rswells/Downloads/Daily State Data - Manual Input.xlsx
+    4) Paste that path below
+
+
+```{r}
+#An example of downloading data from your hard drive
+#hospital <- rio::import("/Users/rswells/Downloads/Daily State Data - Manual Input.xlsx")
+#This loads in "Daily State Data - Manual Input" from Google Sheet
+
+```
+
+- **Clean Names**
+```{r}
+
+hospital <- janitor::clean_names(hospital)
+```
+
+##Check it out - Look at the data types.
+```{r}
+ 
+#chr stands for character vectors, or strings.
+#int stands for integers.
+#dbl stands for doubles, or real numbers.
+#dttm stands for date-times (a date + a time).
+glimpse(hospital)
+```
+
+
+- **Cleaning: Convert data from List variables to numeric**
+
+```{r include=FALSE}
+
+#text to date
+hospital$date <- as.Date(hospital$date)
+#text to numeric
+hospital[3:6] <- lapply((hospital)[3:6], as.numeric)
+
+```
+
+```{r}
+#Eliminate junk first column
+hospital <- hospital [ -c(1) ]
+```
+
+```{r}
+#Rename columns
+colnames(hospital)[2:5] <- c("Hospitalized", "Vent", "Ever_Hospitalized", "Ever_on_a_Vent")
+```
+
+```{r include=FALSE}
+#Reorder columns
+hospital <- hospital %>% 
+  arrange(desc(date))
+
+```
+
+```{r}
+#Check on our cleaned table
+head(hospital)
+```
+
+
+--**Check the date is correct**
+
+```{r}
+#today's date
+today <- Sys.Date()
+
+#NOTE - IF YOU DON'T HAVE TODAY'S DATA, THEN RUN THIS LINE INSTEAD AND COMMENT OUT today <- Sys.Date()
+#today <- Sys.Date()-1
+
+#yesterday's date
+yesterday <- (today-1)
+
+```
+
+
+#Bring in master file and join with hospital
+
+```{r}
+master2 <- rio::import('https://raw.githubusercontent.com/Arkansascovid/Main/master/master_file.csv')
+master2$mydate <- as.Date(master2$mydate)
+head(master2)
+```
+
+#Joining selected columns from master file
+```{r}
+main_hospital <- master2 %>% 
+  filter(county_nam=="Arkansas_all_counties") %>% 
+  select(mydate, confirmed_active, active_cases) 
+ 
+main_hospital2 <- left_join(hospital, main_hospital, by=c("date"="mydate"))
+glimpse(main_hospital2)
+```
+
+#Hospital Math
+
+```{r}
+hospital1 <- main_hospital2 %>% 
+  mutate(New_Admits = (Ever_Hospitalized-lead(Ever_Hospitalized))) %>% 
+  mutate(Hosp_Change_from_Yesterday = (Hospitalized-lead(Hospitalized))) %>% 
+  mutate(New_Discharges_Deaths = (New_Admits-Hosp_Change_from_Yesterday)) %>% 
+  mutate(Pct_Vent = (Vent/Hospitalized)*100) %>% 
+  mutate(New_on_Vent = (Ever_on_a_Vent-lead(Ever_on_a_Vent,na.rm=TRUE)))%>% 
+  mutate(Pct_Hospitalized = (Hospitalized/active_cases)*100)
+
+#hospital1 <- hospital1 %>% 
+#  filter(date ==(today))
+```
+
+```{r}
+head(hospital1)
+```
+
+
+```{r}
+write.csv(hospital1, "hospital1_test.csv")
+```
+
+
+
+#Slide on hospitalized
+```{r}
+ggplot(hospital1, aes(x = date, y = Hospitalized, label = Hospitalized, fill= Hospitalized)) + 
+  geom_bar(aes(fill = Hospitalized), stat = "identity", position = "dodge") +
+  labs(title = "Hospitalizations in Arkansas",  
+       subtitle = "ADH Data for Sept. 27, 2020",
+       caption = "Graphic by ArkansasCovid.com",
+       y="Hospitalized",
+       x="Date")
+ggsave("test.png",device = "png",width=9,height=6, dpi=400)
+
+```
+
+
+#Advanced Hospital Slide
+
+```{r}
+df <- hospital1 %>% 
+    filter(date>=(yesterday))
+
+# Date <- df$mydate
+# New_Cases <- df$New_Cases_Today
+# Deaths <- df$deaths
+
+library(reshape2)
+
+df2 <- melt(df[,c("date", "New_Admits", "New_on_Vent")], id.vars = 1)
+
+ggplot(df2,aes(x = date, y = value, label = value, fill= variable)) + 
+  #geom_bar(aes(fill = variable), stat = "identity", position = "dodge") +
+  geom_col(position = position_dodge2(width = 0.9, preserve = "single"), show.legend = T) +
+  geom_text(position = position_dodge2(width = 0.9, preserve = "single"), vjust=-1, hjust=+1) +
+  scale_y_continuous(limits=c(0, 20)) + 
+  labs(title = "Admits and Vents in Arkansas ", 
+       subtitle = "ADH Data for Sept. 27, 2020",
+       caption = "Graphic by ArkansasCovid.com",
+       y="Amount",
+       x="Date")
+ggsave("test2.png",device = "png",width=9,height=6, dpi=400)
+```
+
+
+#--------------------------------------------------------------------#
+#REVIEW 
+#--------------------------------------------------------------------#
+
+# vignettes: Learn about packages and commands
+```{r}
+browseVignettes("tidyverse")
+```
+
+```{r}
+??tidyverse
+```
+#Converting character strings into numeric
+#What is the character type? Glimpse function
+```{r}
+glimpse(hospital_master1)
+```
+
+#chr stands for character vectors, or strings.
+#int stands for integers.
+#dbl stands for doubles, or real numbers.
+#dttm stands for date-times (a date + a time).
+
+#Convert numbers to "numeric" data
+#We want to turn all columns after HMC2 into numeric
+#HMC2 is Column #10
+
+
+
+# Part 2: Math on State Data   
+
+- **Now We Do The Math**
+- **Previous Date Calculations**
+
+Create Temporary Table Two Days' Worth of Data
+Sort Alphbetically and Run Calculations
+You should get a df with 150 observations (two days' worth a data)
+
+
+--**Check the dates are correct and that the data is filtered for today, yesterday**
+
+```{r}
+twodays <- state %>% 
+  filter(Date >= yesterday) %>%  #get two days' of data
+arrange(desc(Date)) 
+```
+
+```{r}
+head(twodays) 
+```
+
+
+-**The Today-Yesterday Calculations**
+
+    This calculates:
+    CHECKED Column K New Cases Today=Positive - (yesterday) Positive) J2-J3 
+    CHECKED Column N Recovered Since Yesterday: Recovered - (yesterday) Recovered =M2-M3)
+    CHECKED Column P New Deaths Today: = Total Deaths-(yesterday(Total Deaths) O2-O3)
+    
+    (FIELD IS IN STATE-HOSPITALS)
+    CHECKED Column R New Tests Dashboard: = Number tested-(YESTERDAY) Number tested Q2-Q3)
+    
+    CHECKED Column Z (hosp_change_from_yesterday: Hospitals -(yesterday) Hospitals
+    
+    CHECKED Column AB (new_admits = ever_hospitalized-(yesterday) ever_hospitalized)
+    CHECKED Column AC (new_discharges_deaths = new admits - HOSPITAL CHANGE)
+    CHECKED Column AD (pct_hospitalized = hospitalized / current infections) * 100
+    CHECKED Column AG (new_on_vent = ever_on_a_vent - (yesterday) ever_on_a_vent
+    CHECKED Column AH (pct_vent = vent / hospitalized) * 100                  
+
+```{r}
+temp <- twodays %>%
+  mutate(New_Cases_Today = (Positive-lead(Positive))) %>%
+  mutate(Recovered_Since_Yesterday = (Recovered-lead(Recovered))) %>%
+  mutate(New_Deaths_Today = (Total_Deaths-lead(Total_Deaths))) %>%
+  #mutate(New_Tests_Dashboard = (Number_Tested-lead(Number_Tested))) %>% 
+  mutate(Hosp_Change_from_Yesterday = (Hospitalized-lead(Hospitalized))) %>% 
+  mutate(New_Admits = (Ever_Hospitalized-lead(Ever_Hospitalized))) %>% 
+  mutate(New_Discharges_Deaths = (New_Admits-Hosp_Change_from_Yesterday)) %>% 
+  mutate(Pct_Hospitalized = (Hospitalized/Current_Infections)*100) %>% 
+  mutate(New_on_Vent = (Ever_on_a_Vent-lead(Ever_on_a_Vent))) %>% 
+  mutate(Pct_Vent = (Vent/Hospitalized)*100) 
+```
+
+```{r}
+glimpse(temp)
+```
+
+-**More Percentage Calculations**
+
+    CHECKED Column E (Cases/population = (positive / population) *100
+    CHECKED ***MAYBE ELIMINATE*** Column F (Tested/population = (Number tested / population) *100
+    CHECKED Column G (New Cases Today per 10k Population = (New Cases Today / population) *10000
+    CHECKED Column H (Active Cases per 10k = (current_infections / population) *10000
+    CHECKED Column T (% Positive Cumulative = (positive / Number tested) *100
+    CHECKED Column U (% Positive New to Dashboard = New Cases Today / New Tests Dashboard) * 100
+    CHECKED Column V (Closed = Recovered + Total Deaths)
+    CHECKED Column W (% Deaths vs. Recoveries = Total Deaths / Closed) * 100
+    CHECKED Column X (% Recoveries vs. Deaths = Recovered / Closed) * 100
+
+```{r}
+temp <- temp %>%
+  mutate(Cases_Population = (Positive / Population)*100) %>% 
+  #mutate(Tested_Population = (Number_Tested / Population)*100) %>% 
+  mutate(New_Cases_Today_10k_Pop = (New_Cases_Today/Population)*10000) %>% 
+  mutate(Active_Cases_10k_Pop = (Current_Infections/Population)*10000) %>% 
+  #mutate(Pct_Positive_Cumulative = (Positive/Number_Tested)*100) %>% 
+  #mutate(Pct_Positive_New_to_Dashboard = (New_Cases_Today/New_Tests_Dashboard)*100) %>% 
+  mutate(Closed = (Recovered + Total_Deaths)) %>% 
+  mutate(Pct_Deaths_vs_Recoveries = (Total_Deaths/Closed)*100) %>% 
+  mutate(Pct_Recoveries_vs_Deaths = (Recovered/Closed)*100) %>% 
+  mutate(County = "Arkansas_all_counties")
+  
+temp
+```
+
+```{r}
+glimpse(temp)
+```
+
+- **Align names in order of covid table**
+#Cut Tested_Population, Number_Tested,New_Tests_Dashboard,Pct_Positive_Cumulative, Pct_Positive_New_to_Dashboard
+```{r}
+temp <- temp %>% select(County, Date, Population, Cases_Population,,New_Cases_Today_10k_Pop,Active_Cases_10k_Pop,Current_Infections,Positive, New_Cases_Today, Recovered, Recovered_Since_Yesterday, Total_Deaths, New_Deaths_Today, Closed, Pct_Deaths_vs_Recoveries, Pct_Recoveries_vs_Deaths, Hospitalized, Hosp_Change_from_Yesterday, Ever_Hospitalized, New_Admits, New_Discharges_Deaths, Pct_Hospitalized, Vent, Ever_on_a_Vent, New_on_Vent, Pct_Vent)
+
+names(temp)
+```
+
+
+# Part 3: Joining and Archiving   
+
+-**Update the main sheet, archiving**
+```{r}
+#Create a standalone copy of the TODAY'S data with the calculations
+TODAY <- temp %>% 
+  filter(Date > yesterday)
+glimpse(TODAY)
+```
+
+-**Import Whole Table**
+#IMPORTANT - CHECK THIS TABLE HAS YESTERDAY'S DATA
+```{r}
+wholetable <- rio::import("https://raw.githubusercontent.com/Arkansascovid/Main/master/state_hospitals_part1.csv")
+
+```
+
+-**Fix Date, Eliminate V1 index**
+```{r}
+wholetable$Date <- as.Date(wholetable$Date)
+#cut timestamp column
+wholetable <- wholetable[ -c(1) ]
+#wholetable <- wholetable[ -c(27:33) ]
+
+#If you need to eliminate today's data, run this
+#wholetable <- wholetable %>% 
+#  filter(Date < today)
+```
+
+
+```{r}
+names(TODAY)
+```
+
+```{r}
+glimpse(wholetable)
+```
+
+-**Join with Wholetable**
+```{r}
+wholetable <- rbind(wholetable, TODAY)
+
+wholetable <- wholetable %>% 
+  arrange(desc(Date))
+```
+
+
+```{r}
+head(wholetable)
+```
+
+-**You've finished Part 1 State Calculations**
+
+
+# Part 2: Build Simple Charts and Tables with Data
+
+-**Main Numbers for the Day**
+
+-**The goal is to build code to create this table automatically**
+ 
+    Here is a quick look at today’s COVID-19 numbers:  
+    66,804 Positive Cases (+398 today) 
+    60,668 Recoveries (+748 today) 
+    940 Total Deaths (+12 today) 
+    *5,196 Total Active Cases Today 
+    All charts will be updated on the website later this afternoon with cou @maryhennigan_ 
+
+```{r}
+DailyUpdate <- wholetable %>% 
+  select(Date, Positive, Current_Infections, Total_Deaths, New_Admits) %>% 
+  filter(Date >= yesterday)
+DailyUpdate
+```
+
+
+```{r}
+DailyUpdate %>% 
+  ggplot(aes(x = Date, y = Total_Deaths, fill=Total_Deaths)) + 
+  geom_bar(stat = "identity", show.legend = FALSE) +
+  scale_y_continuous(limits=c(0, 1200)) +
+  geom_text(aes(label = Total_Deaths), vjust = -1.1, size = 5) +
+  #coord_flip() +    #this makes it a horizontal bar chart instead of vertical
+  labs(title = "Today's Death Trends", 
+       subtitle = "Source: ADH ",
+       caption = "Graphic by Wells",
+       y="Total Deaths",
+       x="Date")
+```
+
+#Now we will refine it further
+
+
+
+
+# Upload This to Google Drive: state_hospitals_part1.csv
+-**Change File Name to Today's Date**
+
+```{r}
+write.csv(wholetable, "state_hospitals_part1.csv")
+```
+
+- **Loading and basic file management**
+
+    Bringing in data
+    Data Frames
+    Extracting interesting details
+    Cleaning the data
+    Reshaping the format
+    Manipulating the data
+    Exporting  
+    Add a column with a math conversion  
+
+#--------------------------------------------------------------------#
+# Loading Data from Scratch
+#--------------------------------------------------------------------#
+
+#Loading data
+#RSQlite - read data from a database
+#xlsx - read in Excel spreadsheets
+
+#Import Income data from US Census
+#INCOME IN THE PAST 12 MONTHS (IN 2017 INFLATION-ADJUSTED DOLLARS) 
+#2013-2017 American Community Survey 5-Year Estimates. S1901. All Arkansas Counties
+
+https://factfinder.census.gov/faces/tableservices/jsf/pages/productview.xhtml?pid=ACS_17_5YR_S1901&prodType=table
+
+#Load Data
+```{r}
+ArkCo_Income_2017 <- rio::import("Data/ArkCo_Income_2017.csv")
+```
+
+#Look at the table
+```{r}
+View(ArkCo_Income_2017)
+```
+# How many rows?  
+```{r}
+nrow(ArkCo_Income_2017)
+```
+# How many columns?
+```{r}
+ncol(ArkCo_Income_2017)
+```
+#Install dplyr or tibble for the glimpse function if you haven't already
+#library (tibble)
+    
+#Check data types
+```{r}
+glimpse(ArkCo_Income_2017)
+```
+
+#What is the issue? (Don't read ahead and spoil the fun)
+
+#Delete First Row Headers
+#Reimport the data and skip the first row
+#read.csv(.... , skip=1)
+
+```{r}
+ArkCo_Income_2017 <- rio::import("Data/ArkCo_Income_2017.csv", skip=1)
+View(ArkCo_Income_2017)
+```
+#Clean Headers - Janitor package
+```{r}
+library(janitor)
+```
+# Clean up column names to they are R friendly
+```{r}
+ArkCo_Income_2017 <- janitor::clean_names(ArkCo_Income_2017)
+View(ArkCo_Income_2017)
+```     
+
+# Still need to fix column names
+```{r}
+colnames(ArkCo_Income_2017)
+```
+#You can do it one at a time
+#Column 4 households_estimate_total renamed to household_income
+```{r}
+colnames(ArkCo_Income_2017)[4] <- "household_income"
+colnames(ArkCo_Income_2017)
+```
+#change it back
+```{r}
+colnames(ArkCo_Income_2017)[4] <- "households_estimate_total"
+colnames(ArkCo_Income_2017)
+```
+#------------------------------------------#
+#Rename a whole slug of columns at once!
+#So the following is a *little intense*
+#------------------------------------------#
+
+#Use setnames from the data.tablepackage will work on data.frames or data.tables
+#Example
+#library(data.table)
+#setnames(d, old = c('a','d'), new = c('anew','dnew'))
+#d
+
+
+#We are changing all of the old column names to new ones
+#That's 19 column names we are changing.
+
+#New Names
+```{r}
+library(data.table)
+
+data.table::setnames(ArkCo_Income_2017, old = c('id', 'id2', 'geography', 'households_estimate_total', 
+  'households_estimate_less_than_10_000', 'households_estimate_10_000_to_14_999', 
+  'households_estimate_15_000_to_24_999', 'households_estimate_25_000_to_34_999', 
+  'households_estimate_35_000_to_49_999', 'households_estimate_50_000_to_74_999', 
+  'households_estimate_75_000_to_99_999', 'households_estimate_100_000_to_149_999', 
+  'households_estimate_150_000_to_199_999', 'households_estimate_200_000_or_more',
+  'households_estimate_median_income_dollars', 'households_estimate_mean_income_dollars',
+  'households_estimate_percent_allocated_household_income_in_the_past_12_months',
+  'households_estimate_percent_allocated_family_income_in_the_past_12_months',
+  'households_estimate_percent_allocated_nonfamily_income_in_the_past_12_months'),
+   new = c('id','id2','geography','households_estimate_total','less10_000','10k_to_14_999','15k_to_24_999',
+           '25k_to_34_999', '35k_to_49_999','50k_to_74_999','75k_to_99_999','100k_to_149_999',
+           '150k_to_199_999','200k_plus','median_income','mean_income',
+           'pct_allocated_household_income','pct_allocated_family_income','pct_allocated_nonfamily_income'))
+
+View(ArkCo_Income_2017)  
+```
+#Manipulating data
+#dplyr - fast data work
+#stringr - work with strings
+
+#Data Management
+#mutate - Create new column(s) in the data, or change existing column(s).
+#mutate() adds new variables and preserves existing;
+# Newly created variables are available immediately
+
+#An example:
+```{r}
+mtcars <- as.data.frame(mtcars)
+View(mtcars)
+```
+
+```{r}
+mtcars2 <- mtcars %>% as_tibble() %>% mutate(
+  cyl2 = cyl * 2,
+  cyl4 = cyl2 * 2
+)
+```
+
+# window functions are useful for grouped mutates
+```{r}
+mtcars %>%
+  group_by(cyl) %>%
+  mutate(rank = min_rank(desc(mpg)))
+```
+
+#Use mutate to add together the percentages of low-wage households
+```{r}
+ArkCo_Income_2017 <- ArkCo_Income_2017 %>%
+  replace(is.na(.), 0) %>%
+  mutate(Low_Wage_Households = rowSums(.[5:7]))
+```
+#Export data 
+Write Export output this file to a CSV or Excel  write.csv or write.excel
+```{r}
+write.csv(ArkCo_Income_2017,"ArkCo_Income_2017.csv") 
+```
+
+
+#Exercises
+# 1) Create a column for working class households: $25,000 to $50,000
+# 2) Create a column for middle class households: $50,000 to $150,000
+# 3) Create a column for upper income households: More than $150,000
+# 4) Using these percentages, create new columns for low-wage, working class, middle class, and upper income 
+# and calculate the actual number of people in each income group
+# This will require looking at the table data structure, so go to the census.gov link provided above
+
+
+#Answers
+# 1) Create a column for working class households: $25,000 to $50,000
+```{r}
+ArkCo_Income_2017 <- ArkCo_Income_2017 %>%
+  replace(is.na(.), 0) %>%
+  mutate(WorkingClass = rowSums(.[8:9]))
+```
+
+# 2) Create a column for middle class households: $50,000 to $150,000
+```{r}
+ArkCo_Income_2017 <- ArkCo_Income_2017 %>%
+  replace(is.na(.), 0) %>%
+  mutate(MiddleClass = rowSums(.[10:12]))
+```
+
+# 3) Create a column for upper income households: More than $150,000
+```{r}
+ArkCo_Income_2017 <- ArkCo_Income_2017 %>%
+  replace(is.na(.), 0) %>%
+  mutate(UpperIncome = rowSums(.[13:14]))
+```
+
+# 4) Using these percentages, create new columns for low-wage, working class, middle class, and upper income 
+# and calculate the actual number of people in each income group
+# This will require looking at the table data structure, so go to the census.gov link provided above
+
+#Copied this as a test
+#ArkCensus$Pct2017 <- ((ArkCensus$x2017-ArkCensus$x2016)/(ArkCensus$x2016))
+
+```{r}
+ArkCo_Income_2017$LowWagePop <- ((ArkCo_Income_2017$households_estimate_total*ArkCo_Income_2017$Low_Wage_Households)/100)
+```
+
+
+```{r}
+ArkCo_Income_2017$WorkingClassPop <- ((ArkCo_Income_2017$households_estimate_total*ArkCo_Income_2017$WorkingClass)/100)
+
+ArkCo_Income_2017$MiddleClassPop <- ((ArkCo_Income_2017$households_estimate_total*ArkCo_Income_2017$MiddleClass)/100)
+
+ArkCo_Income_2017$UpperIncomePop <- ((ArkCo_Income_2017$households_estimate_total*ArkCo_Income_2017$UpperIncome)/100)
+```
+
+#For amusement, see if they all add up
+```{r}
+ArkCo_Income_2017 <- ArkCo_Income_2017 %>%
+  replace(is.na(.), 0) %>%
+  mutate(SumPop = rowSums(.[24:27]))
+```
+
+#Eyeball the two columns, household_estimate_total and our SumPop
+#df1 <- select(AR2016ALL, V4:V8, V10:20)
+```{r}
+PopCheck <- select(ArkCo_Income_2017, households_estimate_total, SumPop) 
+```       
+#which ones varied the most?
+
+```{r}
+PopCheck$variance <- (ArkCo_Income_2017$households_estimate_total- ArkCo_Income_2017$SumPop) 
+```
+#nerdy checking individual
+```{r}
+ArkCo_Income_2017 <- ArkCo_Income_2017 %>%
+  +   replace(is.na(.), 0) %>%
+  +   mutate(SumIndivdPct = rowSums(.[5:14]))
+```
+#more sum groups
+```{r}
+ArkCo_Income_2017 <- ArkCo_Income_2017 %>%
+  replace(is.na(.), 0) %>%
+  mutate(SumGroupPct = rowSums(.[20:23]))
+```
+
+```{r}
+PopCheck <- select(ArkCo_Income_2017, households_estimate_total, SumPop, SumIndivdPct, SumGroupPct) 
+```
+
+#Other tools
+
+#rename - Rename column(s).  
+#bind_rows - Merge two data frames into one, combining data from columns with the same name.
+
+
+#Other data cleaning tricks
+#Change column to number format (first you have to strip out the $)  
+--The $ is a special character  
+-- earnings$TOTAL.EARNINGS <- gsub("\\$", "", earnings$TOTAL.EARNINGS) 
+
+
+#Quick Data Viz
+#Basic graphs
+```{r}
+plot(ArkCo_Income_2017$median_income)
+```
+
+```{r}
+hist(ArkCo_Income_2017$median_income)  
+```
+
+```{r}
+boxplot(ArkCo_Income_2017$median_income)
+```
+
+```{r}
+barplot(ArkCo_Income_2017$median_income)
+```
+
+```{r}
+barplot(sort(ArkCo_Income_2017$median_income, decreasing = TRUE))
+```
+
+
+#More Census Exercises
+--Census Data: Examine median household income; income by women-led households; income by latino-based households; income by black-led households. Compare to state and national averages. Data dictionary required
+
+- **The course GitHub Page**
+> [**Here it is**](https://github.com/profrobwells/Data-Analysis-Class-Jour-405v-5003){target="_blank"} 
+
+- **See Data folder**   
+   
+    Click USArk_Counties_Poverty_ACS_16_5YR_DP03_Jan_24.xlsxAOC.csv   
+    "View raw"   
+    Cntl + click (or right click) - Save As - Census.csv   
+    Create R Markdown File
+    Import into R
+
+
+![](Images/ImportingDataTip.jpg)
+
+#--------------------------------------------------------------------#
+#More Advanced Section from Machlis Book, Ch. 4
+#--------------------------------------------------------------------#
+
+
+#get data for tutorial
+```{r}
+download.file("http://bit.ly/BostonSnowfallCSV", "BostonWinterSnowfalls.csv")
+```
+
+#load into memory
+```{r}
+snowdata <- rio::import("BostonWinterSnowfalls.csv")
+```
+
+
+#Data Cleaning install own function in my own rmiscutils package 
+#turns “character strings” -- numbers with commas back into numbers
+```{r}
+pacman::p_load_gh("smach/rmiscutils")
+```
+
+#more software
+```{r}
+install.packages("remotes")
+install.packages("githubinstall")
+githubinstall::gh_install_packages("rmiscutils")
+install.packages("htmltab")
+library(htmltab)
+```
+
+```{r}
+citytable <- htmltab(
+  "https://en.wikipedia.org/wiki/List_of_United_States_cities_by_population", 
+  which = 5)
+colnames(citytable)
+```
+
+```{r}
+library(rmiscutils)
+citytable$PopEst2017 <- number_with_commas(citytable$`2017estimate`)
+```
+#parsing numbers with readr
+#After installing readr, you could generate numbers from the 
+#2017 estimate column with readr:
+  
+```{r}  
+citytable$PopEst2017 <- readr::parse_number(citytable$`2017 estimate`)
+```
+
+
+--------------------------------------------------------------------   
+
+- **Common Problems**   
+
+    ``"What the hell? I converted population to numeric and the calculations come out as NA values!
+      This is driving me insane! What is going on?"
+
+**Answer**:   
+One of the obnoxious things about R is it considers commas as text. So it will show 720 as a number but 2,810 as not a number for calculations because it has a friggin comma.   
+
+**Never fear.** There is a solution. Run the find and replace function, called gsub   
+
+Example:
+Crimedata$Population <- gsub(",", "", Crimedata$Population)   
+
+Translation:   
+Crimedata$Population   
+-- is the population column in your crime dataset     
+gsub(",", "",  
+finds a comma and replaces it with nothing.  --    
+and it found the comma in the column Crimedata$Population)
+and the <- dumps the results back into the Crimedata$Population  column.
+
+Fancy!   
+
+**Question**:
+"How do I get rid of the last row that only has text in the table that I just imported?"   
+
+**Answer**:
+Get rid of row using base R commands   
+Crimedata <- Crimedata[-c(187), ]    
+
+Translation:     
+Crimedata[-c(187), ]    looks for row #187, which has this garbage text, and gives it the big minus sign, which eliminates it.    
+Crimedata <-  dumps this slimmed down table back into your table and so you are good to go.   
+
+
+ **--30--**
+
+
+
+
+
+
