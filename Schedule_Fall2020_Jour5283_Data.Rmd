@@ -523,7 +523,7 @@ https://raw.githubusercontent.com/profrobwells/CovidFall2020/master/Exercises/Do
     Wong, Dona M. The Wall Street Journal Guide to Information Graphics. 
     Ch. 2: Chart Smart
 
-    Charts_with_ggplot by Andrew Ba Tran
+    
 
     Grammar of Graphics
   http://vita.had.co.nz/papers/layered-grammar.html
@@ -752,63 +752,39 @@ https://publicintegrity.org/health/coronavirus-and-inequality/white-house-corona
 
 ---   
 
-# Week #6: Dealing With Dates 
+# Week #6: R and Data Viz
 
 
 ## Monday Sept. 28  
 
 **Agenda**  
 
-    ggplot2 - charts and maps
-    Lubridate
-    Review Ch. 13 Machlis
-    Review Tran and Lubridate
+    Update on stories       
+    Fact check process      
+    R - ggplot with hospital data    
+    Mary and mobile formatting for Tweets    
+    IRE sessions discussion     
+    Read the Feed    
     
-**Exercises**    
+**Discussion: Fact Check**   
+
+https://docs.google.com/document/d/1ni0pLjAmr2XhEUgIV6XWhUiaQhsK7FXHDwa76hjFxlM/edit?usp=sharing
+
+    
+**Exercise: Hospital Data GGLOT 9.28.2020.Rmd**    
+
+https://raw.githubusercontent.com/profrobwells/CovidFall2020/master/Exercises/HospitalData_GGPLOT_9.28.2020%20.Rmd
 
 
-#### Assignment #1     
-      
-      Assignment #1: (Due Sept. 21): Managing Data / Static Graphic
-      Static Graphic - Managing Data in R / Tableau.        
-      Students will use R Studio to gather, analyze and visualize Arkansascovid data for Arkansas and report and write a 600 word story. 
+- **GGPLOT**
 
-
-
-    Discuss Ch 5, Machlis: See Notes
-    Export Static chart 
-    Data Visualization
-    ggplot2 - charts and maps
-
-    > [**GGplot Video from Andrew Ba Tran**](https://www.youtube.com/watch?v=Sx7d7eGRSj0&t=9s){target="_blank"} 
--- 
-
-    Review Assignment #1   
-    Assignment1_KEY_StaticGraphic_2_9.R    
-    Dplyr bootcamp. 
-    IRE Conference
-
-
-
-
-
-
-**Exercise: Downloading Data 9-9-2020.Rmd**    
-
-https://raw.githubusercontent.com/profrobwells/CovidFall2020/master/Exercises/Downloading%20Data%209-9-2020.Rmd
-
-
-    Graphing in GGPlot   
- https://bit.ly/2Gqjfj4   
+https://bit.ly/2Gqjfj4   
 
     Multiple variable in a graph
     Geom_Line, Geom_point, Geom_bar
     How to alter the colors in a chart.
     Tutorial: Graphing Introducton Jan 11 2020.R
 
-
-- **GGPLOT**
-  
     A handy explanation of ggplot and its components   
 
 ![](Images/GGplot_explainer.png)
@@ -822,12 +798,62 @@ https://raw.githubusercontent.com/profrobwells/CovidFall2020/master/Exercises/Do
     geom_bar()
     geom_boxplot() 
  
+
+**Reference for Today's Lesson**    
+
+    Ch 5, Machlis
+    Export Static chart 
+    Data Visualization
+    ggplot2 - charts and maps
+
+    > [**GGplot Video from Andrew Ba Tran**](https://www.youtube.com/watch?v=Sx7d7eGRSj0&t=9s){target="_blank"} 
+-- 
+
+
+#### To Do Before Next Class
+
+     Post in Teams a Hospital admits /vents slide for Sept. 28 using the code from today
+
+
+#### Read Before Next Class 
+
+          
+-Wong, The Wall Street Journal Guide to Information Graphics, Ch. 3 and how that will apply to your Tableau work.   
+-Transforming and Analyzing Data dplyr.pdf, Andrew Ba Tran, Washington Post:
+https://github.com/profrobwells/CovidFall2020/blob/master/Reading/Transforming%20and%20Analyzing%20Data%20dplyr.pdf
+
+-Reader feedback: Consider a response to this person. See "Stacy Robinson Your Post on Twitter" in Files | Teams 
+https://bit.ly/32tw7Q1  
+
+
+
+    
+    
+----------------- 
+
+## Wednesday Sept. 30
+
+**Agenda**
+
+    Lubridate
+    Review Ch. 13 Machlis
+    Review Tran and Lubridate
+    
+**Exercises**
+    
 - **Data Visualization Intro**
 
     Load tutorial: Basic Data Visualization 12-26-18.R       
 
 > [**Download this file and open it in R Studio**](https://bit.ly/2RlQtSE){target="_blank"} 
 
+
+
+
+    Review Assignment #1   
+    Assignment1_KEY_StaticGraphic_2_9.R    
+    Dplyr bootcamp. 
+    IRE Conference
 
 - **Dplyr Presentation*   
 
@@ -893,40 +919,22 @@ https://video.uark.edu/media/Date+Corrected+Data/1_2rmzgzwu
     
 ![](Images/AOCTweets_Month.png)  
 
-      1) Describe Two Lessons Learned from Dona Wong, The Wall Street Journal Guide to Information Graphics, Ch. 2 and how that will apply to your Tableau work.     
- 
-      2) Reader feedback: Draft a response to this person. See "Stacy Robinson Your Post on Twitter" in Files | Teams    
-https://bit.ly/32tw7Q1  
-
-#### Read Before Next Class 
-  
-    Machlis: Ch. 8 Analyze data by groups
-    Transforming and Analyzing Data dplyr.pdf, Andrew Ba Tran, Washington Post
-    Dplyr - Andrew Ba  Tran - pipes-dplyr.pdf
-
-
-#### Read Before Next Class 
-
-    Machlis
-    Ch. 9 Graphing by Group
-    Ch. 11 Maps in R
-    
-    
------------------ 
-
-## Wednesday Sept. 30
-
-**Agenda**
-
-    Lubridate
-
-**Exercises**
-    
     **TO BE UPDATED**
     Key to Lubridate Questions in Exercise:    
   https://bit.ly/2BO92d1
 
 #### Read Before Next Class 
+
+
+
+  
+    Machlis: Ch. 8 Analyze data by groups
+
+    Dplyr - Andrew Ba  Tran - pipes-dplyr.pdf
+Machlis
+    Ch. 9 Graphing by Group
+    Ch. 11 Maps in R
+    
 
     Machlis
     Ch. 11 Maps in R
