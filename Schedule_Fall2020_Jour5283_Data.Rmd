@@ -819,9 +819,9 @@ https://www.documentcloud.org/documents/7219580-Arkansas-9-27-20.html
 
 **Exercises**
 
-**Exercise: Hospital Data GGLOT 9.28.2020.Rmd**    
+**Exercise: Updated Hospital Data GGLOT 9.28.2020.Rmd**    
 
-https://raw.githubusercontent.com/profrobwells/CovidFall2020/master/Exercises/HospitalData_GGPLOT_9.28.2020%20.Rmd
+https://raw.githubusercontent.com/profrobwells/CovidFall2020/master/HospitalData_GGPLOT_9282020.Rmd
 
 Post in Teams a Hospital admits / vents slide for Sept. 29 using the code from today
 
