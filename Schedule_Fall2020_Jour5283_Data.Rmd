@@ -770,10 +770,60 @@ https://publicintegrity.org/health/coronavirus-and-inequality/white-house-corona
 
 https://docs.google.com/document/d/1ni0pLjAmr2XhEUgIV6XWhUiaQhsK7FXHDwa76hjFxlM/edit?usp=sharing
 
-    
 **Exercise: Hospital Data GGLOT 9.28.2020.Rmd**    
 
 https://raw.githubusercontent.com/profrobwells/CovidFall2020/master/Exercises/HospitalData_GGPLOT_9.28.2020%20.Rmd
+
+#### Read Before Next Class 
+
+          
+-Wong, The Wall Street Journal Guide to Information Graphics, Ch. 3 and how that will apply to your Tableau work.   
+-Transforming and Analyzing Data dplyr.pdf, Andrew Ba Tran, Washington Post:
+https://github.com/profrobwells/CovidFall2020/blob/master/Reading/Transforming%20and%20Analyzing%20Data%20dplyr.pdf
+
+-Reader feedback: Consider a response to this person. See "Stacy Robinson Your Post on Twitter" in Files | Teams 
+https://bit.ly/32tw7Q1  
+
+
+
+    
+    
+----------------- 
+
+## Wednesday Sept. 30
+
+**Agenda**
+
+    Partnership Updates   
+    Spanish Workbooks -Rachel Sanchez-Smith      
+    R - ggplot with hospital data    
+    White House Report
+    Mary and mobile formatting for Tweets  
+    IRE tipsheets - put your stuff on the Master Work document
+    Fact Check: Obed, Kendal     
+    Read the Feed    
+
+**Partner Updates**   
+
+    Biomedical Engineering Dept. Collaboration for Data Science   
+    Arkansas Nonprofit News Network  - Benjamin Hardy   
+    University of Arkansas Humanities Center   
+    
+**White House Report**    
+
+    Latest White House Coronavirus task force report     
+    Arkansas had 194 new cases per 100,000 population in the last week, compared to a national average of 93 per 100,000.     
+https://www.documentcloud.org/documents/7219580-Arkansas-9-27-20.html    
+
+
+
+**Exercises**
+
+**Exercise: Hospital Data GGLOT 9.28.2020.Rmd**    
+
+https://raw.githubusercontent.com/profrobwells/CovidFall2020/master/Exercises/HospitalData_GGPLOT_9.28.2020%20.Rmd
+
+Post in Teams a Hospital admits / vents slide for Sept. 29 using the code from today
 
 
 - **GGPLOT**
@@ -810,51 +860,6 @@ https://bit.ly/2Gqjfj4
 -- 
 
 
-#### To Do Before Next Class
-
-     Post in Teams a Hospital admits /vents slide for Sept. 28 using the code from today
-
-
-#### Read Before Next Class 
-
-          
--Wong, The Wall Street Journal Guide to Information Graphics, Ch. 3 and how that will apply to your Tableau work.   
--Transforming and Analyzing Data dplyr.pdf, Andrew Ba Tran, Washington Post:
-https://github.com/profrobwells/CovidFall2020/blob/master/Reading/Transforming%20and%20Analyzing%20Data%20dplyr.pdf
-
--Reader feedback: Consider a response to this person. See "Stacy Robinson Your Post on Twitter" in Files | Teams 
-https://bit.ly/32tw7Q1  
-
-
-
-    
-    
------------------ 
-
-## Wednesday Sept. 30
-
-**Agenda**
-
-    Lubridate
-    Review Ch. 13 Machlis
-    Review Tran and Lubridate
-    
-**Exercises**
-    
-- **Data Visualization Intro**
-
-    Load tutorial: Basic Data Visualization 12-26-18.R       
-
-> [**Download this file and open it in R Studio**](https://bit.ly/2RlQtSE){target="_blank"} 
-
-
-
-
-    Review Assignment #1   
-    Assignment1_KEY_StaticGraphic_2_9.R    
-    Dplyr bootcamp. 
-    IRE Conference
-
 - **Dplyr Presentation*   
 
     Five basic verbs 
@@ -888,24 +893,63 @@ https://bit.ly/32tw7Q1
     Basic data visualization  
     Tidyverse 
 
+
+#### Read Before Next Class 
+
+    IRE tipsheets - put your stuff on the Master Work document  
+    Machlis: Ch. 8 Analyze data by groups    
+    Dplyr - Andrew Ba  Tran - pipes-dplyr.pdf    
+    Machlis: Ch. 9 Graphing by Group
+    Visual Narrative Tricks by Albert Cairo
+https://www.youtube.com/watch?v=TSGaueL4Ggk
+
+    
+  
+ 
+---   
+
+# Week #7: Dplyr and R
+
+## Monday Oct. 5  
+
+**Agenda**    
+
+    Assignment1_KEY_StaticGraphic_2_9.R    
+    Dplyr bootcamp. 
+
+    
+- **Data Visualization Basics**
+
+    Load tutorial: Basic Data Visualization 12-26-18.R       
+
+> [**Download this file and open it in R Studio**](https://bit.ly/2RlQtSE){target="_blank"} 
+
 - **Exercise:** 
 
     DPLYR BOOT CAMP 5th Lesson 8-21-2020.Rmd
-    
-    Make a Dplyr Cheat Sheet, Hand in on Blackboard by 11:59 pm Monday.   
-
+    Make a Dplyr Cheat Sheet   
 
 - **You are in Dplyr bootcamp!**
 
+
+#### Read Before Next Class 
+
+    Joining Dataframes in R  
+  https://www.youtube.com/watch?v=gLg4D9bMIyc&t=13s
+
+
+------------------
+
+## Wednesday Oct. 7
+
+**Agenda**
+    
+    Lubridate
+    Review Ch. 13 Machlis
+    Review Tran and Lubridate
+    
 -**Date Corrected Data**
 https://video.uark.edu/media/Date+Corrected+Data/1_2rmzgzwu
-
-**Quiz - Math and R**
-
-    TK TK TK Test Canvas: Excel Quiz
-
-
-
 
 --Using Lubridate    
     
@@ -922,69 +966,6 @@ https://video.uark.edu/media/Date+Corrected+Data/1_2rmzgzwu
     **TO BE UPDATED**
     Key to Lubridate Questions in Exercise:    
   https://bit.ly/2BO92d1
-
-#### Read Before Next Class 
-
-
-
-  
-    Machlis: Ch. 8 Analyze data by groups
-
-    Dplyr - Andrew Ba  Tran - pipes-dplyr.pdf
-Machlis
-    Ch. 9 Graphing by Group
-    Ch. 11 Maps in R
-    
-
-    Machlis
-    Ch. 11 Maps in R
-    
-    Visual Narrative Tricks by Albert Cairo
-  https://www.youtube.com/watch?v=TSGaueL4Ggk
- 
----   
-
-# Week #7: Maps in R
-
-## Monday Oct. 5  
-
-**Agenda**    
-
-      Mapping
-      
-**Exercises**   
-          
-          Mapping Demo: Map Demo 6th Lesson 8-22-2020.Rmd
-          Mapping Exercise from Machlis book, Ch. 11      
-   https://bit.ly/2VXCSU2
-
-#### Read Before Next Class 
-
-    Joining Dataframes in R  
-  https://www.youtube.com/watch?v=gLg4D9bMIyc&t=13s
-
-
-------------------
-
-## Wednesday Oct. 7
-
-**Agenda**
-
-      Maps
-      Andrew Ba Tran - Mapping
-  https://nicar.r-journalism.com/docs/
-  http://learn.r-journalism.com/en/mapping/    
-      Data Cleaning    
-      Disaggregating variables for summation   
-
-
-#### Read Before Next Class 
-
-    Ch. 7 Two or more data sets 
-    
-    Data Wrangling
-  http://learn.r-journalism.com/en/wrangling/
-
     
 ---   
 
@@ -1011,6 +992,36 @@ Machlis
     XXX charts in .jpeg format: 1) Common words 2) Common hashtags 3) Date trend chart
     One Google Doc with your findings, 600 words. Append at the end a brief data dictionary.
     An R script with the coding that shows how you loaded and cleaned the data and produced the charts
+
+
+      Maps
+      Andrew Ba Tran - Mapping
+  https://nicar.r-journalism.com/docs/
+  http://learn.r-journalism.com/en/mapping/    
+      Data Cleaning    
+      Disaggregating variables for summation   
+      Mapping
+      
+**Exercises**   
+          
+          Mapping Demo: Map Demo 6th Lesson 8-22-2020.Rmd
+          Mapping Exercise from Machlis book, Ch. 11      
+   https://bit.ly/2VXCSU2
+  Ch. 11 Maps in R
+    Machlis
+    Ch. 11 Maps in R
+
+
+**Quiz - Math and R**
+
+    TK TK TK Test Canvas: Excel Quiz
+
+#### Read Before Next Class 
+
+    Ch. 7 Two or more data sets 
+    
+    Data Wrangling
+  http://learn.r-journalism.com/en/wrangling/
 
 #### Read Before Next Class 
 
