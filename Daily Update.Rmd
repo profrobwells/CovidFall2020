@@ -228,12 +228,21 @@ ggsave("Today_Deaths_Cases.png",device = "png",width=9,height=6, dpi=400)
 #.
 #.
 # IMPORT THE DAILY TWEET HOSPITAL DATA FROM THE GOOGLE Form
+#for download
+```{r}
+hospital <- rio::import("/Users/rswells/Dropbox/Classes/Data Fall 2020/ArkansasCovid/Hospital Data - Manual Input.xlsx", which = "Hospital-TWEET SLIDE")
+```
 
+#For Googlesheet access
 ```{r include=FALSE}
 url2 <- ("https://docs.google.com/spreadsheets/d/1ikblX8tikM59ma1AftkqgGbyeZkXB6DuBtwMsVeoGYw/edit?usp=sharing")
 
 hospital <- read_sheet(url2, sheet = "Hospital-TWEET SLIDE",  col_types = NULL, na = "",trim_ws = TRUE)
+```
+
+
 #clean names
+```{r}
 hospital <- janitor::clean_names(hospital)
 hospital <- hospital %>% 
   arrange(desc(date))
