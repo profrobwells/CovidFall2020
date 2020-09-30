@@ -46,9 +46,15 @@ https://docs.google.com/spreadsheets/d/1ikblX8tikM59ma1AftkqgGbyeZkXB6DuBtwMsVeo
     /Users/rswells/Downloads/Daily State Data - Manual Input.xlsx
     4) Paste that path below
 
+Wells Notes - Don't Run this
+```{r}
+# hospital <- rio::import('https://raw.githubusercontent.com/Arkansascovid/Main/master/hospital_master.csv')
+# hospital <- hospital [ -c(7:14) ]
+# head(hospital)
+```
 
 ```{r}
-hospital <- rio::import("/Users/rswells/Dropbox/Classes/Data Fall 2020/Hospital Data - Manual Input 9.28.xlsx", which = "Hospital-TWEET SLIDE")
+hospital <- rio::import("LATEST VERSION OF THE HOSPITAL SPREADSHEET", which = "Hospital-TWEET SLIDE")
 ```
 
 #An example of downloading data from your hard drive
@@ -159,6 +165,32 @@ head(hospital1)
 
 ```{r}
 write.csv(hospital1, "hospital1_test.csv")
+```
+
+
+#Basic graphs
+```{r}
+plot(hospital1$New_Admits)
+```
+```{r}
+hist(hospital1$New_Admits)
+```
+
+```{r}
+boxplot(hospital1$New_Admits)
+```
+```{r}
+barplot(hospital1$New_Admits)
+```
+
+```{r}
+barplot(sort(hospital1$New_Admits,decreasing = TRUE))
+```
+
+```{r}
+#basic ggplot2 -
+ggplot(hospital1, aes(x = date, y = New_Admits, color = New_Admits)) +
+  geom_line()
 ```
 
 
