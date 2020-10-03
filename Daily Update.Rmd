@@ -14,6 +14,12 @@ output: pdf_document
 # Part 1: Import State Data, Clean It
 
 ```{r include=FALSE}
+#install.packages("slider")
+#install.packages("zoo")
+#install.packages("gtools")
+# vignette("basic-usage", package="googlesheets")
+#install.packages("googledrive")
+#install.packages("googlesheets4")
 library(tidyverse)
 library(janitor)
 library(lubridate)
@@ -24,11 +30,8 @@ library(jsonlite)
 library(gtools)
 library(zoo)  
 library(reshape2)
-#install.packages("zoo")
-#install.packages("gtools")
-# vignette("basic-usage", package="googlesheets")
-#install.packages("googledrive")
-#install.packages("googlesheets4")
+library(slider)
+
 ```
 
 ## Retrieve State Arkansas Covid Data from ADH FEED
@@ -169,16 +172,11 @@ master2 <- master2 %>%
   select("county_nam","mydate","deaths","fhwa_numbe","fips","positive","negative","recoveries","total_tests","active_cases","pop_5yr_est_2018","confirmed_pos","probable_pos","confirmed_neg","probable_neg","confirmed_recov","probable_recov","confirmed_death","probable_death", "confirmed_active","probable_active","pcr_test","antigen_test","pcr_pos_test", "pcr_neg_test","antigen_pos_test","antigen_neg_test","total_pos_test","total_neg_test",
 "New_Cases_Today","Recovered_Since_Yesterday","New_Deaths_Today","New_Tests_Dashboard","Cases_Population","Tested_Population","New_Cases_Today_10k_Pop","Active_Cases_10k_Pop","Pct_Positive_Cumulative","Pct_Positive_New_to_Dashboard","Closed","Pct_Deaths_vs_Recoveries","Pct_Recoveries_vs_Deaths","lab_prvt","lab_pub")
 master2$mydate <- as.Date(master2$mydate)
+```
 
-# #5 day rolling Average of Positives
-# master2 <- master2 %>%
-#     dplyr::arrange(desc(mydate)) %>% 
-#     dplyr::mutate(positive05da = zoo::rollmean(positive, k = 5, fill = NA)) %>% 
-#   dplyr::ungroup()
 
 
 glimpse(master2)
-```
 
 #Save master file
 ```{r}
@@ -206,7 +204,7 @@ df <- master2 %>%
 # New_Cases <- df$New_Cases_Today
 # Deaths <- df$deaths
 
-df2 <- melt(df[,c("mydate", "New_Deaths_Today", "New_Cases_Today")], id.vars = 1)
+df2 <- melt(df[,c("mydate", "New_Cases_Today", "New_Deaths_Today")], id.vars = 1)
 
 ggplot(df2,aes(x = mydate, y = value, label = value, fill= variable)) + 
   #geom_bar(aes(fill = variable), stat = "identity", position = "dodge") +
@@ -221,7 +219,64 @@ ggplot(df2,aes(x = mydate, y = value, label = value, fill= variable)) +
 ggsave("Today_Deaths_Cases.png",device = "png",width=9,height=6, dpi=400)
 ```
 
+```{r}
+df3 <- melt(df[,c("mydate", "active_cases", "deaths")], id.vars = 1)
 
+ggplot(df3,aes(x = mydate, y = value, label = value, fill= variable)) + 
+  #geom_bar(aes(fill = variable), stat = "identity", position = "dodge") +
+  geom_col(position = position_dodge2(width = 0.9, preserve = "single"), show.legend = T) +
+  geom_text(position = position_dodge2(width = 0.9, preserve = "single"), vjust=-1, hjust=+1) +
+  scale_y_continuous(limits=c(0, 10000)) + 
+  labs(title = "Active Cases & Total Deaths in Arkansas Announced Today", 
+       subtitle = "Confirmed + Probable,  ADH Data for Oct. 2, 2020",
+       caption = "Graphic by ArkansasCovid.com",
+       y="Amount",
+       x="Date")
+ggsave("Actives_Deaths.png",device = "png",width=9,height=6, dpi=400)
+```
+
+
+#7 day average of positives, New Cases, Deaths
+```{r}
+test <- master2 %>% 
+  group_by(county_nam) %>%
+  arrange(county_nam, mydate) %>%
+  mutate(Positive_7_Day_Avg = slider::slide_dbl(positive, mean, .before = 6, .after = 0)) %>%
+  mutate(New_Cases_7_Day_Avg = slider::slide_dbl(New_Cases_Today, mean, .before = 6, .after = 0)) %>%
+  mutate(New_Deaths_7_Day_Avg = slider::slide_dbl(New_Deaths_Today, mean, .before = 6, .after = 0)) %>%
+ungroup()
+
+#Run this before writing script to get back in descending order by date
+
+test <- test %>% 
+  arrange(desc(mydate))
+
+test2 <- test %>% 
+  select(mydate, county_nam, positive, Positive_7_Day_Avg, New_Cases_Today, New_Cases_7_Day_Avg, New_Deaths_Today, New_Deaths_7_Day_Avg) %>% 
+  filter(county_nam=="Arkansas_all_counties") %>% 
+  filter(mydate>(yesterday))
+
+#Alex Nichol decimal rounding:
+test2$Positive_7_Day_Avg <-round(test2$Positive_7_Day_Avg, 1)
+test2$New_Cases_7_Day_Avg <-round(test2$New_Cases_7_Day_Avg, 1)
+test2$New_Deaths_7_Day_Avg <-round(test2$New_Deaths_7_Day_Avg, 1)
+
+write.csv(test2, "test2.csv")
+
+df4 <- melt(test2[,c("mydate", "New_Cases_Today", "New_Cases_7_Day_Avg", "New_Deaths_Today", "New_Deaths_7_Day_Avg")], id.vars = 1)
+
+ggplot(df4,aes(x = mydate, y = value, label = value, fill= variable)) + 
+  #geom_bar(aes(fill = variable), stat = "identity", position = "dodge") +
+  geom_col(position = position_dodge2(width = 0.9, preserve = "single"), show.legend = T) +
+  geom_text(position = position_dodge2(width = 0.9, preserve = "single"), vjust=-1, hjust=+1) +
+  scale_y_continuous(limits=c(0, 1300)) + 
+  labs(title = "New Cases, Deaths and 7 Day Averages in Arkansas Announced Today", 
+       subtitle = "Confirmed + Probable,  ADH Data for Oct. 2, 2020",
+       caption = "Graphic by ArkansasCovid.com",
+       y="Amount",
+       x="Date")
+ggsave("Cases_Deaths_avgs.png",device = "png",width=9,height=6, dpi=400)
+```
 #.
 #.
 # Hospital Data
@@ -230,7 +285,7 @@ ggsave("Today_Deaths_Cases.png",device = "png",width=9,height=6, dpi=400)
 # IMPORT THE DAILY TWEET HOSPITAL DATA FROM THE GOOGLE Form
 #for download
 ```{r}
-hospital <- rio::import("/Users/rswells/Dropbox/Classes/Data Fall 2020/ArkansasCovid/Hospital Data - Manual Input.xlsx", which = "Hospital-TWEET SLIDE")
+# hospital <- rio::import("/Users/rswells/Dropbox/Classes/Data Fall 2020/ArkansasCovid/Hospital Data - Manual Input.xlsx", which = "Hospital-TWEET SLIDE")
 ```
 
 #For Googlesheet access
@@ -242,7 +297,7 @@ hospital <- read_sheet(url2, sheet = "Hospital-TWEET SLIDE",  col_types = NULL, 
 
 
 #clean names
-```{r}
+```{r include=FALSE}
 hospital <- janitor::clean_names(hospital)
 hospital <- hospital %>% 
   arrange(desc(date))
