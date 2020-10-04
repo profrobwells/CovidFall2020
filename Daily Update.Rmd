@@ -337,8 +337,11 @@ hospital1 <- main_hospital2 %>%
   mutate(New_on_Vent = (Ever_on_a_Vent-lead(Ever_on_a_Vent,na.rm=TRUE)))%>% 
   mutate(Pct_Hospitalized = (Hospitalized/active_cases)*100)
 
-hospital1 <- hospital1 %>% 
+hospital1 <- hospital1 %>%
   filter(date ==(today))
+
+# hospital1 <- hospital1 %>% 
+#   filter(date >=(yesterday))
 
 hospital1
 ```
