@@ -897,10 +897,10 @@ https://bit.ly/2Gqjfj4
 #### Read Before Next Class 
 
     IRE tipsheets - put your stuff on the Master Work document  
-    Machlis: Ch. 8 Analyze data by groups    
-    Dplyr - Andrew Ba  Tran - pipes-dplyr.pdf    
-    Machlis: Ch. 9 Graphing by Group
-    Visual Narrative Tricks by Albert Cairo
+    Machlis: Ch. 8 Analyze data by groups      
+    Dplyr - Andrew Ba  Tran - pipes-dplyr.pdf      
+    Machlis: Ch. 9 Graphing by Group   
+    Visual Narrative Tricks by Albert Cairo   
 https://www.youtube.com/watch?v=TSGaueL4Ggk
 
     
@@ -908,11 +908,81 @@ https://www.youtube.com/watch?v=TSGaueL4Ggk
  
 ---   
 
-# Week #7: Dplyr and R
+# Week #7: Flourish
 
 ## Monday Oct. 5  
 
 **Agenda**    
+
+    Weekly Tasks   
+    About Page, Podcast Page   
+    Fact Check
+    Website Usage  
+    Flourish   
+    Nicole Clowney on Wednesday
+    
+
+--**Fact Check**    
+
+    Story —>                Fact Checker
+    Heavner-PCR —>          Zimmardi
+    Lamy-restaurants —>     Heavner 
+    Hennigan-Hispanics —>   Seiter
+    Seiter-Nursing Home —>  Hennigan
+    Zimmardi Deaths —>      Lamy    
+    
+
+--**We Need to Turn This Around**   
+
+![](Images/Active Users.png)  
+
+- **Exercise:** 
+
+- **How to Create a Flourish Chart**     
+
+      Create a Flourish account    
+https://app.flourish.studio/login      
+
+      Import master_file.csv or your relevant data source (hospitals, schools)
+      
+      Build Charts: 
+      --Mary, Homepage numbers, then Demographics
+      --Katy, Statewide Case Data. Start with map with Active Cases by County
+      --Kendal, Statewide Death Data, start with Total Deaths
+      --Abby, Total cases by School District
+      --Obed, Statewide Hospitalizations, start with Hospitalizations Over Time
+
+#### View and Read Flourish Tutorials Before Next Class 
+ 
+- **Overview**        
+https://www.youtube.com/watch?v=fKO_jjqgooc&feature=emb_title
+
+- **Ravi Brock and Flourish in 9 mins**       
+https://video.uark.edu/media/Flourish+tutorial+with+Ravi+Brock/1_g6nzw3h0
+  
+- **Cairo and Flourish - Overview**     
+https://www.youtube.com/watch?v=cN1Q9MusZbc
+
+- **Cairo - Flourish - Stories**      
+https://www.youtube.com/watch?v=P7AmUdSBOVU
+
+
+
+
+------------------
+
+## Wednesday Oct. 7
+
+**Agenda**
+    
+    Nicole Clowney
+    TBA
+    
+    
+    Lubridate
+    Review Ch. 13 Machlis
+    Review Tran and Lubridate
+    
 
     Assignment1_KEY_StaticGraphic_2_9.R    
     Dplyr bootcamp. 
@@ -938,16 +1008,6 @@ https://www.youtube.com/watch?v=TSGaueL4Ggk
   https://www.youtube.com/watch?v=gLg4D9bMIyc&t=13s
 
 
-------------------
-
-## Wednesday Oct. 7
-
-**Agenda**
-    
-    Lubridate
-    Review Ch. 13 Machlis
-    Review Tran and Lubridate
-    
 -**Date Corrected Data**
 https://video.uark.edu/media/Date+Corrected+Data/1_2rmzgzwu
 
