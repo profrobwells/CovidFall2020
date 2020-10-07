@@ -975,10 +975,114 @@ https://www.youtube.com/watch?v=P7AmUdSBOVU
 
 **Agenda**
     
-    Nicole Clowney
-    TBA
+    Nicole Clowney    
+    Flourish     
+    Fact Check     
+
+
+-**Happy Fall!**
+![](Images/timber and mt sequoyah.jpg)  
+
     
+#### Flourish So Far
+
+    Abby:
+
+https://public.flourish.studio/visualisation/3936735/
+
+https://public.flourish.studio/visualisation/3941284/
+
+    Kendal:
+https://app.flourish.studio/visualisation/3923703/
+
     
+#### View and Read More Flourish Tutorials 
+
+-**Finish Your Flourish Workbooks by Friday**
+ 
+    Flourish - Stories
+https://www.youtube.com/watch?v=P7AmUdSBOVU
+
+    Intro
+https://help.flourish.studio/article/9-creating-a-visualization
+
+    Bar chart race template
+https://towardsdatascience.com/step-by-step-tutorial-create-a-bar-chart-race-animation-da7d5fcd7079
+
+https://help.flourish.studio/article/63-how-to-change-label-positioning  
+
+
+    Stories in Flourish
+https://www.youtube.com/watch?v=9HTZUXNOLVQ&feature=emb_rel_end
+
+    Importing Data
+https://www.youtube.com/watch?v=Rscfi7QZVvs&feature=emb_rel_end
+https://help.flourish.studio/article/12-adding-data-to-a-template
+
+    Misc
+Google sheets
+https://help.flourish.studio/article/165-how-to-pull-through-data-from-a-google-sheet
+
+    Story basics
+https://www.youtube.com/watch?v=9HTZUXNOLVQ&feature=emb_rel_end
+
+    Content to popups
+https://help.flourish.studio/article/69-how-to-add-custom-content-to-your-popups
+
+    Basic Help page
+https://help.flourish.studio/
+
+    Overview
+https://flourish.studio/2019/12/19/2019-year-in-review/
+
+Spanish
+https://flourish.studio/2019/10/23/informar-elecciones-con-flourish/
+
+Different accounts
+https://help.flourish.studio/article/16-controling-access-to-visualizations-and-stories
+
+Sorting data
+https://help.flourish.studio/article/36-how-to-display-your-data-in-a-different-order
+
+---   
+
+# Week #8: Maps in R
+
+## Monday, Oct. 12  
+
+**Agenda**
+    
+      Video of Machlis mapping  
+   https://www.youtube.com/watch?v=HFJOV5XaU_U
+      See R script:
+      Maps in R March 24 2019
+    https://bit.ly/2FvZDrB
+      
+
+
+
+### Assignment 2. Graphic with Multiple Data Sources.  Due Oct 12  
+
+    Students will use R Studio to gather, analyze and visualize Arkansascovid data by demographic for       Arkansas using Census data or school district data. Results will be posted on GitHub. 600 Word          story. Data dictionary required
+    Students will produce publication-ready graphics from data. 
+    With the assigned dataset, XXXX.csv, students will produce the following tables:
+    Most common words used in data text field
+    Based on this information, write a 600 word story, following AP style, that describes potential         newsworthy trends. 
+    By 11:59 pm., you will submit the following on Blackboard:  
+    XXX charts in .jpeg format: 1) Common words 2) Common hashtags 3) Date trend chart
+    One Google Doc with your findings, 600 words. Append at the end a brief data dictionary.
+    An R script with the coding that shows how you loaded and cleaned the data and produced the charts
+
+
+      Maps
+      Andrew Ba Tran - Mapping
+  https://nicar.r-journalism.com/docs/
+  http://learn.r-journalism.com/en/mapping/    
+      Data Cleaning    
+      Disaggregating variables for summation   
+      Mapping
+      
+
     Lubridate
     Review Ch. 13 Machlis
     Review Tran and Lubridate
@@ -1026,42 +1130,8 @@ https://video.uark.edu/media/Date+Corrected+Data/1_2rmzgzwu
     **TO BE UPDATED**
     Key to Lubridate Questions in Exercise:    
   https://bit.ly/2BO92d1
-    
----   
-
-# Week #8: Maps in R
-
-## Monday, Oct. 12  
-
-**Agenda**
-    
-      Video of Machlis mapping  
-   https://www.youtube.com/watch?v=HFJOV5XaU_U
-      See R script:
-      Maps in R March 24 2019
-    https://bit.ly/2FvZDrB
-      
-### Assignment 2. Graphic with Multiple Data Sources.  Due Oct 12  
-
-    Students will use R Studio to gather, analyze and visualize Arkansascovid data by demographic for       Arkansas using Census data or school district data. Results will be posted on GitHub. 600 Word          story. Data dictionary required
-    Students will produce publication-ready graphics from data. 
-    With the assigned dataset, XXXX.csv, students will produce the following tables:
-    Most common words used in data text field
-    Based on this information, write a 600 word story, following AP style, that describes potential         newsworthy trends. 
-    By 11:59 pm., you will submit the following on Blackboard:  
-    XXX charts in .jpeg format: 1) Common words 2) Common hashtags 3) Date trend chart
-    One Google Doc with your findings, 600 words. Append at the end a brief data dictionary.
-    An R script with the coding that shows how you loaded and cleaned the data and produced the charts
 
 
-      Maps
-      Andrew Ba Tran - Mapping
-  https://nicar.r-journalism.com/docs/
-  http://learn.r-journalism.com/en/mapping/    
-      Data Cleaning    
-      Disaggregating variables for summation   
-      Mapping
-      
 **Exercises**   
           
           Mapping Demo: Map Demo 6th Lesson 8-22-2020.Rmd
