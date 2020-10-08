@@ -85,6 +85,7 @@ today_county <- today_county %>%
   janitor::adorn_totals("row") %>% 
   mutate(mydate=(today))
 
+today_county$county_nam <- str_replace_all(today_county$county_nam, pattern=fixed('Arkansas'), replacement=fixed('Arkansas_county') )
 today_county$county_nam <- str_replace_all(today_county$county_nam, pattern=fixed('Total'), replacement=fixed('Arkansas_all_counties') )
 today_county$county_nam  <- gsub("[[:space:]]", "", today_county$county_nam)
 today_county$mydate <- as.Date(today_county$mydate)
@@ -393,3 +394,5 @@ head(hospitalemail)
 
 
 -**30**
+
+
