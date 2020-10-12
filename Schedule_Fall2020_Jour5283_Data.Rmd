@@ -1046,12 +1046,104 @@ https://help.flourish.studio/article/36-how-to-display-your-data-in-a-different-
 
 ---   
 
-# Week #8: Maps in R
+# Week #8: Flourish
 
 ## Monday, Oct. 12  
 
 **Agenda**
     
+    Flourish   
+    White House Task Force Report   
+    More Flourish 
+    Story Updates   
+    Task List   
+    
+**Exercises**     
+    
+    Katy - Maps   
+    Abby 
+    
+    Connect to live data 
+    Templates Drive The Bus   
+    
+      Build Charts: 
+      --Mary, Homepage numbers, then Demographics
+      --Katy, Statewide Case Data. Start with map with Active Cases by County
+      --Kendal, Statewide Death Data, start with Total Deaths
+      --Abby, Total cases by School District
+      --Obed, Statewide Hospitalizations, start with Hospitalizations Over Time    
+    
+    
+#### Watch Before Next Class 
+
+
+    Alberto Cairo, Flourish Tutorials, Parts 1-6    
+https://www.youtube.com/user/albertocairo1706/videos
+
+#### Due Wednesday   
+
+    Flourish Workbook Updates   
+    Discuss Story Pitch #2 - Use This Form:   
+
+https://docs.google.com/forms/d/e/1FAIpQLScws1-wOhgQ7DV4MhGNoX8QbJFdX6LH91oY6NBv76GtRzTBTA/viewform   
+
+
+    
+
+
+-----------------------------------------
+    
+## Wednesday Oct. 14: Flourish - Story Pitches
+
+
+**Agenda**
+ 
+    Flourish Workbook Updates   
+    Discuss Story Pitch #2   
+
+
+**Exercises**     
+    
+    
+#### Watch Before Next Class 
+
+
+    
+#### Due Friday      
+
+    Flourish Workbook Updates   
+    
+
+#### Weekend Memo      
+
+    250 Words with Sources: Story Pitch #2   
+
+### Assignment 2. Story with Interactive Graphic.  Due Oct 21  
+
+    Students will gather, analyze and visualize Arkansascovid data, primarily with R Studio. Students will produce publication-ready graphics in Flourish from data. Stories will be footnoted and ready for fact checking. R script due with story. Write the story Google Doc, Not Word. Make sure sharing is enabled.
+
+---   
+
+# Week #9: APIs
+
+## Monday Oct. 19
+
+**Agenda**  
+
+      Sign up for a census key:
+  https://api.census.gov/data/key_signup.html
+      What is an API?
+
+  Adapt Machlis - Maps in R Ch 11 exercise for Median Income in Arkansas
+      Maps in R March 24 2019 - Using the Census API
+  https://bit.ly/2FvZDrB
+
+      Building a Census tract map
+      
+**We will build this**  
+
+    TK TK Images/Income by Census Tract Washington Co.png)    
+
       Video of Machlis mapping  
    https://www.youtube.com/watch?v=HFJOV5XaU_U
       See R script:
@@ -1061,17 +1153,6 @@ https://help.flourish.studio/article/36-how-to-display-your-data-in-a-different-
 
 
 
-### Assignment 2. Graphic with Multiple Data Sources.  Due Oct 12  
-
-    Students will use R Studio to gather, analyze and visualize Arkansascovid data by demographic for       Arkansas using Census data or school district data. Results will be posted on GitHub. 600 Word          story. Data dictionary required
-    Students will produce publication-ready graphics from data. 
-    With the assigned dataset, XXXX.csv, students will produce the following tables:
-    Most common words used in data text field
-    Based on this information, write a 600 word story, following AP style, that describes potential         newsworthy trends. 
-    By 11:59 pm., you will submit the following on Blackboard:  
-    XXX charts in .jpeg format: 1) Common words 2) Common hashtags 3) Date trend chart
-    One Google Doc with your findings, 600 words. Append at the end a brief data dictionary.
-    An R script with the coding that shows how you loaded and cleaned the data and produced the charts
 
 
       Maps
@@ -1131,6 +1212,7 @@ https://video.uark.edu/media/Date+Corrected+Data/1_2rmzgzwu
     Key to Lubridate Questions in Exercise:    
   https://bit.ly/2BO92d1
 
+    Machlis: Ch. 14 Integrate R With Your Storytelling Using R Markdown
 
 **Exercises**   
           
@@ -1153,26 +1235,6 @@ https://video.uark.edu/media/Date+Corrected+Data/1_2rmzgzwu
     Data Wrangling
   http://learn.r-journalism.com/en/wrangling/
 
-#### Read Before Next Class 
-
-    Machlis: Ch. 14 Integrate R With Your Storytelling Using R Markdown
-
------------------------------------------
-    
-## Wednesday Oct. 14: Mapping 
-
-**Agenda**
-      
-      Adapt Machlis - Maps in R Ch 11 exercise for Median Income in Arkansas
-      Maps in R March 24 2019 - Using the Census API
-  https://bit.ly/2FvZDrB
-
-      Building a Census tract map
-      
-**We will build this**  
-
-    TK TK Images/Income by Census Tract Washington Co.png)    
-
 
 **Exercises**
 
@@ -1186,17 +1248,7 @@ https://video.uark.edu/media/Date+Corrected+Data/1_2rmzgzwu
     APIs - basics   
   https://medium.com/@LewisMenelaws/a-beginners-guide-to-web-apis-and-how-they-will-help-you-23923a0da450
 
----   
 
-# Week #9: APIs
-
-## Monday Oct. 19
-
-**Agenda**  
-
-      Sign up for a census key:
-  https://api.census.gov/data/key_signup.html
-      What is an API?
 
 #### Read Before Next Class   
 
