@@ -49,7 +49,7 @@ today_demo <- df
 ```{r}
 today_demo <- janitor::clean_names(today_demo)
 #if you miss a date, uncomment below and use this
-#today_demo$date <- ("2020-10-12")
+#today_demo$date <- ("2020-10-13")
 ```
 
 
@@ -69,8 +69,10 @@ yesterday <- (today-1)
 
 #Cleaning Names, Converting to Numeric Variables
 ```{r}
-today_demo <- today_demo [ -c(1) ]
+#today_demo <- today_demo [ -c(1) ]
 today_demo [2:58] <- lapply(today_demo [2:58], as.numeric)
+today_demo$date <- as.Date(today_demo$date)
+glimpse(today_demo)
 ```
 
 #----------------------------------------------------------------------------------------------------#
@@ -88,7 +90,8 @@ today_age <- today_demo %>%
 
 ```{r}
 today_age2 <- today_age
-colnames(today_age2)[2:19] <-c("cases_0_10", "cases_11_to_17", "cases_18_24", "cases_25_34", "cases_35_44", "cases_45_54", "cases_55_64", "cases_65", "cases_unknown", "deaths_0_10", "deaths_11_to_17", "deaths_18_24", "deaths_25_34", "deaths_35_44", "deaths_45_54", "deaths_55_64", "deaths_65", "deaths_unknown")
+
+colnames(today_age2)[2:19] <-c("cases_0_10", "cases_11_17", "cases_18_24", "cases_25_34", "cases_35_44", "cases_45_54", "cases_55_64", "cases_65", "cases_unknown", "deaths_0_10", "deaths_11_17", "deaths_18_24", "deaths_25_34", "deaths_35_44", "deaths_45_54", "deaths_55_64", "deaths_65", "deaths_unknown")
 today_age2$date <- as.Date(today_age2$date)
 glimpse(today_age2)
 ```
@@ -96,13 +99,16 @@ glimpse(today_age2)
 #Today_yesterday
 #Import age master file
 ```{r}
-age3 <- rio::import("age_update_10_12.csv")
+age3 <- rio::import("https://raw.githubusercontent.com/Arkansascovid/Main/master/age_master.csv")
 
 age3 <- janitor::clean_names(age3)
+names(age3)
+```
 
+```{r}
 yesterday_age <- age3 %>% 
   filter(date == yesterday) %>% 
-  select("date", "cases_0_10", "cases_11_to_17", "cases_18_24", "cases_25_34", "cases_35_44", "cases_45_54", "cases_55_64", "cases_65", "cases_unknown", "deaths_0_10", "deaths_11_to_17", "deaths_18_24", "deaths_25_34", "deaths_35_44", "deaths_45_54", "deaths_55_64", "deaths_65", "deaths_unknown")
+  select("date", "cases_0_10", "cases_11_17", "cases_18_24", "cases_25_34", "cases_35_44", "cases_45_54", "cases_55_64", "cases_65", "cases_unknown", "deaths_0_10", "deaths_11_17", "deaths_18_24", "deaths_25_34", "deaths_35_44", "deaths_45_54", "deaths_55_64", "deaths_65", "deaths_unknown")
 
 yesterday_age$date <- as.Date(yesterday_age$date)
 glimpse(yesterday_age)
@@ -120,22 +126,22 @@ glimpse(twodays)
 
 ```{r}
 twodays <- twodays %>%
-  mutate(New_cases_0_10 = (cases_0_10-lead(cases_0_10))) %>% 
-  mutate(New_cases_11_17 = (cases_11_to_17-lead(cases_11_to_17))) %>% 
-  mutate(New_cases_18_24 = (cases_18_24-lead(cases_18_24))) %>% 
-  mutate(New_cases_25_34 = (cases_25_34-lead(cases_25_34))) %>%  
-  mutate(New_cases_35_44 = (cases_35_44-lead(cases_35_44))) %>%  
-  mutate(New_cases_45_54 = (cases_45_54-lead(cases_45_54))) %>%
-  mutate(New_cases_55_64 = (cases_55_64-lead(cases_55_64))) %>%
-  mutate(New_cases_65 = (cases_65-lead(cases_65))) %>% 
-  mutate(New_deaths_0_10 = (deaths_0_10-lead(deaths_0_10))) %>% 
-  mutate(New_deaths_11_17 = (deaths_11_to_17-lead(deaths_11_to_17))) %>% 
-  mutate(New_deaths_18_24 = (deaths_18_24-lead(deaths_18_24))) %>% 
-  mutate(New_deaths_25_34 = (deaths_25_34-lead(deaths_25_34))) %>%  
-  mutate(New_deaths_35_44 = (deaths_35_44-lead(deaths_35_44))) %>%  
-  mutate(New_deaths_45_54 = (deaths_45_54-lead(deaths_45_54))) %>%
-  mutate(New_deaths_55_64 = (deaths_55_64-lead(deaths_55_64))) %>%
-  mutate(New_deaths_65 = (deaths_65-lead(deaths_65))) 
+  mutate(new_cases_0_10 = (cases_0_10-lead(cases_0_10))) %>% 
+  mutate(new_cases_11_17 = (cases_11_17-lead(cases_11_17))) %>% 
+  mutate(new_cases_18_24 = (cases_18_24-lead(cases_18_24))) %>% 
+  mutate(new_cases_25_34 = (cases_25_34-lead(cases_25_34))) %>%  
+  mutate(new_cases_35_44 = (cases_35_44-lead(cases_35_44))) %>%  
+  mutate(new_cases_45_54 = (cases_45_54-lead(cases_45_54))) %>%
+  mutate(new_cases_55_64 = (cases_55_64-lead(cases_55_64))) %>%
+  mutate(new_cases_65 = (cases_65-lead(cases_65))) %>% 
+  mutate(new_deaths_0_10 = (deaths_0_10-lead(deaths_0_10))) %>% 
+  mutate(new_deaths_11_17 = (deaths_11_17-lead(deaths_11_17))) %>% 
+  mutate(new_deaths_18_24 = (deaths_18_24-lead(deaths_18_24))) %>% 
+  mutate(new_deaths_25_34 = (deaths_25_34-lead(deaths_25_34))) %>%  
+  mutate(new_deaths_35_44 = (deaths_35_44-lead(deaths_35_44))) %>%  
+  mutate(new_deaths_45_54 = (deaths_45_54-lead(deaths_45_54))) %>%
+  mutate(new_deaths_55_64 = (deaths_55_64-lead(deaths_55_64))) %>%
+  mutate(new_deaths_65 = (deaths_65-lead(deaths_65))) 
 ```
 
 #Merges the Today's calculations with the master file
@@ -147,8 +153,8 @@ glimpse(today_age_calcs)
 ```
 
 ```{r}
-age3 <- as.data.frame(age3)
-glimpse(age3)
+# age3 <- as.data.frame(age3)
+# glimpse(age3)
 ```
 
 
@@ -158,7 +164,7 @@ age4 <- smartbind(age3, today_age_calcs)
 age4 <- age4 %>% 
   arrange(desc(date))
 
-write.csv(age4, "age_update_10_13.csv")
+write.csv(age4, "age_master.csv")
 ```
 
 
@@ -364,7 +370,41 @@ age3 <- age2 %>%
   pivot_wider(names_from = sub_detail, values_from = c(cases, new_cases, deaths, new_deaths))
 write.csv(age3, "age_10_13.csv")
 ```
-
+#One Time Building of the Age table
+```{r}
+# colnames(age3)[29] <- "deaths_11_17"
+# age3B <- age3 [ -c(1:2) ]
+# names(age3B)
+# 
+# age3B <- age3B %>% 
+#    select("date", "cases_0_10", "cases_11_17", "cases_18_24", "cases_25_34", "cases_35_44", "cases_45_54", "cases_55_64", "cases_65", "cases_unknown", "deaths_0_10", "deaths_11_17", "deaths_18_24", "deaths_25_34", "deaths_35_44", "deaths_45_54", "deaths_55_64", "deaths_65", "deaths_unknown", "cases_0_17", "cases_25_44", "cases_45_64", "deaths_0_17", "deaths_25_44", "deaths_45_64")
+# names(age3B)
+# 
+# age3D <- age3B %>% 
+#   mutate(new_cases_0_10 = (cases_0_10-lead(cases_0_10))) %>% 
+#   mutate(new_cases_11_17 = (cases_11_17-lead(cases_11_17))) %>% 
+#   mutate(new_cases_18_24 = (cases_18_24-lead(cases_18_24))) %>% 
+#   mutate(new_cases_25_34 = (cases_25_34-lead(cases_25_34))) %>%  
+#   mutate(new_cases_35_44 = (cases_35_44-lead(cases_35_44))) %>%  
+#   mutate(new_cases_45_54 = (cases_45_54-lead(cases_45_54))) %>%
+#   mutate(new_cases_55_64 = (cases_55_64-lead(cases_55_64))) %>%
+#   mutate(new_cases_65 = (cases_65-lead(cases_65))) %>% 
+#   mutate(new_deaths_0_10 = (deaths_0_10-lead(deaths_0_10))) %>% 
+#   mutate(new_deaths_11_17 = (deaths_11_17-lead(deaths_11_17))) %>% 
+#   mutate(new_deaths_18_24 = (deaths_18_24-lead(deaths_18_24))) %>% 
+#   mutate(new_deaths_25_34 = (deaths_25_34-lead(deaths_25_34))) %>%  
+#   mutate(new_deaths_35_44 = (deaths_35_44-lead(deaths_35_44))) %>%  
+#   mutate(new_deaths_45_54 = (deaths_45_54-lead(deaths_45_54))) %>%
+#   mutate(new_deaths_55_64 = (deaths_55_64-lead(deaths_55_64))) %>%
+#   mutate(new_deaths_65 = (deaths_65-lead(deaths_65))) %>% 
+#   mutate(new_cases_0_17 = (cases_0_17-lead(cases_0_17))) %>% 
+#   mutate(new_cases_25_44 = (cases_25_44-lead(cases_25_44))) %>%
+#   mutate(new_cases_45_64 = (cases_45_64-lead(cases_45_64))) %>%
+#   mutate(new_deaths_0_17 = (deaths_0_17-lead(deaths_0_17))) %>%
+#   mutate(new_deaths_25_44 = (deaths_25_44-lead(deaths_25_44))) %>%
+#   mutate(new_deaths_45_64 = (deaths_45_64-lead(deaths_45_64)))
+# write.csv(age3D, "age_update_10_12.csv")
+```
 
 #facility
 ```{r}
