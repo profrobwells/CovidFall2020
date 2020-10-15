@@ -49,7 +49,7 @@ today_demo <- df
 ```{r}
 today_demo <- janitor::clean_names(today_demo)
 #if you miss a date, uncomment below and use this
-#today_demo$date <- ("2020-10-13")
+#today_demo$date <- ("2020-10-14")
 ```
 
 
@@ -108,6 +108,8 @@ names(age3)
 ```{r}
 yesterday_age <- age3 %>% 
   filter(date == yesterday) %>% 
+  #if you miss a day, fill this out and run instead
+  #filter(date == "2020-10-13") %>% 
   select("date", "cases_0_10", "cases_11_17", "cases_18_24", "cases_25_34", "cases_35_44", "cases_45_54", "cases_55_64", "cases_65", "cases_unknown", "deaths_0_10", "deaths_11_17", "deaths_18_24", "deaths_25_34", "deaths_35_44", "deaths_45_54", "deaths_55_64", "deaths_65", "deaths_unknown")
 
 yesterday_age$date <- as.Date(yesterday_age$date)
@@ -144,19 +146,16 @@ twodays <- twodays %>%
   mutate(new_deaths_65 = (deaths_65-lead(deaths_65))) 
 ```
 
-#Merges the Today's calculations with the master file
+#Creates one day with Today's calculations only
 ```{r}
 today_age_calcs <- twodays %>% 
-  filter(date ==today)
+    filter(date ==today)
+  #if you miss a day, fill this out and run instead
+  #filter(date == "2020-10-14") 
+
 today_age_calcs <- janitor::clean_names(today_age_calcs)
 glimpse(today_age_calcs)
 ```
-
-```{r}
-# age3 <- as.data.frame(age3)
-# glimpse(age3)
-```
-
 
 ```{r}
 age4 <- smartbind(age3, today_age_calcs)
@@ -194,10 +193,10 @@ glimpse(today_race2)
 ```
 
 #Today_yesterday
-#Import the master file for race
+#Import the master file for race from GitHub
 
 ```{r}
-race3 <- rio::import("race_update_10_12.csv")
+race3 <- rio::import("https://raw.githubusercontent.com/Arkansascovid/Main/master/race_main_file.csv")
 race3 <- janitor::clean_names(race3)
 glimpse(race3)
 ```
@@ -207,6 +206,8 @@ glimpse(race3)
 race3 <- as.data.frame(race3)
 yesterday_race <- race3 %>% 
   filter(date == yesterday) %>% 
+    #if you miss a day, fill this out and run instead
+ # filter(date == "2020-10-13") %>% 
   select("date", "cases_african_american", "cases_white", "cases_native_american", "cases_asian", "cases_pacific_islander", "cases_hispanic", "cases_multi_racial", "deaths_african_american", "deaths_white", "deaths_native_american", "deaths_asian", "deaths_pacific_islander", "deaths_hispanic", "deaths_multi_racial", "total_state_population_african_american", "total_state_population_asian", "total_state_population_hispanic", "total_state_population_multi_racial", "total_state_population_native_american",
 "total_state_population_pacific_islander", "total_state_population_white",  "total_state_population_other", "total_state_population_race_or_ethnicity_unknown", "pct_state_population_african_american",  "pct_state_population_asian", "pct_state_population_hispanic", "pct_state_population_multi_racial",  "pct_state_population_native_american", "pct_state_population_pacific_islander", 
 "pct_state_population_white", "pct_state_population_other", "pct_state_population_race_or_ethnicity_unknown")
@@ -219,12 +220,17 @@ glimpse(yesterday_race)
 ```{r}
 pop <- race3 %>% 
   filter(date == yesterday) %>% 
+  #if you miss a day, fill this out and run instead
+  #filter(date == "2020-10-13") %>% 
   select("date", "total_state_population_african_american", "total_state_population_asian", "total_state_population_hispanic", "total_state_population_multi_racial", "total_state_population_native_american",
 "total_state_population_pacific_islander", "total_state_population_white",  "total_state_population_other", "total_state_population_race_or_ethnicity_unknown", "pct_state_population_african_american",  "pct_state_population_asian", "pct_state_population_hispanic", "pct_state_population_multi_racial",  "pct_state_population_native_american", "pct_state_population_pacific_islander", 
 "pct_state_population_white", "pct_state_population_other", "pct_state_population_race_or_ethnicity_unknown")
 #
 #Change to today's date
 pop$date <- today
+#if you miss a day, fill this out and run instead
+#pop$date <- "2020-10-14"
+
 pop$date <- as.Date(pop$date)
 glimpse(pop)
 ```
@@ -233,12 +239,13 @@ glimpse(pop)
 ```{r}
 today_race2 <- today_race2 %>% 
    left_join(pop, by="date")
-head(today_race)
+head(today_race2)
 ```
 
 #You should get a df with 2 observations (two days' worth a data)
 ```{r}
 twodays2 <- smartbind(today_race2, yesterday_race)
+twodays2$date <- as.Date(twodays2$date)
 glimpse(twodays2)
 
 ```
@@ -287,7 +294,11 @@ mutate(deaths_per_10_000_white = (deaths_white / total_state_population_white)*1
 #Merges the Today's calculations with the master file
 ```{r}
 today_race_calcs <- twodays3 %>% 
-  filter(date ==today)
+  #filter(date ==today)
+   #if you miss a day, fill this out and run instead
+  filter(date == "2020-10-14")
+  
+  
 today_race_calcs <- janitor::clean_names(today_race_calcs)
 glimpse(today_race_calcs)
 ```
@@ -301,7 +312,7 @@ race4 <- smartbind(race3, today_race_calcs)
 race4 <- race4 %>% 
   arrange(desc(date))
 
-write.csv(race4, "race_update_10_13.csv")
+write.csv(race4, "race_main_file.csv")
 ```
 #----------------------------------------------------------------------------------------------------#
 #----------------------------------------------------------------------------------------------------#
@@ -319,12 +330,69 @@ write.csv(race4, "race_update_10_13.csv")
 #----------------------------------------------------------------------------------------------------#
 #----------------------------------------------------------------------------------------------------#
 
+```{r}
+glimpse(today_demo)
+```
+
 #Build this 
 
 #gender
+#Today's data with race
+```{r}
+today_gender <- today_demo %>% 
+  select(date, male, female, unk_gender)
+```
+
+
+#Rename
 
 ```{r}
-glimpse(gender2)
+today_gender2 <- today_gender
+# colnames(today_race2)[2:19] <-c("cases_african_american", "cases_white", "cases_native_american", "cases_asian", "cases_pacific_islander", "cases_hispanic", "cases_multi_racial", "cases_other_race", "cases_unknown_race", "deaths_african_american", "deaths_white", "deaths_native_american", "deaths_asian", "deaths_pacific_islander", "deaths_hispanic", "deaths_multi_racial", "deaths_other_race", "deaths_unknown_race")
+
+
+today_gender2$date <- as.Date(today_gender2$date)
+
+today_gender2 <- janitor::clean_names(today_gender2)
+
+glimpse(today_gender2)
+```
+
+#Today_yesterday
+#Import the master file for gender
+
+```{r}
+gender_master <- rio::import("gender_master_10_11.csv")
+gender_master <- janitor::clean_names(gender_master)
+
+# yesterday_gender <- gender_master %>% 
+#   filter(date == yesterday)
+
+
+yesterday_gender <- gender_master %>% 
+   filter(date == "2020-10-11")
+
+glimpse(yesterday_gender)
+```
+
+#You should get a df with 2 observations (two days' worth a data)
+```{r}
+twodays3 <- smartbind(today_gender2, yesterday_gender)
+glimpse(twodays3)
+
+```
+
+-**The Today-Yesterday Calculations**
+
+```{r}
+twodays3 <- twodays2 %>%
+  mutate(New_cases_african_american = (cases_african_american-lead(cases_african_american))) %>% 
+  mutate(New_cases_white = (cases_white-lead(cases_white))) %>% 
+  
+```
+
+```{r}
+
 ```
 
 
@@ -442,7 +510,11 @@ write.csv(race3, "race_10_13.csv")
 
 ```
 
-#gender
+```{r}
+glimpse(gender_master)
+```
+
+#gender create the table
 ```{r}
 gender <- demo_table %>% 
   filter(detail == "Gender")
@@ -453,6 +525,14 @@ glimpse(gender2)
 
 write.csv(gender2, "gender_10_13.csv")
 #clean
+
+gender_master2 <- gender_master %>% 
+  select(date, sub_detail, cases, new_cases)
+
+gender_master2 <- gender_master2 %>% 
+  pivot_wider(names_from = sub_detail, values_from = c(cases, new_cases))
+
+write.csv(gender_master2, "gender_master_10_11.csv")
 ```
 
 #----------------------------------------------------------------------------------------------------#
