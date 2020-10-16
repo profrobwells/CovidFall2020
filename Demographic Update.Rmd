@@ -331,15 +331,9 @@ x <- race4 %>%
 race_new_cases <- gather(x, key = "race", value = "new_cases", new_cases_african_american, new_cases_asian, new_cases_hispanic, new_cases_multi_racial, new_cases_native_american, new_cases_other, new_cases_race_or_ethnicity_unknown, new_cases_white)
 
 race_new_cases
-
+write.csv(race_new_cases, "race_new_cases.csv")
 ```
 
-
-#----------------------------------------------------------------------------------------------------#
-#----------------------------------------------------------------------------------------------------#
-# NOTES BELOW
-#----------------------------------------------------------------------------------------------------#
-#----------------------------------------------------------------------------------------------------#
 
 #----------------------------------------------------------------------------------------------------#
 #Gender
@@ -370,7 +364,7 @@ glimpse(today_gender2)
 
 ```{r}
 #gender_master <- rio::import("gender_master_10_11.csv")
-gender_master <- rio::import("gender_master_10_14.HenniganUpdate.xlsx")
+gender_master <- rio::import("gender_10_15.csv")
 
 gender_master <- janitor::clean_names(gender_master)
 
@@ -400,13 +394,15 @@ twodays3 <- twodays3 %>%
 
 glimpse(twodays3)
 
-write.csv(twodays3, "gender_10_15.csv")
+write.csv(twodays3, "gender_master.csv")
 ```
 
-```{r}
-glimpse(gender_master)
-```
 
+#----------------------------------------------------------------------------------------------------#
+#----------------------------------------------------------------------------------------------------#
+# NOTES BELOW
+#----------------------------------------------------------------------------------------------------#
+#----------------------------------------------------------------------------------------------------#
 
 #Build this 
 #----------------------------------------------------------------------------------------------------#
