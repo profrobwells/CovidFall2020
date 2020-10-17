@@ -364,7 +364,7 @@ glimpse(today_gender2)
 
 ```{r}
 #gender_master <- rio::import("gender_master_10_11.csv")
-gender_master <- rio::import("gender_10_15.csv")
+gender_master <- rio::import("https://raw.githubusercontent.com/Arkansascovid/Main/master/gender_master.csv")
 
 gender_master <- janitor::clean_names(gender_master)
 
