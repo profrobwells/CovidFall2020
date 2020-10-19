@@ -172,6 +172,11 @@ COMBINE USING smartbind
 schools_master <- smartbind(ps,private,college,less5,totals_all_schools)
 head(schools_master)
 write.csv(schools_master, "schools_master.csv")
+
+master2 <- rio::import("https://raw.githubusercontent.com/profrobwells/CovidFall2020/master/schools_master.csv")
+
+schools_master <- smartbind(schools_master, master2)
+
 ```
 
 #repeat lines 61-174 for each:
