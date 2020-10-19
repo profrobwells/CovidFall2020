@@ -1,0 +1,90 @@
+---
+title: "School Data"
+author: "Rob Wells"
+date: "10/19/2020"
+output: pdf_document
+---
+
+# Compilation of School COVID-19 Reports for Arkansascovid.com Calculations
+
+- **This notebook retrieves data from a Google sheet and compiles a time series of ADH school infection reports**
+
+-**It creates a masterfile: schools_master.csv**
+
+# Part 1: Import Data, Clean It
+
+```{r include=FALSE}
+#install.packages("slider")
+#install.packages("zoo")
+#install.packages("gtools")
+# vignette("basic-usage", package="googlesheets")
+#install.packages("googledrive")
+#install.packages("googlesheets4")
+library(tidyverse)
+library(janitor)
+library(lubridate)
+library(googlesheets4)
+library(googledrive)
+library(tidyr)
+library(jsonlite)
+library(gtools)
+library(zoo)  
+library(reshape2)
+library(slider)
+
+```
+
+
+
+#For Googlesheet access
+```{r include=FALSE}
+#url1 <- ("https://docs.google.com/spreadsheets/d/1UmaSSoMbou2MpvGmihP5cZPNqBnaxqIH60cs10sShB8/edit?usp=sharing")
+
+#school10_15 <- read_sheet(url1, sheet = "Oct15",  col_types = NULL, na = "",trim_ws = TRUE)
+# #school10_12 <- read_sheet(url1, sheet = "Oct12",  col_types = NULL, na = "",trim_ws = TRUE)
+# school10_8 <- read_sheet(url1, sheet = "Oct8",  col_types = NULL, na = "",trim_ws = TRUE)
+# school10_5 <- read_sheet(url1, sheet = "Oct5",  col_types = NULL, na = "",trim_ws = TRUE)
+# school10_1 <- read_sheet(url1, sheet = "Oct1",  col_types = NULL, na = "",trim_ws = TRUE)
+# #school9_28 <- read_sheet(url1, sheet = "Sept28",  col_types = NULL, na = "",trim_ws = TRUE)
+school10_15$date <- "2020-10-15"
+school10_12$date <- "2020-10-12"
+school10_8$date <- "2020-10-08"
+school10_5$date <- "2020-10-05"
+school10_1$date <- "2020-10-01"
+```
+
+
+```{r}
+glimpse(school10_15)
+```
+
+```{r}
+school10_15 <- janitor::clean_names(school10_15)
+names(school10_15)
+```
+
+#Standardize File Names
+
+```{r}
+#Rename
+school10_15_bak <- school10_15
+
+colnames(school10_15)[1:26] <-c("ps_district", "ps_active_cases", "ps_cumulative_faculty_staff_cases", "ps_cumulative_student_cases", "ps_cumulative_total", "pvt_school", "pvt_active_cases", "pvt_cumulative_faculty_staff_cases", "pvt_cumulative_student_cases", "pvt_cumulative_total", "college", "college_active_cases", "college_cumulative_faculty_staff_cases", "college_cumulative_student_cases", "college_cumulative_total", "total_schools_less_5_active_cases", "less5_active_cases", "less5_cumulative_faculty_staff_cases", "less5_cumulative_student_cases", "less5_cumulative_total"
+ 
+                                STOPPED AT TOTAL FOR ALL SCHOOLS
+
+
+[21] "totals_for_all_schools"                             "cumulative_active_cases_22"                        
+[23] "cumulative_faculty_staff_cases_23"                  "cumulative_student_cases_24"                       
+[25] "cumulative_total_25"                                "date")
+
+
+ADD UNIQUE DATE FIELD PER table
+COMBINE USING smartbind
+
+
+)
+
+today_age2$date <- as.Date(today_age2$date)
+glimpse(today_age2)
+```
