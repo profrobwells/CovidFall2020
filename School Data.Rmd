@@ -41,12 +41,12 @@ library(slider)
 #url1 <- ("https://docs.google.com/spreadsheets/d/1UmaSSoMbou2MpvGmihP5cZPNqBnaxqIH60cs10sShB8/edit?usp=sharing")
 
 #school10_15 <- read_sheet(url1, sheet = "Oct15",  col_types = NULL, na = "",trim_ws = TRUE)
-# #school10_12 <- read_sheet(url1, sheet = "Oct12",  col_types = NULL, na = "",trim_ws = TRUE)
-# school10_8 <- read_sheet(url1, sheet = "Oct8",  col_types = NULL, na = "",trim_ws = TRUE)
-# school10_5 <- read_sheet(url1, sheet = "Oct5",  col_types = NULL, na = "",trim_ws = TRUE)
-# school10_1 <- read_sheet(url1, sheet = "Oct1",  col_types = NULL, na = "",trim_ws = TRUE)
-# #school9_28 <- read_sheet(url1, sheet = "Sept28",  col_types = NULL, na = "",trim_ws = TRUE)
-school10_15$date <- "2020-10-15"
+#school10_15$date <- "2020-10-15"
+school10_12 <- read_sheet(url1, sheet = "Oct12",  col_types = NULL, na = "",trim_ws = TRUE)
+school10_8 <- read_sheet(url1, sheet = "Oct8",  col_types = NULL, na = "",trim_ws = TRUE)
+school10_5 <- read_sheet(url1, sheet = "Oct5",  col_types = NULL, na = "",trim_ws = TRUE)
+school10_1 <- read_sheet(url1, sheet = "Oct1",  col_types = NULL, na = "",trim_ws = TRUE)
+school9_28 <- read_sheet(url1, sheet = "Sept28",  col_types = NULL, na = "",trim_ws = TRUE)
 school10_12$date <- "2020-10-12"
 school10_8$date <- "2020-10-08"
 school10_5$date <- "2020-10-05"
@@ -55,7 +55,7 @@ school10_1$date <- "2020-10-01"
 
 
 ```{r}
-glimpse(school10_15)
+#glimpse(school10_15)
 ```
 
 ```{r}
@@ -63,28 +63,119 @@ school10_15 <- janitor::clean_names(school10_15)
 names(school10_15)
 ```
 
-#Standardize File Names
+#Subset tables
+#Public School
 
 ```{r}
 #Rename
 school10_15_bak <- school10_15
+#Subset public schools
+ ps <- school10_15 %>% 
+   select("date", "public_school_district","active_cases_2", "cumulative_faculty_staff_cases_3",                   "cumulative_student_cases_4", "cumulative_total_5")
+#create type
+ ps <- ps %>% 
+   mutate(type="public_schools")
 
-colnames(school10_15)[1:26] <-c("ps_district", "ps_active_cases", "ps_cumulative_faculty_staff_cases", "ps_cumulative_student_cases", "ps_cumulative_total", "pvt_school", "pvt_active_cases", "pvt_cumulative_faculty_staff_cases", "pvt_cumulative_student_cases", "pvt_cumulative_total", "college", "college_active_cases", "college_cumulative_faculty_staff_cases", "college_cumulative_student_cases", "college_cumulative_total", "total_schools_less_5_active_cases", "less5_active_cases", "less5_cumulative_faculty_staff_cases", "less5_cumulative_student_cases", "less5_cumulative_total"
- 
-                                STOPPED AT TOTAL FOR ALL SCHOOLS
+#rename columns
+colnames(ps)[2:6] <-c("name", "active_cases", "cumulative_faculty_staff_cases", "cumulative_student_cases", "cumulative_total") 
 
+ps <- as.data.frame(ps)
 
-[21] "totals_for_all_schools"                             "cumulative_active_cases_22"                        
-[23] "cumulative_faculty_staff_cases_23"                  "cumulative_student_cases_24"                       
-[25] "cumulative_total_25"                                "date")
-
-
-ADD UNIQUE DATE FIELD PER table
-COMBINE USING smartbind
-
-
-)
-
-today_age2$date <- as.Date(today_age2$date)
-glimpse(today_age2)
 ```
+
+#Private School
+
+```{r}
+#Subset private schools
+ private <- school10_15 %>% 
+   select("date", "private_school","active_cases_7", "cumulative_faculty_staff_cases_8",                   "cumulative_student_cases_9", "cumulative_total_10")
+#create type
+private <- private %>% 
+   mutate(type="private_schools")
+
+#rename columns
+colnames(private)[2:6] <-c("name", "active_cases", "cumulative_faculty_staff_cases", "cumulative_student_cases", "cumulative_total") 
+
+private <- private %>% 
+  distinct()
+private <- as.data.frame(private)
+private
+```
+
+#College
+
+```{r}
+#Subset private schools
+ college <- school10_15 %>% 
+   select("date", "college_university","active_cases_12", "cumulative_faculty_staff_cases_13",                   "cumulative_student_cases_14", "cumulative_total_15")
+#create type
+college <- college %>% 
+   mutate(type="college")
+
+#rename columns
+colnames(college)[2:6] <-c("name", "active_cases", "cumulative_faculty_staff_cases", "cumulative_student_cases", "cumulative_total") 
+
+college <- college %>% 
+  distinct()
+college <- as.data.frame(college)
+college
+```
+
+```{r}
+names(school10_15)
+```
+
+#schools_with_less_than_5_active_cases
+
+```{r}
+#Subset schools_with_less_than_5_active_cases
+less5 <- school10_15 %>% 
+   select("date", "totals_among_schools_with_less_than_5_active_cases","cumulative_active_cases_17", "cumulative_faculty_staff_cases_18", "cumulative_student_cases_19", "cumulative_total_20")
+#create type
+less5 <- less5 %>% 
+   mutate(type="less5")
+
+#rename columns
+colnames(less5)[2:6] <-c("name", "cumulative_active_cases", "cumulative_faculty_staff_cases", "cumulative_student_cases", "cumulative_total") 
+
+less5 <- less5 %>% 
+  distinct()
+less5 <- as.data.frame(less5)
+less5
+```
+
+#totals_for_all_schools
+"totals_for_all_schools"                            
+[22] "cumulative_active_cases_22"                        
+[23] "cumulative_faculty_staff_cases_23"                 
+[24] "cumulative_student_cases_24"                       
+[25] "cumulative_total_25"          
+```{r}
+#Subset totals_for_all_schools
+totals_all_schools <- school10_15 %>% 
+   select("date", "totals_for_all_schools","cumulative_active_cases_22", "cumulative_faculty_staff_cases_23", "cumulative_student_cases_24", "cumulative_total_25")
+#create type
+totals_all_schools<- totals_all_schools %>% 
+   mutate(type="totals_all_schools")
+
+#rename columns
+colnames(totals_all_schools)[2:6] <-c("name", "cumulative_active_cases", "cumulative_faculty_staff_cases", "cumulative_student_cases", "cumulative_total") 
+
+totals_all_schools <- totals_all_schools %>% 
+  distinct()
+totals_all_schools <- as.data.frame(totals_all_schools)
+totals_all_schools
+```
+
+COMBINE USING smartbind
+```{r}
+schools_master <- smartbind(ps,private,college,less5,totals_all_schools)
+head(schools_master)
+write.csv(schools_master, "schools_master.csv")
+```
+
+#repeat lines 61-174 for each:
+school10_12
+school10_8
+school10_5
+school10_1
