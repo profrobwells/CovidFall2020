@@ -1153,6 +1153,55 @@ http://learn.r-journalism.com/en/wrangling/dplyr/dplyr/
 
 ## Monday Oct. 19
 
+    Stories Due Saturday, Oct 24
+    Schedule
+    Demographic data
+    Flourish
+    R exercises
+    R Exercises Due Wednesday
+    
+
+- **Schedule**
+
+https://docs.google.com/spreadsheets/d/1gvm3BuS83NRbsx0pS_PuYTFytN4sPS3B9Xhq-6gnu6c/edit#gid=0
+
+      Abby training on Data Update   
+
+--**Exercises**
+
+    Using R to Shorten, Simplify the Master File  
+https://github.com/profrobwells/CovidFall2020/blob/master/Exercises/Slicing-Dicing%20Data%2010-14-2020.Rmd
+
+- **You are in Dplyr bootcamp!**
+
+    DPLYR BOOT CAMP 5th Lesson 8-21-2020.Rmd
+    Make a Dplyr Cheat Sheet     
+ 
+#### Read Before Next Class 
+
+    Joining Dataframes in R  
+  https://www.youtube.com/watch?v=gLg4D9bMIyc&t=13s
+
+   Ch. 7 Two or more data sets 
+    
+    Data Wrangling
+  http://learn.r-journalism.com/en/wrangling/
+
+    Joins in R: 
+ https://bit.ly/2OFnGJ6
+
+--------------------------------------------
+
+
+## Wednesday, Oct. 21 R and Flourish
+
+**Agenda**
+
+    R Tables
+    Flourish
+    Stories Due Saturday, Oct 24
+
+
 
     Lubridate
     Review Ch. 13 Machlis
@@ -1161,26 +1210,6 @@ http://learn.r-journalism.com/en/wrangling/dplyr/dplyr/
 
     Assignment1_KEY_StaticGraphic_2_9.R    
     Dplyr bootcamp. 
-
-    
-- **Data Visualization Basics**
-
-    Load tutorial: Basic Data Visualization 12-26-18.R       
-
-> [**Download this file and open it in R Studio**](https://bit.ly/2RlQtSE){target="_blank"} 
-
-- **Exercise:** 
-
-    DPLYR BOOT CAMP 5th Lesson 8-21-2020.Rmd
-    Make a Dplyr Cheat Sheet   
-
-- **You are in Dplyr bootcamp!**
-
-
-#### Read Before Next Class 
-
-    Joining Dataframes in R  
-  https://www.youtube.com/watch?v=gLg4D9bMIyc&t=13s
 
 
 -**Date Corrected Data**
@@ -1202,35 +1231,22 @@ https://video.uark.edu/media/Date+Corrected+Data/1_2rmzgzwu
     Key to Lubridate Questions in Exercise:    
   https://bit.ly/2BO92d1
 
-    Machlis: Ch. 14 Integrate R With Your Storytelling Using R Markdown
 
 **Exercises**   
 
+- **Data Visualization Basics**
+
+    Load tutorial: Basic Data Visualization 12-26-18.R       
+
+> [**Download this file and open it in R Studio**](https://bit.ly/2RlQtSE){target="_blank"} 
+
 #### Read Before Next Class 
 
-    Ch. 7 Two or more data sets 
+ 
+
+    “Connecting the Dots” by Jacob Harris (2015) and discuss how people should or should not be represented through news visualizations.
+
     
-    Data Wrangling
-  http://learn.r-journalism.com/en/wrangling/
-
-
-
-#### Read Before Next Class   
-
-    Machlis Ch. 12 Putting it all Together: R on Election Day
-
-    A gentle introduction to APIs for data journalists:   
-https://trendct.org/2016/12/29/fetching-airport-delays-with-python-a-gentle-guide-to-apis-for-journalists/ 
-    
-    tran mapping-census-data.html
-
---------------------------------------------
-
-
-## Wednesday, Oct. 21 APIs
-
-**Agenda**
-
 ---   
 
 # Week #10: APIs
@@ -1241,11 +1257,16 @@ https://trendct.org/2016/12/29/fetching-airport-delays-with-python-a-gentle-guid
 
 #### Read Before Next Class 
 
+    A gentle introduction to APIs for data journalists:   
+https://trendct.org/2016/12/29/fetching-airport-delays-with-python-a-gentle-guide-to-apis-for-journalists/ 
+
      Max Harlow Presentation on How to Use GitHub
 https://docs.google.com/presentation/d/1MbltRcOerktc-E26HMDjYj0BO9CTubQWu1Z2bB9CpVY/edit#slide=id.g448ccc227721fe56_10
-    
-    “Connecting the Dots” by Jacob Harris (2015) and discuss how people should or should not be represented through news visualizations.
 
+      Sign up for a census key:
+  https://api.census.gov/data/key_signup.html
+      What is an API?
+    
 ------------------------------------
 
 ## Wednesday Oct 28: GitHub
@@ -1307,9 +1328,11 @@ https://docs.google.com/presentation/d/1MbltRcOerktc-E26HMDjYj0BO9CTubQWu1Z2bB9C
   https://andrewbtran.github.io/NICAR/2018/workflow/docs/03-integrating_github.html  
 
      
-### Assignment 3: Interactive Map. Due Nov 2  
+### Assignment 3: Interactive Map. Due Nov XXX  
 
       Students will use R Studio to build interactive maps of Arkansascovid occupational data in        Arkansas. Results will be posted on GitHub. Data dictionary required
+
+    tran mapping-census-data.html
 
 
 **Exercises**
@@ -1317,12 +1340,12 @@ https://docs.google.com/presentation/d/1MbltRcOerktc-E26HMDjYj0BO9CTubQWu1Z2bB9C
     Extracting Text Strings from data
 https://bit.ly/2X5V9jL
  
-    Joins in R: 
- https://bit.ly/2OFnGJ6
+
  
 #### Read Before Next Class     
   
-      TK 
+      
+    Machlis Ch. 12 Putting it all Together: R on Election Day 
 
 ----------  
 
@@ -1333,8 +1356,7 @@ https://bit.ly/2X5V9jL
 
 **Agenda**  
 
-    Joins in R
-    Data Cleaning and Text Mining
+     Data Cleaning and Text Mining
      
 #### Read Before Next Class   
 
@@ -1383,9 +1405,6 @@ https://profrobwells.github.io/HomelessSP2020/SF_311_Calls_UofA.html
 
 **Agenda**  
 
-      Sign up for a census key:
-  https://api.census.gov/data/key_signup.html
-      What is an API?
 
   Adapt Machlis - Maps in R Ch 11 exercise for Median Income in Arkansas
       Maps in R March 24 2019 - Using the Census API
@@ -1440,7 +1459,7 @@ https://profrobwells.github.io/HomelessSP2020/SF_311_Calls_UofA.html
 
 #### Read Before Next Class 
 
-    Machlis Ch. 15 Simple Web scraping
+   
     APIs - basics   
   https://medium.com/@LewisMenelaws/a-beginners-guide-to-web-apis-and-how-they-will-help-you-23923a0da450
 
@@ -1551,7 +1570,9 @@ http://www.machlis.com/nicar19.html
 
 ---   
 
-# Week #14: Web scraping
+# Week #14: Using R Markdown to Make Pages 
+
+Web scraping
 
 ## Monday, Nov. 23
 
@@ -1561,8 +1582,16 @@ http://www.machlis.com/nicar19.html
 
 **Exercises**   
 
-    Web Scraping in R: Simple Web Scraper 
-http://bit.ly/scrapeme
+
+    Machlis: Ch. 14 Integrate R With Your Storytelling Using R Markdown
+    
+        R Markdown: 
+http://bit.ly/2DBLSaX
+
+    Video:
+https://video.uark.edu/media/R+Markdown1/0_k08o7izd
+
+
     
 #### Read Before Next Class   
 
@@ -1570,7 +1599,7 @@ http://bit.ly/scrapeme
 ----------------------
 
 
-## Wednesday, Nov. 25
+## Wednesday, Nov. 25: Web Scraping
 
 **Agenda**
 
@@ -1578,13 +1607,12 @@ http://bit.ly/scrapeme
 
 
 #### Read Before Next Class   
+ 
+ 
+      Web Scraping in R: Simple Web Scraper 
+http://bit.ly/scrapeme
 
-    R Markdown: 
-http://bit.ly/2DBLSaX
-
-    Video:
-https://video.uark.edu/media/R+Markdown1/0_k08o7izd
-
+     Machlis Ch. 15 Simple Web scraping
 ---    
 
 #  Week #15: Wrap Up
