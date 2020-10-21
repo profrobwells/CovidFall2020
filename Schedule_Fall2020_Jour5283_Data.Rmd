@@ -1197,12 +1197,27 @@ https://github.com/profrobwells/CovidFall2020/blob/master/Exercises/Slicing-Dici
 
 **Agenda**
 
-    R Tables
-    Flourish
-    Stories Due Saturday, Oct 24
+    White House Report   
+    Stories Due Saturday, Oct 24   
+    R Tables   
+    Flourish    
+    
+
+--**Exercises**
+
+    Using R  for Math  
+https://github.com/profrobwells/CovidFall2020/blob/master/Exercises/Slicing-Dicing%20Data%2010-14-2020.Rmd
 
 
 
+---   
+
+# Week #10: Lubridate and Visualizations
+
+## Monday Oct 26  
+
+
+--**Extra Discussion**
     Lubridate
     Review Ch. 13 Machlis
     Review Tran and Lubridate
@@ -1245,13 +1260,8 @@ https://video.uark.edu/media/Date+Corrected+Data/1_2rmzgzwu
  
 
     “Connecting the Dots” by Jacob Harris (2015) and discuss how people should or should not be represented through news visualizations.
-
     
----   
-
-# Week #10: APIs
-
-## Monday Oct 26  
+    
 
 **Agenda**
 

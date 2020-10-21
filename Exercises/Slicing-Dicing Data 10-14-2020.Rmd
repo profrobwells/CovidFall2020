@@ -91,8 +91,9 @@ head(hospital1)
 #YOUR TURN: Create a Table sorted by vent
 ```{r}
 
-CODE AWAY HERE
-
+vent <- hospital %>% 
+  arrange(desc(vent))
+head(vent)
 ```
 
 #Filtering and Selecting Columns
@@ -109,7 +110,7 @@ hospital1 <- hospital %>%
 ```{r}
 #Fix the dates for chronological order
 hospital1 <- hospital1 %>% 
-  arrange(desc())
+  arrange(desc(date))
 
 (hospital1)
 
@@ -118,9 +119,12 @@ hospital1 <- hospital1 %>%
 #YOUR TURN: Create a Table just with the August entries
 #HINT: https://stackoverflow.com/questions/22420487/subsetting-data-table-set-by-date-range-in-r
 #https://rstudio.com/wp-content/uploads/2015/02/data-wrangling-cheatsheet.pdf
+testset[date>="2013-08-02" & date<="2013-11-01"]
 ```{r}
 
-#CODE AWAY HERE
+hospital1 <- hospital %>% 
+  filter(date >= "2020-08-01" & date <= "2020-08-31")
+hospital1
 
 ```
 
@@ -130,9 +134,10 @@ hospital1 <- hospital1 %>%
 
 #Select just three columns
 ```{r}
-hospital1 <- hospital %>% 
+vent2 <- hospital %>% 
   select(date, vent, ever_on_a_vent)
-head(hospital1)
+head(vent2)
+write.csv(vent2, "vent2.csv")
 ```
 
 
@@ -146,13 +151,93 @@ head(hospital1)
 
 #IF YOU FINISH THAT, REVEL IN YOUR NERD POWERS
 
+#IMPORT the master file from the Arkansascovid GitHub site
 ```{r}
+master <- rio::import("https://raw.githubusercontent.com/Arkansascovid/Main/master/master_file.csv")
+head(master)
+master$mydate <- as.Date(master$mydate)
+```
 
-#CODE AWAY HERE
+#2) Create a new table just with deaths, but for all dates
+```{r}
+deaths <- master %>% 
+  select(mydate, deaths, New_Deaths_Today, confirmed_death, probable_death, Pct_Deaths_vs_Recoveries, Pct_Recoveries_vs_Deaths, )
+head(deaths)
+
+```
+
+#2a) Using advanced dplyr command
+```{r}
+#Use contains to search by string to find the variables by name
+#this grabs everything except date
+x <- select(master, contains("death"))
+names(x)
+```
+
+```{r}
+#copy those names into a select sequence
+death2 <- master %>% 
+  select("mydate", "deaths", "confirmed_death",  "probable_death", "New_Deaths_Today", "Pct_Deaths_vs_Recoveries", "Pct_Recoveries_vs_Deaths" )
 
 ```
 
 
+#3) Create a new table with all of the testing data
+```{r}
+test <- master %>% 
+  select("mydate", "total_tests", "pcr_test",  "antigen_test", "pcr_pos_test",  "pcr_neg_test", "antigen_pos_test", "antigen_neg_test",    "total_pos_test", "total_neg_test", "New_Tests_Dashboard", "Tested_Population" )
+```
+
+
+#3a) Using advanced dplyr command
+```{r}
+#Use contains to search by string to find the variables by name
+#this grabs everything except date
+x <- select(master, contains("test"))
+names(x)
+```
+
+```{r}
+#copy those names into a select sequence
+test <- master %>% 
+  select("mydate", "total_tests",   "pcr_test",            "antigen_test",        "pcr_pos_test",        "pcr_neg_test",        "antigen_pos_test",   
+"antigen_neg_test",    "total_pos_test",      "total_neg_test",      "New_Tests_Dashboard", "Tested_Population" )
+
+```
+
+#----------------------------------------------------------------------------------#
+# Math
+#----------------------------------------------------------------------------------#
+###Summary Statistics
+Here is a quick way to view the range of your data  
+
+```{R}
+summary(master$death)
+```
+
+```{r}
+#Crime$Murder.Robbery <- Crime$Murder + Crime$Robbery
+
+death2$NEWtotal <- death2$confirmed_death + death2$probable_death
+head(death2)
+
+```
+
+```{r}
+#percentage of a column
+#calculate confirmed as percentage of total deaths
+
+death2$pct_confirmed <- (death2$confirmed_death / death2$deaths)*100
+head(death2)
+
+```
+
+#YOUR TURN
+#1) Antigen positivity rate 
+#2) Antigen positive rate, just for state of Arkansas
+#3) Percent positive rate overall (positive / total tests)
+#4) Percent positive rate overall, just for state if Arkansas
+#5) Percent positive rate, just Arkansas, highest to lowest by date
 
 
 #----------------------------------------------------------------------------------#
