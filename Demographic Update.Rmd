@@ -49,7 +49,7 @@ today_demo <- df
 ```{r}
 today_demo <- janitor::clean_names(today_demo)
 #if you miss a date, uncomment below and use this
-#today_demo$date <- ("2020-10-14")
+#today_demo$date <- ("2020-10-23")
 ```
 
 
@@ -112,7 +112,7 @@ yesterday_age <- age3 %>%
   filter(date==yesterday)
 
 #if you miss a day, fill this out and run instead
-#filter(date == "2020-10-13") %>% 
+#filter(date == "2020-10-19") %>% 
 
  yesterday_age$date <- as.Date(yesterday_age$date)
  glimpse(yesterday_age)
@@ -166,6 +166,9 @@ age4 <- smartbind(age3, today_age_calcs)
 
 age4 <- age4 %>% 
   arrange(desc(date))
+
+#remove first two columns of garbage index if needed
+#age4 <- age4[ -c(1,2) ]
 
 write.csv(age4, "age_master.csv")
 ```
@@ -319,6 +322,9 @@ race4 <- smartbind(race3, today_race_calcs)
 race4 <- race4 %>% 
   arrange(desc(date))
 
+#remove first two columns of garbage index if needed
+#race4 <- race4[ -c(1,2) ]
+
 write.csv(race4, "race_main_file.csv")
 ```
 #New Cases Today Table for Web
@@ -387,14 +393,14 @@ glimpse(twodays3)
 -**The Today-Yesterday Calculations**
 
 ```{r}
-twodays3 <- twodays3 %>%
+gender2 <- twodays3 %>%
   mutate(new_cases_male = (cases_male -lead(cases_male))) %>% 
   mutate(new_cases_female = (cases_female-lead(cases_female))) %>% 
   mutate(new_cases_gender_unknown = (cases_gender_unknown-lead(cases_gender_unknown)))
 
-glimpse(twodays3)
+glimpse(gender2)
 
-write.csv(twodays3, "gender_master.csv")
+write.csv(gender2, "gender_master.csv")
 ```
 
 
