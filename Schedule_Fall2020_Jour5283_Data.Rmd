@@ -1216,20 +1216,72 @@ https://github.com/profrobwells/CovidFall2020/blob/master/Exercises/Slicing-Dici
 
 ## Monday Oct 26  
 
+**Agenda**
 
---**Extra Discussion**
-    Lubridate
-    Review Ch. 13 Machlis
-    Review Tran and Lubridate
+    Stories - Wednesday update on reporting.     
+    Flourish Update   
+    School Data  Calculations   
+    Weekly Data Calculations   
+    R Tables Exercises  
+    Tweet Themes for This week
+    Thanksgiving Week: Volunteer for Black Friday   
     
+**Big Picture**   
 
-    Assignment1_KEY_StaticGraphic_2_9.R    
-    Dplyr bootcamp. 
+    We have achieved significant goals so far.
+    --Automated data gathering   
+    --Converted home page to mobile   
+    --Built new sophisticated analytical tools   
+    --Published five stories, two in Spanish   
+    --We are getting four stories from Schulte's class   
+    
+    Where we are going.   
+    --Heading into a more stable phase  
+    --More strategic work on daily tweets   
+    --More on weekly and monthly trends using R   
+    --More on schools, nursing homes, Hispanic community
 
+--**Stories from Schulte's Class**   
 
--**Date Corrected Data**
-https://video.uark.edu/media/Date+Corrected+Data/1_2rmzgzwu
+    In final edit and ready for fact check
+    Hennigan on a family's struggle:
+https://maryrayehennigan.wordpress.com/2020/10/12/severe-covid-19-complications-cause-family-struggle-2/
 
+    Alexus Underwood on nursing homes:  
+https://alexusfeatures.wordpress.com/2020/10/12/nursing-home-restrictions-during-covid-19/
+
+    Requiring additional work but I will figure a way to publish these:
+    
+    Andrew Watson and Marshallese
+https://drewgreerwatson.com/2020/10/13/how-covid-19-is-distinctively-affecting-springdales-marshallese-community/
+
+    Breanna De Leeuw and Marshallese  
+https://ontheddotl.wordpress.com/2020/10/19/marshallese-community-pushes-on/
+    
+    
+    
+--**Tweet Themes**  
+
+    What are the daily stories we will see this week and how can we prepare for them?   
+    Last week, COVID-19 sidelined the governor of Arkansas from public actvities.  
+    --Hospitals   
+    --Teacher deaths   
+    --School outbreaks   
+    --Weekly trends   
+    
+--**Workshop**   
+
+    How to streamline the Flourish updates   
+    Katy and Flourish update process   
+    Abby and Flourish: compress charts   
+    
+    
+    Wells/Zimmardi: How we calculated school COVID data   
+    Wells: How we calculated weekly trend data   
+
+--**Exercises**
+
+   
 --Using Lubridate    
     
       The exercise: **TO BE UPDATED**   
@@ -1242,25 +1294,9 @@ https://video.uark.edu/media/Date+Corrected+Data/1_2rmzgzwu
     
 ![](Images/AOCTweets_Month.png)  
 
-    **TO BE UPDATED**
-    Key to Lubridate Questions in Exercise:    
-  https://bit.ly/2BO92d1
 
 
-**Exercises**   
 
-- **Data Visualization Basics**
-
-    Load tutorial: Basic Data Visualization 12-26-18.R       
-
-> [**Download this file and open it in R Studio**](https://bit.ly/2RlQtSE){target="_blank"} 
-
-#### Read Before Next Class 
-
- 
-
-    “Connecting the Dots” by Jacob Harris (2015) and discuss how people should or should not be represented through news visualizations.
-    
     
 
 **Agenda**
@@ -1285,6 +1321,24 @@ https://docs.google.com/presentation/d/1MbltRcOerktc-E26HMDjYj0BO9CTubQWu1Z2bB9C
       
         GitHub Exercises
         
+**Exercises**   
+
+- **Data Visualization Basics**
+
+    Load tutorial: Basic Data Visualization 12-26-18.R       
+
+> [**Download this file and open it in R Studio**](https://bit.ly/2RlQtSE){target="_blank"} 
+
+    **TO BE UPDATED**
+    Key to Lubridate Questions in Exercise:    
+  https://bit.ly/2BO92d1
+
+#### Read Before Next Class 
+
+ 
+
+    “Connecting the Dots” by Jacob Harris (2015) and discuss how people should or should not be represented through news visualizations.
+    
 
 
 **Resources:**
@@ -1298,6 +1352,27 @@ https://docs.google.com/presentation/d/1MbltRcOerktc-E26HMDjYj0BO9CTubQWu1Z2bB9C
 
     Simplified GitHub- GitHub Desktop
    https://help.github.com/en/desktop
+
+
+     Using R  for Math  
+     y
+https://github.com/profrobwells/CovidFall2020/blob/master/Exercises/Slicing-Dicing%20Data%2010-14-2020.Rmd
+
+
+
+    
+--**Extra Discussion**
+    Lubridate
+    Review Ch. 13 Machlis
+    Review Tran and Lubridate
+    
+
+    Assignment1_KEY_StaticGraphic_2_9.R    
+    Dplyr bootcamp. 
+
+
+-**Date Corrected Data**
+https://video.uark.edu/media/Date+Corrected+Data/1_2rmzgzwu
 
    
 **Exercises**   
