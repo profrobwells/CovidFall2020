@@ -1,0 +1,640 @@
+---
+title: "Demographic Update Arkansas Covid"
+author: "Rob Wells. Thanks to Mary Hennigan for assistance"
+date: "10/13/2020"
+output: pdf_document
+---
+
+# Demographic Daily Update Arkansascovid.com Calculations
+
+# Part 1: Import Data, Clean It
+
+```{r include=FALSE}
+#install.packages("slider")
+#install.packages("zoo")
+#install.packages("gtools")
+# vignette("basic-usage", package="googlesheets")
+#install.packages("googledrive")
+#install.packages("googlesheets4")
+library(tidyverse)
+library(janitor)
+library(lubridate)
+#library(googlesheets4)
+#library(googledrive)
+library(tidyr)
+library(jsonlite)
+library(gtools)
+library(zoo)  
+library(reshape2)
+library(slider)
+
+```
+
+## Retrieve State Arkansas Covid Data from ADH FEED
+```{r}
+#New County json feed
+#38 Variables
+z <- fromJSON('https://services.arcgis.com/PwY9ZuZRDiI5nXUB/ArcGIS/rest/services/UPDATED_ADH_COVID19_STATE_METRICS/FeatureServer/0/query?where=0%3D0&objectIds=&time=&resultType=none&outFields=*&returnIdsOnly=false&returnUniqueIdsOnly=false&returnCountOnly=false&returnDistinctValues=false&cacheHint=false&orderByFields=&groupByFieldsForStatistics=&outStatistics=&having=&resultOffset=&resultRecordCount=&sqlFormat=none&f=pjson&token=')
+
+df <- z[["features"]][["attributes"]]
+#print's today's date as a date field
+df$date <- Sys.Date()
+#file.exists(filename)
+#austin help on that
+#if file exists = check if current data is different and if that is true then append today's data set to master dataset and resave
+today_demo <- df
+```
+
+#This is the API feed. It is called "today_demo" for demographics. Get it?
+```{r}
+today_demo <- janitor::clean_names(today_demo)
+#if you miss a date, uncomment below and use this
+#today_demo$date <- ("2020-10-23")
+```
+
+
+#Set Dates
+```{r}
+#today's date
+today <- Sys.Date()
+
+#NOTE: IF YOU ARE RUNNING THIS A DAY LATE, USE THIS CODE TO WORK PROPERLY
+#today <- Sys.Date()-1
+#today_demo$mydate <-"2020-09-22- THE OLD DATE...."
+
+#yesterday's date
+yesterday <- (today-1)
+
+```
+
+#Cleaning Names, Converting to Numeric Variables
+```{r}
+#today_demo <- today_demo [ -c(1) ]
+today_demo [2:58] <- lapply(today_demo [2:58], as.numeric)
+today_demo$date <- as.Date(today_demo$date)
+glimpse(today_demo)
+```
+
+#----------------------------------------------------------------------------------------------------#
+#----------------------------------------------------------------------------------------------------#
+#AGE calculations
+#----------------------------------------------------------------------------------------------------#
+#----------------------------------------------------------------------------------------------------#
+#Today's data with age
+```{r}
+today_age <- today_demo %>% 
+  select(date, age_1, age_2, age_3, age_4, age_5, age_6, age_7, age_8, age_9, d_age_1,d_age_2, d_age_3, d_age_4, d_age_5,  d_age_6,  d_age_7,  d_age_8,  d_age_9)
+```
+
+#Rename
+
+```{r}
+today_age2 <- today_age
+
+colnames(today_age2)[2:19] <-c("cases_0_10", "cases_11_17", "cases_18_24", "cases_25_34", "cases_35_44", "cases_45_54", "cases_55_64", "cases_65", "cases_unknown", "deaths_0_10", "deaths_11_17", "deaths_18_24", "deaths_25_34", "deaths_35_44", "deaths_45_54", "deaths_55_64", "deaths_65", "deaths_unknown")
+today_age2$date <- as.Date(today_age2$date)
+glimpse(today_age2)
+```
+
+#Today_yesterday
+#Import age master file
+```{r}
+age3 <- rio::import("https://raw.githubusercontent.com/Arkansascovid/Main/master/age_master.csv")
+
+age3 <- janitor::clean_names(age3)
+age3$date <- as.Date(age3$date)
+glimpse(age3)
+```
+
+```{r}
+yesterday_age <- age3 %>% 
+   select("date", "cases_0_10", "cases_11_17", "cases_18_24", "cases_25_34", "cases_35_44", "cases_45_54", "cases_55_64", "cases_65", "cases_unknown", "deaths_0_10", "deaths_11_17", "deaths_18_24", "deaths_25_34", "deaths_35_44", "deaths_45_54", "deaths_55_64", "deaths_65", "deaths_unknown") %>% 
+  filter(date==yesterday)
+
+#if you miss a day, fill this out and run instead
+#filter(date == "2020-10-19") %>% 
+
+ yesterday_age$date <- as.Date(yesterday_age$date)
+ glimpse(yesterday_age)
+```
+
+
+
+#This creates a df with 2 observations (two days' worth a data)
+```{r}
+twodays <- rbind(today_age2, yesterday_age)
+glimpse(twodays)
+
+```
+
+
+-**The Today-Yesterday Calculations**
+
+```{r}
+twodays <- twodays %>%
+  mutate(new_cases_0_10 = (cases_0_10-lead(cases_0_10))) %>% 
+  mutate(new_cases_11_17 = (cases_11_17-lead(cases_11_17))) %>% 
+  mutate(new_cases_18_24 = (cases_18_24-lead(cases_18_24))) %>% 
+  mutate(new_cases_25_34 = (cases_25_34-lead(cases_25_34))) %>%  
+  mutate(new_cases_35_44 = (cases_35_44-lead(cases_35_44))) %>%  
+  mutate(new_cases_45_54 = (cases_45_54-lead(cases_45_54))) %>%
+  mutate(new_cases_55_64 = (cases_55_64-lead(cases_55_64))) %>%
+  mutate(new_cases_65 = (cases_65-lead(cases_65))) %>% 
+  mutate(new_deaths_0_10 = (deaths_0_10-lead(deaths_0_10))) %>% 
+  mutate(new_deaths_11_17 = (deaths_11_17-lead(deaths_11_17))) %>% 
+  mutate(new_deaths_18_24 = (deaths_18_24-lead(deaths_18_24))) %>% 
+  mutate(new_deaths_25_34 = (deaths_25_34-lead(deaths_25_34))) %>%  
+  mutate(new_deaths_35_44 = (deaths_35_44-lead(deaths_35_44))) %>%  
+  mutate(new_deaths_45_54 = (deaths_45_54-lead(deaths_45_54))) %>%
+  mutate(new_deaths_55_64 = (deaths_55_64-lead(deaths_55_64))) %>%
+  mutate(new_deaths_65 = (deaths_65-lead(deaths_65))) 
+```
+
+#Creates one day with Today's calculations only
+```{r}
+today_age_calcs <- twodays %>% 
+    filter(date ==today)
+  #if you miss a day, fill this out and run instead
+  #filter(date == "2020-10-14") 
+
+today_age_calcs <- janitor::clean_names(today_age_calcs)
+glimpse(today_age_calcs)
+```
+
+```{r}
+age4 <- smartbind(age3, today_age_calcs)
+
+age4 <- age4 %>% 
+  arrange(desc(date))
+
+#remove first two columns of garbage index if needed
+#age4 <- age4[ -c(1,2) ]
+
+write.csv(age4, "age_master.csv")
+```
+
+#New Cases Today Table for Web
+```{r}
+age_new_cases <- age4 %>% 
+  select(date, new_cases_0_10, new_cases_11_17, new_cases_18_24, new_cases_25_34, new_cases_35_44, new_cases_45_54, new_cases_55_64, new_cases_65) %>% 
+  filter(date == today)
+
+#flip
+age_new_cases <- gather(age_new_cases, key = "age", value = "new_cases", new_cases_0_10, new_cases_11_17, new_cases_18_24, new_cases_25_34, new_cases_35_44, new_cases_45_54, new_cases_55_64, new_cases_65)
+
+age_new_cases
+write.csv(age_new_cases, "age_new_cases.csv")
+
+```
+
+#New Deaths Today Table for Web
+```{r}
+age_new_deaths <- age4 %>% 
+  select(date, new_deaths_0_10, new_deaths_11_17, new_deaths_18_24,  new_deaths_25_34, new_deaths_35_44, new_deaths_45_54, new_deaths_55_64, new_deaths_65) %>% 
+  filter(date == today)
+
+#flip
+age_new_deaths <- gather(age_new_deaths, key = "age", value = "new_deaths", new_deaths_0_10, new_deaths_11_17, new_deaths_18_24, new_deaths_25_34, new_deaths_35_44, new_deaths_45_54, new_deaths_55_64, new_deaths_65)
+
+age_new_deaths
+write.csv(age_new_deaths, "age_new_deaths.csv")
+
+```
+
+
+
+#----------------------------------------------------------------------------------------------------#
+#----------------------------------------------------------------------------------------------------#
+#RACE calculations
+#----------------------------------------------------------------------------------------------------#
+#----------------------------------------------------------------------------------------------------#
+#Today's data with race
+```{r}
+today_race <- today_demo %>% 
+  select(date, black, white, na, asian, pi, hispanic, multi_race, other_race, unk_race, d_black, d_white, d_na, d_asian, d_pi, d_hispanic, d_multi_race, d_other_race, d_unk_race)
+```
+
+#Rename
+
+```{r}
+today_race2 <- today_race
+colnames(today_race2)[2:19] <-c("cases_african_american", "cases_white", "cases_native_american", "cases_asian", "cases_pacific_islander", "cases_hispanic", "cases_multi_racial", "cases_other_race", "cases_unknown_race", "deaths_african_american", "deaths_white", "deaths_native_american", "deaths_asian", "deaths_pacific_islander", "deaths_hispanic", "deaths_multi_racial", "deaths_other_race", "deaths_unknown_race")
+
+
+today_race2$date <- as.Date(today_race2$date)
+
+today_race2 <- janitor::clean_names(today_race2)
+
+glimpse(today_race2)
+```
+
+#Today_yesterday
+#Import the master file for race from GitHub
+
+```{r}
+race3 <- rio::import("https://raw.githubusercontent.com/Arkansascovid/Main/master/race_main_file.csv")
+race3 <- janitor::clean_names(race3)
+glimpse(race3)
+```
+
+
+```{r}
+race3 <- as.data.frame(race3)
+yesterday_race <- race3 %>% 
+  select("date", "cases_african_american", "cases_white", "cases_native_american", "cases_asian", "cases_pacific_islander", "cases_hispanic", "cases_multi_racial", "deaths_african_american", "deaths_white", "deaths_native_american", "deaths_asian", "deaths_pacific_islander", "deaths_hispanic", "deaths_multi_racial", "total_state_population_african_american", "total_state_population_asian", "total_state_population_hispanic", "total_state_population_multi_racial", "total_state_population_native_american",
+"total_state_population_pacific_islander", "total_state_population_white",  "total_state_population_other", "total_state_population_race_or_ethnicity_unknown", "pct_state_population_african_american",  "pct_state_population_asian", "pct_state_population_hispanic", "pct_state_population_multi_racial",  "pct_state_population_native_american", "pct_state_population_pacific_islander", 
+"pct_state_population_white", "pct_state_population_other", "pct_state_population_race_or_ethnicity_unknown") %>% 
+    filter(date == yesterday)
+
+
+#if you miss a day, fill this out and run instead
+# filter(date == "2020-10-13") %>% 
+
+yesterday_race$date <- as.Date(yesterday_race$date)
+glimpse(yesterday_race)
+```
+
+#Create a population table
+```{r}
+pop <- race3 %>% 
+  select("date", "total_state_population_african_american", "total_state_population_asian", "total_state_population_hispanic", "total_state_population_multi_racial", "total_state_population_native_american",
+"total_state_population_pacific_islander", "total_state_population_white",  "total_state_population_other", "total_state_population_race_or_ethnicity_unknown", "pct_state_population_african_american",  "pct_state_population_asian", "pct_state_population_hispanic", "pct_state_population_multi_racial",  "pct_state_population_native_american", "pct_state_population_pacific_islander", 
+"pct_state_population_white", "pct_state_population_other", "pct_state_population_race_or_ethnicity_unknown") %>% 
+  filter(date == yesterday) 
+
+#if you miss a day, fill this out and run instead
+#filter(date == "2020-10-13") %>% 
+#
+#Change to today's date
+pop$date <- today
+#if you miss a day, fill this out and run instead
+#pop$date <- "2020-10-14"
+
+pop$date <- as.Date(pop$date)
+glimpse(pop)
+```
+
+
+```{r}
+today_race2 <- today_race2 %>% 
+   left_join(pop, by="date")
+head(today_race2)
+```
+
+#You should get a df with 2 observations (two days' worth a data)
+```{r}
+twodays2 <- smartbind(today_race2, yesterday_race)
+twodays2$date <- as.Date(twodays2$date)
+glimpse(twodays2)
+
+```
+
+-**The Today-Yesterday Calculations**
+
+```{r}
+twodays3 <- twodays2 %>%
+  mutate(New_cases_african_american = (cases_african_american-lead(cases_african_american))) %>% 
+  mutate(New_cases_white = (cases_white-lead(cases_white))) %>% 
+   mutate(New_cases_native_american = (cases_native_american-lead(cases_native_american))) %>%
+   mutate(New_cases_asian = (cases_asian-lead(cases_asian))) %>%
+   mutate(New_cases_pacific_islander = (cases_pacific_islander-lead(cases_pacific_islander))) %>%
+   mutate(New_cases_hispanic = (cases_hispanic-lead(cases_hispanic))) %>%
+   mutate(New_cases_multi_racial = (cases_multi_racial-lead(cases_multi_racial))) %>%
+   mutate(New_deaths_african_american = (deaths_african_american-lead(deaths_african_american))) %>%
+   mutate(New_deaths_white = (deaths_white-lead(deaths_white))) %>%
+   mutate(New_deaths_native_american = (deaths_native_american-lead(deaths_native_american))) %>%
+   mutate(New_deaths_asian = (deaths_asian-lead(deaths_asian))) %>%
+   mutate(New_deaths_pacific_islander = (deaths_pacific_islander-lead(deaths_pacific_islander))) %>%
+   mutate(New_deaths_hispanic = (deaths_hispanic-lead(deaths_hispanic))) %>%
+   mutate(New_deaths_multi_racial = (deaths_multi_racial-lead(deaths_multi_racial))) 
+```
+
+#Percentage Calculations 
+```{r}
+twodays3 <- twodays3 %>%
+mutate(cases_per_10_000_african_american = (cases_african_american / total_state_population_african_american)*10000) %>% 
+mutate(cases_per_10_000_asian = (cases_asian / total_state_population_asian)*10000) %>% 
+mutate(cases_per_10_000_multi_racial = (cases_multi_racial / total_state_population_multi_racial)*10000) %>%
+mutate(cases_per_10_000_pacific_islander = (cases_pacific_islander / total_state_population_pacific_islander)*10000) %>%
+mutate(cases_per_10_000_hispanic = (cases_hispanic / total_state_population_hispanic)*10000) %>%
+mutate(cases_per_10_000_native_american = (cases_native_american / total_state_population_native_american)*10000) %>%
+mutate(cases_per_10_000_white = (cases_white / total_state_population_white)*10000) %>%
+mutate(deaths_per_10_000_african_american = (deaths_african_american / total_state_population_african_american)*10000) %>% 
+mutate(deaths_per_10_000_asian = (deaths_asian / total_state_population_asian)*10000) %>% 
+mutate(deaths_per_10_000_multi_racial = (deaths_multi_racial / total_state_population_multi_racial)*10000) %>%
+mutate(deaths_per_10_000_pacific_islander = (deaths_pacific_islander / total_state_population_pacific_islander)*10000) %>%
+mutate(deaths_per_10_000_hispanic = (deaths_hispanic / total_state_population_hispanic)*10000) %>%
+mutate(deaths_per_10_000_native_american = (deaths_native_american / total_state_population_native_american)*10000) %>%
+mutate(deaths_per_10_000_white = (deaths_white / total_state_population_white)*10000)
+
+```
+
+
+#Merges the Today's calculations with the master file
+```{r}
+today_race_calcs <- twodays3 %>% 
+  filter(date ==today)
+#if you miss a day, fill this out and run instead
+#filter(date == "2020-10-14")
+  
+  
+today_race_calcs <- janitor::clean_names(today_race_calcs)
+glimpse(today_race_calcs)
+```
+
+#Writing the Final Updated File
+
+
+```{r}
+race4 <- smartbind(race3, today_race_calcs)
+
+race4 <- race4 %>% 
+  arrange(desc(date))
+
+#remove first two columns of garbage index if needed
+#race4 <- race4[ -c(1,2) ]
+
+write.csv(race4, "race_main_file.csv")
+```
+#New Cases Today Table for Web
+```{r}
+x <- race4 %>% 
+  select(date, new_cases_african_american, new_cases_asian, new_cases_hispanic, new_cases_multi_racial, new_cases_native_american, new_cases_other, new_cases_race_or_ethnicity_unknown, new_cases_white) %>% 
+  filter(date == today)
+
+#flip
+race_new_cases <- gather(x, key = "race", value = "new_cases", new_cases_african_american, new_cases_asian, new_cases_hispanic, new_cases_multi_racial, new_cases_native_american, new_cases_other, new_cases_race_or_ethnicity_unknown, new_cases_white)
+
+race_new_cases
+write.csv(race_new_cases, "race_new_cases.csv")
+```
+
+#New Deaths Today Table for Web
+```{r}
+race_new_deaths <- race4 %>% 
+  select(date, new_deaths_african_american, new_deaths_asian, new_deaths_hispanic, new_deaths_multi_racial, new_deaths_native_american, new_deaths_other, new_deaths_race_or_ethnicity_unknown, new_deaths_white) %>% 
+  filter(date == today)
+
+#flip
+race_new_deaths <- gather(race_new_deaths, key = "race", value = "new_cases", new_deaths_african_american, new_deaths_asian, new_deaths_hispanic, new_deaths_multi_racial, new_deaths_native_american, new_deaths_other, new_deaths_race_or_ethnicity_unknown, new_deaths_white)
+
+race_new_deaths
+write.csv(race_new_deaths, "race_new_deaths.csv")
+```
+
+
+
+
+
+#----------------------------------------------------------------------------------------------------#
+#Gender
+#----------------------------------------------------------------------------------------------------#
+#Today's data 
+```{r}
+today_gender <- today_demo %>% 
+  select(date, male, female, unk_gender)
+```
+
+
+#Rename
+
+```{r}
+today_gender2 <- today_gender
+
+colnames(today_gender2)[2:4] <-c("cases_male", "cases_female", "cases_gender_unknown")
+
+today_gender2$date <- as.Date(today_gender2$date)
+
+today_gender2 <- janitor::clean_names(today_gender2)
+
+glimpse(today_gender2)
+```
+
+#Today_yesterday
+#Import the master file for gender
+
+```{r}
+#gender_master <- rio::import("gender_master_10_11.csv")
+gender_master <- rio::import("https://raw.githubusercontent.com/Arkansascovid/Main/master/gender_master.csv")
+
+gender_master <- janitor::clean_names(gender_master)
+
+yesterday_gender <- gender_master %>% 
+   filter(date == yesterday)
+
+yesterday_gender <- gender_master %>% 
+  select(date, cases_male, cases_female, cases_gender_unknown)
+
+glimpse(yesterday_gender)
+```
+
+#You should get a df with 2 observations (two days' worth a data)
+```{r}
+twodays3 <- smartbind(today_gender2, yesterday_gender)
+glimpse(twodays3)
+
+```
+
+-**The Today-Yesterday Calculations**
+
+```{r}
+gender2 <- twodays3 %>%
+  mutate(new_cases_male = (cases_male -lead(cases_male))) %>% 
+  mutate(new_cases_female = (cases_female-lead(cases_female))) %>% 
+  mutate(new_cases_gender_unknown = (cases_gender_unknown-lead(cases_gender_unknown)))
+
+glimpse(gender2)
+
+write.csv(gender2, "gender_master.csv")
+```
+
+#New Cases Today Table for Web
+```{r}
+gender_new_cases <- gender2 %>% 
+  select(date, new_cases_male, new_cases_female, new_cases_gender_unknown) %>% 
+  filter(date == today)
+
+#flip
+gender_new_cases <- gather(gender_new_cases, key = "gender", value = "new_cases", new_cases_male, new_cases_female, new_cases_gender_unknown)
+
+gender_new_cases
+write.csv(gender_new_cases, "gender_new_cases.csv")
+```
+
+
+
+#----------------------------------------------------------------------------------------------------#
+#----------------------------------------------------------------------------------------------------#
+# NOTES BELOW
+#----------------------------------------------------------------------------------------------------#
+#----------------------------------------------------------------------------------------------------#
+
+#Build this 
+#----------------------------------------------------------------------------------------------------#
+#Facility
+#----------------------------------------------------------------------------------------------------#
+
+```{r}
+(facility2, "facility_10_13.csv")
+```
+
+#----------------------------------------------------------------------------------------------------#
+#----------------------------------------------------------------------------------------------------#
+
+```{r}
+glimpse(today_demo)
+```
+
+#Build this 
+
+
+
+#MISC
+
+```{r}
+glimpse(today_demo)
+today_demo_10_12 <- today_demo
+write.csv(today_demo, "today_demo_10_12.csv")
+```
+
+
+
+
+#----------------------------------------------------------------------------------------------------#
+#----------------------------------------------------------------------------------------------------#
+# STOP!!!!!
+#----------------------------------------------------------------------------------------------------#
+#----------------------------------------------------------------------------------------------------#
+
+
+#This section should be the only time we run this to break down the old spreadsheet format into machine-readable language
+-**Import Demographic Data for Cleaning**
+```{r}
+demo_table <- rio::import("/Users/rswells/Dropbox/Classes/Data Fall 2020/ArkansasCovid/Marys_Demo_Table_10_11.csv")
+
+demo_table$date <- lubridate::mdy(demo_table$date)
+demo_table <- janitor::clean_names(demo_table)
+glimpse(demo_table)
+```
+
+#age 
+```{r}
+age <- demo_table %>% 
+  filter(detail == "Age")
+
+age2 <- age %>% 
+  select(date, sub_detail, cases, new_cases, deaths, new_deaths)
+
+age3 <- age2 %>% 
+  pivot_wider(names_from = sub_detail, values_from = c(cases, new_cases, deaths, new_deaths))
+write.csv(age3, "age_10_13.csv")
+```
+#One Time Building of the Age table
+```{r}
+# colnames(age3)[29] <- "deaths_11_17"
+# age3B <- age3 [ -c(1:2) ]
+# names(age3B)
+# 
+# age3B <- age3B %>% 
+#    select("date", "cases_0_10", "cases_11_17", "cases_18_24", "cases_25_34", "cases_35_44", "cases_45_54", "cases_55_64", "cases_65", "cases_unknown", "deaths_0_10", "deaths_11_17", "deaths_18_24", "deaths_25_34", "deaths_35_44", "deaths_45_54", "deaths_55_64", "deaths_65", "deaths_unknown", "cases_0_17", "cases_25_44", "cases_45_64", "deaths_0_17", "deaths_25_44", "deaths_45_64")
+# names(age3B)
+# 
+# age3D <- age3B %>% 
+#   mutate(new_cases_0_10 = (cases_0_10-lead(cases_0_10))) %>% 
+#   mutate(new_cases_11_17 = (cases_11_17-lead(cases_11_17))) %>% 
+#   mutate(new_cases_18_24 = (cases_18_24-lead(cases_18_24))) %>% 
+#   mutate(new_cases_25_34 = (cases_25_34-lead(cases_25_34))) %>%  
+#   mutate(new_cases_35_44 = (cases_35_44-lead(cases_35_44))) %>%  
+#   mutate(new_cases_45_54 = (cases_45_54-lead(cases_45_54))) %>%
+#   mutate(new_cases_55_64 = (cases_55_64-lead(cases_55_64))) %>%
+#   mutate(new_cases_65 = (cases_65-lead(cases_65))) %>% 
+#   mutate(new_deaths_0_10 = (deaths_0_10-lead(deaths_0_10))) %>% 
+#   mutate(new_deaths_11_17 = (deaths_11_17-lead(deaths_11_17))) %>% 
+#   mutate(new_deaths_18_24 = (deaths_18_24-lead(deaths_18_24))) %>% 
+#   mutate(new_deaths_25_34 = (deaths_25_34-lead(deaths_25_34))) %>%  
+#   mutate(new_deaths_35_44 = (deaths_35_44-lead(deaths_35_44))) %>%  
+#   mutate(new_deaths_45_54 = (deaths_45_54-lead(deaths_45_54))) %>%
+#   mutate(new_deaths_55_64 = (deaths_55_64-lead(deaths_55_64))) %>%
+#   mutate(new_deaths_65 = (deaths_65-lead(deaths_65))) %>% 
+#   mutate(new_cases_0_17 = (cases_0_17-lead(cases_0_17))) %>% 
+#   mutate(new_cases_25_44 = (cases_25_44-lead(cases_25_44))) %>%
+#   mutate(new_cases_45_64 = (cases_45_64-lead(cases_45_64))) %>%
+#   mutate(new_deaths_0_17 = (deaths_0_17-lead(deaths_0_17))) %>%
+#   mutate(new_deaths_25_44 = (deaths_25_44-lead(deaths_25_44))) %>%
+#   mutate(new_deaths_45_64 = (deaths_45_64-lead(deaths_45_64)))
+# write.csv(age3D, "age_update_10_12.csv")
+```
+
+#facility
+```{r}
+facility <- demo_table %>% 
+  filter(detail == "Facility Type")
+
+#clean
+facility <- facility %>% 
+  select(date, sub_detail, cases, new_cases, deaths, new_deaths)
+glimpse(facility)
+
+facility2 <- facility %>% 
+  pivot_wider(names_from = sub_detail, values_from = c(cases, new_cases, deaths, new_deaths))
+
+write_csv(facility2, "facility_10_13.csv")
+```
+
+#race
+```{r}
+race <- demo_table %>% 
+  filter(detail == "Race or Ethnicity")
+glimpse(race)
+#clean
+
+race2 <- race %>% 
+  select(date, sub_detail, cases, new_cases, deaths, new_deaths, total_state_population, pct_state_population, cases_per_10_000, deaths_per_10_000)
+glimpse(race2)
+
+race3 <- race2 %>% 
+  pivot_wider(names_from = sub_detail, values_from = c(cases, new_cases, deaths, new_deaths, total_state_population, pct_state_population, cases_per_10_000, deaths_per_10_000))
+
+glimpse(race3)
+
+write.csv(race3, "race_10_13.csv")
+
+```
+
+```{r}
+glimpse(gender_master)
+```
+
+#gender create the table
+```{r}
+gender <- demo_table %>% 
+  filter(detail == "Gender")
+
+gender2 <- gender %>% 
+  select(date, sub_detail, cases, new_cases)
+glimpse(gender2)
+
+write.csv(gender2, "gender_10_13.csv")
+#clean
+
+gender_master2 <- gender_master %>% 
+  select(date, sub_detail, cases, new_cases)
+
+gender_master2 <- gender_master2 %>% 
+  pivot_wider(names_from = sub_detail, values_from = c(cases, new_cases))
+
+write.csv(gender_master2, "gender_master_10_11.csv")
+```
+
+#----------------------------------------------------------------------------------------------------#
+#----------------------------------------------------------------------------------------------------#
+# END OF ONE TIME SECTION
+#----------------------------------------------------------------------------------------------------#
+#----------------------------------------------------------------------------------------------------#
+
+
+
+
+-**30**
+
+

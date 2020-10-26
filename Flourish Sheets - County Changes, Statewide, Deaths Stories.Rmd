@@ -1,0 +1,229 @@
+---
+title: "Flourish Sheets- County Changes Today, Statewide, and Deaths Stories"
+author: "Katy Seiter and Rob Wells"
+date: "10/22/2020"
+output: html_document
+---
+
+```{r}
+library(rio)
+library(tidyverse)
+library(slider)
+```
+
+```{r}
+master2 <- rio::import("master_file.csv")
+
+#Rename several columns at once
+x <- colnames(master2)[2] <- c("County Name")
+x <- colnames(master2)[10] <- c("Total Tests")
+```
+
+```{r}
+names(master2)
+```
+```{r}
+x <- master2 %>% 
+  select(`County Name`, `Total Tests`)
+
+```
+
+#Homepage Numbers
+```{r}
+homepage <- master2 %>% 
+ filter(county_nam=="Arkansas_all_counties") %>% 
+  filter(mydate==today)
+write.csv(homepage, "homepage.csv")
+```
+
+#County Changes Today Story
+
+#County snapshots slide 
+```{r}
+countysnapshot <- master2 %>% 
+   filter(mydate>"2020-08-31")
+
+#rename the variables
+
+write.csv(countysnapshot, "countysnapshot.csv")
+```
+
+#County snapshots - Death and Active slide - could merge this from sept 1 with all county snapshots with my Test - total deaths and total actives calculations
+```{r}
+countysnapshot <- master2 %>% 
+   filter(mydate>"2020-09-12")
+
+#rename the variables
+
+write.csv(countysnapshot, "countysnapshot.csv")
+```
+
+#County and statewide, one day - Statewide Story: Confirmed and Probable Slide; - County Changes Today Story: Active and New Cases Map
+
+```{r}
+countytoday <- master2 %>% 
+  filter(mydate==today) %>% 
+  filter(county_nam!="MissingCountyInfo")
+
+#rename the variables
+
+write.csv(countytoday, "countytoday.csv")
+```
+
+#Only counties, one day - County Changes story: Deaths today by county, Top counties with new cases, Total tests by county, Cases and tests from dashboard, New Cases per 10k pop Slides; - Deaths Story: Total deaths by County Slide
+```{r}
+countyonlytoday <- master2 %>% 
+  filter(mydate==today) %>% 
+  filter(county_nam!="Arkansas_all_counties") %>% 
+  filter(county_nam!="MissingCountyInfo")
+
+#rename the variables
+
+write.csv(countyonlytoday, "countyonlytoday.csv")
+```
+
+#Statewide and Deaths Stories
+
+#Statewide: Weekly Change in Cases slide - through line 101
+```{r}
+df1 <- master2 %>% 
+  filter(county_nam=="Arkansas_all_counties")
+library(lubridate)
+df1 <- df1 %>%
+  mutate(DATE = ymd(mydate))
+```
+
+#date formatting
+```{r}
+df1$week <- isoweek(df1$DATE)
+df1$month <- month(df1$DATE)
+```
+
+#calculations by week
+```{r}
+newcases <- df1 %>%
+  group_by(week) %>%
+  summarise(week_newcases = sum(New_Cases_Today, na.rm = TRUE))
+```
+
+#import table to name the weeks beginning Monday
+```{r}
+weeks_numbers <- rio::import("https://raw.githubusercontent.com/profrobwells/CovidFall2020/master/weeks_numbers.csv")
+
+weeks_numbers$Date <- lubridate::mdy(weeks_numbers$Date)
+```
+
+#Join with cases
+```{r}
+weeklycases <- newcases %>% 
+  right_join(weeks_numbers, by=c("week"="Number")) %>% 
+  filter(Date<"2020-10-26") %>% 
+  distinct() %>% 
+  arrange(desc(Date))
+
+#rename the variables
+
+write.csv(weeklycases, "weeklycases.csv")
+```
+
+#Statewide slides: 10 day avg, total cases context, active infection
+#Deaths slides: Cases per death, New deaths - 7 day avg, Statewide Total Deaths, Pct Inactive/Closed cases resulting in death
+```{r}
+test <- master2 %>% 
+  group_by(county_nam) %>%
+  arrange(county_nam, mydate) %>% mutate(New_Cases_10_Day_Avg = slider::slide_dbl(New_Cases_Today, mean, .before =
+  9, .after = 0)) %>% 
+  mutate(New_Deaths_7_Day_Avg = slider::slide_dbl(New_Deaths_Today, mean, .before =
+  6, .after = 0)) %>% 
+  mutate(Positives = (confirmed_pos + probable_pos)) %>% 
+  mutate(Actives = (confirmed_active + probable_active)) %>% 
+  mutate(Total_Deaths = (confirmed_death + probable_death)) %>% 
+  mutate(Cases_Per_Death = Positives / Total_Deaths)
+
+test <- test %>% 
+  arrange(desc(mydate))
+
+test$New_Cases_10_Day_Avg <-round(test$New_Cases_10_Day_Avg, 1)
+test$New_Deaths_7_Day_Avg <-round(test$New_Deaths_7_Day_Avg, 1)
+
+#All statewide slides AND Deaths: Pct Inactive, Total Deaths filter back to August
+statewide <- test %>% 
+  select(mydate, county_nam, New_Cases_Today, New_Cases_10_Day_Avg, Positives, Actives, Total_Deaths, Pct_Deaths_vs_Recoveries) %>% 
+  filter(county_nam=="Arkansas_all_counties") %>% 
+  filter(mydate>="2020-08-01")
+
+#rename the variables
+
+write.csv(statewide, "statewide.csv")
+
+#Cases per death & 7day avg new deaths filter back to April
+deaths <- test %>% 
+  select(mydate, county_nam, New_Cases_Today, New_Cases_10_Day_Avg, Positives, Actives, Total_Deaths, New_Deaths_7_Day_Avg, New_Deaths_Today, Cases_Per_Death) %>% 
+  filter(county_nam=="Arkansas_all_counties") %>% 
+  filter(mydate>="2020-04-08")
+
+
+#rename the variables
+
+write.csv(deaths, "deaths.csv")
+```
+
+```{r}
+glimpse(weeklycases)
+```
+```{r}
+glimpse(statewide)
+```
+
+
+
+```{r}
+#Join with statewide
+Xweeklycases <- newcases %>% 
+  right_join(weeks_numbers, by=c("week"="Number")) %>% 
+  filter(Date<"2020-10-26") %>% 
+  distinct() %>% 
+  arrange(desc(Date))
+
+test <- master2 %>% 
+  group_by(county_nam) %>%
+  arrange(county_nam, mydate) %>% mutate(New_Cases_10_Day_Avg = slider::slide_dbl(New_Cases_Today, mean, .before =
+  9, .after = 0)) %>% 
+  mutate(New_Deaths_7_Day_Avg = slider::slide_dbl(New_Deaths_Today, mean, .before =
+  6, .after = 0)) %>% 
+  mutate(Positives = (confirmed_pos + probable_pos)) %>% 
+  mutate(Actives = (confirmed_active + probable_active)) %>% 
+  mutate(Total_Deaths = (confirmed_death + probable_death)) %>% 
+  mutate(Cases_Per_Death = Positives / Total_Deaths)
+
+test <- test %>% 
+  arrange(desc(mydate))
+
+test$New_Cases_10_Day_Avg <-round(test$New_Cases_10_Day_Avg, 1)
+test$New_Deaths_7_Day_Avg <-round(test$New_Deaths_7_Day_Avg, 1)
+
+#All statewide slides AND Deaths: Pct Inactive, Total Deaths filter back to August
+statewide <- test %>% 
+  select(mydate, county_nam, New_Cases_Today, New_Cases_10_Day_Avg, Positives, Actives, Total_Deaths, Pct_Deaths_vs_Recoveries) %>% 
+  filter(county_nam=="Arkansas_all_counties") %>% 
+  filter(mydate>="2020-08-01")
+
+
+#rename the variables
+
+write.csv(weeklycases, "weeklycases.csv")
+```
+
+
+
+#Statewide: Top dates for new cases
+```{r}
+topcases <- master2 %>% 
+filter(county_nam=="Arkansas_all_counties") %>% 
+  filter(New_Cases_Today>=(1050))
+ 
+write.csv(topcases, "topcases.csv")
+```
+
+-**30**
+
