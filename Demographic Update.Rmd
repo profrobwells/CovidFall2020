@@ -173,12 +173,9 @@ age4 <- age4 %>%
 write.csv(age4, "age_master.csv")
 
 ```
-```{r}
-names(age4)
-age4x <- age4
-```
-colnames(Total_Calls_Master)[1:2] <- c("Complaints", "Number")
 
+
+#Create age_FLOURISH_master
 #Rename variables 
 ```{r}
 colnames(age4)[1:47] <- c("Date", "Cases_0_10", "Cases_11_17","Cases_18_24","Cases_25_34", 
@@ -191,9 +188,8 @@ colnames(age4)[1:47] <- c("Date", "Cases_0_10", "Cases_11_17","Cases_18_24","Cas
 "New_Deaths_18_24", "New_Deaths_25_34", "New_Deaths_35_44", "New_Deaths_45_54", "New_Deaths_55_64",
  "New_Deaths_65","New_Cases_0_17", "New_Cases_25_44","New_Cases_45_64","New_Deaths_0_17", 
 "New_Deaths_25_44", "New_Deaths_45_64")
-```
 
-```{r}
+
 write.csv(age4, "age_FLOURISH_master.csv")
 
 ```
@@ -230,7 +226,6 @@ write.csv(age_new_deaths, "age_new_deaths.csv")
 ```
 #Combine age_new_deaths and age_new_cases
 
-#race_new_cases and race new deaths
 ```{r}
 #SF$disposition1 <- str_replace_all(SF$disposition1, pattern=fixed('ABA'), replacement=fixed('Abated') )
 #strip the race name down
@@ -245,8 +240,9 @@ age_new_cases_deaths <- age_new_cases %>%
 
 age_new_cases_deaths <- age_new_cases_deaths %>% 
   select(Date, NEW, New_Cases, New_Deaths)
-#colnames(race_new_cases_deaths)[2] <- "Race_Ethnicity"
-head(race_new_cases_deaths)
+
+colnames(age_new_cases_deaths)[2] <- "Age"
+head(age_new_cases_deaths)
 
 write.csv(age_new_cases_deaths, "age_new_cases_deaths.csv")
 ```
@@ -532,6 +528,27 @@ race_new_deaths <- gather(race_new_deaths, key = "Race", value = "New_Deaths", N
 race_new_deaths
 write.csv(race_new_deaths, "race_new_deaths.csv")
 ```
+#COMBINE race_new_cases and race new deaths
+```{r}
+#SF$disposition1 <- str_replace_all(SF$disposition1, pattern=fixed('ABA'), replacement=fixed('Abated') )
+#strip the race name down
+race_new_cases$NEW <- str_replace_all(race_new_cases$Race, pattern=fixed('New_Cases_'), replacement=fixed(''))
+race_new_deaths$NEW <- str_replace_all(race_new_deaths$Race, pattern=fixed('New_Deaths_'), replacement=fixed(''))
+
+```
+
+```{r}
+race_new_cases_deaths <- race_new_cases %>% 
+   inner_join(race_new_deaths, by=c("NEW", "Date"))
+
+race_new_cases_deaths <- race_new_cases_deaths %>% 
+  select(Date, NEW, New_Cases, New_Deaths)
+colnames(gender2)[1:7]
+colnames(race_new_cases_deaths)[2] <- "Race_Ethnicity"
+head(race_new_cases_deaths)
+
+write.csv(race_new_cases_deaths, "race_new_cases_deaths.csv")
+```
 
 
 
@@ -627,35 +644,7 @@ gender_new_cases
 write.csv(gender_new_cases, "gender_new_cases.csv")
 ```
 
-```{r}
-glimpse(race_new_deaths)
-```
 
-#COMBINE age_new_cases and age_new_deaths and race_new_cases and race_new_deaths gender_new_cases
-
-#race_new_cases and race new deaths
-```{r}
-#SF$disposition1 <- str_replace_all(SF$disposition1, pattern=fixed('ABA'), replacement=fixed('Abated') )
-#strip the race name down
-race_new_cases$NEW <- str_replace_all(race_new_cases$Race, pattern=fixed('New_Cases_'), replacement=fixed(''))
-race_new_deaths$NEW <- str_replace_all(race_new_deaths$Race, pattern=fixed('New_Deaths_'), replacement=fixed(''))
-
-```
-
-```{r}
-race_new_cases_deaths <- race_new_cases %>% 
-   inner_join(race_new_deaths, by=c("NEW", "Date"))
-
-race_new_cases_deaths <- race_new_cases_deaths %>% 
-  select(Date, NEW, New_Cases, New_Deaths)
-colnames(gender2)[1:7]
-colnames(race_new_cases_deaths)[2] <- "Race_Ethnicity"
-head(race_new_cases_deaths)
-
-write.csv(race_new_cases_deaths, "race_new_cases_deaths.csv")
-```
-
-#age new cases and age new deaths
 
 
 
