@@ -1281,24 +1281,6 @@ https://ontheddotl.wordpress.com/2020/10/19/marshallese-community-pushes-on/
 
 --**Exercises**
 
-   
---Using Lubridate    
-    
-      The exercise: **TO BE UPDATED**   
-      Lubridate_Intro_Feb_20.R
-   https://bit.ly/2H07YpX
-      Lubridate vignette   
-      browseVignettes("lubridate")   
-      
-      What we will produce    
-    
-![](Images/AOCTweets_Month.png)  
-
-
-
-
-    
-
 **Agenda**
 
 #### Read Before Next Class 
@@ -1315,14 +1297,53 @@ https://docs.google.com/presentation/d/1MbltRcOerktc-E26HMDjYj0BO9CTubQWu1Z2bB9C
     
 ------------------------------------
 
-## Wednesday Oct 28: GitHub
+## Wednesday Oct 28: Math With R
 
 **Agenda**   
-      
-        GitHub Exercises
+
+    Story Updates   
+    Katy's FOIA Gold Mine   
+    Flourish Update   
+    Math with R    
+    
         
 **Exercises**   
 
+    Using Lubridate    
+    Katy: Tune up daily update slides in R script. Then FOIA
+    Today's Exercise - A Big Update to this file. 
+    Download:
+
+https://github.com/profrobwells/CovidFall2020/blob/master/Exercises/Slicing-Dicing%20Data%2010-14-2020.Rmd
+
+
+
+#### Read Before Next Class 
+
+ 
+    “Connecting the Dots” by Jacob Harris (2015) and discuss how people should or should not be represented through news visualizations.
+    
+
+    A gentle introduction to APIs for data journalists:   
+https://trendct.org/2016/12/29/fetching-airport-delays-with-python-a-gentle-guide-to-apis-for-journalists/ 
+
+     Max Harlow Presentation on How to Use GitHub
+https://docs.google.com/presentation/d/1MbltRcOerktc-E26HMDjYj0BO9CTubQWu1Z2bB9CpVY/edit#slide=id.g448ccc227721fe56_10
+
+      Sign up for a census key:
+https://api.census.gov/data/key_signup.html
+      What is an API?
+
+
+
+    
+---    
+
+# Week #11: Data Cleaning 
+
+## Monday, Nov. 2
+
+**Agenda**   
 - **Data Visualization Basics**
 
     Load tutorial: Basic Data Visualization 12-26-18.R       
@@ -1333,86 +1354,7 @@ https://docs.google.com/presentation/d/1MbltRcOerktc-E26HMDjYj0BO9CTubQWu1Z2bB9C
     Key to Lubridate Questions in Exercise:    
   https://bit.ly/2BO92d1
 
-#### Read Before Next Class 
-
- 
-
-    “Connecting the Dots” by Jacob Harris (2015) and discuss how people should or should not be represented through news visualizations.
-    
-
-
-**Resources:**
-
-    This class is intended to teach you modern workflow techniques for coding. A centerpiece of that workflow is GitHub. This is a website with a system that allows you to collaborate with other programmers on coding projects. It manages versions of software code and is a very popular with the tech elite. 
-
-    Your GitHub account, which is public, represents an important professional image. Prospective employers and collaborators will look at your GitHub account.
-
-    Create a GitHub account.
-  https://github.com/
-
-    Simplified GitHub- GitHub Desktop
-   https://help.github.com/en/desktop
-
-
-     Using R  for Math  
-     y
-https://github.com/profrobwells/CovidFall2020/blob/master/Exercises/Slicing-Dicing%20Data%2010-14-2020.Rmd
-
-
-
-    
---**Extra Discussion**
-    Lubridate
-    Review Ch. 13 Machlis
-    Review Tran and Lubridate
-    
-
-    Assignment1_KEY_StaticGraphic_2_9.R    
-    Dplyr bootcamp. 
-
-
--**Date Corrected Data**
-https://video.uark.edu/media/Date+Corrected+Data/1_2rmzgzwu
-
-   
-**Exercises**   
-    
-    See Basic GitHub 4-22-19.R
-  https://bit.ly/2UAMGTd
-   
-    Installing Git for a Mac - Andrew Ba Tran
-
-#### Read Before Next Class 
-
-    --Follow this tutorial
-  https://guides.github.com/activities/hello-world/
-    
----    
-
-# Week #11: GitHub, Data Cleaning 
-
-## Monday, Nov. 2
-
-**Agenda**   
- 
-      Using GitHub
-      Set up R Project With GitHub
-      Setting up an R Workflow
-  http://learn.r-journalism.com/en/publishing/workflow/r-projects/
-
-
-**Resources on GitHub**  
-
-      GitHub flow   
-   https://guides.github.com/introduction/flow/
-
-      GitHub Guides  
-  https://guides.github.com/
-
-      Another GitHub guide  
-  https://andrewbtran.github.io/NICAR/2018/workflow/docs/03-integrating_github.html  
-
-     
+  
 ### Assignment 3: Interactive Map. Due Nov XXX  
 
       Students will use R Studio to build interactive maps of Arkansascovid occupational data in        Arkansas. Results will be posted on GitHub. Data dictionary required
@@ -1531,6 +1473,72 @@ https://profrobwells.github.io/HomelessSP2020/SF_311_Calls_UofA.html
   Ch. 11 Maps in R
     Machlis
     Ch. 11 Maps in R
+
+
+**GitHub**
+       Using GitHub
+      Set up R Project With GitHub
+      Setting up an R Workflow
+  http://learn.r-journalism.com/en/publishing/workflow/r-projects/
+
+
+**Resources on GitHub**  
+
+      GitHub flow   
+   https://guides.github.com/introduction/flow/
+
+      GitHub Guides  
+  https://guides.github.com/
+
+      Another GitHub guide  
+  https://andrewbtran.github.io/NICAR/2018/workflow/docs/03-integrating_github.html  
+
+        
+        GitHub Exercises
+
+    This class is intended to teach you modern workflow techniques for coding. A centerpiece of that workflow is GitHub. This is a website with a system that allows you to collaborate with other programmers on coding projects. It manages versions of software code and is a very popular with the tech elite. 
+
+    Your GitHub account, which is public, represents an important professional image. Prospective employers and collaborators will look at your GitHub account.
+
+    Create a GitHub account.
+  https://github.com/
+
+    Simplified GitHub- GitHub Desktop
+   https://help.github.com/en/desktop
+
+
+     Using R  for Math  
+     y
+https://github.com/profrobwells/CovidFall2020/blob/master/Exercises/Slicing-Dicing%20Data%2010-14-2020.Rmd
+
+
+
+    
+--**Extra Discussion**
+    Lubridate
+    Review Ch. 13 Machlis
+    Review Tran and Lubridate
+    
+
+    Assignment1_KEY_StaticGraphic_2_9.R    
+    Dplyr bootcamp. 
+
+
+-**Date Corrected Data**
+https://video.uark.edu/media/Date+Corrected+Data/1_2rmzgzwu
+
+   
+**Exercises**   
+    
+    See Basic GitHub 4-22-19.R
+  https://bit.ly/2UAMGTd
+   
+    Installing Git for a Mac - Andrew Ba Tran
+
+#### Read Before Next Class 
+
+    --Follow this tutorial
+  https://guides.github.com/activities/hello-world/
 
 
 **Quiz - Math and R**

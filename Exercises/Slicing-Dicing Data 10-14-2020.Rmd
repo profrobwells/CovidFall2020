@@ -154,14 +154,18 @@ write.csv(vent2, "vent2.csv")
 #IMPORT the master file from the Arkansascovid GitHub site
 ```{r}
 master <- rio::import("https://raw.githubusercontent.com/Arkansascovid/Main/master/master_file.csv")
-head(master)
+
 master$mydate <- as.Date(master$mydate)
+head(master)
 ```
 
 #2) Create a new table just with deaths, but for all dates
+#Build Confirmed Table
+
+
 ```{r}
 deaths <- master %>% 
-  select(mydate, deaths, New_Deaths_Today, confirmed_death, probable_death, Pct_Deaths_vs_Recoveries, Pct_Recoveries_vs_Deaths, )
+  select(mydate, deaths, New_Deaths_Today, confirmed_death, probable_death, Pct_Deaths_vs_Recoveries, Pct_Recoveries_vs_Deaths )
 head(deaths)
 
 ```
@@ -229,15 +233,232 @@ head(death2)
 
 death2$pct_confirmed <- (death2$confirmed_death / death2$deaths)*100
 head(death2)
-
+glimpse(master)
 ```
 
 #YOUR TURN
 #1) Antigen positivity rate 
 #2) Antigen positive rate, just for state of Arkansas
 #3) Percent positive rate overall (positive / total tests)
-#4) Percent positive rate overall, just for state if Arkansas
+#4) Percent positive rate overall, just for state of Arkansas
 #5) Percent positive rate, just Arkansas, highest to lowest by date
+#6) Create a heatmap with results from #5
+
+#----------------------------------------------------------------------#
+#Student Feedback
+#----------------------------------------------------------------------#
+#1) Antigen positivity rate
+```{r}
+#Error - you overwrote your data with this calculation. Need to create a new column
+#master2$antigen_pos_test <- (master2$antigen_pos_test / master2$antigen_test)*100
+
+master$antigen_pct <- (master$antigen_pos_test / master$antigen_test)*100
+
+
+#Wells edit - create mini table to look at results
+antigen <- master %>% 
+  select(county_nam, mydate, antigen_pos_test, antigen_test, antigen_pct)
+  
+
+head(antigen)
+```
+
+#1 Antigen positivity rate
+```{r}
+#Error - divided antigen into the wrong denominator: should be antigen_test. total_pos_test is all PCR and antigen
+# master2 <- master %>% mutate(Antigen_positivity_rate = (antigen_test / total_pos_test)*100)
+# print(master2)
+
+#However: GOOD to use mutate and the dplyr syntax
+
+#Wells Edit. 
+#Fixed Math
+#Create a mini table to check your math
+
+master <- master %>% 
+  mutate(Antigen_positivity_rate1 = (antigen_test / total_pos_test)*100) %>% 
+  mutate(Antigen_positivity_rate2 = (antigen_pos_test / antigen_test)*100)
+
+test2 <- master %>% 
+  select(county_nam, mydate, antigen_pos_test, antigen_test, total_pos_test, Antigen_positivity_rate1, Antigen_positivity_rate2)
+
+head(test2)
+
+```
+
+
+#Wells Edit
+#Good to see you find a package, writexl.
+#write.csv is base R and does a similar thing.
+
+```{r}
+library(writexl)
+write_xlsx(master2,"/Users/obedlamy/Desktop/Data Journalism/Antigen.xlsx")
+```
+
+
+#3) Percent positive rate overall (positive / total tests)
+```{r}
+#Wells edit: I would not create another table master3. Just do it to master and the create a mini table to view results
+# master3 <- master %>% mutate(Percent_positive = (positive / total_tests)*100)
+# print(master3)
+
+#Wells edit
+#I would be very specific on the type of test and divide an apple into an apple.
+#total_tests is problematic since positive and negative do not add up to total_tests
+#instead divide pcr_pos into pcr_test
+
+master <- master %>% 
+#drop the next line down to better keep track of things
+  mutate(PCR_Percent_positive = (pcr_pos_test / pcr_test)*100) %>% 
+  mutate(Percent_positive = (positive / total_tests)*100)
+
+test4 <- master %>% 
+  select(county_nam, mydate, Percent_positive, PCR_Percent_positive, positive, total_tests, pcr_pos_test, pcr_test )
+
+head(test4)
+
+
+```
+
+
+#5) Percent positive rate, just Arkansas, highest to lowest by date
+```{r}
+
+test <- master %>% 
+  select(county_nam, mydate, PCR_Percent_positive) %>% 
+  filter(county_nam == "Arkansas_all_counties") %>% 
+  arrange(desc(PCR_Percent_positive))
+  
+test
+
+```
+
+
+
+#----------------------------------------------------------------------------------#
+# Lubridate Introduction
+#      Lubridate vignette   
+```{r}
+browseVignettes("lubridate")   
+```
+#Introduction to Lubridate
+#Tutorials Based on Andrew Ba Tran dealing-with-dates.R
+
+#Install lubridate if you haven't already
+```{r}
+#install.packages("lubridate")
+#library(lubridate)
+```
+#Load some data
+
+```{r}
+some_date <- "12-31-1999"
+```
+
+```{r}
+# NOTE: IF YOU GET AN ERROR ABOUT NOT HAVING A PACKAGE CALLED stringi
+# UNCOMMENT AND RUN THE LINES BELOW IF YOU HAVE A MAC MACHINE
+
+#install.packages("glue", type="mac.binary")
+#install.packages("stringi", type="mac.binary")
+#install.packages("stringr", type="mac.binary")
+#install.packages("lubridate", type="mac.binary")
+```
+#Ok, here we go
+```{r}
+library(lubridate)
+
+mdy(some_date)
+```
+```{r}
+data <- data.frame(First=c("Charlie", "Lucy", "Peppermint"),
+                   Last=c("Brown", "van Pelt", "Patty"),
+                   birthday=c("10-31-06", "2/4/2007", "June 1, 2005"))
+data$DOB <- mdy(data$birthday)
+
+data
+```
+
+```{r}
+data$year <- year(data$DOB)
+data$month <- month(data$DOB, label=TRUE)
+data$week <- week(data$DOB)
+data$day <- day(data$DOB)
+data$weekday <- wday(data$DOB, label=TRUE, abbr=FALSE)
+
+data
+```
+
+
+#------------------------------------------------------#
+#Now, apply this to the Covid data
+#------------------------------------------------------#
+
+
+#Load the Covid master_file
+#IMPORT the master file from the Arkansascovid GitHub site
+```{r}
+
+```
+
+#Question 1: Convert date to mdy -- see line 376
+```{r}
+
+```
+
+
+#Question 2: Mini table for Master to just county_nam, date, positive, Pct_Positive_Cumulative
+```{r}
+
+```
+
+#Create Separate Year Field
+```{r}
+
+```
+
+#Create Separate Month Column
+```{r}
+
+```
+
+#Create Separate Week Column
+
+```{r}
+
+```
+
+#Create Separate Day Column
+```{r}
+
+```
+#Create Separate Weekday Column
+```{r}
+
+```
+
+#Using master_file, answer a recent reader's question:
+#Was this a record number of cases for a Saturday?
+```{r}
+
+```
+  
+```{r}
+
+```
+
+#White House Report Question
+# Arkansas had 193 new cases per 100,000 population in the last week, compared to a national average of 90 per 100,000.
+#CALCULATE total new cases by week, divide into our population
+
+```{r}
+
+```
+
+
+
+
 
 
 #----------------------------------------------------------------------------------#
