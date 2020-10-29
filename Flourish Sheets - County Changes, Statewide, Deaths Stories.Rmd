@@ -24,6 +24,13 @@ names(master2)
 ```
 ```{r}
 x <- master2 %>% 
+  rename(
+    County_Name = county_nam,
+    Total_Negative_Test = total_neg_test)
+```
+
+```{r}
+x <- master2 %>% 
   select(`County Name`, `Total Tests`)
 
 ```
