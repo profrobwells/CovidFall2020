@@ -1,0 +1,55 @@
+---
+title: "Nursing Home Reports"
+author: "Rob Wells"
+date: "10/29/2020"
+output: pdf_document
+---
+
+```{r include=FALSE}
+#install.packages("slider")
+#install.packages("zoo")
+#install.packages("gtools")
+# vignette("basic-usage", package="googlesheets")
+#install.packages("googledrive")
+#install.packages("googlesheets4")
+library(tidyverse)
+library(janitor)
+library(lubridate)
+library(googlesheets4)
+library(googledrive)
+library(tidyr)
+library(jsonlite)
+library(gtools)
+library(zoo)  
+library(reshape2)
+library(slider)
+
+```
+
+#Nursing home reports summary
+#https://docs.google.com/spreadsheets/d/1s05eM7yTRbs1zkIajQ7qyycOqJ8Fk1qPwQlkzp-JKUY/edit?usp=sharing
+```{r}
+url <- ("https://docs.google.com/spreadsheets/d/1s05eM7yTRbs1zkIajQ7qyycOqJ8Fk1qPwQlkzp-JKUY/edit?usp=sharing")
+
+nursing <- read_sheet(url, sheet="Master_Sheet")
+nursing <- as.data.frame(nursing)
+nursing <- janitor::clean_names(nursing)
+nursing$date <- ymd(nursing$date_of_survey)
+glimpse(nursing)
+```
+
+#Number complaint vs Not
+```{r}
+Compliant <- nursing %>% count(compliant_or_not) %>% 
+  group_by(compliant_or_not) %>% 
+  arrange(desc(n))
+Compliant
+```
+
+#Major Issues
+```{r}
+Issues <- nursing %>% count(category) %>% 
+  group_by(category) %>% 
+  arrange(desc(n))
+Issues
+```
