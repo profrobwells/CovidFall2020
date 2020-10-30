@@ -1,7 +1,7 @@
 ---
-title: "Final Flourish Sheets- County Changes Today, Statewide, and Deaths Stories"
+title: "Flourish Sheets- County Changes Today, Statewide, and Deaths Stories"
 author: "Katy Seiter and Rob Wells"
-date: "10/28/2020"
+date: "10/30/2020"
 output: html_document
 ---
 
@@ -10,6 +10,7 @@ library(rio)
 library(tidyverse)
 library(slider)
 library(lubridate)
+library(formattable)
 ```
 
 ```{r}
@@ -19,31 +20,24 @@ master2 <- rio::import("master_file.csv")
 
 #Rename columns
 ```{r}
-<<<<<<< HEAD
-names(master2)
-```
-```{r}
-x <- master2 %>% 
-  rename(
-    County_Name = county_nam,
-    Total_Negative_Test = total_neg_test)
-```
-
-```{r}
-x <- master2 %>% 
-  select(`County Name`, `Total Tests`)
-=======
 master <- master2 %>%
   rename(County_Name = county_nam, Confirmed_Positive = confirmed_pos, Probable_Positive =probable_pos, Confirmed_Negative = confirmed_neg, Probable_Negative = probable_neg, Confirmed_Recoveries = confirmed_recov, Probable_Recoveries = probable_recov, PCR_Positive_Test = pcr_pos_test, PCR_Negative_Tests = pcr_neg_test, Total_Positive_Test = total_pos_test, Total_Negative_Test = total_neg_test)
->>>>>>> ee6565296a3b256a741c622b77b8e37398bfbef9
 
+names(master2)
 ```
+
 #Homepage Numbers
 ```{r}
 homepage <- master %>% 
   select(County_Name, mydate, New_Cases_Today, New_Deaths_Today, deaths, active_cases) %>% 
  filter(County_Name=="Arkansas_all_counties") %>% 
   filter(mydate==today)
+
+homepage$New_Cases_Today <- accounting(homepage$New_Cases_Today, digits = 0)
+homepage$New_Deaths_Today <- accounting(homepage$New_Deaths_Today, digits = 0)
+homepage$deaths <- accounting(homepage$deaths, digits = 0)
+homepage$active_cases <- accounting(homepage$active_cases, digits = 0)
+
 write.csv(homepage, "homepage.csv")
 ```
 
@@ -89,7 +83,7 @@ weeks_numbers$Date <- lubridate::mdy(weeks_numbers$Date)
 ```{r}
 weeklycases <- newcases %>% 
   right_join(weeks_numbers, by=c("week"="Number")) %>% 
-  filter(Date<"2020-10-26") %>% 
+  filter(Date<"2020-11-01") %>% 
   distinct() %>% 
   arrange(desc(Date))
 
@@ -144,7 +138,8 @@ write.csv(statewide2, "statewide2")
 deaths <- test %>% 
   select(mydate, County_Name, Total_Positives, Total_Deaths, New_Deaths_7_Day_Avg, New_Deaths_Today, Cases_Per_Death) %>% 
   filter(County_Name=="Arkansas_all_counties") %>% 
-  filter(mydate>="2020-04-08")
+  filter(mydate>="2020-04-08") %>% 
+  
 
 write.csv(deaths, "deaths.csv")
 ```
@@ -154,7 +149,8 @@ write.csv(deaths, "deaths.csv")
 topcases <- master %>% 
   select(County_Name, mydate, New_Cases_Today) %>% 
   filter(County_Name=="Arkansas_all_counties") %>% 
-  filter(New_Cases_Today>=(1050))
+  top_n(10, New_Cases_Today) %>% 
+  arrange(desc(New_Cases_Today))
  
 write.csv(topcases, "topcases.csv")
 ```
