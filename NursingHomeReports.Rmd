@@ -12,6 +12,7 @@ output: pdf_document
 # vignette("basic-usage", package="googlesheets")
 #install.packages("googledrive")
 #install.packages("googlesheets4")
+#install.packages("ggthemes")
 library(tidyverse)
 library(janitor)
 library(lubridate)
@@ -23,6 +24,13 @@ library(gtools)
 library(zoo)  
 library(reshape2)
 library(slider)
+library(twitteR)
+library(rtweet)
+library(stringr)
+library(tidytext)
+library(ggthemes) 
+library(purrr)
+library(rio)
 
 ```
 
@@ -46,10 +54,32 @@ Compliant <- nursing %>% count(compliant_or_not) %>%
 Compliant
 ```
 
+#------------------------------------------------------------------------------#
+#                      Tokenize and Summarize                                  #
+#------------------------------------------------------------------------------#
+#from book: https://www.tidytextmining.com/tidytext.html #
+#from tutorial: http://varianceexplained.org/r/trump-tweets/
+```{r}
+#Define characters
+reg <- "([^A-Za-z\\d#@']|'(?![A-Za-z\\d#@]))"
+#
+```
+#
+```{r}
+nursing2 <- nursing %>%
+  filter(!str_detect(category, '^"')) %>%
+  mutate(category = str_replace_all(category, "https://t.co/[A-Za-z\\d]+|&amp;", "")) %>%
+  unnest_tokens(word, category, token = "regex", pattern = reg) %>%
+  filter(!word %in% stop_words$word,
+         str_detect(word, "[a-z]"))
+```
+
 #Major Issues
 ```{r}
-Issues <- nursing %>% count(category) %>% 
-  group_by(category) %>% 
+Issues <- nursing2 %>% count(word) %>% 
+  group_by(word) %>% 
   arrange(desc(n))
+
 Issues
 ```
+
