@@ -50,6 +50,30 @@ countyonlytoday <- master %>%
 write.csv(countyonlytoday, "countyonlytoday.csv")
 ```
 
+#Deaths by day, minimum 1
+```{r}
+deaths_daily <- countyonlytoday %>% 
+  filter(New_Deaths_Today >=1) %>% 
+  select(County_Name, New_Deaths_Today) %>% 
+  arrange(desc(New_Deaths_Today))
+write.csv(deaths_daily, "deaths_daily.csv")
+```
+#Top counties with new cases and per 10K
+```{r}
+Top_counties_new_cases <-countyonlytoday %>% 
+  top_n(10, New_Cases_Today) %>% 
+  select(County_Name, New_Cases_Today, New_Cases_Today_10k_Pop) %>% 
+  arrange(desc(New_Cases_Today))
+write.csv(Top_counties_new_cases, "Top_counties_new_cases.csv")
+
+Top_new_cases_10k_pop <-countyonlytoday %>% 
+  top_n(10, New_Cases_Today_10k_Pop) %>% 
+  select(County_Name, New_Cases_Today, New_Cases_Today_10k_Pop) %>% 
+  arrange(desc(New_Cases_Today_10k_Pop))
+write.csv(Top_new_cases_10k_pop, "Top_new_cases_10k_pop.csv")
+
+```
+
 #Statewide Story: Weekly Change in Cases slide - through line 81
 ```{r}
 df1 <- master %>% 

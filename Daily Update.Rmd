@@ -97,8 +97,8 @@ yesterday_county <- rio::import("https://raw.githubusercontent.com/Arkansascovid
 #yesterday_county <- yesterday_county [ -c(1) ]
 yesterday_county$mydate <- as.Date(yesterday_county$mydate)
 #ran this to test it out on today's data
-#x <- yesterday_county %>% 
-#  filter(mydate==(yesterday))
+ # yesterday_county <- yesterday_county %>% 
+ #  filter(mydate<=(yesterday))
 yesterday_county[4:45] <- lapply(yesterday_county[4:45], as.numeric)
 ```
 # .
@@ -186,6 +186,12 @@ write.csv(master2, "master_file.csv")
 ```
 
 
+```{r}
+#master2 <- rio::import("https://raw.githubusercontent.com/Arkansascovid/Main/master/master_file.csv")
+```
+
+
+
 #Latest Tweet Slide Data
 ```{r}
 top_numbers <- master2 %>% 
@@ -213,7 +219,7 @@ ggplot(df2,aes(x = mydate, y = value, label = value, fill= variable)) +
   geom_text(position = position_dodge2(width = 0.9, preserve = "single"), vjust=-1, hjust=+1) +
   scale_y_continuous(limits=c(0, 1400)) + 
   labs(title = "New Cases & Deaths in Arkansas Announced Today", 
-       subtitle = "Confirmed + Probable,  ADH Data for Sept. 24, 2020",
+       subtitle = "Confirmed + Probable,  ADH Data for Oct. 16, 2020",
        caption = "Graphic by ArkansasCovid.com",
        y="Amount",
        x="Date")
@@ -229,7 +235,7 @@ ggplot(df3,aes(x = mydate, y = value, label = value, fill= variable)) +
   geom_text(position = position_dodge2(width = 0.9, preserve = "single"), vjust=-1, hjust=+1) +
   scale_y_continuous(limits=c(0, 10000)) + 
   labs(title = "Active Cases & Total Deaths in Arkansas Announced Today", 
-       subtitle = "Confirmed + Probable,  ADH Data for Oct. 2, 2020",
+       subtitle = "Confirmed + Probable,  ADH Data for Oct. 16, 2020",
        caption = "Graphic by ArkansasCovid.com",
        y="Amount",
        x="Date")
@@ -272,11 +278,37 @@ ggplot(df4,aes(x = mydate, y = value, label = value, fill= variable)) +
   geom_text(position = position_dodge2(width = 0.9, preserve = "single"), vjust=-1, hjust=+1) +
   scale_y_continuous(limits=c(0, 1300)) + 
   labs(title = "New Cases, Deaths and 7 Day Averages in Arkansas Announced Today", 
-       subtitle = "Confirmed + Probable,  ADH Data for Oct. 2, 2020",
+       subtitle = "Confirmed + Probable,  ADH Data for Oct. 16, 2020",
        caption = "Graphic by ArkansasCovid.com",
        y="Amount",
        x="Date")
 ggsave("Cases_Deaths_avgs.png",device = "png",width=9,height=6, dpi=400)
+```
+```{r}
+homepage <- master2 %>% 
+ filter(county_nam=="Arkansas_all_counties") %>% 
+  filter(mydate==today)
+write.csv(homepage, "homepage.csv")
+```
+
+```{r}
+countysnapshot <- master2 %>% 
+   filter(mydate>"2020-08-31")
+write.csv(countysnapshot, "countysnapshot.csv")
+```
+
+```{r}
+countytoday <- master2 %>% 
+  filter(mydate==today)
+write.csv(countytoday, "countytoday.csv")
+```
+
+
+```{r}
+countyonlytoday <- master2 %>% 
+  filter(mydate==today) %>% 
+  filter(county_nam!="Arkansas_all_counties")
+write.csv(countyonlytoday, "countyonlytoday.csv")
 ```
 #.
 #.
@@ -351,8 +383,9 @@ hospital1
 #Join today's with hospital master.csv
 hospital_master <- rio::import("https://raw.githubusercontent.com/Arkansascovid/Main/master/hospital_master.csv")
 hospital_master <- hospital_master [ -c(1) ]
+hospital_master$date <- lubridate::ymd(hospital_master$date)
 hospital_master[2:13] <- lapply((hospital_master)[2:13], as.numeric)
-hospital_master$date <- as.Date(hospital_master$date)
+
 glimpse(hospital_master)
 ```
 
