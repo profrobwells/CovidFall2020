@@ -1,7 +1,7 @@
 ---
 title: "Demographic Update Arkansas Covid"
 author: "Rob Wells. Thanks to Mary Hennigan for assistance"
-date: "10/26/2020"
+date: "10/30/2020"
 output: pdf_document
 ---
 
@@ -102,7 +102,7 @@ glimpse(today_age2)
 age3 <- rio::import("https://raw.githubusercontent.com/Arkansascovid/Main/master/age_master.csv")
 
 age3 <- janitor::clean_names(age3)
-age3$date <- mdy(age3$date)
+#age3$date <- mdy(age3$date)
 glimpse(age3)
 ```
 
@@ -178,7 +178,7 @@ write.csv(age4, "age_master.csv")
 #Create age_FLOURISH_master
 #Rename variables 
 ```{r}
-colnames(age4)[1:47] <- c("Date", "Cases_0_10", "Cases_11_17","Cases_18_24","Cases_25_34", 
+colnames(age4)[2:48] <- c("Date", "Cases_0_10", "Cases_11_17","Cases_18_24","Cases_25_34", 
  "Cases_35_44","Cases_45_54","Cases_55_64","Cases_65", "Cases_Unknown", 
 "Deaths_0_10","Deaths_11_17", "Deaths_18_24", "Deaths_25_34", "Deaths_35_44",
 "Deaths_45_54", "Deaths_55_64", "Deaths_65","Deaths_Unknown", "Cases_0_17",
@@ -287,7 +287,7 @@ glimpse(today_race2)
 ```{r}
 race3 <- rio::import("https://raw.githubusercontent.com/Arkansascovid/Main/master/race_main_file.csv")
 race3 <- janitor::clean_names(race3)
-race3$date <- mdy(race3$date)
+race3$date <- as.Date(race3$date)
 glimpse(race3)
 ```
 
@@ -402,7 +402,7 @@ glimpse(today_race_calcs)
 ```{r}
 race4 <- smartbind(race3, today_race_calcs)
 #Cut rows from df
-race4 <- slice(race4, -c(1))
+#race4 <- slice(race4, -c(1))
 
 race4 <- race4 %>% 
   arrange(desc(date))
