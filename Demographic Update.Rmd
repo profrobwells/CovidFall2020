@@ -168,7 +168,7 @@ age4 <- age4 %>%
   arrange(desc(date))
 
 #remove first two columns of garbage index if needed
-#age4 <- age4[ -c(1,2) ]
+#age4 <- age4[ -c(1) ]
 
 write.csv(age4, "age_master.csv")
 
@@ -189,6 +189,8 @@ colnames(age4)[2:48] <- c("Date", "Cases_0_10", "Cases_11_17","Cases_18_24","Cas
  "New_Deaths_65","New_Cases_0_17", "New_Cases_25_44","New_Cases_45_64","New_Deaths_0_17", 
 "New_Deaths_25_44", "New_Deaths_45_64")
 
+age4 <- age4 %>% 
+  filter(Date >= "2020-09-13")
 
 write.csv(age4, "age_FLOURISH_master.csv")
 
@@ -403,6 +405,8 @@ glimpse(today_race_calcs)
 race4 <- smartbind(race3, today_race_calcs)
 #Cut rows from df
 #race4 <- slice(race4, -c(1))
+#Cut Columns
+#race4 <- race4[ -c(1,2) ]
 
 race4 <- race4 %>% 
   arrange(desc(date))
@@ -543,7 +547,7 @@ race_new_cases_deaths <- race_new_cases %>%
 
 race_new_cases_deaths <- race_new_cases_deaths %>% 
   select(Date, NEW, New_Cases, New_Deaths)
-colnames(gender2)[1:7]
+
 colnames(race_new_cases_deaths)[2] <- "Race_Ethnicity"
 head(race_new_cases_deaths)
 
