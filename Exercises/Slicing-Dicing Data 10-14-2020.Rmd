@@ -1,13 +1,13 @@
 ---
 title: "Slicing and Dicing Covid Data"
 author: "Rob Wells"
-date: "10/14/2020"
+date: "November 1, 2020"
 output: html_document
 ---
 
 
 #Load Software
-```{r}
+```{r include=FALSE}
 library(tidyverse)
 #install.packages("rio") 
 ```
@@ -328,8 +328,8 @@ head(test4)
 test <- master %>% 
   select(county_nam, mydate, PCR_Percent_positive) %>% 
   filter(county_nam == "Arkansas_all_counties") %>% 
-  arrange(desc(PCR_Percent_positive))
-  
+  #arrange(desc(PCR_Percent_positive))
+  arrange(desc(mydate))
 test
 
 ```
@@ -371,6 +371,7 @@ library(lubridate)
 
 mdy(some_date)
 ```
+
 ```{r}
 data <- data.frame(First=c("Charlie", "Lucy", "Peppermint"),
                    Last=c("Brown", "van Pelt", "Patty"),
@@ -455,11 +456,30 @@ data
 ```{r}
 
 ```
+#----------------------------------------------------------------------------------#
+#  Make a List of Top 10, or Top 5 or Top anything
+#----------------------------------------------------------------------------------#
+#top_n
+#https://www.rdocumentation.org/packages/dplyr/versions/0.7.8/topics/top_n
+
+
+#Top counties with new cases and per 10K
+```{r}
+top_deaths <- master %>% 
+  select(county_nam, mydate, New_Deaths_Today) %>% 
+  filter(county_nam == "Arkansas_all_counties") %>% 
+  top_n(10, New_Deaths_Today) %>% 
+  arrange(desc(New_Deaths_Today))
+top_deaths
+```
+
+#Your Turn
+#Top 5 Deaths on Saturdays: A table just with date, New Deaths
+```{r}
 
 
 
-
-
+```
 
 #----------------------------------------------------------------------------------#
 ## NOTES: HOW TO Retrieve Data from Your Hard Drive
