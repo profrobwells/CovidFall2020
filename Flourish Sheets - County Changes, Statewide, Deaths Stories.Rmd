@@ -1,7 +1,7 @@
 ---
 title: "Flourish Sheets- County Changes Today, Statewide, and Deaths Stories"
 author: "Katy Seiter and Rob Wells"
-date: "10/30/2020"
+date: "11/02/2020"
 output: html_document
 ---
 
