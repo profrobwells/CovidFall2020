@@ -1339,36 +1339,36 @@ https://api.census.gov/data/key_signup.html
     
 ---    
 
-# Week #11: Data Cleaning 
+# Week #11: Lubridate, top_n 
 
 ## Monday, Nov. 2
 
-**Agenda**   
-- **Data Visualization Basics**
+**Agenda**  
 
-    Load tutorial: Basic Data Visualization 12-26-18.R       
-
-> [**Download this file and open it in R Studio**](https://bit.ly/2RlQtSE){target="_blank"} 
-
-    **TO BE UPDATED**
-    Key to Lubridate Questions in Exercise:    
-  https://bit.ly/2BO92d1
-
-  
-### Assignment 3: Interactive Map. Due Nov XXX  
-
-      Students will use R Studio to build interactive maps of Arkansascovid occupational data in        Arkansas. Results will be posted on GitHub. Data dictionary required
-
-    tran mapping-census-data.html
-
-
-**Exercises**
+    Story Updates    
+    La Prensa Libre    
+    R Exercise    
     
-    Extracting Text Strings from data
-https://bit.ly/2X5V9jL
- 
+**Top_n**   
 
- 
+     List of Days of Most New Cases  
+https://app.flourish.studio/visualisation/4007988/edit 
+    
+     Data is topcases.csv 
+     Values: Date, New Cases Today (column D) 
+     --R table automatically selects the top 10. 
+     --no filter  
+
+**Exercises**   
+
+     Using Lubridate    
+     Katy: Tune up daily update slides in R script. Then FOIA
+     Today's Exercise - A Big Update to this file. 
+     Download:
+
+https://github.com/profrobwells/CovidFall2020/blob/master/Exercises/Slicing-Dicing%20Data%2010-14-2020.Rmd
+
+
 #### Read Before Next Class     
   
       
@@ -1417,6 +1417,28 @@ https://bit.ly/2BQIE2i
     R Markdown to distribute findings to Stanford, Feb 2020
 https://profrobwells.github.io/HomelessSP2020/SF_311_Calls_UofA.html
 
+- **Data Visualization Basics**
+
+    Load tutorial: Basic Data Visualization 12-26-18.R       
+
+> [**Download this file and open it in R Studio**](https://bit.ly/2RlQtSE){target="_blank"} 
+
+    **TO BE UPDATED**
+    Key to Lubridate Questions in Exercise:    
+  https://bit.ly/2BO92d1
+
+  
+### Assignment 3: Interactive Map. Due Nov XXX  
+
+      Students will use R Studio to build interactive maps of Arkansascovid occupational data in        Arkansas. Results will be posted on GitHub. Data dictionary required
+
+    tran mapping-census-data.html
+
+
+**Exercises**
+    
+    Extracting Text Strings from data
+https://bit.ly/2X5V9jL
 
 #### Read Before Next Class   
 

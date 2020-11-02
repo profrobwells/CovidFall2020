@@ -444,7 +444,19 @@ data
 ```{r}
 
 ```
-  
+
+#Using master_file, develop monthly totals and percentage changes for new cases and deaths
+```{r}
+
+```
+
+#Percentage change by month new cases
+```{r}
+
+```
+
+#Percentage change by month new deaths
+
 ```{r}
 
 ```
