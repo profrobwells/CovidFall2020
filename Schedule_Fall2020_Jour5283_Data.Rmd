@@ -1378,12 +1378,30 @@ https://github.com/profrobwells/CovidFall2020/blob/master/Exercises/Slicing-Dici
 
 ## Wednesday, Nov. 4
 
-**TAKE A DEEP BREATH, AMERICA**
-
-
 **Agenda**  
 
-     Data Cleaning and Text Mining
+     Storytelling with data   
+     Story updates    
+     Continue R exercises   
+     Schools and demographics   
+
+     
+**Exercises**   
+
+     Schools and demographics   
+https://raw.githubusercontent.com/profrobwells/CovidFall2020/master/School%20Data-abby.Rmd
+
+
+
+
+     Using Lubridate     
+     Katy: Tune up daily update slides in R script.   
+     Today's Exercise - Compiling Data by Dates. Due Saturday with Weekly Memo.  
+     Download:   
+
+https://github.com/profrobwells/CovidFall2020/blob/master/Exercises/Slicing-Dicing%20Data%2010-14-2020.Rmd   
+
+
      
 #### Read Before Next Class   
 
@@ -1423,9 +1441,6 @@ https://profrobwells.github.io/HomelessSP2020/SF_311_Calls_UofA.html
 
 > [**Download this file and open it in R Studio**](https://bit.ly/2RlQtSE){target="_blank"} 
 
-    **TO BE UPDATED**
-    Key to Lubridate Questions in Exercise:    
-  https://bit.ly/2BO92d1
 
   
 ### Assignment 3: Interactive Map. Due Nov XXX  
