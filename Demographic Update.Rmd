@@ -148,61 +148,6 @@ age3 <- rio::import("https://raw.githubusercontent.com/Arkansascovid/Main/master
 glimpse(age3)
 #write.csv(age3, "age3.csv")
 ```
-#ONE TIME RENAME AGE_MASTER
-```{r}
-# #age3X <- age3 
-# 
-# colnames(age3)[1:47] <-c("Date",
-# "Cases_0_10", 
-# "Cases_11_17",
-# "Cases_18_24",
-# "Cases_25_34",
-# "Cases_35_44",
-# "Cases_45_54",
-# "Cases_55_64",
-# "Cases_65",
-# "Cases_Unknown",
-# "Deaths_0_10",
-# "Deaths_11_17",
-# "Deaths_18_24",
-# "Deaths_25_34",
-# "Deaths_35_44",
-# "Deaths_45_54",
-# "Deaths_55_64",
-# "Deaths_65",
-# "Deaths_Unknown",
-# "Cases_0_17",
-# "Cases_25_44",
-# "Cases_45_64",
-# "Deaths_0_17",
-# "Deaths_25_44",
-# "Deaths_45_64",
-# "New_Cases_0_10",
-# "New_Cases_11_17",
-# "New_Cases_18_24",
-# "New_Cases_25_34",
-# "New_Cases_35_44",
-# "New_Cases_45_54",
-# "New_Cases_55_64",
-# "New_Cases_65",
-# "New_Deaths_0_10",
-# "New_Deaths_11_17",
-# "New_Deaths_18_24",
-# "New_Deaths_25_34",
-# "New_Deaths_35_44",
-# "New_Deaths_45_54",
-# "New_Deaths_55_64",
-# "New_Deaths_65",
-# "New_Cases_0_17",
-# "New_Cases_25_44",
-# "New_Cases_45_64",
-# "New_Deaths_0_17",
-# "New_Deaths_25_44",
-# "New_Deaths_45_64")
-# 
-# glimpse(age3)
-# write.csv(age3, "age3.csv")
-```
 
 ```{r}
 yesterday_age <- age3 %>% 
@@ -277,17 +222,6 @@ write.csv(age4, "age_master.csv")
 #Create age_FLOURISH_master
 #Rename variables 
 ```{r}
-# colnames(age4)[2:48] <- c("Date", "Cases_0_10", "Cases_11_17","Cases_18_24","Cases_25_34", 
-#  "Cases_35_44","Cases_45_54","Cases_55_64","Cases_65", "Cases_Unknown", 
-# "Deaths_0_10","Deaths_11_17", "Deaths_18_24", "Deaths_25_34", "Deaths_35_44",
-# "Deaths_45_54", "Deaths_55_64", "Deaths_65","Deaths_Unknown", "Cases_0_17",
-#  "Cases_25_44","Cases_45_64","Deaths_0_17","Deaths_25_44", "Deaths_45_64",
-# "New_Cases_0_10", "New_Cases_11_17","New_Cases_18_24","New_Cases_25_34","New_Cases_35_44", 
-#  "New_Cases_45_54","New_Cases_55_64","New_Cases_65", "New_Deaths_0_10","New_Deaths_11_17",
-# "New_Deaths_18_24", "New_Deaths_25_34", "New_Deaths_35_44", "New_Deaths_45_54", "New_Deaths_55_64",
-#  "New_Deaths_65","New_Cases_0_17", "New_Cases_25_44","New_Cases_45_64","New_Deaths_0_17", 
-# "New_Deaths_25_44", "New_Deaths_45_64")
-
 age4 <- age4 %>% 
   filter(Date >= "2020-09-13")
 
@@ -350,7 +284,6 @@ write.csv(age_new_cases_deaths, "age_new_cases_deaths.csv")
 
 
 
-
 #----------------------------------------------------------------------------------------------------#
 #----------------------------------------------------------------------------------------------------#
 #RACE calculations
@@ -363,10 +296,6 @@ write.csv(age_new_cases_deaths, "age_new_cases_deaths.csv")
 #----------------------------------------------------------------------------------------------------#
 #----------------------------------------------------------------------------------------------------#
 #Today's data with race
-```{r}
-# today_race <- today_demo %>% 
-#   select(date, black, white, na, asian, pi, hispanic, multi_race, other_race, unk_race, d_black, d_white, d_na, d_asian, d_pi, d_hispanic, d_multi_race, d_other_race, d_unk_race)
-```
 
 ```{r}
 today_race <- today_race %>%
@@ -388,20 +317,6 @@ Deaths_Multi_Racial=Deaths_Multi_Race,
 Deaths_Hispanic=Deaths_Hispanic)
 
 glimpse(today_race)
-```
-
-#Rename
-
-```{r}
-# today_race2 <- today_race
-# colnames(today_race2)[2:19] <-c("cases_african_american", "cases_white", "cases_native_american", "cases_asian", "cases_pacific_islander", "cases_hispanic", "cases_multi_racial", "cases_other_race", "cases_unknown_race", "deaths_african_american", "deaths_white", "deaths_native_american", "deaths_asian", "deaths_pacific_islander", "deaths_hispanic", "deaths_multi_racial", "deaths_other_race", "deaths_unknown_race")
-# 
-# 
-# today_race2$date <- as.Date(today_race2$date)
-# 
-# today_race2 <- janitor::clean_names(today_race2)
-# 
-# glimpse(today_race2)
 ```
 
 #Today_yesterday
@@ -626,87 +541,6 @@ write.csv(race4, "race_main_file_11_2.csv")
 #  rename(Weekly_Total_New_Cases = week_newcases, Week_Beginning = Date)
 
 
-```{r}
-# colnames(race4)[1:77] <- c("Date", "Cases_African_American", "Cases_Asian", "Cases_Hispanic" 
-# , "Cases_Multi_Racial"
-# , "Cases_Native_American"
-# , "Cases_Pacific_Islander"  
-# , "Cases_White" 
-# , "Cases_Other" 
-# , "Cases_Race_Or_Ethnicity_Unknown"  
-# , "New_Cases_African_American" 
-# , "New_Cases_Asian"
-# , "New_Cases_Hispanic"
-# , "New_Cases_Multi_Racial"  
-# , "New_Cases_Native_American"  
-# , "New_Cases_Pacific_Islander" 
-# , "New_Cases_White"
-# , "New_Cases_Other"
-# , "New_Cases_Race_Or_Ethnicity_Unknown" 
-# , "Deaths_African_American" 
-# , "Deaths_Asian"
-# , "Deaths_Hispanic"
-# , "Deaths_Multi_Racial"  
-# , "Deaths_Native_American"  
-# , "Deaths_Pacific_Islander" 
-# , "Deaths_White"
-# , "Deaths_Other"
-# , "Deaths_Race_Or_Ethnicity_Unknown" 
-# , "New_Deaths_African_American"
-# , "New_Deaths_Asian"  
-# , "New_Deaths_Hispanic"  
-# , "New_Deaths_Multi_Racial" 
-# , "New_Deaths_Native_American" 
-# , "New_Deaths_Pacific_Islander"
-# , "New_Deaths_White"  
-# , "New_Deaths_Other"  
-# , "New_Deaths_Race_Or_Ethnicity_Unknown"
-# , "Total_State_Population_African_American"
-# , "Total_State_Population_Asian"  
-# , "Total_State_Population_Hispanic"  
-# , "Total_State_Population_Multi_Racial" 
-# , "Total_State_Population_Native_American" 
-# , "Total_State_Population_Pacific_Islander"
-# , "Total_State_Population_White"  
-# , "Total_State_Population_Other"  
-# , "Total_State_Population_Race_Or_Ethnicity_Unknown"
-# , "Pct_State_Population_African_American"  
-# , "Pct_State_Population_Asian" 
-# , "Pct_State_Population_Hispanic" 
-# , "Pct_State_Population_Multi_Racial"
-# , "Pct_State_Population_Native_American"
-# , "Pct_State_Population_Pacific_Islander"  
-# , "Pct_State_Population_White" 
-# , "Pct_State_Population_Other" 
-# , "Pct_State_Population_Race_Or_Ethnicity_Unknown"  
-# , "Cases_Per_10_000_African_American"
-# , "Cases_Per_10_000_Asian"  
-# , "Cases_Per_10_000_Hispanic"  
-# , "Cases_Per_10_000_Multi_Racial" 
-# , "Cases_Per_10_000_Native_American" 
-# , "Cases_Per_10_000_Pacific_Islander"
-# , "Cases_Per_10_000_White"  
-# , "Cases_Per_10_000_Other"  
-# , "Cases_Per_10_000_Race_Or_Ethnicity_Unknown"
-# , "Deaths_Per_10_000_African_American"  
-# , "Deaths_Per_10_000_Asian" 
-# , "Deaths_Per_10_000_Hispanic" 
-# , "Deaths_Per_10_000_Multi_Racial"
-# , "Deaths_Per_10_000_Native_American"
-# , "Deaths_Per_10_000_Pacific_Islander"  
-# , "Deaths_Per_10_000_White" 
-# , "Deaths_Per_10_000_Other" 
-# , "Deaths_Per_10_000_Race_Or_Ethnicity_Unknown"  
-# , "Cases_Other_Race"  
-# , "Cases_Unknown_Race"
-# , "Deaths_Other_Race" 
-# , "Deaths_Unknown_Race")
-```
-
-```{r}
-# #Cut rows from df
-# race4 <- slice(race4, -c(1))
-```
 
 ```{r}
 write.csv(race4, "race_FLOURISH_main_file.csv")
@@ -760,10 +594,6 @@ head(race_new_cases_deaths)
 
 write.csv(race_new_cases_deaths, "race_new_cases_deaths.csv")
 ```
-
-
-
-
 
 #----------------------------------------------------------------------------------------------------#
 #Gender
@@ -846,12 +676,6 @@ write.csv(gender2, "gender_master_11_1.csv")
 ```
 
 #New Cases Today Table for Flourish
-#Rename variables here
-
-```{r}
-# colnames(gender2)[1:7] <- c("Date", "Cases_Male", "Cases_Female", "Cases_Gender_Unknown", "New_Cases_Male", "New_Cases_Female","New_Cases_Gender_Unknown")
-# names(gender2)
-```  
 
 ```{r}
 write.csv(gender2, "gender_FLOURISH_master.csv")
