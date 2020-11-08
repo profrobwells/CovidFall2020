@@ -197,7 +197,7 @@ age4 <- smartbind(age3, today_age_calcs)
 age4 <- age4 %>% 
   arrange(desc(Date))
 
-age4 <- slice(age4, -c(1))
+#age4 <- slice(age4, -c(1))
 #remove first two columns of garbage index if needed
 #age4 <- age4[ -c(1) ]
 
@@ -212,6 +212,7 @@ write.csv(age4, "age_master.csv")
 age4 <- age4 %>% 
   filter(Date >= "2020-09-13")
 
+#age4 <- age4[ -c(1) ]
 write.csv(age4, "age_FLOURISH_master.csv")
 
 ```
@@ -587,7 +588,7 @@ mutate(New_Cases_Male = (Cases_Male -lead(Cases_Male))) %>%
 
 names(gender2)
 
-write.csv(gender2, "gender_master_11_1.csv")
+write.csv(gender2, "gender_master.csv")
 ```
 
 #New Cases Today Table for Flourish
