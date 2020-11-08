@@ -295,6 +295,7 @@ today_race <- today_race %>%
   rename(Date=Date, Cases_African_American=Black,
 Cases_White=White,
 Cases_Asian=Asian,
+Cases_Native_American=Na,
 Cases_Pacific_Islander=Pi,
 Cases_Other=Other_Race,
 Cases_Race_Or_Ethnicity_Unknown=Unk_Race,
@@ -303,6 +304,7 @@ Cases_Hispanic=Hispanic,
 Deaths_African_American=Deaths_Black,
 Deaths_White=Deaths_White,
 Deaths_Asian=Deaths_Asian,
+Deaths_Native_American=Deaths_Na,
 Deaths_Pacific_Islander=Deaths_Pi,
 Deaths_Other_Race=Deaths_Other_Race,
 Deaths_Race_Or_Ethnicity_Unknown=Deaths_Unk_Race,
@@ -316,89 +318,9 @@ glimpse(today_race)
 #Import the master file for race from GitHub
 
 ```{r}
-#race3 <- rio::import("https://raw.githubusercontent.com/Arkansascovid/Main/master/race_main_file.csv")
-race3 <- rio::import("race_main_file.csv")
+race3 <- rio::import("https://raw.githubusercontent.com/Arkansascovid/Main/master/race_main_file.csv")
+#race3 <- rio::import("race_main_file.csv")
 race3$Date <- as.Date(race3$Date)
-
-
-# race3 <- race3 %>% 
-#   rename(Date = Date,
-# Cases_African_American = cases_african_american,
-# Cases_Asian = cases_asian,
-# Cases_Hispanic = cases_hispanic,
-# Cases_Multi_Racial = cases_multi_racial,
-# Cases_Native_American = cases_native_american,
-# Cases_Pacific_Islander = cases_pacific_islander,
-# Cases_White = cases_white,
-# Cases_Other = cases_other,
-# Cases_Race_Or_Ethnicity_Unknown = cases_race_or_ethnicity_unknown,
-# New_Cases_African_American = new_cases_african_american,
-# New_Cases_Asian = new_cases_asian,
-# New_Cases_Hispanic = new_cases_hispanic,
-# New_Cases_Multi_Racial = new_cases_multi_racial,
-# New_Cases_Native_American = new_cases_native_american,
-# New_Cases_Pacific_Islander = new_cases_pacific_islander,
-# New_Cases_White = new_cases_white,
-# New_Cases_Other = new_cases_other,
-# New_Cases_Race_Or_Ethnicity_Unknown = new_cases_race_or_ethnicity_unknown,
-# Deaths_African_American = deaths_african_american,
-# Deaths_Asian = deaths_asian,
-# Deaths_Hispanic = deaths_hispanic,
-# Deaths_Multi_Racial = deaths_multi_racial,
-# Deaths_Native_American = deaths_native_american,
-# Deaths_Pacific_Islander = deaths_pacific_islander,
-# Deaths_White = deaths_white,
-# Deaths_Other = deaths_other,
-# Deaths_Race_Or_Ethnicity_Unknown = deaths_race_or_ethnicity_unknown,
-# New_Deaths_African_American = new_deaths_african_american,
-# New_Deaths_Asian = new_deaths_asian,
-# New_Deaths_Hispanic = new_deaths_hispanic,
-# New_Deaths_Multi_Racial = new_deaths_multi_racial,
-# New_Deaths_Native_American = new_deaths_native_american,
-# New_Deaths_Pacific_Islander = new_deaths_pacific_islander,
-# New_Deaths_White = new_deaths_white,
-# New_Deaths_Other = new_deaths_other,
-# New_Deaths_Race_Or_Ethnicity_Unknown = new_deaths_race_or_ethnicity_unknown,
-# Total_State_Population_African_American = total_state_population_african_american,
-# Total_State_Population_Asian = total_state_population_asian,
-# Total_State_Population_Hispanic = total_state_population_hispanic,
-# Total_State_Population_Multi_Racial = total_state_population_multi_racial,
-# Total_State_Population_Native_American = total_state_population_native_american,
-# Total_State_Population_Pacific_Islander = total_state_population_pacific_islander,
-# Total_State_Population_White = total_state_population_white,
-# Total_State_Population_Other = total_state_population_other,
-# Total_State_Population_Race_Or_Ethnicity_Unknown = total_state_population_race_or_ethnicity_unknown,
-# Pct_State_Population_African_American = pct_state_population_african_american,
-# Pct_State_Population_Asian = pct_state_population_asian,
-# Pct_State_Population_Hispanic = pct_state_population_hispanic,
-# Pct_State_Population_Multi_Racial = pct_state_population_multi_racial,
-# Pct_State_Population_Native_American = pct_state_population_native_american,
-# Pct_State_Population_Pacific_Islander = pct_state_population_pacific_islander,
-# Pct_State_Population_White = pct_state_population_white,
-# Pct_State_Population_Other = pct_state_population_other,
-# Pct_State_Population_Race_Or_Ethnicity_Unknown = pct_state_population_race_or_ethnicity_unknown,
-# Cases_Per_10_000_African_American = cases_per_10_000_african_american,
-# Cases_Per_10_000_Asian = cases_per_10_000_asian,
-# Cases_Per_10_000_Hispanic = cases_per_10_000_hispanic,
-# Cases_Per_10_000_Multi_Racial = cases_per_10_000_multi_racial,
-# Cases_Per_10_000_Native_American = cases_per_10_000_native_american,
-# Cases_Per_10_000_Pacific_Islander = cases_per_10_000_pacific_islander,
-# Cases_Per_10_000_White = cases_per_10_000_white,
-# Cases_Per_10_000_Other = cases_per_10_000_other,
-# Cases_Per_10_000_Race_Or_Ethnicity_Unknown = cases_per_10_000_race_or_ethnicity_unknown,
-# Deaths_Per_10_000_African_American = deaths_per_10_000_african_american,
-# Deaths_Per_10_000_Asian = deaths_per_10_000_asian,
-# Deaths_Per_10_000_Hispanic = deaths_per_10_000_hispanic,
-# Deaths_Per_10_000_Multi_Racial = deaths_per_10_000_multi_racial,
-# Deaths_Per_10_000_Native_American = deaths_per_10_000_native_american,
-# Deaths_Per_10_000_Pacific_Islander = deaths_per_10_000_pacific_islander,
-# Deaths_Per_10_000_White = deaths_per_10_000_white,
-# Deaths_Per_10_000_Other = deaths_per_10_000_other,
-# Deaths_Per_10_000_Race_Or_Ethnicity_Unknown = deaths_per_10_000_race_or_ethnicity_unknown,
-# Cases_Other_Race = cases_other_race,
-# Cases_Unknown_Race = cases_unknown_race,
-# Deaths_Other_Race = deaths_other_race,
-# Deaths_Unknown_Race = deaths_unknown_race)
 
 glimpse(race3)
 ```
@@ -521,7 +443,7 @@ race4 <- smartbind(race3, today_race_calcs)
 race4 <- race4 %>% 
   arrange(desc(Date))
 
-write.csv(race4, "race_main_file_11_2.csv")
+write.csv(race4, "race_main_file.csv")
 ```
 
 

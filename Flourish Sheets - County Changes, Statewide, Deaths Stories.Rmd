@@ -87,6 +87,20 @@ write.csv(deaths_daily, "deaths_daily.csv")
 #--------------------------------------------------------------------------------#
 #Weekly Change in Cases slide - through line 81
 #--------------------------------------------------------------------------------#
+#Set Dates
+```{r}
+#today's date
+today <- Sys.Date()
+
+#NOTE: IF YOU ARE RUNNING THIS A DAY LATE, USE THIS CODE TO WORK PROPERLY
+#today <- Sys.Date()-1
+#today_county$mydate <-"2020-09-22- THE OLD DATE...."
+
+#yesterday's date
+yesterday <- (today-1)
+
+```
+
 ```{r}
 df1 <- master %>% 
   filter(County_Name=="Arkansas_all_counties")
@@ -119,7 +133,7 @@ weeks_numbers$Date <- lubridate::mdy(weeks_numbers$Date)
 ```{r}
 weeklycases <- newcases %>% 
   right_join(weeks_numbers, by=c("week"="Number")) %>% 
-  filter(Date<"2020-11-01") %>% 
+  filter(Date<today) %>% 
   distinct() %>% 
   arrange(desc(Date))
 

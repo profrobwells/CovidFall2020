@@ -173,11 +173,12 @@ master2 <- master2 %>%
   select("county_nam","mydate","deaths","fhwa_numbe","fips","positive","negative","recoveries","total_tests","active_cases","pop_5yr_est_2018","confirmed_pos","probable_pos","confirmed_neg","probable_neg","confirmed_recov","probable_recov","confirmed_death","probable_death", "confirmed_active","probable_active","pcr_test","antigen_test","pcr_pos_test", "pcr_neg_test","antigen_pos_test","antigen_neg_test","total_pos_test","total_neg_test",
 "New_Cases_Today","Recovered_Since_Yesterday","New_Deaths_Today","New_Tests_Dashboard","Cases_Population","Tested_Population","New_Cases_Today_10k_Pop","Active_Cases_10k_Pop","Pct_Positive_Cumulative","Pct_Positive_New_to_Dashboard","Closed","Pct_Deaths_vs_Recoveries","Pct_Recoveries_vs_Deaths","lab_prvt","lab_pub")
 master2$mydate <- as.Date(master2$mydate)
+glimpse(master2)
 ```
 
 
 
-glimpse(master2)
+
 
 #Save master file
 ```{r}
@@ -199,6 +200,7 @@ top_numbers <- master2 %>%
     filter(mydate>=(yesterday)) %>% 
   select(county_nam, mydate, New_Cases_Today, positive, confirmed_pos, recoveries, deaths, confirmed_death, New_Deaths_Today, active_cases, confirmed_active,  Recovered_Since_Yesterday)
 write.csv(top_numbers, "top numbers.csv")
+
 ```
 
 #Slide on deaths vs new cases
@@ -217,7 +219,7 @@ ggplot(df2,aes(x = mydate, y = value, label = value, fill= variable)) +
   #geom_bar(aes(fill = variable), stat = "identity", position = "dodge") +
   geom_col(position = position_dodge2(width = 0.9, preserve = "single"), show.legend = T) +
   geom_text(position = position_dodge2(width = 0.9, preserve = "single"), vjust=-1, hjust=+1) +
-  scale_y_continuous(limits=c(0, 1400)) + 
+  scale_y_continuous(limits=c(0, 2000)) + 
   labs(title = "New Cases & Deaths in Arkansas Announced Today", 
        subtitle = "Confirmed + Probable,  ADH Data for Oct. 16, 2020",
        caption = "Graphic by ArkansasCovid.com",
@@ -233,7 +235,7 @@ ggplot(df3,aes(x = mydate, y = value, label = value, fill= variable)) +
   #geom_bar(aes(fill = variable), stat = "identity", position = "dodge") +
   geom_col(position = position_dodge2(width = 0.9, preserve = "single"), show.legend = T) +
   geom_text(position = position_dodge2(width = 0.9, preserve = "single"), vjust=-1, hjust=+1) +
-  scale_y_continuous(limits=c(0, 12000)) + 
+  scale_y_continuous(limits=c(0, 15000)) + 
   labs(title = "Active Cases & Total Deaths in Arkansas Announced Today", 
        subtitle = "Confirmed + Probable,  ADH Data for Oct. 31, 2020",
        caption = "Graphic by ArkansasCovid.com",
@@ -276,7 +278,7 @@ ggplot(df4,aes(x = mydate, y = value, label = value, fill= variable)) +
   #geom_bar(aes(fill = variable), stat = "identity", position = "dodge") +
   geom_col(position = position_dodge2(width = 0.9, preserve = "single"), show.legend = T) +
   geom_text(position = position_dodge2(width = 0.9, preserve = "single"), vjust=-1, hjust=+1) +
-  scale_y_continuous(limits=c(0, 1500)) + 
+  scale_y_continuous(limits=c(0, 2000)) + 
   labs(title = "New Cases, Deaths and 7 Day Averages in Arkansas Announced Today", 
        subtitle = "Confirmed + Probable,  ADH Data for Oct. 16, 2020",
        caption = "Graphic by ArkansasCovid.com",
@@ -409,6 +411,13 @@ write.csv(hospital_FLOURISH, "hospital_FLOURISH.csv")
 url3 <- ("https://docs.google.com/spreadsheets/d/1ikblX8tikM59ma1AftkqgGbyeZkXB6DuBtwMsVeoGYw/edit?usp=sharing")
 
 hospitalemail <- read_sheet(url3, sheet = "Hospital_email",  col_types = NULL, na = "",trim_ws = TRUE)
+```
+
+```{r}
+hospitalemail <- rio::import("/Users/rswells/Dropbox/Classes/Data Fall 2020/ArkansasCovid/Hospital Data - Manual Input.xlsx", which = "Hospital_email")
+```
+
+```{r}
 #clean names
 hospitalemail <- janitor::clean_names(hospitalemail)
 hospitalemail  <- hospitalemail  %>% 
