@@ -400,55 +400,132 @@ data
 #Load the Covid master_file
 #IMPORT the master file from the Arkansascovid GitHub site
 ```{r}
-
+master <- rio::import("https://raw.githubusercontent.com/Arkansascovid/Main/master/master_file.csv")
+str(master)
 ```
 
 #Question 1: Convert date to mdy -- see line 376
 ```{r}
-
+master$date <- ymd(master$mydate)
+#str(master)
 ```
 
 
 #Question 2: Mini table for Master to just county_nam, date, positive, Pct_Positive_Cumulative
 ```{r}
-
+test5 <- master %>% 
+  select(county_nam, date, positive, Pct_Positive_Cumulative)
+head(test5)
 ```
 
 #Create Separate Year Field
 ```{r}
-
+test5$year <- year(test5$date)
+test5
 ```
 
 #Create Separate Month Column
 ```{r}
-
+test5$month <- month(test5$date, label=TRUE)
+test5
 ```
 
 #Create Separate Week Column
 
 ```{r}
-
+test5$week <- week(test5$date)
+test5
 ```
 
 #Create Separate Day Column
 ```{r}
-
+test5$day <- day(test5$date)
+test5
 ```
 #Create Separate Weekday Column
 ```{r}
-
+test5$weekday <- wday(test5$date, label=TRUE, abbr=FALSE)
+test5
 ```
+
+#---------------------------------------------------------
+#Resume Here Monday
+#---------------------------------------------------------
+
 
 #Using master_file, answer a recent reader's question:
 #Was this a record number of cases for a Saturday?
 ```{r}
+#format dates
+master$date <- ymd(master$mydate)
+master$year <- year(master$date)
+master$month <- month(master$date, label=TRUE)
+master$week <- week(master$date)
+master$day <- day(master$date)
+master$weekday <- wday(master$date, label=TRUE, abbr=FALSE)
 
+#Mini table
+mini <- master %>% 
+  select(county_nam, date, year, month, week, day, weekday)
+mini
+```
+#----------------------------------------------------------------------------------#
+#  Group_By
+#----------------------------------------------------------------------------------#
+#Takes existing data and groups specific variables together for future operations. Many operations are performed on groups.
+
+```{r}
+mini2 <- mini %>%
+  filter(county_nam =="Arkansas_all_counties") %>% 
+  group_by(month)
+mini2
 ```
 
 #Using master_file, develop monthly totals and percentage changes for new cases and deaths
 ```{r}
 
 ```
+
+
+#----------------------------------------------------------------------------------#
+#  Make a List of Top 10, or Top 5 or Top anything
+#----------------------------------------------------------------------------------#
+#top_n
+#https://www.rdocumentation.org/packages/dplyr/versions/0.7.8/topics/top_n
+
+
+#Top 10 days with new deaths
+```{r}
+top_deaths <- master %>% 
+  select(county_nam, mydate, New_Deaths_Today) %>% 
+  filter(county_nam == "Arkansas_all_counties") %>% 
+  top_n(10, New_Deaths_Today) %>% 
+  arrange(desc(New_Deaths_Today))
+top_deaths
+```
+
+#Table with the top five counties by deaths for November
+
+```{r}
+#Mini table with 
+novdeath <- master %>% 
+  select(month, county_nam, New_Deaths_Today) %>% 
+  filter(month =="Nov") %>% 
+  filter(!(county_nam == "Arkansas_all_counties")) %>% 
+  group_by(county_nam, month) %>% 
+  summarise(Nov_deaths = sum(New_Deaths_Today, na.rm = TRUE)) 
+novdeath
+```
+
+```{r}
+
+novdeath1 <- top_n(ungroup(novdeath), 5, Nov_deaths) 
+novdeath1 <- novdeath1 %>% 
+  arrange(desc(Nov_deaths))
+novdeath1
+```
+
+
 
 #Percentage change by month new cases
 ```{r}
@@ -468,22 +545,6 @@ data
 ```{r}
 
 ```
-#----------------------------------------------------------------------------------#
-#  Make a List of Top 10, or Top 5 or Top anything
-#----------------------------------------------------------------------------------#
-#top_n
-#https://www.rdocumentation.org/packages/dplyr/versions/0.7.8/topics/top_n
-
-
-#Top counties with new cases and per 10K
-```{r}
-top_deaths <- master %>% 
-  select(county_nam, mydate, New_Deaths_Today) %>% 
-  filter(county_nam == "Arkansas_all_counties") %>% 
-  top_n(10, New_Deaths_Today) %>% 
-  arrange(desc(New_Deaths_Today))
-top_deaths
-```
 
 #Your Turn
 #Top 5 Deaths on Saturdays: A table just with date, New Deaths
@@ -492,6 +553,13 @@ top_deaths
 
 
 ```
+
+#Make a chart
+```{r}
+
+
+```
+
 
 #----------------------------------------------------------------------------------#
 ## NOTES: HOW TO Retrieve Data from Your Hard Drive
