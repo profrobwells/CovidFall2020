@@ -1418,17 +1418,51 @@ http://www.bloomberg.com/graphics/2015-paul-ford-what-is-code/
 
 ---   
 
-# Week #12: Data Cleaning
+# Week #12: Calculations in R
 
 ##  Monday, Nov. 9
 
 **Agenda**
 
-    Data Cleaning and Normalization
-    Review Assignment #3
+
+    Grant update    
+    Story updates   
+    Biomedical Engineering and Spring class   
+    Calculations in R   
+    Red vs Blue Covid election results map   
+
 
 **Exercises**  
+
+    Sicing and Dicing:   
+https://github.com/profrobwells/CovidFall2020/blob/master/Exercises/Slicing-Dicing%20Data%2010-14-2020.Rmd    
   
+  
+    Red vs Blue Covid election results map   
+https://apnews.com/article/counties-worst-virus-surges-voted-trump-d671a483534024b5486715da6edb6ebf
+
+#### Read Before Next Class   
+
+    Julia Angwin, Terry Parris Jr., Surya Mattu. “Breaking the Black Box: What Facebook Knows About         You,” ProPublica, 2016; 
+
+    Nicholas Diakopolous, “Algorithmic Accountability,” Digital Journalism, 2014.
+
+
+-------------------
+
+## Wednesday, Nov. 11
+
+
+**Agenda**  
+
+
+  Adapt Machlis - Maps in R Ch 11 exercise for Median Income in Arkansas
+      Maps in R March 24 2019 - Using the Census API
+  https://bit.ly/2FvZDrB
+
+      Building a Census tract map
+      
+
     Splitting Hashtags 2-25-19.R   
 https://bit.ly/2BQIE2i 
 
@@ -1455,27 +1489,7 @@ https://profrobwells.github.io/HomelessSP2020/SF_311_Calls_UofA.html
     Extracting Text Strings from data
 https://bit.ly/2X5V9jL
 
-#### Read Before Next Class   
 
-    Julia Angwin, Terry Parris Jr., Surya Mattu. “Breaking the Black Box: What Facebook Knows About         You,” ProPublica, 2016; 
-
-    Nicholas Diakopolous, “Algorithmic Accountability,” Digital Journalism, 2014.
-
-
--------------------
-
-## Wednesday, Nov. 11
-
-
-**Agenda**  
-
-
-  Adapt Machlis - Maps in R Ch 11 exercise for Median Income in Arkansas
-      Maps in R March 24 2019 - Using the Census API
-  https://bit.ly/2FvZDrB
-
-      Building a Census tract map
-      
 **We will build this**  
 
     TK TK Images/Income by Census Tract Washington Co.png)    
