@@ -1,0 +1,335 @@
+---
+title: "ggplot cookbook"
+author: "Rob Wells"
+date: "4/26/2020"
+output: html_document
+---
+
+###A cookbook for formatting decent graphics in ggplot
+Load libraries
+```{r}
+#install.packages("rio") 
+library(tidyverse)
+library(rio)
+```
+
+```{r}
+#Import data
+Homeless2018 <- rio::import('https://github.com/profrobwells/HomelessSP2020/raw/master/Data/Homeless2018.csv')
+
+```
+
+glimpse
+```{r}
+glimpse(Homeless2018)
+```
+
+#Basic graphic - labels
+```{r}
+The15 <- Homeless2018 %>% 
+  filter(district_percent_homeless > .15) %>% 
+  ggplot(aes(x = reorder(district_bak, district_percent_homeless), 
+             y = district_percent_homeless,
+             fill = district_percent_homeless)) +
+  geom_col(position = "dodge", show.legend = FALSE) +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
+  #label formatting. Scales, into percentages. hjust moves to the grid
+    geom_text(aes(label = scales::percent(district_percent_homeless)), position = position_stack(vjust = .5), hjust = -5., size = 2.5)  +
+  #format the x axis. sets the grid to maximum 30%
+    scale_y_continuous(limits=c(0, .3),labels = scales::percent) +
+  coord_flip() +
+  labs(title = "Homeless Children in Arkansas, 2018",
+       subtitle = "Districts with More Than 15% Homeless",
+       caption = "Graphic by Rob Wells, 4-26-2020",
+       y="Statewide Average: 3.6%. Source: Arkansas Dept of Education",
+       x="")
+The15
+```
+
+# Export to hi-res file
+```{r}
+
+ggsave("Test.png",device = "png",width=9,height=6, dpi=800)
+```
+#Make two plots, put on one chart
+
+#plot Benton, Springdale, Fayetteville
+
+```{r}
+NWA <- Homeless2018 %>% 
+  filter(district_bak =="BENTONVILLE" | district_bak =="FAYETTEVILLE" | district_bak =="SPRINGDALE") %>% 
+  ggplot(aes(x = reorder(district_bak, district_percent_homeless), 
+             y = district_percent_homeless,
+             fill = district_percent_homeless)) +
+  geom_col(position = "dodge", show.legend = FALSE) +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
+  #label formatting. Scales, into percentages. hjust moves to the grid
+    geom_text(aes(label = scales::percent(district_percent_homeless)), position = position_stack(vjust = .7), hjust = -5., size = 2.5)  +
+  #format the x axis. sets the grid to maximum 30%
+    scale_y_continuous(limits=c(0, .03),labels = scales::percent) +
+  coord_flip() +
+  labs(title = "NWA Homeless Children, 2018",
+       subtitle = "Statewide Average: 3.6%",
+       caption = "Graphic by Rob Wells, 4-26-2020",
+       y="Source: Arkansas Dept of Education",
+       x="")
+NWA
+```
+
+#Put two plots on one graphic. Stacked horizontally by manipulating the ncol and nrow
+
+```{r}
+#install.packages("ggpubr")
+library(ggpubr)
+final <- ggarrange(The15, NWA, ncol = 1, nrow = 2)
+final
+```
+
+
+You can work on the formatting from here:
+#sample code
+#Adjust the size of the x and y axis fonts
+theme(axis.text.x = element_text(angle = 90, hjust = 1, size=8)) +
+  theme(axis.title.y = element_text(size = 8)) +
+  
+#A post on how to arrange multiple plots on a page:
+http://www.sthda.com/english/articles/24-ggpubr-publication-ready-plots/81-ggplot2-easy-way-to-mix-multiple-graphs-on-the-same-page/
+  theme(axis.title.x = element_text(size = 8)) +
+ 
+Stacked charts
+https://www.r-graph-gallery.com/48-grouped-barplot-with-ggplot2.html
+ 
+#figure a state average
+
+```{r echo=FALSE}
+library(formattable)
+percent(mean(Homeless2018$district_percent_homeless, na.rm=TRUE))
+
+```
+
+glimpse
+```{r}
+glimpse(Homeless2018)
+```
+
+```{r}
+Homeless2018 %>%
+  ggplot(aes(x = district_percent_homeless, y = reorder(district_bak, district_percent_homeless), color = district_percent_homeless < .0359))+   
+  geom_point() +
+  theme(axis.text.y = element_text(size=2)) 
+```
+
+```{r}
+Homeless2018 %>%
+  ggplot(aes(y = district_bak, x = district_percent_homeless, color = district_percent_homeless < .0359)) +   
+  geom_point() +
+  theme(axis.text.x = element_text(size=5)) +
+   theme(axis.text.y = element_text(size=.000001)) 
+```
+
+
+#Scatterplot cleaning up the messy names
+  axis.ticks.x=element_blank())
+  theme(#axis.title.x=element_blank(),
+  axis.text.x=element_blank(),
+  axis.ticks.x=element_blank())
+
+
+```{r}
+scatter <- ggplot(Homeless2018, aes(x = district_bak, y = district_percent_homeless,  color = district_percent_homeless < .0359)) +
+   geom_point(alpha = 0.3) +
+   geom_smooth(method = lm) +
+   theme(axis.text.x=element_blank()) +
+    scale_y_continuous(limits=c(0, .4),labels = scales::percent) +
+       labs(title = "Homeless Children in Arkansas, 2018",
+       caption = "Graphic by Rob Wells, 4-26-2020",
+       y="Percent Homeless by School District",
+       x="")
+scatter
+```
+
+#Formatting options explained well
+https://www.datanovia.com/en/blog/ggplot-legend-title-position-and-labels/#remove-legend
+https://stackoverflow.com/questions/23161897/how-to-change-labels-legends-in-ggplot
+https://www.datanovia.com/en/blog/how-to-change-ggplot-legend-size/
+https://ggplot2-book.org/scales.html
+
+
+```{r}
+scatter2 <- scatter + scale_color_manual(name="Above / Below State Average",
+                       labels=c("Above Avg","Below Avg", "NA"),
+                       values=c("red","blue","gray"))
+scatter2
+```
+
+# Export to hi-res file
+```{r}
+
+ggsave("scatter.png",device = "png",width=10,height=8, dpi=800)
+```
+
+```{r}
+Top10<- Homeless2018 %>% 
+  select(district_bak, district_percent_homeless) %>% 
+   top_n(10, district_percent_homeless)
+Top10
+```
+```{r}
+colnames(Top10)[1:2] <- c("District", "Pct_Homeless")
+library(formattable)
+Top10$Pct_Homeless <- percent(Top10$Pct_Homeless)
+```
+
+```{r}
+glimpse(Top10)
+```
+```{r}
+Top10 %>%
+  ggplot(aes(y = District, x = Pct_Homeless, color = Pct_Homeless)) +   
+  geom_point() 
+
+```
+
+
+```{r}
+#Formatting
+#install.packages("kableExtra")
+library(kableExtra)
+# This makes kables
+x<- Top10 %>% 
+  kable() %>%
+  kable_styling("striped")
+```
+
+#Put two plots on one graphic. Stacked horizontally by manipulating the ncol and nrow
+
+```{r}
+#install.packages("ggpubr")
+library(ggpubr)
+scatter2 <- ggarrange(scatter2, x, ncol = 1, nrow = 2)
+scatter2
+```
+
+#Abbi Ross
+  filter(Place1=="Brinkley" | Place1=="MountVernon" | Place1=="Enola" | Place1=="Arkansas")
+
+
+```{r}
+Delta <- Homeless2018 %>% 
+  filter(district_bak =="BRINKLEY" | district_bak =="MT.VERNON/ENOLA") %>% 
+  ggplot(aes(x = reorder(district_bak, district_percent_homeless), 
+             y = district_percent_homeless,
+             fill = district_percent_homeless)) +
+  geom_col(position = "dodge", show.legend = FALSE) +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
+  #label formatting. Scales, into percentages. hjust moves to the grid
+    geom_text(aes(label = scales::percent(district_percent_homeless)), position = position_stack(vjust = .7), hjust = -3, size = 3.5)  +
+  #format the x axis. sets the grid to maximum 30%
+    scale_y_continuous(limits=c(0, .18),labels = scales::percent) +
+  coord_flip() +
+  labs(title = "Delta Counties Homeless Children, 2018",
+       subtitle = "Statewide Average: 3.6%",
+       caption = "Graphic by Rob Wells, 4-26-2020",
+       y="Source: Arkansas Dept of Education",
+       x="")
+Delta
+```
+
+```{r}
+
+ggsave("Delta.png",device = "png",width=8,height=8, dpi=800)
+```
+
+
+Graphic #1: NWA vs. Arkansas
+
+Load data
+```{r}
+StateData <- rio::import("https://github.com/michaeladkison/PITCounts/blob/master/Raw%20data.xlsx?raw=true", which = "NWA vs. State")
+```
+
+Making the State comparison graphic
+```{r}
+ggplot(data= StateData) +
+  geom_bar(mapping = aes(x= Year, y= NWA), stat="identity", fill = "green") +
+  geom_line(mapping= aes(x= Year, y= State), stat="identity", color="blue", fill= "blue") +
+  scale_x_continuous(breaks=c(2007:2019), name = "Year") +
+   scale_y_continuous(name = "Number of Homeless Individuals") +
+  geom_text(aes(label= NWA, x= Year, y= NWA), hjust=.5, vjust=0) +
+  geom_text(aes(label= State, x= Year, y= State), hjust=.5, vjust=0)+
+  geom_text(label= "Arkansas",
+            x= 2007, y= 2850) +
+   geom_text(label= "Northwest Arkansas",
+            x= 2008, y= 750) +
+  labs(title = "Homeless Point in Time Counts for Northwest Arkansas and the State of Arkansas",
+       subtitle= "Data from HUD Exchange",
+       caption= "Graphic by Michael Adkison",
+       y = "Reported Number of Homeless Individuals, 4-21-2020",
+       x = "Year")
+  
+```
+
+** Notes Below ***
+
+```{r}
+table2018$district_bak <- table2018$district_name
+table2018$district_bak <- gsub("SCHOOL", "", table2018$district_name) 
+table2018$district_bak  <- gsub("DISTRICT", "", table2018$district_bak)
+table2018$district_bak <- gsub("SCHOOL", "", table2018$district_bak) 
+table2018$district_bak <- gsub("[[:punct:]]", "", table2018$district_bak)
+table2018$district_bak <- gsub(" ", "", table2018$district_bak) 
+```
+
+```{r}
+Homeless2018 <- table2018
+write.csv(Homeless2018, "Homeless2018.csv")
+```
+
+Notes
+
+
+```{r}
+Fay_State %>% 
+  ggplot(aes(x = year, y = State_Total, fill = Fay_Total)) +
+  geom_bar(position="stack", stat="identity", fill = brewer.pal(n = 4, name = "GnBu")) +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1, size=10)) +
+  theme(axis.title.y = element_text(size = 10)) +
+  geom_text(aes(label = Fay_Total), vjust=-.3, size = 3) +
+  scale_x_continuous(breaks=c(2012, 2014, 2016, 2018)) +
+  labs(title = "Fayetteville School District Homeless Children",
+       #subtitle = "2012-2018",fill
+       caption = "Source: Arkansas Department of Education",
+       y="Number of Homeless Students",
+       x="Year")
+Fay_State
+```
+
+
+Notes
+
+### Dual Axis Chart    
+
+    -- First, UA Enrollment, as a pink bar
+    -- Second, Zillow index, as a blue line  
+    -- UA Enrollment is larger than the Zillow Index. It throws off the chart
+    -- We need to adjust it so both items are reflected on the same chart. Dual axis chart
+    -- So we adjust the Zillow index - multiply it by .20 - to better fit with the UA Enrollment graphic
+    -- We adjust the Zillow index scale by .235 to reflect the Zillow index, not the UA Enrollment
+
+
+```{r}
+
+chart <- ggplot() + 
+  geom_bar(mapping = aes(x = UA_Zillow$Year1, y = UA_Zillow$Total), stat = "identity", fill = "pink") +
+  geom_line(mapping = aes(x = UA_Zillow$Year1, y = UA_Zillow$ZillowIndex*20), size = 2, color = "blue", fill = "blue") + 
+  scale_x_date(name = "Year") +
+  scale_y_continuous(name = "UA Enrollment", 
+                     sec.axis = sec_axis(~. /23.5, name = "Zillow Index")) + 
+   theme(
+    axis.title.y = element_text(color = "pink"),
+    axis.title.y.right = element_text(color = "blue")) +
+  labs(title = "UA Enrollment, Fayetteville Real Estate Prices, 2010-2019",
+       subtitle = "Total Enrollment: 27,559 in 2019",
+       caption = "Graphic by Rob Wells, 4-15-2020")
+chart
+```

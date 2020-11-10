@@ -1,7 +1,7 @@
 ---
 title: "Daily Update Arkansas Covid"
-author: "Rob Wells"
-date: "9/11/2020"
+author: "Rob Wells & Katy Seiter"
+date: "11/09/2020"
 output: pdf_document
 ---
 
@@ -75,7 +75,7 @@ yesterday <- (today-1)
 
 ```
 
-#Quick Calculation of State Totals for Our Own Tweet
+#Quick Calculation of State Totals 
 ```{r}
 today_county <- today_county [ -c(1) ]
 today_county [2:37] <- lapply(today_county [2:37], as.numeric)
@@ -186,66 +186,29 @@ glimpse(master2)
 write.csv(master2, "master_file.csv")
 ```
 
-
-```{r}
-#master2 <- rio::import("https://raw.githubusercontent.com/Arkansascovid/Main/master/master_file.csv")
-```
-
-
-
-#Latest Tweet Slide Data
+#Top Numbers Table 
 ```{r}
 top_numbers <- master2 %>% 
   filter(county_nam=="Arkansas_all_counties") %>% 
     filter(mydate>=(yesterday)) %>% 
-  select(county_nam, mydate, New_Cases_Today, positive, confirmed_pos, recoveries, deaths, confirmed_death, New_Deaths_Today, active_cases, confirmed_active,  Recovered_Since_Yesterday)
-write.csv(top_numbers, "top numbers.csv")
+  select(mydate, New_Cases_Today, positive, confirmed_pos, deaths, New_Deaths_Today,confirmed_death, active_cases, confirmed_active, recoveries, Recovered_Since_Yesterday)
 
+top_numbers <- top_numbers %>% 
+  rename(Date = mydate, Positive_Cases = positive, Confirmed_Positives = confirmed_pos, Recoveries = recoveries, Deaths = deaths, Confirmed_Deaths = confirmed_death, Active_Cases = active_cases, Confirmed_Active_Cases = confirmed_active)
+
+t <- t(top_numbers)
+
+t <- data.frame(Value = row.names(t), t)
+colnames(t)[2:3] <- c("Today", "Yesterday")
+row.names(t) <- NULL
+
+library(kableExtra)
+t %>% 
+  kable() %>%
+  kable_styling("striped") 
 ```
 
-#Slide on deaths vs new cases
-```{r}
-df <- master2 %>% 
-  filter(county_nam=="Arkansas_all_counties") %>% 
-  filter(mydate>=(yesterday))
-
-# Date <- df$mydate
-# New_Cases <- df$New_Cases_Today
-# Deaths <- df$deaths
-
-df2 <- melt(df[,c("mydate", "New_Cases_Today", "New_Deaths_Today")], id.vars = 1)
-
-ggplot(df2,aes(x = mydate, y = value, label = value, fill= variable)) + 
-  #geom_bar(aes(fill = variable), stat = "identity", position = "dodge") +
-  geom_col(position = position_dodge2(width = 0.9, preserve = "single"), show.legend = T) +
-  geom_text(position = position_dodge2(width = 0.9, preserve = "single"), vjust=-1, hjust=+1) +
-  scale_y_continuous(limits=c(0, 2000)) + 
-  labs(title = "New Cases & Deaths in Arkansas Announced Today", 
-       subtitle = "Confirmed + Probable,  ADH Data for Oct. 16, 2020",
-       caption = "Graphic by ArkansasCovid.com",
-       y="Amount",
-       x="Date")
-ggsave("Today_Deaths_Cases.png",device = "png",width=9,height=6, dpi=400)
-```
-
-```{r}
-df3 <- melt(df[,c("mydate", "active_cases", "deaths")], id.vars = 1)
-
-ggplot(df3,aes(x = mydate, y = value, label = value, fill= variable)) + 
-  #geom_bar(aes(fill = variable), stat = "identity", position = "dodge") +
-  geom_col(position = position_dodge2(width = 0.9, preserve = "single"), show.legend = T) +
-  geom_text(position = position_dodge2(width = 0.9, preserve = "single"), vjust=-1, hjust=+1) +
-  scale_y_continuous(limits=c(0, 15000)) + 
-  labs(title = "Active Cases & Total Deaths in Arkansas Announced Today", 
-       subtitle = "Confirmed + Probable,  ADH Data for Oct. 31, 2020",
-       caption = "Graphic by ArkansasCovid.com",
-       y="Amount",
-       x="Date")
-ggsave("Actives_Deaths.png",device = "png",width=9,height=6, dpi=400)
-```
-
-
-#7 day average of positives, New Cases, Deaths
+# AVERAGE CALCULATIONS 
 ```{r}
 test <- master2 %>% 
   group_by(county_nam) %>%
@@ -261,9 +224,9 @@ test <- test %>%
   arrange(desc(mydate))
 
 test2 <- test %>% 
-  select(mydate, county_nam, positive, Positive_7_Day_Avg, New_Cases_Today, New_Cases_7_Day_Avg, New_Deaths_Today, New_Deaths_7_Day_Avg) %>% 
+  select(mydate, county_nam, positive, Positive_7_Day_Avg, New_Cases_Today, New_Cases_7_Day_Avg, New_Deaths_Today, New_Deaths_7_Day_Avg, Recovered_Since_Yesterday, active_cases) %>% 
   filter(county_nam=="Arkansas_all_counties") %>% 
-  filter(mydate>(yesterday))
+  filter(mydate>=(yesterday))
 
 #Alex Nichol decimal rounding:
 test2$Positive_7_Day_Avg <-round(test2$Positive_7_Day_Avg, 1)
@@ -271,21 +234,70 @@ test2$New_Cases_7_Day_Avg <-round(test2$New_Cases_7_Day_Avg, 1)
 test2$New_Deaths_7_Day_Avg <-round(test2$New_Deaths_7_Day_Avg, 1)
 
 write.csv(test2, "test2.csv")
+```
 
-df4 <- melt(test2[,c("mydate", "New_Cases_Today", "New_Cases_7_Day_Avg", "New_Deaths_Today", "New_Deaths_7_Day_Avg")], id.vars = 1)
 
-ggplot(df4,aes(x = mydate, y = value, label = value, fill= variable)) + 
-  #geom_bar(aes(fill = variable), stat = "identity", position = "dodge") +
-  geom_col(position = position_dodge2(width = 0.9, preserve = "single"), show.legend = T) +
-  geom_text(position = position_dodge2(width = 0.9, preserve = "single"), vjust=-1, hjust=+1) +
-  scale_y_continuous(limits=c(0, 2000)) + 
-  labs(title = "New Cases, Deaths and 7 Day Averages in Arkansas Announced Today", 
-       subtitle = "Confirmed + Probable,  ADH Data for Oct. 16, 2020",
+# CREATE NEW CASES AND RECOVERIES SLIDE - 2 DAYS
+```{r}
+
+df4 <- melt(test2[,c("mydate", "New_Cases_Today","New_Cases_7_Day_Avg", "Recovered_Since_Yesterday")], id.vars = 1)
+
+df4 <- df4 %>% 
+  rename(Detail = variable, Amount = value)
+
+ggplot(df4,aes(x = mydate, y = Amount, label = Amount, fill= Detail)) + 
+geom_bar(stat="identity", position="dodge", color="white")+
+scale_fill_manual(values=c("#B3BF08", "#08B3BF", "#D68037"))+
+scale_y_continuous(limits=c(0, 2000))  +
+  theme_bw() + 
+  theme(
+    plot.title = element_text(face = "bold", size = 16),
+    legend.background = element_rect(fill = "white", size = .01, colour = "white"),
+    legend.justification = c(0, 1),
+    #adjust the box position. First number horizontal, second, vertical 
+    legend.position = c(.617, .38),
+    axis.ticks = element_line(colour = "grey70", size = 0.2),
+    panel.grid.major = element_line(colour = "grey70", size = 0.2),
+    panel.grid.minor = element_blank()
+  )+
+   geom_col(position = position_dodge2(width = 0.9, preserve = "single")) +
+  geom_text(position = position_dodge2(width = 0.9, preserve = "single"), vjust=-0.5, hjust=+0.5) +
+  labs(title = "New Cases & Recoveries in Arkansas Announced Today", 
+       subtitle = "Confirmed + Probable,  ADH Data for Nov. 9, 2020",
        caption = "Graphic by ArkansasCovid.com",
        y="Amount",
        x="Date")
-ggsave("Cases_Deaths_avgs.png",device = "png",width=9,height=6, dpi=400)
+ggsave("Changes_2_Day_avg.png",device = "png",width=9,height=6, dpi=400)
 ```
+
+
+
+# CREATE DEATHS SLIDE - 2 DAYS
+```{r}
+df5 <- melt(test2[,c("mydate", "New_Deaths_Today","New_Deaths_7_Day_Avg")], id.vars = 1)
+
+df5 <- df5 %>% 
+  rename(Detail = variable, Amount = value)
+
+#deaths 2-day snapshot
+ggplot(df5,aes(x = mydate, y = Amount, label = Amount, fill= Detail)) + 
+geom_bar(stat="identity", position="dodge", color="white")+
+scale_fill_manual(values=c("#08B3BF", "#D68037"))+
+  theme(legend.position = "bottom") +
+  geom_col(position = position_dodge2(width = 0.9, preserve = "single"), show.legend = T) +
+  geom_text(position = position_dodge2(width = 0.9, preserve = "single"), vjust=-0.5, hjust=+0.5) +
+  scale_y_continuous(limits=c(0, 25)) + 
+  labs(title = "New Deaths in Arkansas Announced Today", 
+       subtitle = "Confirmed + Probable,  ADH Data for Nov. 9, 2020",
+       caption = "Graphic by ArkansasCovid.com",
+       y="Amount",
+       x="Date")
+ggsave("Deaths_2_Day_avg.png",device = "png",width=9,height=6, dpi=400)
+
+```
+
+
+
 ```{r}
 homepage <- master2 %>% 
  filter(county_nam=="Arkansas_all_counties") %>% 
@@ -414,7 +426,7 @@ hospitalemail <- read_sheet(url3, sheet = "Hospital_email",  col_types = NULL, n
 ```
 
 ```{r}
-hospitalemail <- rio::import("/Users/rswells/Dropbox/Classes/Data Fall 2020/ArkansasCovid/Hospital Data - Manual Input.xlsx", which = "Hospital_email")
+# hospitalemail <- rio::import("/Users/rswells/Dropbox/Classes/Data Fall 2020/ArkansasCovid/Hospital Data - Manual Input.xlsx", which = "Hospital_email")
 ```
 
 ```{r}
