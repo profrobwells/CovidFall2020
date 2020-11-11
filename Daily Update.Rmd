@@ -256,6 +256,7 @@ scale_y_continuous(limits=c(0, 2000))  +
     legend.justification = c(0, 1),
     #adjust the box position. First number horizontal, second, vertical 
     legend.position = c(.617, .38),
+    #legend.position = c(.1, .38),
     axis.ticks = element_line(colour = "grey70", size = 0.2),
     panel.grid.major = element_line(colour = "grey70", size = 0.2),
     panel.grid.minor = element_blank()
@@ -414,6 +415,31 @@ write.csv(hospital_master, "hospital_master.csv")
 hospital_FLOURISH <- hospital_master %>% 
   filter(date >= "2020-05-01")
 write.csv(hospital_FLOURISH, "hospital_FLOURISH.csv")
+```
+
+#hospital daily tweet slide
+```{r}
+#cute extra column from hospital_master
+#hospital_master <- hospital_master[ -c(1) ]
+
+hospital2 <- hospital_master %>% 
+    filter(date>=(yesterday)) %>% 
+  select(date, Hospitalized, Vent, New_Admits, New_on_Vent, New_Discharges_Deaths, Ever_Hospitalized, Ever_on_a_Vent)
+
+hospital2 <- hospital2 %>% 
+  rename(Date = date, On_Vents = Vent, Ever_on_Vent = Ever_on_a_Vent)
+
+h <- t(hospital2)
+
+h <- data.frame(Value = row.names(h), h)
+colnames(h)[1:3] <- c("Value","Today", "Yesterday")
+row.names(h) <- NULL
+
+
+library(kableExtra)
+h %>% 
+  kable() %>%
+  kable_styling("striped")
 ```
 
 
