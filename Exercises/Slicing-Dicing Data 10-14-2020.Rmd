@@ -457,6 +457,7 @@ test5
 #Was this a record number of cases for a Saturday?
 ```{r}
 #format dates
+library(lubridate)
 master$date <- ymd(master$mydate)
 master$year <- year(master$date)
 master$month <- month(master$date, label=TRUE)
@@ -469,6 +470,99 @@ mini <- master %>%
   select(county_nam, date, year, month, week, day, weekday)
 mini
 ```
+
+#---------------------------------------------------------
+#Resume Here Wednesday
+#---------------------------------------------------------
+
+
+#Using master_file, answer record number of cases for a Wednesday
+
+#Bring in Master file, format dates
+```{r}
+
+
+```
+
+#Create Wednesday-only table, statewide data
+```{r}
+
+```
+
+#Make a Basic Chart
+```{r}
+
+ggplot(wed, aes(x=date, y=New_Cases_Today, color = New_Cases_Today, fill=New_Cases_Today)) +
+  geom_col() +
+  theme(axis.text.x = element_text(angle = 45, vjust = 1.2, hjust = 2.1)) +
+  labs(y="Cases Per Day", title="Record COVID-19 Cases on Wednesdays in Arkansas", caption="Source: ADH")+
+  theme(legend.position="none") 
+
+```
+
+#Improve on Chart, flipped and with labels
+
+```{r}
+wed %>% 
+  filter(date > "2020-03-26") %>% 
+  filter(New_Cases_Today > 500) %>% 
+  ggplot(aes(x = reorder(date, New_Cases_Today), 
+             y = New_Cases_Today,
+             fill = New_Cases_Today)) +
+  geom_col(position = "dodge", show.legend = FALSE) +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
+  #label formatting. Scales, into percentages. hjust moves to the grid
+  geom_text(aes(label = (New_Cases_Today)), position = position_stack(vjust = 1), hjust = -5., size = 2.5)  +
+  #format the x axis. sets the grid to maximum 30%
+  scale_y_continuous(limits=c(0, 1800)) +
+  coord_flip() +
+  labs(title = "Record COVID-19 Cases on Wednesdays in Arkansas",
+       subtitle = "Cases 500 and Greater",
+       caption = "Graphic by Rob Wells, 11-11-2020",
+       y="Source: Arkansas Dept of Health",
+       x="")
+
+ggsave("Wednesday top cases 11_11.png", device = "png", width=10,height=8, dpi=800)
+
+```
+
+#Or Use top_n
+```{r}
+wed %>% 
+  top_n(10, New_Cases_Today) %>% 
+  ggplot(aes(x = reorder(date, New_Cases_Today), 
+             y = New_Cases_Today,
+             fill = New_Cases_Today)) +
+  geom_col(position = "dodge", show.legend = FALSE) +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
+  #label formatting. Scales, into percentages. hjust moves to the grid
+  geom_text(aes(label = (New_Cases_Today)), position = position_stack(vjust = 1), hjust = -5., size = 2.5)  +
+  #format the x axis. sets the grid to maximum 30%
+  scale_y_continuous(limits=c(0, 1800)) +
+  coord_flip() +
+  labs(title = "Record COVID-19 Cases on Wednesdays in Arkansas",
+       subtitle = "Cases 500 and Greater",
+       caption = "Graphic by Rob Wells, 11-11-2020",
+       y="Source: Arkansas Dept of Health",
+       x="")
+
+ggsave("Wednesday top cases 11_11.png", device = "png", width=10,height=8, dpi=800)
+
+```
+
+#Reader Question: Number of Deaths since Oct 8
+
+```{r}
+
+```
+
+
+
+
+
+
+
+
 #----------------------------------------------------------------------------------#
 #  Group_By
 #----------------------------------------------------------------------------------#
@@ -480,6 +574,14 @@ mini2 <- mini %>%
   group_by(month)
 mini2
 ```
+
+#Was this a record number of cases for a Saturday?
+```{r}
+
+
+
+```
+
 
 #Using master_file, develop monthly totals and percentage changes for new cases and deaths
 ```{r}
