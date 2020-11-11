@@ -1455,6 +1455,48 @@ https://apnews.com/article/counties-worst-virus-surges-voted-trump-d671a48353402
 
 **Agenda**  
 
+    Story Updates   
+    Graphics - ggplot     
+    Red vs Blue Covid election results map    
+
+**Quick Charts in Daily Script**
+<center>
+
+<img src="Images/Changes_2_Day_avg.png" width="500" height="500" />
+
+
+</center> 
+
+      How We Did This: Daily Update Script
+https://raw.githubusercontent.com/profrobwells/CovidFall2020/master/Daily%20Update.Rmd
+
+
+
+**We will build this today**
+
+<center>
+
+<img src="Images/Wednesday top cases 11_11.png" width="500" height="500" />
+
+
+</center>  
+
+**GGPLOT Cookbook**  
+
+https://raw.githubusercontent.com/profrobwells/CovidFall2020/master/Exercises/ggplot%20cookbook%204-26-20.Rmd   
+
+
+**New Fun with Sicing and Dicing**      
+https://github.com/profrobwells/CovidFall2020/blob/master/Exercises/Slicing-Dicing%20Data%2010-14-2020.Rmd  
+
+
+
+
+#### Read Before Next Class 
+
+    --Follow this tutorial
+  https://guides.github.com/activities/hello-world/
+
 
   Adapt Machlis - Maps in R Ch 11 exercise for Median Income in Arkansas
       Maps in R March 24 2019 - Using the Census API
@@ -1462,18 +1504,71 @@ https://apnews.com/article/counties-worst-virus-surges-voted-trump-d671a48353402
 
       Building a Census tract map
       
+- **Data Visualization Basics**
+
+    Load tutorial: Basic Data Visualization 12-26-18.R       
+
+> [**Download this file and open it in R Studio**](https://bit.ly/2RlQtSE){target="_blank"} 
+
+
+
+---   
+
+# Week #13: Graphics   
+
+## Monday, Nov. 16  
+
+**Agenda**
+
+    Text Mining Exercises
+    Coulter-AOC Twitter Feeds
+
+
+
+
+**GitHub**
+       Using GitHub
+      Set up R Project With GitHub
+      Setting up an R Workflow
+  http://learn.r-journalism.com/en/publishing/workflow/r-projects/
+
+
+**Resources on GitHub**  
+
+      GitHub flow   
+   https://guides.github.com/introduction/flow/
+
+      GitHub Guides  
+  https://guides.github.com/
+
+      Another GitHub guide  
+  https://andrewbtran.github.io/NICAR/2018/workflow/docs/03-integrating_github.html  
+
+        
+        GitHub Exercises
+
+    This class is intended to teach you modern workflow techniques for coding. A centerpiece of that workflow is GitHub. This is a website with a system that allows you to collaborate with other programmers on coding projects. It manages versions of software code and is a very popular with the tech elite. 
+
+    Your GitHub account, which is public, represents an important professional image. Prospective employers and collaborators will look at your GitHub account.
+
+    Create a GitHub account.
+  https://github.com/
+
+    Simplified GitHub- GitHub Desktop
+   https://help.github.com/en/desktop
+
+    
+    See Basic GitHub 4-22-19.R
+  https://bit.ly/2UAMGTd
+   
+    Installing Git for a Mac - Andrew Ba Tran
+
 
     Splitting Hashtags 2-25-19.R   
 https://bit.ly/2BQIE2i 
 
     R Markdown to distribute findings to Stanford, Feb 2020
 https://profrobwells.github.io/HomelessSP2020/SF_311_Calls_UofA.html
-
-- **Data Visualization Basics**
-
-    Load tutorial: Basic Data Visualization 12-26-18.R       
-
-> [**Download this file and open it in R Studio**](https://bit.ly/2RlQtSE){target="_blank"} 
 
 
   
@@ -1524,38 +1619,6 @@ https://bit.ly/2X5V9jL
   Ch. 11 Maps in R
     Machlis
     Ch. 11 Maps in R
-
-
-**GitHub**
-       Using GitHub
-      Set up R Project With GitHub
-      Setting up an R Workflow
-  http://learn.r-journalism.com/en/publishing/workflow/r-projects/
-
-
-**Resources on GitHub**  
-
-      GitHub flow   
-   https://guides.github.com/introduction/flow/
-
-      GitHub Guides  
-  https://guides.github.com/
-
-      Another GitHub guide  
-  https://andrewbtran.github.io/NICAR/2018/workflow/docs/03-integrating_github.html  
-
-        
-        GitHub Exercises
-
-    This class is intended to teach you modern workflow techniques for coding. A centerpiece of that workflow is GitHub. This is a website with a system that allows you to collaborate with other programmers on coding projects. It manages versions of software code and is a very popular with the tech elite. 
-
-    Your GitHub account, which is public, represents an important professional image. Prospective employers and collaborators will look at your GitHub account.
-
-    Create a GitHub account.
-  https://github.com/
-
-    Simplified GitHub- GitHub Desktop
-   https://help.github.com/en/desktop
 
 
      Using R  for Math  
@@ -1649,16 +1712,8 @@ https://www.tidytextmining.com/
       Ch. 1 The Tidy Text Format
       Ch. 2 Sentiment Analysis
 
----   
 
-# Week #13: Text Mining
 
-## Monday, Nov. 16  
-
-**Agenda**
-
-    Text Mining Exercises
-    Coulter-AOC Twitter Feeds
   
 **Exercise**
 
