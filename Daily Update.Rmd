@@ -20,6 +20,7 @@ output: pdf_document
 # vignette("basic-usage", package="googlesheets")
 #install.packages("googledrive")
 #install.packages("googlesheets4")
+#install.packages("kableExtra")
 library(tidyverse)
 library(janitor)
 library(lubridate)
@@ -248,7 +249,7 @@ df4 <- df4 %>%
 ggplot(df4,aes(x = mydate, y = Amount, label = Amount, fill= Detail)) + 
 geom_bar(stat="identity", position="dodge", color="white")+
 scale_fill_manual(values=c("#B3BF08", "#08B3BF", "#D68037"))+
-scale_y_continuous(limits=c(0, 2000))  +
+scale_y_continuous(limits=c(0, 2500))  +
   theme_bw() + 
   theme(
     plot.title = element_text(face = "bold", size = 16),
@@ -264,7 +265,7 @@ scale_y_continuous(limits=c(0, 2000))  +
    geom_col(position = position_dodge2(width = 0.9, preserve = "single")) +
   geom_text(position = position_dodge2(width = 0.9, preserve = "single"), vjust=-0.5, hjust=+0.5) +
   labs(title = "New Cases & Recoveries in Arkansas Announced Today", 
-       subtitle = "Confirmed + Probable,  ADH Data for Nov. 9, 2020",
+       subtitle = "Confirmed + Probable,  ADH Data for Nov. 14, 2020",
        caption = "Graphic by ArkansasCovid.com",
        y="Amount",
        x="Date")
@@ -289,7 +290,7 @@ scale_fill_manual(values=c("#08B3BF", "#D68037"))+
   geom_text(position = position_dodge2(width = 0.9, preserve = "single"), vjust=-0.5, hjust=+0.5) +
   scale_y_continuous(limits=c(0, 25)) + 
   labs(title = "New Deaths in Arkansas Announced Today", 
-       subtitle = "Confirmed + Probable,  ADH Data for Nov. 9, 2020",
+       subtitle = "Confirmed + Probable,  ADH Data for Nov. 14, 2020",
        caption = "Graphic by ArkansasCovid.com",
        y="Amount",
        x="Date")
@@ -300,10 +301,10 @@ ggsave("Deaths_2_Day_avg.png",device = "png",width=9,height=6, dpi=400)
 
 
 ```{r}
-homepage <- master2 %>% 
- filter(county_nam=="Arkansas_all_counties") %>% 
-  filter(mydate==today)
-write.csv(homepage, "homepage.csv")
+# homepage <- master2 %>% 
+#  filter(county_nam=="Arkansas_all_counties") %>% 
+#   filter(mydate==today)
+# write.csv(homepage, "homepage.csv")
 ```
 
 

@@ -212,7 +212,7 @@ write.csv(age4, "age_master.csv")
 age4 <- age4 %>% 
   filter(Date >= "2020-09-13")
 
-#age4 <- age4[ -c(1) ]
+age4 <- age4[ -c(1) ]
 write.csv(age4, "age_FLOURISH_master.csv")
 
 ```
@@ -438,8 +438,9 @@ glimpse(today_race_calcs)
 race4 <- smartbind(race3, today_race_calcs)
 #Cut rows from df
 #race4 <- slice(race4, -c(1))
+
 #Cut Columns
-#race4 <- race4[ -c(1) ]
+race4 <- race4[ -c(1) ]
 
 race4 <- race4 %>% 
   arrange(desc(Date))
