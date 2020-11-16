@@ -1520,10 +1520,50 @@ https://github.com/profrobwells/CovidFall2020/blob/master/Exercises/Slicing-Dici
 
 **Agenda**
 
-    Text Mining Exercises
-    Coulter-AOC Twitter Feeds
+    Wells limited availability this week   
+    More on data update- Tweet the slides  
+    Tweet Person Look for Something Different: Analysis  
+    Abby data update    
+    WordPress  
+    Graphics  
+
+**Exercises**   
+
+**We will build this today**
+
+<center>
+
+<img src="Images/Wednesday top cases 11_11.png" width="500" height="500" />
 
 
+</center>  
+
+**GGPLOT Cookbook**  
+
+https://raw.githubusercontent.com/profrobwells/CovidFall2020/master/Exercises/ggplot%20cookbook%204-26-20.Rmd   
+
+
+**New Fun with Sicing and Dicing**      
+https://github.com/profrobwells/CovidFall2020/blob/master/Exercises/Slicing-Dicing%20Data%2010-14-2020.Rmd  
+
+
+
+--------------------------------
+    
+## Wednesday, Nov. 18
+
+**Agenda** 
+
+      Continue With Text Mining
+      Turn your R cheatsheet into a PDF
+      Turn your R cheatsheet into a web page on GitHub
+
+**Exercise**
+
+      Sentiment of Gov. Hutchison's Twitter Feed
+      Bigrams: 
+  http://bit.ly/bigramz
+      
 
 
 **GitHub**
@@ -1562,6 +1602,226 @@ https://github.com/profrobwells/CovidFall2020/blob/master/Exercises/Slicing-Dici
   https://bit.ly/2UAMGTd
    
     Installing Git for a Mac - Andrew Ba Tran
+   
+**Exercises**   
+    
+    See Basic GitHub 4-22-19.R
+  https://bit.ly/2UAMGTd
+   
+    Installing Git for a Mac - Andrew Ba Tran
+
+#### Read Before Next Class 
+
+    --Follow this tutorial
+  https://guides.github.com/activities/hello-world/
+
+
+**Coulter Bigrams - Score**   
+TK TK Images/Coulter bigram score.jpeg)  
+   
+
+#### Read Before Next Class   
+
+    Amy Webb future of journalism trends
+https://futuretodayinstitute.wetransfer.com/downloads/0e84e883e140bafe9a3436a6464032be20171003123607/ecda17
+
+    Google search tips  
+https://blog.expertisefinder.com/top-6-google-search-tips-for-journalists/
+
+    Artificial intelligence in the news  
+https://aiethicsinitiative.org/news/2019/3/12/artificial-intelligence-and-the-news-seven-ideas-receive-funding-to-ensure-ai-is-used-in-the-public-interest
+    
+    Sharon Machlins Nicar compilation site
+http://www.machlis.com/nicar19.html
+
+---   
+
+# Week #14: Using R Markdown to Make Pages 
+
+Web scraping
+
+## Monday, Nov. 23
+
+**Agenda**
+
+    Simple Web Scraping
+
+**Exercises**   
+
+
+    Machlis: Ch. 14 Integrate R With Your Storytelling Using R Markdown
+    
+        R Markdown: 
+http://bit.ly/2DBLSaX
+
+    Video:
+https://video.uark.edu/media/R+Markdown1/0_k08o7izd
+
+
+    
+#### Read Before Next Class   
+
+
+----------------------
+
+
+## Wednesday, Nov. 25: Web Scraping
+
+**Agenda**
+
+**Quiz - Math and R**
+
+    TK TK TK Test Canvas: Excel Quiz
+**Exercises**
+
+    Map Demo: Interactive Map.R
+    Adapt Machlis - Maps in R Ch 11 exercise for Median Income in Arkansas
+    ![You will make this in the class]TK TK Images/ARmed_income3-22-19.png
+
+#### Read Before Next Class 
+
+   
+    APIs - basics   
+  https://medium.com/@LewisMenelaws/a-beginners-guide-to-web-apis-and-how-they-will-help-you-23923a0da450
+
+
+      Twitter API
+      Twitter Scraping
+
+**Exercises**
+    
+    Twitter analysis of Trump Tweets 
+http://varianceexplained.org/r/trump-tweets/ 
+    
+    Twitter historical API
+  https://developer.twitter.com/en/docs/tutorials/choosing-historical-api
+
+
+    
+#### Read Before Next Class 
+
+    Machlis Chs. 17 & 18
+    Census Reporter to look up tables
+https://censusreporter.org/
+ 
+
+
+**Agenda** 
+
+    Data Cleaning and Normalization
+    Text Mining
+    
+    
+**Exercises**   
+      
+      
+      
+      Kavanaugh text mining story: Text analysis of Brett Kavanaugh’s opinion.  
+  http://www.storybench.org/bringing-textual-analysis-tools-to-judge-brett-kavanaughs-latest-opinion/
+
+#### Read Before Next Class   
+
+      Text Mining with R
+https://www.tidytextmining.com/
+      Ch. 1 The Tidy Text Format
+      Ch. 2 Sentiment Analysis
+
+
+
+  
+**Exercise**
+
+    AOC-Coulter Data Mining Exercise: 
+    Coulter Tweet Analysis #2 Exercise
+https://bit.ly/2TdY9Mv
+    Key to the exercise:    
+https://bit.ly/2F3brlh   
+    
+![](Images/Coulter Bigram Graphic.jpeg)  
+
+
+#### Read Before Next Class   
+
+      Text Mining with R
+   https://www.tidytextmining.com/
+      Ch 3 Analyzing word and document frequency: tf-idf
+      
+      
+
+
+#### Read Before Next Class   
+ 
+ 
+      Web Scraping in R: Simple Web Scraper 
+http://bit.ly/scrapeme
+
+     Machlis Ch. 15 Simple Web scraping
+---    
+
+#  Week #15: Reporting
+
+## Monday, Nov. 30
+
+**Agenda**
+
+    Flexible schedule. Reporting Updates
+
+### Assignment 3. Interactive Data Visualization. Due Nov 30.
+Students will use R Studio to build interactive graphics / maps of Arkansascovid data by school district. 600 Word Story. Results will be posted on GitHub. Data dictionary required
+
+**Exercises**
+
+    Splitting Hashtags 2-25-19.R   
+  https://bit.ly/2BQIE2i 
+
+
+------
+
+## Wednesday, Dec. 2
+
+**Agenda**
+
+     Flexible schedule. Reporting Updates
+
+        
+---    
+
+# Week #16: Wrap Up
+
+## Monday, Dec. 7
+
+**Agenda**
+
+    Flexible schedule. Reporting Updates
+
+**Important!**
+
+    Course Evaluation
+    Please do me  a favor and evaluate this course. 
+    It's important to me and the department to get your thoughts
+    on what worked and what did not. 
+    If you think it is important, 
+    then please take five minutes to fill out the survey.
+https://courseval.uark.edu/
+
+
+
+
+## Wednesday, Dec. 8
+
+**Agenda**
+      
+      Zoom Party
+
+**Congratulations!**
+    
+     We covered a lot this semester
+  
+
+
+---   
+
+# RESOURCES  
 
 
     Splitting Hashtags 2-25-19.R   
@@ -1641,243 +1901,7 @@ https://github.com/profrobwells/CovidFall2020/blob/master/Exercises/Slicing-Dici
 -**Date Corrected Data**
 https://video.uark.edu/media/Date+Corrected+Data/1_2rmzgzwu
 
-   
-**Exercises**   
-    
-    See Basic GitHub 4-22-19.R
-  https://bit.ly/2UAMGTd
-   
-    Installing Git for a Mac - Andrew Ba Tran
 
-#### Read Before Next Class 
-
-    --Follow this tutorial
-  https://guides.github.com/activities/hello-world/
-
-
-**Quiz - Math and R**
-
-    TK TK TK Test Canvas: Excel Quiz
-**Exercises**
-
-    Map Demo: Interactive Map.R
-    Adapt Machlis - Maps in R Ch 11 exercise for Median Income in Arkansas
-    ![You will make this in the class]TK TK Images/ARmed_income3-22-19.png
-
-#### Read Before Next Class 
-
-   
-    APIs - basics   
-  https://medium.com/@LewisMenelaws/a-beginners-guide-to-web-apis-and-how-they-will-help-you-23923a0da450
-
-
-      Twitter API
-      Twitter Scraping
-
-**Exercises**
-    
-    Twitter analysis of Trump Tweets 
-http://varianceexplained.org/r/trump-tweets/ 
-    
-    Twitter historical API
-  https://developer.twitter.com/en/docs/tutorials/choosing-historical-api
-
-
-    
-#### Read Before Next Class 
-
-    Machlis Chs. 17 & 18
-    Census Reporter to look up tables
-https://censusreporter.org/
- 
-
-
-**Agenda** 
-
-    Data Cleaning and Normalization
-    Text Mining
-    
-    
-**Exercises**   
-      
-      
-      
-      Kavanaugh text mining story: Text analysis of Brett Kavanaugh’s opinion.  
-  http://www.storybench.org/bringing-textual-analysis-tools-to-judge-brett-kavanaughs-latest-opinion/
-
-#### Read Before Next Class   
-
-      Text Mining with R
-https://www.tidytextmining.com/
-      Ch. 1 The Tidy Text Format
-      Ch. 2 Sentiment Analysis
-
-
-
-  
-**Exercise**
-
-    AOC-Coulter Data Mining Exercise: 
-    Coulter Tweet Analysis #2 Exercise
-https://bit.ly/2TdY9Mv
-    Key to the exercise:    
-https://bit.ly/2F3brlh   
-    
-![](Images/Coulter Bigram Graphic.jpeg)  
-
-
-#### Read Before Next Class   
-
-      Text Mining with R
-   https://www.tidytextmining.com/
-      Ch 3 Analyzing word and document frequency: tf-idf
-
---------------------------------
-    
-## Wednesday, Nov. 18
-
-**Agenda** 
-
-      Continue With Text Mining
-      Turn your R cheatsheet into a PDF
-      Turn your R cheatsheet into a web page on GitHub
-
-**Exercise**
-
-      Sentiment of Gov. Hutchison's Twitter Feed
-      Bigrams: 
-  http://bit.ly/bigramz
-      
-
-**Coulter Bigrams - Score**   
-TK TK Images/Coulter bigram score.jpeg)  
-   
-
-#### Read Before Next Class   
-
-    Amy Webb future of journalism trends
-https://futuretodayinstitute.wetransfer.com/downloads/0e84e883e140bafe9a3436a6464032be20171003123607/ecda17
-
-    Google search tips  
-https://blog.expertisefinder.com/top-6-google-search-tips-for-journalists/
-
-    Artificial intelligence in the news  
-https://aiethicsinitiative.org/news/2019/3/12/artificial-intelligence-and-the-news-seven-ideas-receive-funding-to-ensure-ai-is-used-in-the-public-interest
-    
-    Sharon Machlins Nicar compilation site
-http://www.machlis.com/nicar19.html
-
----   
-
-# Week #14: Using R Markdown to Make Pages 
-
-Web scraping
-
-## Monday, Nov. 23
-
-**Agenda**
-
-    Simple Web Scraping
-
-**Exercises**   
-
-
-    Machlis: Ch. 14 Integrate R With Your Storytelling Using R Markdown
-    
-        R Markdown: 
-http://bit.ly/2DBLSaX
-
-    Video:
-https://video.uark.edu/media/R+Markdown1/0_k08o7izd
-
-
-    
-#### Read Before Next Class   
-
-
-----------------------
-
-
-## Wednesday, Nov. 25: Web Scraping
-
-**Agenda**
-
-    OFF - THANKSGIVING
-
-
-#### Read Before Next Class   
- 
- 
-      Web Scraping in R: Simple Web Scraper 
-http://bit.ly/scrapeme
-
-     Machlis Ch. 15 Simple Web scraping
----    
-
-#  Week #15: Wrap Up
-
-## Monday, Nov. 30
-
-**Agenda**
-
-    Flexible schedule. Reporting Updates
-
-### Assignment 4. Interactive Data Visualization. Due Nov 30.
-Students will use R Studio to build interactive graphics / maps of Arkansascovid data by school district. 600 Word Story. Results will be posted on GitHub. Data dictionary required
-
-**Exercises**
-
-    Splitting Hashtags 2-25-19.R   
-  https://bit.ly/2BQIE2i 
-
-
-------
-
-## Wednesday, Dec. 2
-
-**Agenda**
-
-     Flexible schedule. Reporting Updates
-
-        
----    
-
-# Week #16: Wrap Up
-
-## Monday, Dec. 7
-
-**Agenda**
-
-    Flexible schedule. Reporting Updates
-
-**Important!**
-
-    Course Evaluation
-    Please do me  a favor and evaluate this course. 
-    It's important to me and the department to get your thoughts
-    on what worked and what did not. 
-    If you think it is important, 
-    then please take five minutes to fill out the survey.
-https://courseval.uark.edu/
-
-
-
-
-## Wednesday, Dec. 8
-
-**Agenda**
-      
-      Zoom Party
-
-**Congratulations!**
-    
-     We covered a lot this semester
-  
-
-
----   
-
-# RESOURCES  
 
         StackOverflow   
   https://stackoverflow.com/questions/46691933/r-sort-by-year-then-month-in-ggplot2  
