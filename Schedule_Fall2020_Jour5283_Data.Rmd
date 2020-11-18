@@ -1554,16 +1554,84 @@ https://github.com/profrobwells/CovidFall2020/blob/master/Exercises/Slicing-Dici
 
 **Agenda** 
 
+     HootSuite     
+     Flourish Animation   
+     
+**HootSuite**   
+
+     HootSuite Overview
+     
+https://help.hootsuite.com/hc/en-us/articles/115010088387-Create-and-publish-posts
+     
+https://play.vidyard.com/YLq7L7A86xBuNgGogYrwxH.jpg?
+
+
+    Instagram issue
+    
+
+
+**Exercise**
+
+Katy's Chart
+
+https://app.flourish.studio/visualisation/4380046/edit
+
+
+Tutorial
+    
+    Details on Line Chart Race
+https://help.flourish.studio/article/75-line-chart-race-an-overview
+
+    Details of a Bar Chart Race
+https://help.flourish.studio/article/44-bar-chart-race-an-overview
+
+    Attempt at a Bar Chart Race by County on New Deaths
+https://app.flourish.studio/visualisation/4379103/edit
+
+    Skills:
+    --Pivot Table Master Data
+    --Format according to tutorial
+https://help.flourish.studio/article/44-bar-chart-race-an-overview
+
+
+    Your Turn:
+
+    Build Cases Per 10,000
+    Build Demographics Over Time
+    Build Counties Over Time
+
+
+
+
+---   
+
+# Week #14: Using R Markdown to Make Pages 
+
+Web scraping
+
+## Monday, Nov. 23
+
+**Agenda**
+
+      Simple Web Scraping
       Continue With Text Mining
       Turn your R cheatsheet into a PDF
       Turn your R cheatsheet into a web page on GitHub
 
-**Exercise**
 
-      Sentiment of Gov. Hutchison's Twitter Feed
-      Bigrams: 
-  http://bit.ly/bigramz
-      
+
+**Exercises**   
+
+
+    Machlis: Ch. 14 Integrate R With Your Storytelling Using R Markdown
+    
+        R Markdown: 
+http://bit.ly/2DBLSaX
+
+    Video:
+https://video.uark.edu/media/R+Markdown1/0_k08o7izd
+
+
 
 
 **GitHub**
@@ -1633,29 +1701,6 @@ https://aiethicsinitiative.org/news/2019/3/12/artificial-intelligence-and-the-ne
     
     Sharon Machlins Nicar compilation site
 http://www.machlis.com/nicar19.html
-
----   
-
-# Week #14: Using R Markdown to Make Pages 
-
-Web scraping
-
-## Monday, Nov. 23
-
-**Agenda**
-
-    Simple Web Scraping
-
-**Exercises**   
-
-
-    Machlis: Ch. 14 Integrate R With Your Storytelling Using R Markdown
-    
-        R Markdown: 
-http://bit.ly/2DBLSaX
-
-    Video:
-https://video.uark.edu/media/R+Markdown1/0_k08o7izd
 
 
     
