@@ -1498,11 +1498,6 @@ https://github.com/profrobwells/CovidFall2020/blob/master/Exercises/Slicing-Dici
   https://guides.github.com/activities/hello-world/
 
 
-  Adapt Machlis - Maps in R Ch 11 exercise for Median Income in Arkansas
-      Maps in R March 24 2019 - Using the Census API
-  https://bit.ly/2FvZDrB
-
-      Building a Census tract map
       
 - **Data Visualization Basics**
 
@@ -1554,6 +1549,7 @@ https://github.com/profrobwells/CovidFall2020/blob/master/Exercises/Slicing-Dici
 
 **Agenda** 
 
+     Twitter Boss: Mary & Katy  
      HootSuite     
      Flourish Animation   
      
@@ -1565,10 +1561,7 @@ https://help.hootsuite.com/hc/en-us/articles/115010088387-Create-and-publish-pos
      
 https://play.vidyard.com/YLq7L7A86xBuNgGogYrwxH.jpg?
 
-
     Instagram issue
-    
-
 
 **Exercise**
 
@@ -1586,53 +1579,80 @@ https://help.flourish.studio/article/75-line-chart-race-an-overview
 https://help.flourish.studio/article/44-bar-chart-race-an-overview
 
     Attempt at a Bar Chart Race by County on New Deaths
+    --Formatting Data to Match Flourish Requirements.
+    --Pivot Table
+    
+    
 https://app.flourish.studio/visualisation/4379103/edit
-
-    Skills:
-    --Pivot Table Master Data
-    --Format according to tutorial
-https://help.flourish.studio/article/44-bar-chart-race-an-overview
-
 
     Your Turn:
 
     Build Cases Per 10,000
     Build Demographics Over Time
-    Build Counties Over Time
+    Build Counties Over Time    
+    
+#### Read Before Next Class 
 
-
-
+    --Follow this tutorial
+  https://guides.github.com/activities/hello-world/   
+  
+    --APIs - basics   
+  https://medium.com/@LewisMenelaws/a-beginners-guide-to-web-apis-and-how-they-will-help-you-23923a0da450
+  
+  --Maps: Adapt Machlis - Maps in R Ch 11 exercise for Median Income in Arkansas
 
 ---   
 
-# Week #14: Using R Markdown to Make Pages 
-
-Web scraping
+# Week #14: Basic Charts in R, Cont.
 
 ## Monday, Nov. 23
 
 **Agenda**
 
-      Simple Web Scraping
-      Continue With Text Mining
-      Turn your R cheatsheet into a PDF
-      Turn your R cheatsheet into a web page on GitHub
-
-
-
-**Exercises**   
-
-
-    Machlis: Ch. 14 Integrate R With Your Storytelling Using R Markdown
+     GGPLOT Cookbook
+     Build Election Map    
     
-        R Markdown: 
-http://bit.ly/2DBLSaX
 
-    Video:
-https://video.uark.edu/media/R+Markdown1/0_k08o7izd
+**Exercises: GGPLOT Cookbook**  
 
+https://raw.githubusercontent.com/profrobwells/CovidFall2020/master/Exercises/ggplot%20cookbook%204-26-20.Rmd   
 
 
+- **Data Visualization Basics**
+
+    Load tutorial: Basic Data Visualization 12-26-18.R       
+
+> [**Download this file and open it in R Studio**](https://bit.ly/2RlQtSE){target="_blank"} 
+
+  Adapt Machlis - Maps in R Ch 11 exercise for Median Income in Arkansas
+      Maps in R March 24 2019 - Using the Census API
+  https://bit.ly/2FvZDrB
+
+      Building a Census tract map
+      
+    Map Demo: Interactive Map.R
+    Adapt Machlis - Maps in R Ch 11 exercise for Median Income in Arkansas
+    ![You will make this in the class]TK TK Images/ARmed_income3-22-19.png
+
+#### Read Before Next Class 
+
+    --Follow this tutorial
+  https://guides.github.com/activities/hello-world/
+
+
+
+----------------------
+
+
+## Wednesday, Nov. 25: GitHub, Mapping.
+
+**Agenda**   
+
+    Mapping Exercise   
+    GitHub Intro    
+
+**Exercises**
+ GitHub Intro    
 
 **GitHub**
        Using GitHub
@@ -1678,60 +1698,17 @@ https://video.uark.edu/media/R+Markdown1/0_k08o7izd
    
     Installing Git for a Mac - Andrew Ba Tran
 
-#### Read Before Next Class 
+---    
 
-    --Follow this tutorial
-  https://guides.github.com/activities/hello-world/
+#  Week #15: Reporting
 
-
-**Coulter Bigrams - Score**   
-TK TK Images/Coulter bigram score.jpeg)  
-   
-
-#### Read Before Next Class   
-
-    Amy Webb future of journalism trends
-https://futuretodayinstitute.wetransfer.com/downloads/0e84e883e140bafe9a3436a6464032be20171003123607/ecda17
-
-    Google search tips  
-https://blog.expertisefinder.com/top-6-google-search-tips-for-journalists/
-
-    Artificial intelligence in the news  
-https://aiethicsinitiative.org/news/2019/3/12/artificial-intelligence-and-the-news-seven-ideas-receive-funding-to-ensure-ai-is-used-in-the-public-interest
-    
-    Sharon Machlins Nicar compilation site
-http://www.machlis.com/nicar19.html
-
-
-    
-#### Read Before Next Class   
-
-
-----------------------
-
-
-## Wednesday, Nov. 25: Web Scraping
+## Monday, Nov. 30
 
 **Agenda**
 
-**Quiz - Math and R**
-
-    TK TK TK Test Canvas: Excel Quiz
-**Exercises**
-
-    Map Demo: Interactive Map.R
-    Adapt Machlis - Maps in R Ch 11 exercise for Median Income in Arkansas
-    ![You will make this in the class]TK TK Images/ARmed_income3-22-19.png
-
-#### Read Before Next Class 
-
-   
-    APIs - basics   
-  https://medium.com/@LewisMenelaws/a-beginners-guide-to-web-apis-and-how-they-will-help-you-23923a0da450
-
-
-      Twitter API
-      Twitter Scraping
+    R Markdown
+    Twitter API
+    Twitter Scraping
 
 **Exercises**
     
@@ -1742,102 +1719,47 @@ http://varianceexplained.org/r/trump-tweets/
   https://developer.twitter.com/en/docs/tutorials/choosing-historical-api
 
 
-    
-#### Read Before Next Class 
-
-    Machlis Chs. 17 & 18
-    Census Reporter to look up tables
-https://censusreporter.org/
- 
-
-
-**Agenda** 
-
-    Data Cleaning and Normalization
-    Text Mining
-    
-    
-**Exercises**   
-      
-      
-      
-      Kavanaugh text mining story: Text analysis of Brett Kavanaugh’s opinion.  
-  http://www.storybench.org/bringing-textual-analysis-tools-to-judge-brett-kavanaughs-latest-opinion/
-
-#### Read Before Next Class   
-
-      Text Mining with R
-https://www.tidytextmining.com/
-      Ch. 1 The Tidy Text Format
-      Ch. 2 Sentiment Analysis
-
-
-
-  
-**Exercise**
-
-    AOC-Coulter Data Mining Exercise: 
-    Coulter Tweet Analysis #2 Exercise
-https://bit.ly/2TdY9Mv
-    Key to the exercise:    
-https://bit.ly/2F3brlh   
-    
-![](Images/Coulter Bigram Graphic.jpeg)  
-
-
-#### Read Before Next Class   
-
-      Text Mining with R
-   https://www.tidytextmining.com/
-      Ch 3 Analyzing word and document frequency: tf-idf
-      
-      
-
-
-#### Read Before Next Class   
- 
- 
-      Web Scraping in R: Simple Web Scraper 
-http://bit.ly/scrapeme
-
-     Machlis Ch. 15 Simple Web scraping
----    
-
-#  Week #15: Reporting
-
-## Monday, Nov. 30
-
-**Agenda**
-
-    Flexible schedule. Reporting Updates
 
 ### Assignment 3. Interactive Data Visualization. Due Nov 30.
 Students will use R Studio to build interactive graphics / maps of Arkansascovid data by school district. 600 Word Story. Results will be posted on GitHub. Data dictionary required
 
 **Exercises**
 
-    Splitting Hashtags 2-25-19.R   
-  https://bit.ly/2BQIE2i 
 
+###Read Before Next Class
+
+  Machlis: Ch. 14 Integrate R With Your Storytelling Using R Markdown
+  
 
 ------
 
-## Wednesday, Dec. 2
+## Wednesday, Dec. 2: R Markdown, Maps
 
 **Agenda**
+    
+    R Markdown
+    Maps
+    
+*Exercises**  
+     
+    R Markdown: 
+http://bit.ly/2DBLSaX
 
-     Flexible schedule. Reporting Updates
+    Video:
+https://video.uark.edu/media/R+Markdown1/0_k08o7izd
 
-        
+   
 ---    
 
-# Week #16: Wrap Up
+# Week #16: R Markdown, Maps, GitHub
 
 ## Monday, Dec. 7
 
 **Agenda**
 
-    Flexible schedule. Reporting Updates
+    R Markdown
+    Maps
+    GitHub
 
 **Important!**
 
@@ -1869,26 +1791,92 @@ https://courseval.uark.edu/
 # RESOURCES  
 
 
+
+#### Reading   
+
+    Amy Webb future of journalism trends
+https://futuretodayinstitute.wetransfer.com/downloads/0e84e883e140bafe9a3436a6464032be20171003123607/ecda17
+
+    Google search tips  
+https://blog.expertisefinder.com/top-6-google-search-tips-for-journalists/
+
+    Artificial intelligence in the news  
+https://aiethicsinitiative.org/news/2019/3/12/artificial-intelligence-and-the-news-seven-ideas-receive-funding-to-ensure-ai-is-used-in-the-public-interest
+    
+    Sharon Machlins Nicar compilation site
+http://www.machlis.com/nicar19.html
+
+    Seth C. Lewis, et al. “Big Data and Journalism: Epistemology, Expertise, Economics and Ethics,” Digital Journalism, 2015
+    
+### MISC
+
+Assignment 3: Interactive Map. Due Nov XXX  
+
+      Students will use R Studio to build interactive maps of Arkansascovid occupational data in        Arkansas. Results will be posted on GitHub. Data dictionary required
+
+    tran mapping-census-data.html
+
+    TK TK TK Test Canvas: Excel Quiz
+
+**Quiz - Math and R**
+    Splitting Hashtags 2-25-19.R   
+  https://bit.ly/2BQIE2i 
+  
+  
+### Exercises  
+    
+    Extracting Text Strings from data
+https://bit.ly/2X5V9jL
+
     Splitting Hashtags 2-25-19.R   
 https://bit.ly/2BQIE2i 
 
     R Markdown to distribute findings to Stanford, Feb 2020
 https://profrobwells.github.io/HomelessSP2020/SF_311_Calls_UofA.html
 
+    Machlis Chs. 17 & 18
+    Census Reporter to look up tables
+https://censusreporter.org/
+
+
+### Text Mining and Data Scraping
+
+  Simple Web Scraping
+      Continue With Text Mining
+      Turn your R cheatsheet into a PDF
+      Turn your R cheatsheet into a web page on GitHub
+**Coulter Bigrams - Score**   
+TK TK Images/Coulter bigram score.jpeg)  
 
   
-### Assignment 3: Interactive Map. Due Nov XXX  
-
-      Students will use R Studio to build interactive maps of Arkansascovid occupational data in        Arkansas. Results will be posted on GitHub. Data dictionary required
-
-    tran mapping-census-data.html
+      Kavanaugh text mining story: Text analysis of Brett Kavanaugh’s opinion.  
+  http://www.storybench.org/bringing-textual-analysis-tools-to-judge-brett-kavanaughs-latest-opinion/
 
 
-**Exercises**
+      Text Mining with R
+https://www.tidytextmining.com/
+      Ch. 1 The Tidy Text Format
+      Ch. 2 Sentiment Analysis
+
+    AOC-Coulter Data Mining Exercise: 
+    Coulter Tweet Analysis #2 Exercise
+https://bit.ly/2TdY9Mv
+    Key to the exercise:    
+https://bit.ly/2F3brlh   
     
-    Extracting Text Strings from data
-https://bit.ly/2X5V9jL
+![](Images/Coulter Bigram Graphic.jpeg)  
 
+
+      Text Mining with R
+   https://www.tidytextmining.com/
+      Ch 3 Analyzing word and document frequency: tf-idf
+      
+      Web Scraping in R: Simple Web Scraper 
+http://bit.ly/scrapeme
+
+     Machlis Ch. 15 Simple Web scraping      
+
+### MAPS
 
 **We will build this**  
 
@@ -1899,13 +1887,9 @@ https://bit.ly/2X5V9jL
       See R script:
       Maps in R March 24 2019
     https://bit.ly/2FvZDrB
-      
-
-
-
-
-
-      Maps
+    
+    
+Maps
       Andrew Ba Tran - Mapping
   https://nicar.r-journalism.com/docs/
   http://learn.r-journalism.com/en/mapping/    
@@ -1953,12 +1937,10 @@ https://video.uark.edu/media/Date+Corrected+Data/1_2rmzgzwu
         
         
         
-  https://github.com/r-journalism/learn-chapter-3/blob/master/dplyr/pipes-dplyr.R
         
         
-        Seth C. Lewis, et al. “Big Data and Journalism: Epistemology, Expertise, Economics and Ethics,” Digital Journalism, 2015
-        
-        
+### Basic R Tutorials  
+ 
         
         --Review another R tutorial
   https://docs.google.com/presentation/d/1zICxR7qDM3RQ2Nxi5CqHlM3H8I7qoVkNtqcNcnbbDCw/edit#slide=id.p
@@ -1989,6 +1971,11 @@ https://video.uark.edu/media/Date+Corrected+Data/1_2rmzgzwu
    https://trendct.org/2015/06/12/r-for-beginners-how-to-transition-from-excel-to-r/  
         Basic data work- head to 
    http://bit.ly/excel_and_r 
+   
+    dplyr
+           
+  https://github.com/r-journalism/learn-chapter-3/blob/master/dplyr/pipes-dplyr.R
+  
 
 # Twitter Exercises
 
