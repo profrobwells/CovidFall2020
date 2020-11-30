@@ -1603,56 +1603,113 @@ https://app.flourish.studio/visualisation/4379103/edit
 
 ---   
 
-# Week #14: Basic Charts in R, Cont.
+# Week #14: Thanksgiving Week: University Holiday: Nov 23-27
 
-## Monday, Nov. 23
+
+---    
+
+# Week #15: Reporting
+
+## Monday, Nov. 30
+
+**Agenda**
+
+    Class Schedule for Rest of Semester, Final Week   
+    Story #2 Due Tuesday  
+    Assignment #3 Due Sunday      
+    Data Wrapper   
+    November Wrapup  
+    Daily Work Schedule - Mary and Katy   
+    
+### Assignment 3. Due Dec 6.  
+
+Option 1) Election - COVID Map in Datawrapper.    
+
+Students will use R Studio to compile data presidential election returns by county and compare this to the county's COVID-19 rate. The map will be visualized in Datawrapper. A short 250 word story will describe your findings. Data dictionary required. Post Google Doc with story and link to Datawrapper map on Blackboard, 11:59 p.m. Sunday
+
+OR
+
+
+Option 2) Article   
+
+Write an 600-word article and graphic on a COVID-19 topic of your choice. Pitch is due Tuesday, 5 p.m. on Teams 
+
+**Datawrapper**
+
+https://app.datawrapper.de/
+
+
+
+**Exercises**
+
+**Create Monthly Totals for November**
+
+    Create a New R Markdown File for November Totals   
+    Use this Slicing and Dicing Exercise as a Template  
+    Monthly Totals for Hospitals, Deaths, New Cases  
+    Visualize in Flourish  
+    Post your code on Teams 
+    
+https://github.com/profrobwells/CovidFall2020/blob/master/Exercises/Slicing-Dicing%20Data%2010-14-2020.Rmd  
+
+
+
+### Read Before Next Class
+
+  Machlis: Ch. 14 Integrate R With Your Storytelling Using R Markdown
+  
+
+------
+
+## Wednesday, Dec. 2: Election Map, Github
+
+**Agenda**
+    
+    Election Map Workshop
+    R Markdown
+    Maps
+    Github
+    
+*Exercises**  
+
+    R Markdown: 
+http://bit.ly/2DBLSaX
+
+    Video:
+https://video.uark.edu/media/R+Markdown1/0_k08o7izd
+
+  
+    Mapping Exercise   
+    GitHub Intro  
+
+    See Basic GitHub 4-22-19.R
+  https://bit.ly/2UAMGTd
+   
+    Installing Git for a Mac - Andrew Ba Tran
+ 
+---    
+
+# Week #16: Maps, GitHub
+
+## Monday, Dec. 7
 
 **Agenda**
 
      GGPLOT Cookbook
-     Build Election Map    
+     Build Map    
     
 
-**Exercises: GGPLOT Cookbook**  
+**Exercises**   
 
-https://raw.githubusercontent.com/profrobwells/CovidFall2020/master/Exercises/ggplot%20cookbook%204-26-20.Rmd   
+    Twitter API
+    Twitter Scraping
 
+    Twitter analysis of Trump Tweets 
+http://varianceexplained.org/r/trump-tweets/ 
+    
+    Twitter historical API
+https://developer.twitter.com/en/docs/tutorials/choosing-historical-api
 
-- **Data Visualization Basics**
-
-    Load tutorial: Basic Data Visualization 12-26-18.R       
-
-> [**Download this file and open it in R Studio**](https://bit.ly/2RlQtSE){target="_blank"} 
-
-  Adapt Machlis - Maps in R Ch 11 exercise for Median Income in Arkansas
-      Maps in R March 24 2019 - Using the Census API
-  https://bit.ly/2FvZDrB
-
-      Building a Census tract map
-      
-    Map Demo: Interactive Map.R
-    Adapt Machlis - Maps in R Ch 11 exercise for Median Income in Arkansas
-    ![You will make this in the class]TK TK Images/ARmed_income3-22-19.png
-
-#### Read Before Next Class 
-
-    --Follow this tutorial
-  https://guides.github.com/activities/hello-world/
-
-
-
-----------------------
-
-
-## Wednesday, Nov. 25: GitHub, Mapping.
-
-**Agenda**   
-
-    Mapping Exercise   
-    GitHub Intro    
-
-**Exercises**
- GitHub Intro    
 
 **GitHub**
        Using GitHub
@@ -1690,72 +1747,33 @@ https://raw.githubusercontent.com/profrobwells/CovidFall2020/master/Exercises/gg
   https://bit.ly/2UAMGTd
    
     Installing Git for a Mac - Andrew Ba Tran
-   
-**Exercises**   
-    
-    See Basic GitHub 4-22-19.R
-  https://bit.ly/2UAMGTd
-   
-    Installing Git for a Mac - Andrew Ba Tran
-
----    
-
-#  Week #15: Reporting
-
-## Monday, Nov. 30
-
-**Agenda**
-
-    R Markdown
-    Twitter API
-    Twitter Scraping
-
-**Exercises**
-    
-    Twitter analysis of Trump Tweets 
-http://varianceexplained.org/r/trump-tweets/ 
-    
-    Twitter historical API
-  https://developer.twitter.com/en/docs/tutorials/choosing-historical-api
 
 
+**Exercises: GGPLOT Cookbook**  
 
-### Assignment 3. Interactive Data Visualization. Due Nov 30.
-Students will use R Studio to build interactive graphics / maps of Arkansascovid data by school district. 600 Word Story. Results will be posted on GitHub. Data dictionary required
-
-**Exercises**
+https://raw.githubusercontent.com/profrobwells/CovidFall2020/master/Exercises/ggplot%20cookbook%204-26-20.Rmd   
 
 
-###Read Before Next Class
+- **Data Visualization Basics**
 
-  Machlis: Ch. 14 Integrate R With Your Storytelling Using R Markdown
-  
+    Load tutorial: Basic Data Visualization 12-26-18.R       
 
-------
+> [**Download this file and open it in R Studio**](https://bit.ly/2RlQtSE){target="_blank"} 
 
-## Wednesday, Dec. 2: R Markdown, Maps
+  Adapt Machlis - Maps in R Ch 11 exercise for Median Income in Arkansas
+      Maps in R March 24 2019 - Using the Census API
+  https://bit.ly/2FvZDrB
 
-**Agenda**
-    
-    R Markdown
-    Maps
-    
-*Exercises**  
-     
-    R Markdown: 
-http://bit.ly/2DBLSaX
+      Building a Census tract map
+      
+    Map Demo: Interactive Map.R
+    Adapt Machlis - Maps in R Ch 11 exercise for Median Income in Arkansas
+    ![You will make this in the class]TK TK Images/ARmed_income3-22-19.png
 
-    Video:
-https://video.uark.edu/media/R+Markdown1/0_k08o7izd
+#### Read Before Next Class 
 
-   
----    
-
-# Week #16: R Markdown, Maps, GitHub
-
-## Monday, Dec. 7
-
-**Agenda**
+    --Follow this tutorial
+  https://guides.github.com/activities/hello-world/
 
     R Markdown
     Maps
@@ -1778,7 +1796,7 @@ https://courseval.uark.edu/
 
 **Agenda**
       
-      Zoom Party
+      Wrap up Maps, Stories
 
 **Congratulations!**
     
