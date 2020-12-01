@@ -1,9 +1,19 @@
 ---
 title: "Demographic Update Arkansas Covid"
-author: "Rob Wells. Thanks to Mary Hennigan for assistance"
-date: "11/06/2020"
+author: "Rob Wells and Mary Hennigan, Translation by Rachell Sanchez-Smith"
+date: "11/30/2020"
 output: pdf_document
 ---
+
+#This is New
+#This is New
+#Create the following folders in your working directory in R
+Demographics
+MasterData
+SpanishData
+HomePageData
+
+
 
 # Demographic Daily Update Arkansascovid.com Calculations
 
@@ -802,176 +812,6 @@ gender_new_cases_spanish <- gather(gender_new_cases_spanish, key = "Género", va
 write.csv(gender_new_cases_spanish, file = "SpanishData/gender_new_cases_spanish.csv")
 gender_new_cases_spanish
 ```
-
-
-#----------------------------------------------------------------------------------------------------#
-#----------------------------------------------------------------------------------------------------#
-# NOTES BELOW
-#----------------------------------------------------------------------------------------------------#
-#----------------------------------------------------------------------------------------------------#
-
-#Build this 
-#----------------------------------------------------------------------------------------------------#
-#Facility
-#----------------------------------------------------------------------------------------------------#
-
-```{r}
-(facility2, "facility_10_13.csv")
-```
-
-#----------------------------------------------------------------------------------------------------#
-#----------------------------------------------------------------------------------------------------#
-
-```{r}
-glimpse(today_demo)
-```
-
-#Build this 
-
-
-
-#MISC
-
-```{r}
-glimpse(today_demo)
-today_demo_10_12 <- today_demo
-write.csv(today_demo, "today_demo_10_12.csv")
-```
-
-
-
-
-#----------------------------------------------------------------------------------------------------#
-#----------------------------------------------------------------------------------------------------#
-# STOP!!!!!
-#----------------------------------------------------------------------------------------------------#
-#----------------------------------------------------------------------------------------------------#
-
-
-#This section should be the only time we run this to break down the old spreadsheet format into machine-readable language
--**Import Demographic Data for Cleaning**
-```{r}
-demo_table <- rio::import("/Users/rswells/Dropbox/Classes/Data Fall 2020/ArkansasCovid/Marys_Demo_Table_10_11.csv")
-
-demo_table$date <- lubridate::mdy(demo_table$date)
-demo_table <- janitor::clean_names(demo_table)
-glimpse(demo_table)
-```
-
-#age 
-```{r}
-age <- demo_table %>% 
-  filter(detail == "Age")
-
-age2 <- age %>% 
-  select(date, sub_detail, cases, new_cases, deaths, new_deaths)
-
-age3 <- age2 %>% 
-  pivot_wider(names_from = sub_detail, values_from = c(cases, new_cases, deaths, new_deaths))
-write.csv(age3, "age_10_13.csv")
-```
-#One Time Building of the Age table
-```{r}
-# colnames(age3)[29] <- "deaths_11_17"
-# age3B <- age3 [ -c(1:2) ]
-# names(age3B)
-# 
-# age3B <- age3B %>% 
-#    select("date", "cases_0_10", "cases_11_17", "cases_18_24", "cases_25_34", "cases_35_44", "cases_45_54", "cases_55_64", "cases_65", "cases_unknown", "deaths_0_10", "deaths_11_17", "deaths_18_24", "deaths_25_34", "deaths_35_44", "deaths_45_54", "deaths_55_64", "deaths_65", "deaths_unknown", "cases_0_17", "cases_25_44", "cases_45_64", "deaths_0_17", "deaths_25_44", "deaths_45_64")
-# names(age3B)
-# 
-# age3D <- age3B %>% 
-#   mutate(new_cases_0_10 = (cases_0_10-lead(cases_0_10))) %>% 
-#   mutate(new_cases_11_17 = (cases_11_17-lead(cases_11_17))) %>% 
-#   mutate(new_cases_18_24 = (cases_18_24-lead(cases_18_24))) %>% 
-#   mutate(new_cases_25_34 = (cases_25_34-lead(cases_25_34))) %>%  
-#   mutate(new_cases_35_44 = (cases_35_44-lead(cases_35_44))) %>%  
-#   mutate(new_cases_45_54 = (cases_45_54-lead(cases_45_54))) %>%
-#   mutate(new_cases_55_64 = (cases_55_64-lead(cases_55_64))) %>%
-#   mutate(new_cases_65 = (cases_65-lead(cases_65))) %>% 
-#   mutate(new_deaths_0_10 = (deaths_0_10-lead(deaths_0_10))) %>% 
-#   mutate(new_deaths_11_17 = (deaths_11_17-lead(deaths_11_17))) %>% 
-#   mutate(new_deaths_18_24 = (deaths_18_24-lead(deaths_18_24))) %>% 
-#   mutate(new_deaths_25_34 = (deaths_25_34-lead(deaths_25_34))) %>%  
-#   mutate(new_deaths_35_44 = (deaths_35_44-lead(deaths_35_44))) %>%  
-#   mutate(new_deaths_45_54 = (deaths_45_54-lead(deaths_45_54))) %>%
-#   mutate(new_deaths_55_64 = (deaths_55_64-lead(deaths_55_64))) %>%
-#   mutate(new_deaths_65 = (deaths_65-lead(deaths_65))) %>% 
-#   mutate(new_cases_0_17 = (cases_0_17-lead(cases_0_17))) %>% 
-#   mutate(new_cases_25_44 = (cases_25_44-lead(cases_25_44))) %>%
-#   mutate(new_cases_45_64 = (cases_45_64-lead(cases_45_64))) %>%
-#   mutate(new_deaths_0_17 = (deaths_0_17-lead(deaths_0_17))) %>%
-#   mutate(new_deaths_25_44 = (deaths_25_44-lead(deaths_25_44))) %>%
-#   mutate(new_deaths_45_64 = (deaths_45_64-lead(deaths_45_64)))
-# write.csv(age3D, "age_update_10_12.csv")
-```
-
-#facility
-```{r}
-facility <- demo_table %>% 
-  filter(detail == "Facility Type")
-
-#clean
-facility <- facility %>% 
-  select(date, sub_detail, cases, new_cases, deaths, new_deaths)
-glimpse(facility)
-
-facility2 <- facility %>% 
-  pivot_wider(names_from = sub_detail, values_from = c(cases, new_cases, deaths, new_deaths))
-
-write_csv(facility2, "facility_10_13.csv")
-```
-
-#race
-```{r}
-race <- demo_table %>% 
-  filter(detail == "Race or Ethnicity")
-glimpse(race)
-#clean
-
-race2 <- race %>% 
-  select(date, sub_detail, cases, new_cases, deaths, new_deaths, total_state_population, pct_state_population, cases_per_10_000, deaths_per_10_000)
-glimpse(race2)
-
-race3 <- race2 %>% 
-  pivot_wider(names_from = sub_detail, values_from = c(cases, new_cases, deaths, new_deaths, total_state_population, pct_state_population, cases_per_10_000, deaths_per_10_000))
-
-glimpse(race3)
-
-write.csv(race3, "race_10_13.csv")
-
-```
-
-```{r}
-glimpse(gender_master)
-```
-
-#gender create the table
-```{r}
-gender <- demo_table %>% 
-  filter(detail == "Gender")
-
-gender2 <- gender %>% 
-  select(date, sub_detail, cases, new_cases)
-glimpse(gender2)
-
-write.csv(gender2, "gender_10_13.csv")
-#clean
-
-gender_master2 <- gender_master %>% 
-  select(date, sub_detail, cases, new_cases)
-
-gender_master2 <- gender_master2 %>% 
-  pivot_wider(names_from = sub_detail, values_from = c(cases, new_cases))
-
-write.csv(gender_master2, "gender_master_10_11.csv")
-```
-
-#----------------------------------------------------------------------------------------------------#
-#----------------------------------------------------------------------------------------------------#
-# END OF ONE TIME SECTION
-#----------------------------------------------------------------------------------------------------#
-#----------------------------------------------------------------------------------------------------#
 
 
 
