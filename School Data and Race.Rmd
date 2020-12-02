@@ -1,0 +1,116 @@
+---
+title: "School Data and Race"
+author: "Abby Zimmardi and Rob Wells"
+date: "11/24/2020"
+output: html_document
+---
+
+```{r}
+library(tidyverse)
+#install.packages("rio") 
+```
+
+```{r}
+#school <- rio::import('/Users/abbyzimmardi/Downloads/SchoolMaster.xlsx')
+school <- rio::import('https://raw.githubusercontent.com/profrobwells/CovidFall2020/master/schools_master.csv')
+school <- janitor::clean_names(school)
+school$district <- tolower(school$name)
+school$district <- gsub(" ", "_", school$district)
+school$district <- gsub("southside_school_dist(independence)", "southside_school_dist_(independence)", school$district)
+school[4:7] <- lapply(school[4:7], as.numeric)
+school$date <- as.Date(school$date)
+head(school)
+```
+
+```{r}
+#schoolethnicity <- rio::import('/Users/abbyzimmardi/Downloads/Data Fall 2020/Data Story 2/Schools_Race_2020.xlsx')
+schoolethnicity <- rio::import('https://raw.githubusercontent.com/profrobwells/CovidFall2020/master/School_Districts_FY31_Districts_EnrollmentByRace.csv')
+schoolethnicity<- janitor::clean_names(schoolethnicity)
+schoolethnicity$district <- tolower(schoolethnicity$district_description)
+schoolethnicity$district <- gsub("district", "dist", schoolethnicity$district)
+schoolethnicity$district <- gsub(" ", "_", schoolethnicity$district)
+head(schoolethnicity)
+```
+
+#join tables
+#need to fix the independence thing
+```{r}
+schools_combo <- school %>% 
+  inner_join(schoolethnicity, by=c("district"))
+glimpse(schools_combo)
+```
+
+
+#Math
+```{r}
+schools_combo <- schools_combo %>% 
+  mutate(Pct_Hispanic = (hispanic_total/student_total)) %>% 
+   mutate(Pct_White = (white_total/student_total)) %>% 
+   mutate(Pct_Black = (black_total/student_total))
+
+factcheck <- schools_combo %>% 
+  select(district,  student_total, hispanic_total, Pct_Hispanic, white_total, Pct_White, black_total, Pct_Black)
+factcheck
+```
+
+#Covid per 1000 students
+```{r}
+schools_combo <- schools_combo %>% 
+  mutate(Student_Covid_Per1000=(cumulative_student_cases/student_total)*1000) %>% 
+  mutate(Active_Covid_Per1000=(active_cases/student_total)*1000)
+#Active_Covid_Per1000 could be an issue if the active cases are both students and faculty
+
+```
+
+```{r}
+write.csv(schools_combo, "schools_combo.csv")
+```
+
+#Table of green forest school district
+```{r}
+xy <- schools_combo %>% 
+  select(date, district, cumulative_student_cases, student_total, Student_Covid_Per1000) %>% 
+  filter(district=="green_forest_school_dist")
+xy
+```
+
+#statewide average Student_Covid_Per1000 for oct 26: 15.95
+```{r}
+xyz <- schools_combo %>% 
+  select(date, district, cumulative_student_cases, student_total, Student_Covid_Per1000) %>% 
+  filter(date=="2020-10-26")
+
+mean(xyz$Student_Covid_Per1000, na.rm=TRUE)
+
+
+```
+
+#statewide average Student_Covid_Per1000 for Nov 19: 24.14
+```{r}
+xyzz <- schools_combo %>% 
+  select(date, district, cumulative_student_cases, student_total, Student_Covid_Per1000) %>% 
+  filter(date=="2020-11-19")
+
+mean(xyzz$Student_Covid_Per1000, na.rm=TRUE)
+
+
+```
+
+
+
+
+```{r}
+hispanic_covid <- schools_combo %>% 
+  select(date, district, cumulative_student_cases, student_total, hispanic_total, Pct_Hispanic, Student_Covid_Per1000,Active_Covid_Per1000) %>% 
+  filter(Pct_Hispanic > .20)
+```
+
+
+#average for school districts with at least 20% Hispanic population Student_Covid_Per1000 for Nov 19= 21.7
+```{r}
+q <- hispanic_covid %>% 
+  select(date, district,Student_Covid_Per1000, Pct_Hispanic, cumulative_student_cases, student_total) %>% 
+  filter(date=="2020-11-19")
+
+mean(q$Student_Covid_Per1000, na.rm=TRUE)
+```
