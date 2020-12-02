@@ -1669,23 +1669,37 @@ https://github.com/profrobwells/CovidFall2020/blob/master/Exercises/Slicing-Dici
     R Markdown
     Maps
     Github
+    Work Schedule Update
     
-*Exercises**  
+    
+**Work Schedule**
 
-    R Markdown: 
-http://bit.ly/2DBLSaX
+The person doing the data update will be handling the data. I'll deal with the tweets or designate someone that day to handle them. But I want the data person just to deal with data going forward. 
 
-    Video:
-https://video.uark.edu/media/R+Markdown1/0_k08o7izd
+### Assignment 3. Due Dec 6.  
 
+Option 1) Election - COVID Map in Datawrapper.    
+
+Students will use R Studio to compile data presidential election returns by county and compare this to the county's COVID-19 rate. The map will be visualized in Datawrapper. A short 250 word story will describe your findings. Data dictionary required. Post Google Doc with story and link to Datawrapper map on Blackboard, 11:59 p.m. Sunday
+
+OR
+
+
+Option 2) Article   
+
+Write an 600-word article and graphic on a COVID-19 topic of your choice. Pitch is due Tuesday, 5 p.m. on Teams 
+
+
+
+    
+**Workshop: Election Map**  
+
+        Datawrapper
   
-    Mapping Exercise   
-    GitHub Intro  
+https://app.datawrapper.de/
 
-    See Basic GitHub 4-22-19.R
-  https://bit.ly/2UAMGTd
-   
-    Installing Git for a Mac - Andrew Ba Tran
+
+
  
 ---    
 
@@ -1700,7 +1714,20 @@ https://video.uark.edu/media/R+Markdown1/0_k08o7izd
     
 
 **Exercises**   
+    R Markdown: 
+http://bit.ly/2DBLSaX
 
+    Video:
+https://video.uark.edu/media/R+Markdown1/0_k08o7izd
+
+  
+    Mapping Exercise   
+    GitHub Intro  
+
+    See Basic GitHub 4-22-19.R
+  https://bit.ly/2UAMGTd
+   
+    Installing Git for a Mac - Andrew Ba Tran
     Twitter API
     Twitter Scraping
 
