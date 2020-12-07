@@ -1720,6 +1720,15 @@ https://app.datawrapper.de/
     then please take five minutes to fill out the survey.
 https://courseval.uark.edu/
     
+**Example: Updating Class GitHub**
+https://github.com/profrobwells/CovidFall2020
+
+
+**Arkansascovid.com GitHub**
+https://github.com/Arkansascovid/Main
+
+
+
 
 **Exercises: Basic GitHub**    
 
@@ -1786,7 +1795,54 @@ https://support.rstudio.com/hc/en-us/articles/200532077?version=1.2.5033&mode=de
       Twitter API   
       R Markdown   
       Wrap up      
+      Datawrapper
       
+      
+**Datawrapper & flourish advanced training**
+
+From Adam Marton, Capital News Service and the Howard Center:
+
+I love both those programs. They really allow you to do nice charts, graphs and maps quickly. For me, that means more time for complex data viz and less time in Illustrator or D3. 
+
+Datawrapper has more baked in map shapes. I tend to generally prefer Flourish these days because they have more customization options and visualization types, but they are both great. It took me a semester or two to get my head around which to use in which situation. Some resources below:
+
+1. Here is some datawrapper training I did for CNS. Datawrapper (the company) has used these videos as well!
+https://www.youtube.com/watch?v=bmGgzBKcK_M&t=3132s
+
+
+2. Here is a link to a doc I keep of custom Flourish visualization templates that I like.
+https://docs.google.com/document/d/1DSly1_5sk93bc3xhyBu0zGWtmKaX9N_SYeyXesBj5ho/edit
+
+3. I am going to forward you a message from a journalist at the Philadelphia Enquirer that I was talking to. He does some cool maps in datawrapper and has a great workflow for importing your own map shapes. It is worth holding onto for the future.
+
+Let me know how I can help!
+
+-Adam
+
+Adam:
+
+Datawrapper has good instructions on how to upload your own map here: https://academy.datawrapper.de/article/145-how-to-upload-your-own-map
+
+The general process, or at least the workflow I use, is:
+
+1. Compress your shapefile into a zip archive.
+2. Go to mapshaper.org and import your zip archive.
+3. Your map needs to use the WGS-84 projection or Datawrapper won't accept it. To put the map in that projection, hit the spacebar in mapshaper to enter the console, and enter proj wgs84
+4. If you want to use labels for your map's polygons, you'll need to set interior points. In the console, enter    each "cx=$.innerX, cy=$.innerY"
+5. You can also simplify the precision of the polygons on your map (hello, Chesapeake Bay) to drive down the file size of the map you're about to export. Hit the simplify button at the upper right, check the box for prevent shape removal, hit apply, and drag the slider to the right. I usually simplify down to around 50% and the map looks pretty unaffected. Your results may vary.
+6. Hit the export button and choose TopoJSON as the file format.
+7. Back in Datawrapper, start a new map project, click the or Upload Map button, and upload your TopoJSON file. 
+
+From here, the process to finish your map is identical to creating any other Datawrapper map.
+
+To go even further with a custom map, you can upload a TopoJSON that has a polygon layer for places like precincts and municipalities, and an outer boundary line layer for things like county or state boundaries. For instance, this election map has 240 municipalities in the much-discussed Philadelphia suburbs, as well as 60-plus wards for the city of Philadelphia. It also needed to have thicker lines to show county boundaries as a reference point for readers, or else all the polygons would be one large blob. Here's an example using another election map: https://www.inquirer.com/politics/election/philadelphia-presidential-votes-suburban-county-ward-map-20201109.html
+
+You start by uploading a multi-layer TopoJSON. To do that, import a polygon shapefile and a line shapefile into mapshaper.org. Make sure you apply the correct projection and set the interior points for both layers. After you export as a TopoJSON and bring it into Datawrapper, hit the toggle switch for Additional options (advanced). "Regions" are your polygons and choose "Outer borders" to set the thick boundary lines.
+
+Anyway, that's a new Datawrapper trick that I just picked up for our election maps.
+
+
+John
 
 
     R Markdown: 
