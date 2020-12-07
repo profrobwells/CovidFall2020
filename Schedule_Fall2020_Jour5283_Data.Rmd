@@ -1707,7 +1707,8 @@ https://app.datawrapper.de/
 
     Story Updates   
     GitHub     
-    Course Evaluation      
+    Course Evaluation   
+    Mary and Katie: Discuss Methodist Family Health Zoom Call, 8:45 am Wed. 
 
 **Important!**
 
@@ -1770,6 +1771,12 @@ https://help.github.com/en/desktop
 
 **Setting up an R Workflow**  
 http://learn.r-journalism.com/en/publishing/workflow/r-projects/
+
+**Advanced: Set Up GitHub in an R Project**
+https://support.rstudio.com/hc/en-us/articles/200532077?version=1.2.5033&mode=desktop 
+
+
+
 
 
 ## Wednesday, Dec. 8
