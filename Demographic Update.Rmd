@@ -1,12 +1,13 @@
 ---
 title: "Demographic Update Arkansas Covid"
 author: "Rob Wells and Mary Hennigan, Translation by Rachell Sanchez-Smith"
-date: "11/30/2020"
+date: "12/18/2020"
 output: pdf_document
 ---
 
 #This is New
 #This is New
+
 #Create the following folders in your working directory in R
 Demographics
 MasterData
@@ -211,6 +212,7 @@ age_master <- age_master %>%
 #remove first two columns of garbage index if needed
 #age_master <- age_master[ -c(1) ]
 
+write.csv(age_master, file = "MasterData/age_master.csv")
 write.csv(age_master, file = "Demographics/age_master.csv")
 glimpse(age_master)
 ```
@@ -222,7 +224,6 @@ age_master <- age_master %>%
   filter(Date >= "2020-09-13")
 
 #age_master <- age_master[ -c(1) ]
-write.csv(age_master, file = "MasterData/age_FLOURISH_master.csv")
 write.csv(age_master, file = "Demographics/age_FLOURISH_master.csv")
 
 ```
@@ -383,7 +384,7 @@ glimpse(today_race)
 ```{r}
 race3 <- rio::import("https://raw.githubusercontent.com/Arkansascovid/Main/master/race_main_file.csv")
 #race3 <- rio::import("race_main_file.csv")
-race3$Date <- lubridate::mdy(race3$Date)
+race3$Date <- lubridate::ymd(race3$Date)
 
 glimpse(race3)
 ```
@@ -431,6 +432,11 @@ today_race2 <- today_race %>%
    left_join(pop, by="Date")
 head(today_race2)
 ```
+
+```{r}
+glimpse(yesterday_race)
+```
+
 
 #You should get a df with 2 observations (two days' worth a data)
 ```{r}
@@ -701,7 +707,7 @@ write.csv(race_new_cases_deaths_spanish, file = "SpanishData/race_new_cases_deat
 #Today's data 
 ```{r}
 today_gender <- today_demo %>% 
-  select(Date, Male, Female, Na)
+  select(Date, Male, Female, Unk_Gender)
 ```
 
 #Rename
@@ -710,8 +716,7 @@ today_gender <- today_demo %>%
 today_gender2 <- today_gender
 
 today_gender2 <- today_gender2 %>% 
-  rename(Cases_Male = Male, Cases_Female = Female, Cases_Gender_Unknown = Na)
-
+  rename(Cases_Male = Male, Cases_Female = Female, Cases_Gender_Unknown = Unk_Gender)
 today_gender2$Date <- as.Date(today_gender2$Date)
 
 #today_gender2 <- janitor::clean_names(today_gender2)
@@ -723,8 +728,8 @@ glimpse(today_gender2)
 #Import the master file for gender
 
 ```{r}
-gender_master <- rio::import("gender_master.csv")
-#gender_master <- rio::import("https://raw.githubusercontent.com/Arkansascovid/Main/master/gender_master.csv")
+#gender_master <- rio::import("gender_master.csv")
+gender_master <- rio::import("https://raw.githubusercontent.com/Arkansascovid/Main/master/gender_master.csv")
 gender_master$Date <- lubridate::ymd(gender_master$Date)
 
 
@@ -784,8 +789,8 @@ write.csv(gender_new_cases, file = "Demographics/gender_new_cases.csv")
 
 #Spanish Translation
 
-write.csv(gender_new_cases_spanish, file = "SpanishData/gender_new_cases_spanish.csv")
-gender_new_cases_spanish
+# write.csv(gender_new_cases_spanish, file = "SpanishData/gender_new_cases_spanish.csv")
+# gender_new_cases_spanish
 
 ```
 
