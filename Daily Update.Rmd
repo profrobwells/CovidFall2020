@@ -1,7 +1,7 @@
 ---
 title: "Daily Update Arkansas Covid"
 author: "Rob Wells & Katy Seiter"
-date: "11/09/2020"
+date: "12/18/2020"
 output: pdf_document
 ---
 
@@ -184,7 +184,8 @@ glimpse(master2)
 #Save master file
 ```{r}
 #write.csv(master2, "master_file_9_18.csv")
-write.csv(master2, "master_file.csv")
+write.csv(master2, file = "MasterData/master_file.csv")
+
 ```
 
 #Top Numbers Table 
@@ -249,7 +250,7 @@ df4 <- df4 %>%
 ggplot(df4,aes(x = mydate, y = Amount, label = Amount, fill= Detail)) + 
 geom_bar(stat="identity", position="dodge", color="white")+
 scale_fill_manual(values=c("#B3BF08", "#08B3BF", "#D68037"))+
-scale_y_continuous(limits=c(0, 2500))  +
+scale_y_continuous(limits=c(0, 3000))  +
   theme_bw() + 
   theme(
     plot.title = element_text(face = "bold", size = 16),
@@ -265,7 +266,7 @@ scale_y_continuous(limits=c(0, 2500))  +
    geom_col(position = position_dodge2(width = 0.9, preserve = "single")) +
   geom_text(position = position_dodge2(width = 0.9, preserve = "single"), vjust=-0.5, hjust=+0.5) +
   labs(title = "New Cases & Recoveries in Arkansas Announced Today", 
-       subtitle = "Confirmed + Probable,  ADH Data for Nov. 14, 2020",
+       subtitle = "Confirmed + Probable,  ADH Data for Dec. 12, 2020",
        caption = "Graphic by ArkansasCovid.com",
        y="Amount",
        x="Date")
@@ -288,9 +289,9 @@ scale_fill_manual(values=c("#08B3BF", "#D68037"))+
   theme(legend.position = "bottom") +
   geom_col(position = position_dodge2(width = 0.9, preserve = "single"), show.legend = T) +
   geom_text(position = position_dodge2(width = 0.9, preserve = "single"), vjust=-0.5, hjust=+0.5) +
-  scale_y_continuous(limits=c(0, 25)) + 
+  scale_y_continuous(limits=c(0, 60)) + 
   labs(title = "New Deaths in Arkansas Announced Today", 
-       subtitle = "Confirmed + Probable,  ADH Data for Nov. 14, 2020",
+       subtitle = "Confirmed + Probable,  ADH Data for Dec. 12, 2020",
        caption = "Graphic by ArkansasCovid.com",
        y="Amount",
        x="Date")
@@ -382,11 +383,17 @@ hospital1 <- main_hospital2 %>%
   mutate(New_on_Vent = (Ever_on_a_Vent-lead(Ever_on_a_Vent,na.rm=TRUE)))%>% 
   mutate(Pct_Hospitalized = (Hospitalized/active_cases)*100)
 
-hospital1 <- hospital1 %>%
-  filter(date ==(today))
+# hospital1 <- hospital1 %>%
+#   filter(date ==(today))
 
-# hospital1 <- hospital1 %>% 
-#   filter(date >=(yesterday))
+# hospital1 <- hospital1 %>%
+#   filter(date >=("2020-11-19"))
+
+ hospital1 <- hospital1 %>% 
+   filter(date >(yesterday))
+#Cut rows from df
+#hospital1 <- slice(hospital1, -c(8))
+
 
 hospital1
 ```
@@ -401,21 +408,36 @@ hospital_master[2:13] <- lapply((hospital_master)[2:13], as.numeric)
 glimpse(hospital_master)
 ```
 
+```{r}
+glimpse(hospital1)
+```
+```{r}
+glimpse(hospital_master)
+```
 
 ```{r}
 #make hospital_master.csv
 
 hospital_master <- rbind(hospital1, hospital_master)
+
+ hospital_master <- hospital_master %>% 
+   arrange(desc(date)) %>% 
+   distinct()
+
+#edit out rows if needed
+#hospital_master <- slice(hospital_master, -c(3,4))
+
+
 head(hospital_master)
+write.csv(hospital_master, file = "MasterData/hospital_master.csv")
 ```
 
 ```{r}
-write.csv(hospital_master, "hospital_master.csv")
-
 #Flourish - May 1, 2020 filter
-hospital_FLOURISH <- hospital_master %>% 
+hospital_FLOURISH <- hospital_master %>%
   filter(date >= "2020-05-01")
-write.csv(hospital_FLOURISH, "hospital_FLOURISH.csv")
+#hospital_FLOURISH <- hospital_FLOURISH[ -c(1) ]
+write.csv(hospital_FLOURISH, file = "HomePageData/hospital_FLOURISH.csv")
 ```
 
 #hospital daily tweet slide
@@ -469,12 +491,10 @@ hospitalemail$Date <- as.Date(hospitalemail$Date)
 
 
 ```{r}
-write.csv(hospitalemail, "hospital_email_data.csv")
+write.csv(hospitalemail, file = "MasterData/hospital_email_data.csv")
 head(hospitalemail)
 ```
 
 
 
 -**30**
-
-
