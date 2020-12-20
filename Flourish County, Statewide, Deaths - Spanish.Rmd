@@ -14,7 +14,7 @@ library(formattable)
 ```
 
 ```{r}
-master2 <- rio::import("master_file.csv")
+#master2 <- rio::import("master_file.csv")
 #master2 <- rio::import("https://raw.githubusercontent.com/Arkansascovid/Main/master/master_file.csv")
 
 ```
@@ -40,12 +40,16 @@ homepage <- master %>%
 # homepage$Deaths <- accounting(homepage$Deaths, digits = 0)
 # homepage$Active_Cases <- accounting(homepage$Active_Cases, digits = 0)
 
+homepage <- homepage %>%
+  rename('County Name' = County_Name,  'New Cases Today'=  New_Cases_Today, 'New Deaths Today' = New_Deaths_Today, 'Active Cases' = Active_Cases)
+
+
 write.csv(homepage, file = "HomePageData/homepage.csv")
 ```
 #Rename for Spanish Homepage
 ```{r}
 homepage_spanish <- homepage %>% 
-  rename(Candado = County_Name, Nuevos_Cases_Hoy = New_Cases_Today, Nuevas_Muertes_Hoy = New_Deaths_Today, Muertes = Deaths, Casos_Activos = Active_Cases) %>% 
+  rename(Candado = 'County Name', 'Nuevos Casos Hoy' = 'New Cases Today', 'Nuevas Muertes Hoy' = 'New Deaths Today', Muertes = Deaths, 'Casos Activos' = 'Active Cases') %>% 
   filter(Candado == "Arkansas_all_counties") %>% 
   filter(Date==today)
 homepage_spanish

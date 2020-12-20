@@ -1,7 +1,7 @@
 ---
 title: "Daily Update Arkansas Covid"
 author: "Rob Wells & Katy Seiter"
-date: "12/18/2020"
+date: "12/19/2020"
 output: pdf_document
 ---
 
@@ -183,6 +183,15 @@ glimpse(master2)
 
 #Save master file
 ```{r}
+master2$Cases_Population <- round(master2$Cases_Population, 2)
+master2$Tested_Population <- round(master2$Tested_Population, 2)
+master2$New_Cases_Today_10k_Pop <- round(master2$New_Cases_Today_10k_Pop, 2)
+master2$Active_Cases_10k_Pop <- round(master2$Active_Cases_10k_Pop, 2)
+master2$Pct_Positive_Cumulative <- round(master2$Pct_Positive_Cumulative, 2)
+master2$Pct_Positive_New_to_Dashboard <- round(master2$Pct_Positive_New_to_Dashboard, 2)
+master2$Pct_Deaths_vs_Recoveries <- round(master2$Pct_Deaths_vs_Recoveries, 2)
+master2$Pct_Recoveries_vs_Deaths <- round(master2$Pct_Recoveries_vs_Deaths, 2)
+
 #write.csv(master2, "master_file_9_18.csv")
 write.csv(master2, file = "MasterData/master_file.csv")
 
@@ -266,7 +275,7 @@ scale_y_continuous(limits=c(0, 3000))  +
    geom_col(position = position_dodge2(width = 0.9, preserve = "single")) +
   geom_text(position = position_dodge2(width = 0.9, preserve = "single"), vjust=-0.5, hjust=+0.5) +
   labs(title = "New Cases & Recoveries in Arkansas Announced Today", 
-       subtitle = "Confirmed + Probable,  ADH Data for Dec. 12, 2020",
+       subtitle = "Confirmed + Probable,  ADH Data for Dec. 19, 2020",
        caption = "Graphic by ArkansasCovid.com",
        y="Amount",
        x="Date")
@@ -291,7 +300,7 @@ scale_fill_manual(values=c("#08B3BF", "#D68037"))+
   geom_text(position = position_dodge2(width = 0.9, preserve = "single"), vjust=-0.5, hjust=+0.5) +
   scale_y_continuous(limits=c(0, 60)) + 
   labs(title = "New Deaths in Arkansas Announced Today", 
-       subtitle = "Confirmed + Probable,  ADH Data for Dec. 12, 2020",
+       subtitle = "Confirmed + Probable,  ADH Data for Dec. 19, 2020",
        caption = "Graphic by ArkansasCovid.com",
        y="Amount",
        x="Date")
@@ -394,6 +403,8 @@ hospital1 <- main_hospital2 %>%
 #Cut rows from df
 #hospital1 <- slice(hospital1, -c(8))
 
+hospital1$Pct_Vent <- round(hospital1$Pct_Vent, 2) 
+hospital1$Pct_Hospitalized <- round(hospital1$Pct_Hospitalized, 2) 
 
 hospital1
 ```
@@ -404,6 +415,9 @@ hospital_master <- rio::import("https://raw.githubusercontent.com/Arkansascovid/
 hospital_master <- hospital_master [ -c(1) ]
 hospital_master$date <- lubridate::ymd(hospital_master$date)
 hospital_master[2:13] <- lapply((hospital_master)[2:13], as.numeric)
+
+hospital_master$Pct_Vent <- round(hospital_master$Pct_Vent, 2) 
+hospital_master$Pct_Hospitalized <- round(hospital_master$Pct_Hospitalized, 2) 
 
 glimpse(hospital_master)
 ```
