@@ -1,7 +1,7 @@
 ---
 title: "Daily Update Arkansas Covid"
 author: "Rob Wells & Katy Seiter"
-date: "12/19/2020"
+date: "1/7/2021"
 output: pdf_document
 ---
 
@@ -21,6 +21,7 @@ output: pdf_document
 #install.packages("googledrive")
 #install.packages("googlesheets4")
 #install.packages("kableExtra")
+#install.packages("formattable")
 library(tidyverse)
 library(janitor)
 library(lubridate)
@@ -32,6 +33,8 @@ library(gtools)
 library(zoo)  
 library(reshape2)
 library(slider)
+library(formattable)
+
 
 ```
 
@@ -202,10 +205,22 @@ write.csv(master2, file = "MasterData/master_file.csv")
 top_numbers <- master2 %>% 
   filter(county_nam=="Arkansas_all_counties") %>% 
     filter(mydate>=(yesterday)) %>% 
-  select(mydate, New_Cases_Today, positive, confirmed_pos, deaths, New_Deaths_Today,confirmed_death, active_cases, confirmed_active, recoveries, Recovered_Since_Yesterday)
+  select(mydate, New_Cases_Today, positive,  deaths, New_Deaths_Today, active_cases, recoveries, Recovered_Since_Yesterday)
+
+top_numbers$Date <- as.character((top_numbers$mydate), format='%m%-%d%-%Y')
+
+top_numbers$positive <- scales::comma(top_numbers$positive)
+top_numbers$active_cases <- scales::comma(top_numbers$active_cases)
+top_numbers$recoveries <- scales::comma(top_numbers$recoveries)
+top_numbers$deaths <- scales::comma(top_numbers$deaths)
+top_numbers$New_Cases_Today <- scales::comma(top_numbers$New_Cases_Today)
+top_numbers$Recovered_Since_Yesterday <- scales::comma(top_numbers$Recovered_Since_Yesterday)
 
 top_numbers <- top_numbers %>% 
-  rename(Date = mydate, Positive_Cases = positive, Confirmed_Positives = confirmed_pos, Recoveries = recoveries, Deaths = deaths, Confirmed_Deaths = confirmed_death, Active_Cases = active_cases, Confirmed_Active_Cases = confirmed_active)
+  rename('Positive Cases' = positive, Recoveries = recoveries, Deaths = deaths, 'Active Cases' = active_cases, 'New Cases Today' = New_Cases_Today, 'Recovered Since Yesterday' = Recovered_Since_Yesterday, 'New Deaths Today' = New_Deaths_Today)
+
+top_numbers <- top_numbers %>% 
+  select(Date, 'Positive Cases', Recoveries, Deaths, 'Active Cases', 'New Cases Today', 'Recovered Since Yesterday', 'New Deaths Today')
 
 t <- t(top_numbers)
 
@@ -213,10 +228,29 @@ t <- data.frame(Value = row.names(t), t)
 colnames(t)[2:3] <- c("Today", "Yesterday")
 row.names(t) <- NULL
 
-library(kableExtra)
-t %>% 
-  kable() %>%
-  kable_styling("striped") 
+#Use gt
+#Install these once
+#install.packages("gt")
+#webshot::install_phantomjs()
+library(gt)
+
+t_export <-  gt(t) %>%
+  tab_header(
+    title = md("**The COVID-19 Story in Arkansas Today**"))
+    
+t_export <- t_export %>% 
+    cols_align(
+    align = "left") %>% 
+  tab_style(
+    style = cell_text(size = px(14)),
+    locations = cells_body(
+      columns = vars(Value, Today, Yesterday))
+  ) %>%  
+  cols_width(
+    vars(Value) ~ px(300),
+    everything() ~ px(170))
+
+gtsave(t_export, "top_numbers.png")
 ```
 
 # AVERAGE CALCULATIONS 
@@ -259,7 +293,7 @@ df4 <- df4 %>%
 ggplot(df4,aes(x = mydate, y = Amount, label = Amount, fill= Detail)) + 
 geom_bar(stat="identity", position="dodge", color="white")+
 scale_fill_manual(values=c("#B3BF08", "#08B3BF", "#D68037"))+
-scale_y_continuous(limits=c(0, 3000))  +
+scale_y_continuous(limits=c(0, 4500))  +
   theme_bw() + 
   theme(
     plot.title = element_text(face = "bold", size = 16),
@@ -275,7 +309,7 @@ scale_y_continuous(limits=c(0, 3000))  +
    geom_col(position = position_dodge2(width = 0.9, preserve = "single")) +
   geom_text(position = position_dodge2(width = 0.9, preserve = "single"), vjust=-0.5, hjust=+0.5) +
   labs(title = "New Cases & Recoveries in Arkansas Announced Today", 
-       subtitle = "Confirmed + Probable,  ADH Data for Dec. 19, 2020",
+       subtitle = "Confirmed + Probable,  ADH Data for Jan. 7, 2021",
        caption = "Graphic by ArkansasCovid.com",
        y="Amount",
        x="Date")
@@ -298,9 +332,9 @@ scale_fill_manual(values=c("#08B3BF", "#D68037"))+
   theme(legend.position = "bottom") +
   geom_col(position = position_dodge2(width = 0.9, preserve = "single"), show.legend = T) +
   geom_text(position = position_dodge2(width = 0.9, preserve = "single"), vjust=-0.5, hjust=+0.5) +
-  scale_y_continuous(limits=c(0, 60)) + 
+  scale_y_continuous(limits=c(0, 80)) + 
   labs(title = "New Deaths in Arkansas Announced Today", 
-       subtitle = "Confirmed + Probable,  ADH Data for Dec. 19, 2020",
+       subtitle = "Confirmed + Probable,  ADH Data for Jan. 7, 2021",
        caption = "Graphic by ArkansasCovid.com",
        y="Amount",
        x="Date")
@@ -340,7 +374,11 @@ write.csv(countyonlytoday, "countyonlytoday.csv")
 # IMPORT THE DAILY TWEET HOSPITAL DATA FROM THE GOOGLE Form
 #for download
 ```{r}
-# hospital <- rio::import("/Users/rswells/Dropbox/Classes/Data Fall 2020/ArkansasCovid/Hospital Data - Manual Input.xlsx", which = "Hospital-TWEET SLIDE")
+#hospital <- rio::import("/Users/rswells/Dropbox/Classes/Data Fall 2020/ArkansasCovid/Hospital Data - Manual Input - Hospital-TWEET SLIDE.csv", which = "Hospital-TWEET SLIDE")
+```
+
+```{r}
+#hospital <- rio::import("/Users/rswells/Dropbox/Classes/Data Fall 2020/ArkansasCovid/Hospital Data - Manual Input - Hospital-TWEET SLIDE.csv")
 ```
 
 #For Googlesheet access
@@ -354,19 +392,25 @@ hospital <- read_sheet(url2, sheet = "Hospital-TWEET SLIDE",  col_types = NULL, 
 #clean names
 ```{r include=FALSE}
 hospital <- janitor::clean_names(hospital)
-hospital <- hospital %>% 
-  arrange(desc(date))
-hospital <- hospital [ -c(1) ]
-colnames(hospital)[2:5] <- c("Hospitalized", "Vent", "Ever_Hospitalized", "Ever_on_a_Vent")
-hospital[2:5] <- lapply((hospital)[2:5], as.numeric)
 hospital$date <- as.Date(hospital$date)
 ```
 
 ```{r}
+hospital <- hospital %>% 
+  arrange(desc(date))
+glimpse(hospital)  
+```  
+
+```{r warning=FALSE}
+hospital <- hospital [ -c(1) ]
+colnames(hospital)[2:5] <- c("Hospitalized", "Vent", "Ever_Hospitalized", "Ever_on_a_Vent")
+hospital[2:5] <- lapply((hospital)[2:5], as.numeric)
 glimpse(hospital)
 ```
 
+
 ```{r}
+glimpse(hospital)
 #if restart and need to reimport
 #master2 <- rio::import("master_file.csv")
 #master2$mydate <- as.Date(master2$mydate)
@@ -509,6 +553,40 @@ write.csv(hospitalemail, file = "MasterData/hospital_email_data.csv")
 head(hospitalemail)
 ```
 
+#Vaccine Data
+# IMPORT THE Vaccine Data FROM THE GOOGLE Form
+
+```{r include=FALSE}
+#url3 <- ("https://docs.google.com/spreadsheets/d/1ikblX8tikM59ma1AftkqgGbyeZkXB6DuBtwMsVeoGYw/edit?usp=sharing")
+
+vaccine <- read_sheet(url3, sheet = "Vaccinations",  col_types = NULL, na = "",trim_ws = TRUE)
+```
+
+```{r}
+#clean names
+vaccine <- janitor::clean_names(vaccine)
+vaccine <- vaccine %>% 
+  select(date, doses_given, doses_received,federal_l_t_care_doses_allocated, federal_l_t_care_doses_given)
+colnames(vaccine)[1:5] <- c("Date", "Doses_Given", "Doses_Received", "Long_Term_Care_Doses", "Long_Term_Care_Given")
+glimpse(vaccine)
+```
+#math
+```{r}
+vaccine <- vaccine %>% 
+  mutate(All_Doses_Received = (Doses_Received + Long_Term_Care_Doses)) %>% 
+  mutate(All_Doses_Given = (Doses_Given + Long_Term_Care_Given)) %>% 
+  mutate(New_Doses_Today = (All_Doses_Given-lag(All_Doses_Given))) %>% 
+  mutate(Pct_Doses_Total = (All_Doses_Given/All_Doses_Received)) 
+
+
+vaccine$Pct_Doses_Total <- formattable::percent(vaccine$Pct_Doses_Total, 1)
+glimpse(vaccine)
+```
+
+```{r}
+write.csv(vaccine, file = "MasterData/vaccine.csv")
+head(vaccine)
+```
 
 
 -**30**
