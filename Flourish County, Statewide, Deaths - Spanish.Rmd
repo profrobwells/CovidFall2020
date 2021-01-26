@@ -25,6 +25,7 @@ master <- master2 %>%
   rename(County_Name = county_nam, Date = mydate, Deaths = deaths, Positive = positive, Negative = negative, Recoveries = recoveries, Total_Tests = total_tests, Active_Cases = active_cases, Confirmed_Positive = confirmed_pos, Probable_Positive =probable_pos, Confirmed_Negative = confirmed_neg, Probable_Negative = probable_neg, Confirmed_Recoveries = confirmed_recov, Probable_Recoveries = probable_recov, PCR_Positive_Test = pcr_pos_test, PCR_Negative_Tests = pcr_neg_test, Total_Positive_Test = total_pos_test, Total_Negative_Test = total_neg_test)
 
 names(master)
+#master <- master[ -c(1) ]
 ```
 
 #Homepage Numbers
@@ -40,38 +41,18 @@ homepage <- master %>%
 # homepage$Deaths <- accounting(homepage$Deaths, digits = 0)
 # homepage$Active_Cases <- accounting(homepage$Active_Cases, digits = 0)
 
-homepage <- homepage %>%
-  rename('County Name' = County_Name,  'New Cases Today'=  New_Cases_Today, 'New Deaths Today' = New_Deaths_Today, 'Active Cases' = Active_Cases)
-
-
 write.csv(homepage, file = "HomePageData/homepage.csv")
 ```
 #Rename for Spanish Homepage
 ```{r}
 homepage_spanish <- homepage %>% 
-  rename(Candado = 'County Name', 'Nuevos Casos Hoy' = 'New Cases Today', 'Nuevas Muertes Hoy' = 'New Deaths Today', Muertes = Deaths, 'Casos Activos' = 'Active Cases') %>% 
+  rename(Candado = County_Name, Nuevos_Cases_Hoy = New_Cases_Today, Nuevas_Muertes_Hoy = New_Deaths_Today, Muertes = Deaths, Casos_Activos = Active_Cases) %>% 
   filter(Candado == "Arkansas_all_counties") %>% 
   filter(Date==today)
 homepage_spanish
 
 write.csv(homepage_spanish, file = "SpanishData/homepage_spanish.csv")
 ```
-#County snapshots
-```{r}
-countysnapshot <- master %>% 
-   filter(Date>"2020-08-31")
-write.csv(countysnapshot, file = "HomePageData/countysnapshot.csv")
-```
-
-#Rename Spanish County Snapshots
-```{r}
-countysnapshot_spanish <- countysnapshot %>% 
-  rename(Candado = County_Name, Fecha = Date, Casos_Activos = Active_Cases, Positivos_Todos = Positive, Muertes_Todos = Deaths, Nuevos_Casos_Hoy = New_Cases_Today, Casos_Activos_por_cada_10k_Residentes = Active_Cases_10k_Pop,  Porcentaje_Positivo_Accumulative = Pct_Positive_Cumulative )
-
-
-write.csv(countysnapshot_spanish, file = "SpanishData/countysnapshot_spanish.csv")
-```
-
 
 
 #Only counties, one day calculations - County Changes Story: Active and New cases map, Deaths today by county, Top counties with new cases, Total tests by county, Cases and tests from dashboard, New Cases per 10k pop Slides; - Deaths Story: Total deaths by County Slide
@@ -123,13 +104,13 @@ Top_new_cases_10k_pop <-countyonlytoday %>%
   top_n(10, New_Cases_Today_10k_Pop) %>% 
   select(County_Name, New_Cases_Today, New_Cases_Today_10k_Pop) %>% 
   arrange(desc(New_Cases_Today_10k_Pop))
-write.csv(Top_new_cases_10k_pop, file = "HomePageData/Top_new_cases_10k_pop.csv")
+#write.csv(Top_new_cases_10k_pop, file = "HomePageData/Top_new_cases_10k_pop.csv")
 
 Top_new_cases_10k_pop_spanish <- Top_new_cases_10k_pop %>% 
   rename(Condado = County_Name, Nuevos_Casos_Hoy = New_Cases_Today, Nuevos_Casos_por_cada_10k_Residentes = New_Cases_Today_10k_Pop)
 
 
-write.csv(Top_new_cases_10k_pop_spanish, file = "SpanishData/Top_new_cases_10k_pop_spanish.csv")
+#write.csv(Top_new_cases_10k_pop_spanish, file = "SpanishData/Top_new_cases_10k_pop_spanish.csv")
 ```
 
 #Deaths by day, minimum 1, and Spanish version
@@ -247,6 +228,11 @@ countysnapshot <- test %>%
   filter(Date>"2020-08-31")
 write.csv(countysnapshot, file = "HomePageData/countysnapshot.csv")
 
+#Rename Spanish County Snapshots
+countysnapshot_spanish <- countysnapshot %>% 
+  rename(Candado = County_Name, Fecha = Date, Casos_Activos = Active_Cases_Total, Positivos_Todos = Total_Positives, Muertes_Todos = Total_Deaths, Nuevos_Casos_Hoy = New_Cases_Today, Casos_Activos_por_cada_10k_Residentes = Active_Cases_10k_Pop,  Porcentaje_Positivo_Accumulative = Pct_Positive_Cumulative )
+write.csv(countysnapshot_spanish, file = "SpanishData/countysnapshot_spanish.csv")
+
 #Use this for Story: Cases Context - could combine with statewide2 if we don't go all the way back to Aug. 1
 statewide <- test %>% 
   select(Date, County_Name, New_Cases_Today, New_Cases_7_Day_Avg, Total_Positives, Active_Cases_Total, Total_Deaths, Pct_Deaths_vs_Recoveries) %>% 
@@ -280,8 +266,18 @@ deaths_spanish <- deaths %>%
 
 write.csv(deaths_spanish, file = "SpanishData/deaths_spanish.csv")
 
+#County Time Series
 
+countytime <- master2 %>% 
+  select(county_nam, mydate, deaths, positive, active_cases, Cases_Population) %>% 
+  rename(Date = mydate, Deaths = deaths, Positive = positive) %>% 
+  filter( Date>= "2020-09-13" )
+
+
+write.csv(countytime, "HomepageData/countytime.csv")
 ```
+
+
 
 #Statewide: Top dates for new cases & Spanish
 ```{r}
@@ -310,6 +306,4 @@ countycases_spanish <- master %>%
 
 write.csv(countycases_spanish, file = "SpanishData/countycases_spanish.csv")
 ```
-
--**30**
 
