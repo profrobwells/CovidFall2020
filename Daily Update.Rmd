@@ -1,7 +1,7 @@
 ---
 title: "Daily Update Arkansas Covid"
-author: "Rob Wells & Katy Seiter"
-date: "1/7/2021"
+author: "Rob Wells, Katy Seiter and Mary Hennigan"
+date: "1/30/2021"
 output: pdf_document
 ---
 
@@ -101,8 +101,8 @@ yesterday_county <- rio::import("https://raw.githubusercontent.com/Arkansascovid
 #yesterday_county <- yesterday_county [ -c(1) ]
 yesterday_county$mydate <- as.Date(yesterday_county$mydate)
 #ran this to test it out on today's data
- # yesterday_county <- yesterday_county %>% 
- #  filter(mydate<=(yesterday))
+ yesterday_county <- yesterday_county %>% 
+  filter(mydate<=(yesterday))
 yesterday_county[4:45] <- lapply(yesterday_county[4:45], as.numeric)
 ```
 # .
@@ -197,61 +197,60 @@ master2$Pct_Recoveries_vs_Deaths <- round(master2$Pct_Recoveries_vs_Deaths, 2)
 
 #write.csv(master2, "master_file_9_18.csv")
 write.csv(master2, file = "MasterData/master_file.csv")
-
 ```
 
-#Top Numbers Table 
+
+#Daily Pretty Slide
 ```{r}
-top_numbers <- master2 %>% 
-  filter(county_nam=="Arkansas_all_counties") %>% 
-    filter(mydate>=(yesterday)) %>% 
-  select(mydate, New_Cases_Today, positive,  deaths, New_Deaths_Today, active_cases, recoveries, Recovered_Since_Yesterday)
-
-top_numbers$Date <- as.character((top_numbers$mydate), format='%m%-%d%-%Y')
-
-top_numbers$positive <- scales::comma(top_numbers$positive)
-top_numbers$active_cases <- scales::comma(top_numbers$active_cases)
-top_numbers$recoveries <- scales::comma(top_numbers$recoveries)
-top_numbers$deaths <- scales::comma(top_numbers$deaths)
-top_numbers$New_Cases_Today <- scales::comma(top_numbers$New_Cases_Today)
-top_numbers$Recovered_Since_Yesterday <- scales::comma(top_numbers$Recovered_Since_Yesterday)
-
-top_numbers <- top_numbers %>% 
-  rename('Positive Cases' = positive, Recoveries = recoveries, Deaths = deaths, 'Active Cases' = active_cases, 'New Cases Today' = New_Cases_Today, 'Recovered Since Yesterday' = Recovered_Since_Yesterday, 'New Deaths Today' = New_Deaths_Today)
-
-top_numbers <- top_numbers %>% 
-  select(Date, 'Positive Cases', Recoveries, Deaths, 'Active Cases', 'New Cases Today', 'Recovered Since Yesterday', 'New Deaths Today')
-
-t <- t(top_numbers)
-
-t <- data.frame(Value = row.names(t), t)
-colnames(t)[2:3] <- c("Today", "Yesterday")
-row.names(t) <- NULL
-
-#Use gt
-#Install these once
-#install.packages("gt")
-#webshot::install_phantomjs()
-library(gt)
-
-t_export <-  gt(t) %>%
-  tab_header(
-    title = md("**The COVID-19 Story in Arkansas Today**"))
-    
-t_export <- t_export %>% 
-    cols_align(
-    align = "left") %>% 
-  tab_style(
-    style = cell_text(size = px(14)),
-    locations = cells_body(
-      columns = vars(Value, Today, Yesterday))
-  ) %>%  
-  cols_width(
-    vars(Value) ~ px(300),
-    everything() ~ px(170))
-
-gtsave(t_export, "top_numbers.png")
+library(formattable)
+instagram <- master2 %>% 
+  select(county_nam, mydate, New_Cases_Today, New_Deaths_Today, deaths, active_cases, positive, deaths) %>% 
+  filter(county_nam == "Arkansas_all_counties") %>% 
+  filter(mydate==today)
+instagram
 ```
+
+```{r}
+instagram <- instagram 
+
+instagram$mydate <- as.character((instagram$mydate), format='%m%-%d%-%Y')
+
+instagram$active_cases <- scales::comma(instagram$active_cases)
+instagram$deaths <- scales::comma(instagram$deaths)
+instagram$New_Cases_Today <- scales::comma(instagram$New_Cases_Today)
+instagram$New_Deaths_Today <- scales::comma(instagram$New_Deaths_Today)
+instagram$positive <- scales::comma(instagram$positive)
+instagram
+```
+
+
+
+```{r}
+daily <- instagram %>% 
+  select(mydate, New_Cases_Today,New_Deaths_Today, active_cases, positive, deaths) %>% 
+
+  
+  rename('New Cases Today' =  New_Cases_Today, 'New Deaths Today' = New_Deaths_Today, 'Active Cases' = active_cases, 'Deaths' = deaths, 'Positive' = positive, 'Date' = mydate)
+
+```
+
+
+```{r}
+#Build a flipped table, ugly style
+
+dailyT<- as.data.frame(t(daily))
+
+write.csv(dailyT, "dailyT.csv")
+daily2 <- rio::import("dailyT.csv")
+colnames(daily2) <- c("Item", "Amount")
+daily2 <- daily2[-c(1), ] 
+daily2
+
+write.csv(daily2, file = "HomePageData/daily.csv")
+#It feeds this Flourish graphic: https://app.flourish.studio/visualisation/4895391/edit 
+```
+
+
 
 # AVERAGE CALCULATIONS 
 ```{r}
@@ -300,7 +299,8 @@ scale_y_continuous(limits=c(0, 4500))  +
     legend.background = element_rect(fill = "white", size = .01, colour = "white"),
     legend.justification = c(0, 1),
     #adjust the box position. First number horizontal, second, vertical 
-    legend.position = c(.617, .38),
+    legend.position = c(.617, .9),
+    #legend.position = c(.617, .38),
     #legend.position = c(.1, .38),
     axis.ticks = element_line(colour = "grey70", size = 0.2),
     panel.grid.major = element_line(colour = "grey70", size = 0.2),
@@ -309,7 +309,7 @@ scale_y_continuous(limits=c(0, 4500))  +
    geom_col(position = position_dodge2(width = 0.9, preserve = "single")) +
   geom_text(position = position_dodge2(width = 0.9, preserve = "single"), vjust=-0.5, hjust=+0.5) +
   labs(title = "New Cases & Recoveries in Arkansas Announced Today", 
-       subtitle = "Confirmed + Probable,  ADH Data for Jan. 7, 2021",
+       subtitle = "Confirmed + Probable,  ADH Data for Jan. 30, 2021",
        caption = "Graphic by ArkansasCovid.com",
        y="Amount",
        x="Date")
@@ -334,7 +334,7 @@ scale_fill_manual(values=c("#08B3BF", "#D68037"))+
   geom_text(position = position_dodge2(width = 0.9, preserve = "single"), vjust=-0.5, hjust=+0.5) +
   scale_y_continuous(limits=c(0, 80)) + 
   labs(title = "New Deaths in Arkansas Announced Today", 
-       subtitle = "Confirmed + Probable,  ADH Data for Jan. 7, 2021",
+       subtitle = "Confirmed + Probable,  ADH Data for Jan. 30, 2021",
        caption = "Graphic by ArkansasCovid.com",
        y="Amount",
        x="Date")
@@ -557,7 +557,7 @@ head(hospitalemail)
 # IMPORT THE Vaccine Data FROM THE GOOGLE Form
 
 ```{r include=FALSE}
-#url3 <- ("https://docs.google.com/spreadsheets/d/1ikblX8tikM59ma1AftkqgGbyeZkXB6DuBtwMsVeoGYw/edit?usp=sharing")
+url3 <- ("https://docs.google.com/spreadsheets/d/1ikblX8tikM59ma1AftkqgGbyeZkXB6DuBtwMsVeoGYw/edit?usp=sharing")
 
 vaccine <- read_sheet(url3, sheet = "Vaccinations",  col_types = NULL, na = "",trim_ws = TRUE)
 ```
@@ -585,7 +585,7 @@ glimpse(vaccine)
 
 ```{r}
 write.csv(vaccine, file = "MasterData/vaccine.csv")
-head(vaccine)
+vaccine
 ```
 
 
