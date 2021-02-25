@@ -581,6 +581,11 @@ vaccine <- vaccine %>%
 
 vaccine$Pct_Doses_Total <- formattable::percent(vaccine$Pct_Doses_Total, 1)
 glimpse(vaccine)
+
+vaccinemarshallese <- vaccine %>%
+  rename('Aolepan oran uno ko kar bōki' = All_Doses_Received, 'Aolepan oran uno ko emōj kōjerbali' = All_Doses_Given, 'Uno ko rōkāāl an rainin' = New_Doses_Today)
+
+write.csv(vaccinemarshallese, "vaccine_marshallese.csv")
 ```
 
 ```{r}

@@ -1,7 +1,7 @@
 ---
-title: "Flourish: County Changes, Statewide, Deaths & Spanish"
-author: "Katy Seiter, Rob Wells, Mary Hennigan and Rachell Sanchez-Smith"
-date: "12/03/2020"
+title: "Flourish: County Changes, Statewide, Deaths & Spanish & Marshallese"
+author: "Rob Wells, Katy Seiter, Mary Hennigan and Rachell Sanchez-Smith"
+date: "02/17/2021"
 output: html_document
 ---
 
@@ -54,6 +54,17 @@ homepage_spanish
 write.csv(homepage_spanish, file = "SpanishData/homepage_spanish.csv")
 ```
 
+#Rename for Marshallese Homepage
+```{r}
+homepage_marshallese <- homepage %>% 
+  rename(Keej_ko_rōkāāl_ilo_rainin  = New_Cases_Today, Armej_ro_rej_kab_mej_rainin = New_Deaths_Today, Rimej_ro = Deaths, Keej_ko_rej_active = Active_Cases) %>% 
+  filter(County_Name == "Arkansas_all_counties") %>% 
+  filter(Date==today)
+homepage_marshallese
+
+write.csv(homepage_marshallese, file = "homepage_marshallese.csv")
+```
+
 
 #Only counties, one day calculations - County Changes Story: Active and New cases map, Deaths today by county, Top counties with new cases, Total tests by county, Cases and tests from dashboard, New Cases per 10k pop Slides; - Deaths Story: Total deaths by County Slide
 ```{r}
@@ -78,8 +89,20 @@ write.csv(countyonlytoday, file = "HomePageData/countyonlytoday.csv")
 ```{r}
 countyonlytoday_spanish <- countyonlytoday %>% 
   rename(Nuevos_Casos_Hoy = New_Cases_Today, Nuevas_Muertes_Hoy = New_Deaths_Today, Casos_Activos = Active_Cases,Casos_Activos_por_cada_10k_Residentes = Active_Cases_10k_Pop, Confirmado_Activo = confirmed_active, Probable_Activo = probable_active, Porcentaje_Positivo_de_Novedades_en_el_Tablero = Pct_Positive_New_to_Dashboard, Nuevos_Casos_Hoy_por_cada_10k_Residentes = New_Cases_Today_10k_Pop, Recuperaciones = Recoveries, Población_Probada = Tested_Population)
+#countyonlytoday_spanish <- countyonlytoday_spanish [ -c(1) ]
 
 write.csv(countyonlytoday_spanish, file = "SpanishData/countyonlytoday_spanish.csv")
+
+```
+
+#Rename for Marshallese Flourish, countyonlytoday
+#Needs translations Tested_Population, New_Cases_Today_10k_Pop, Counties with top new cases
+```{r}
+countyonlytoday_marshallese <- countyonlytoday %>% 
+  rename(Case_ko_rōkāāl_rainin = New_Cases_Today, Armej_ro_rej_kab_mej_rainin = New_Deaths_Today, Oran_case_ko_rej_active  = Active_Cases, Keej_ko_rej_Active_iaan_10K_armej  = Active_Cases_10k_Pop)
+#countyonlytoday_marshallese <- countyonlytoday_marshallese [ -c(1) ]  
+
+write.csv(countyonlytoday_marshallese, file = "countyonlytoday_marshallese.csv")
 
 ```
 
@@ -98,6 +121,7 @@ Top_counties_new_cases_spanish <- Top_counties_new_cases %>%
 write.csv(Top_counties_new_cases_spanish, file = "SpanishData/Top_counties_new_cases_spanish.csv")
 
 ```
+
 #Top_new_cases_10k_pop and Spanish version
 ```{r}
 Top_new_cases_10k_pop <-countyonlytoday %>% 
@@ -113,7 +137,25 @@ Top_new_cases_10k_pop_spanish <- Top_new_cases_10k_pop %>%
 #write.csv(Top_new_cases_10k_pop_spanish, file = "SpanishData/Top_new_cases_10k_pop_spanish.csv")
 ```
 
-#Deaths by day, minimum 1, and Spanish version
+#Top counties with new cases and Marshallese version
+#Needs New_Cases_Today_10k_Pop translation
+```{r}
+Top_counties_new_cases <-countyonlytoday %>% 
+  top_n(10, New_Cases_Today) %>% 
+  select(County_Name, New_Cases_Today, New_Cases_Today_10k_Pop) %>% 
+  arrange(desc(New_Cases_Today))
+write.csv(Top_counties_new_cases, file = "HomePageData/Top_counties_new_cases.csv")
+
+Top_counties_new_cases_marshallese <- Top_counties_new_cases %>% 
+  rename( Case_ko_rōkāāl_rainin  = New_Cases_Today)
+
+
+write.csv(Top_counties_new_cases_marshallese, file = "Top_counties_new_cases_marshallese.csv")
+
+```
+
+
+#Deaths by day, minimum 1, and Spanish version and Marshallese version
 ```{r}
 deaths_daily <- countyonlytoday %>% 
   filter(New_Deaths_Today >=1) %>% 
@@ -124,9 +166,10 @@ write.csv(deaths_daily, file = "HomePageData/deaths_daily.csv")
 deaths_daily_spanish <- deaths_daily %>% 
   rename(Nuevas_Muertes_Hoy = New_Deaths_Today, Condado = County_Name)
 
+deaths_daily_marshallese <- deaths_daily %>% 
+  rename(Armej_ro_rej_kab_mej_rainin = New_Deaths_Today)
 
-
-write.csv(deaths_daily_spanish, file = "SpanishData/deaths_daily_spanish.csv")
+write.csv(deaths_daily_marshallese, file = "deaths_daily_marshallese.csv")
 ```
 
 #--------------------------------------------------------------------------------#
@@ -233,6 +276,12 @@ countysnapshot_spanish <- countysnapshot %>%
   rename(Candado = County_Name, Fecha = Date, Casos_Activos = Active_Cases_Total, Positivos_Todos = Total_Positives, Muertes_Todos = Total_Deaths, Nuevos_Casos_Hoy = New_Cases_Today, Casos_Activos_por_cada_10k_Residentes = Active_Cases_10k_Pop,  Porcentaje_Positivo_Accumulative = Pct_Positive_Cumulative )
 write.csv(countysnapshot_spanish, file = "SpanishData/countysnapshot_spanish.csv")
 
+#Rename Marshallese County Snapshots
+countysnapshot_marshallese <- countysnapshot %>% 
+  rename(Keej_ko_rej_active = Active_Cases_Total, Oran_Case_ko_rej_Positive = Total_Positives, Oran_rimej_ro  = Total_Deaths, Case_ko_rōkāāl_rainin  = New_Cases_Today, Keej_ko_rej_Active_iaan_10K_armej  = Active_Cases_10k_Pop,  Percent_in_Aolepen_Oran = Pct_Positive_Cumulative )
+write.csv(countysnapshot_marshallese, file = "countysnapshot_marshallese.csv")
+
+
 #Use this for Story: Cases Context - could combine with statewide2 if we don't go all the way back to Aug. 1
 statewide <- test %>% 
   select(Date, County_Name, New_Cases_Today, New_Cases_7_Day_Avg, Total_Positives, Active_Cases_Total, Total_Deaths, Pct_Deaths_vs_Recoveries) %>% 
@@ -306,4 +355,22 @@ countycases_spanish <- master %>%
 
 write.csv(countycases_spanish, file = "SpanishData/countycases_spanish.csv")
 ```
+
+#Datawrapper Maps
+```{r}
+datawrapper <- countyonlytoday %>% 
+  select(County_Name, Date, New_Cases_Today, Positive, Active_Cases, Deaths)
+write.csv(datawrapper, file = "HomePageData/datawrapper.csv")
+
+#Spanish
+datawrapper_spanish <- countyonlytoday_spanish %>% 
+  select(County_Name, Date, Nuevos_Casos_Hoy)
+write.csv(datawrapper_spanish, file = "SpanishData/datawrapper_spanish.csv")
+
+#Marshallese
+datawrapper_marshallese <- countyonlytoday_marshallese %>% 
+  select(County_Name, Date, Case_ko_rōkāāl_rainin)
+write.csv(datawrapper_marshallese, file = "datawrapper_marshallese.csv")
+```
+
 
