@@ -1,7 +1,7 @@
 ---
 title: "Daily Update Arkansas Covid"
 author: "Rob Wells, Katy Seiter and Mary Hennigan"
-date: "1/30/2021"
+date: "3/6/2021"
 output: pdf_document
 ---
 
@@ -292,7 +292,7 @@ df4 <- df4 %>%
 ggplot(df4,aes(x = mydate, y = Amount, label = Amount, fill= Detail)) + 
 geom_bar(stat="identity", position="dodge", color="white")+
 scale_fill_manual(values=c("#B3BF08", "#08B3BF", "#D68037"))+
-scale_y_continuous(limits=c(0, 4500))  +
+scale_y_continuous(limits=c(0, 2400))  +
   theme_bw() + 
   theme(
     plot.title = element_text(face = "bold", size = 16),
@@ -309,7 +309,7 @@ scale_y_continuous(limits=c(0, 4500))  +
    geom_col(position = position_dodge2(width = 0.9, preserve = "single")) +
   geom_text(position = position_dodge2(width = 0.9, preserve = "single"), vjust=-0.5, hjust=+0.5) +
   labs(title = "New Cases & Recoveries in Arkansas Announced Today", 
-       subtitle = "Confirmed + Probable,  ADH Data for Jan. 30, 2021",
+       subtitle = "Confirmed + Probable,  ADH Data for March 6, 2021",
        caption = "Graphic by ArkansasCovid.com",
        y="Amount",
        x="Date")
@@ -332,9 +332,9 @@ scale_fill_manual(values=c("#08B3BF", "#D68037"))+
   theme(legend.position = "bottom") +
   geom_col(position = position_dodge2(width = 0.9, preserve = "single"), show.legend = T) +
   geom_text(position = position_dodge2(width = 0.9, preserve = "single"), vjust=-0.5, hjust=+0.5) +
-  scale_y_continuous(limits=c(0, 80)) + 
+  scale_y_continuous(limits=c(0, 30)) + 
   labs(title = "New Deaths in Arkansas Announced Today", 
-       subtitle = "Confirmed + Probable,  ADH Data for Jan. 30, 2021",
+       subtitle = "Confirmed + Probable,  ADH Data for March 6, 2021",
        caption = "Graphic by ArkansasCovid.com",
        y="Amount",
        x="Date")
@@ -585,7 +585,7 @@ glimpse(vaccine)
 vaccinemarshallese <- vaccine %>%
   rename('Aolepan oran uno ko kar bōki' = All_Doses_Received, 'Aolepan oran uno ko emōj kōjerbali' = All_Doses_Given, 'Uno ko rōkāāl an rainin' = New_Doses_Today)
 
-write.csv(vaccinemarshallese, "vaccine_marshallese.csv")
+write.csv(vaccinemarshallese, "Marshallese/vaccine_marshallese.csv")
 ```
 
 ```{r}

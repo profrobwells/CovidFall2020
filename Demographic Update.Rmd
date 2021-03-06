@@ -1,7 +1,7 @@
 ---
 title: "Demographic Update Arkansas Covid"
 author: "Rob Wells and Mary Hennigan, Translation by Rachell Sanchez-Smith"
-date: "12/18/2020"
+date: "3/6/2021"
 output: pdf_document
 ---
 
@@ -141,7 +141,7 @@ age3 <- rio::import("https://raw.githubusercontent.com/Arkansascovid/Main/master
 #age3 <- rio::import("age_master.csv")
 
 #age3 <- janitor::clean_names(age3)
-#age3$date <- mdy(age3$date)
+age3$Date <- ymd(age3$Date)
 #age3 <- age3[ -c(1,2) ]
 glimpse(age3)
 #write.csv(age3, "age3.csv")
@@ -223,7 +223,7 @@ glimpse(age_master)
 age_master <- age_master %>% 
   filter(Date >= "2020-09-13")
 
-#age_master <- age_master[ -c(1) ]
+age_master <- age_master[ -c(1) ]
 write.csv(age_master, file = "Demographics/age_FLOURISH_master.csv")
 
 ```
@@ -385,6 +385,9 @@ glimpse(today_race)
 race3 <- rio::import("https://raw.githubusercontent.com/Arkansascovid/Main/master/race_main_file.csv")
 #race3 <- rio::import("race_main_file.csv")
 race3$Date <- lubridate::ymd(race3$Date)
+
+# race3 <- race3 %>% 
+#   filter(Date <= "2020-12-30")
 
 glimpse(race3)
 ```
