@@ -97,7 +97,7 @@ today_county$mydate <- as.Date(today_county$mydate)
 ```{r}
 yesterday_county <- rio::import("https://raw.githubusercontent.com/Arkansascovid/Main/master/master_file.csv")
 #yesterday_county <- yesterday_county [ -c(1) ]
-yesterday_county$mydate <- mdy(yesterday_county$mydate)
+yesterday_county$mydate <- as.Date(yesterday_county$mydate)
 #ran this to test it out on today's data
  yesterday_county <- yesterday_county %>% 
   filter(mydate<=(yesterday))
@@ -351,49 +351,182 @@ ggsave("Deaths_2_Day_avg.png",device = "png",width=9,height=6, dpi=400)
 
 #-------------------------------------------
 #-------------------------------------------
-#Vaccine Data
+#Vaccine Data - New Section May 19, 2021
+#County vaccination data here
 #-------------------------------------------
 #-------------------------------------------
 
-## Retrieve Vaccine Data from ADH FEED
+## Retrieve County Vaccine Data from ADH FEED
 ```{r}
 #New County json feed
-#6 Variables
-qq <- fromJSON('https://services.arcgis.com/PwY9ZuZRDiI5nXUB/ArcGIS/rest/services/ADH_COVID19_VACCINATIONS_ADMIN_DIST/FeatureServer/0/query?where=0%3D0&objectIds=&time=&resultType=none&outFields=*&returnIdsOnly=false&returnUniqueIdsOnly=false&returnCountOnly=false&returnDistinctValues=false&cacheHint=false&orderByFields=&groupByFieldsForStatistics=&outStatistics=&having=&resultOffset=&resultRecordCount=&sqlFormat=none&f=pjson&token=')
+#35 Variables
+qq <- fromJSON('https://services.arcgis.com/PwY9ZuZRDiI5nXUB/ArcGIS/rest/services/ADH_COVID19_VACCINATIONS_BY_COUNTY/FeatureServer/0/query?where=0%3D0&objectIds=&time=&geometry=&geometryType=esriGeometryEnvelope&inSR=&spatialRel=esriSpatialRelIntersects&resultType=none&distance=0.0&units=esriSRUnit_Meter&returnGeodetic=false&outFields=*&returnGeometry=true&returnCentroid=false&featureEncoding=esriDefault&multipatchOption=xyFootprint&maxAllowableOffset=&geometryPrecision=&outSR=&datumTransformation=&applyVCSProjection=false&returnIdsOnly=false&returnUniqueIdsOnly=false&returnCountOnly=false&returnExtentOnly=false&returnQueryGeometry=false&returnDistinctValues=false&cacheHint=false&orderByFields=&groupByFieldsForStatistics=&outStatistics=&having=&resultOffset=&resultRecordCount=&returnZ=false&returnM=false&returnExceededLimitFeatures=true&quantizationParameters=&sqlFormat=none&f=pjson&token=')
 
 #Pulls in the data that matters to 'q'
 vax <- qq[["features"]][["attributes"]]
 
-vax1 <- as.data.frame(t(vax))
-vax1 <- vax1[-c(1), ] 
-names(vax1) <- lapply(vax1[1, ], as.character)
-vax1 <- vax1[-1,] 
-vax1$date <- Sys.Date()
+# vax1 <- as.data.frame(t(vax))
+# vax1 <- vax1[-c(1), ] 
+# names(vax1) <- lapply(vax1[1, ], as.character)
+# vax1 <- vax1[-1,] 
+vax$date <- Sys.Date()
 
 #Change this date if a day old
 #vax1$date <- Sys.Date()-1
 
-vax1 <- clean_names(vax1)
+vax <- clean_names(vax)
 
-colnames(vax1)[1:7] <- c("All_Doses_Given", "All_Doses_Received", "Long_Term_Care_Doses", "Doses_Received", "Long_Term_Care_Given", "Doses_Given", "Date")
-vax1 [1:6] <- lapply(vax1 [1:6], as.character)
-vax1 [1:6] <- lapply(vax1 [1:6], as.numeric)
+vax <- vax %>% 
+rename(Date = "date",
+       County_Name = "adh_covid19_vac_join_county_nam", 
+       County_Vax_Total =  "vac_demo_county_aggregate_count", 
+       White_Total = "vac_demo_county_race0_total", 
+       Black_Total= "vac_demo_county_race1_total",
+       Native_American_Total = "vac_demo_county_race2_total", 
+       Asian_Total = "vac_demo_county_race3_total", 
+       Pacific_Islander_Total = "vac_demo_county_race4_total",
+       Unk_Race_Total = "vac_demo_county_race5_total", 
+       Other_Race_Total= "vac_demo_county_race6_total",
+       Hispanic_Total= "vac_demo_county_ethnicity_hispa", 
+       Dose_1 = "vac_demo_county_dose_one",
+       Dose_2 = "vac_demo_county_dose_two", 
+       Unk_Dose= "vac_demo_county_unk_dose",
+       Partial_Vax= "vac_demo_county_partially_immun", 
+       Fully_Vax = "vac_demo_county_fully_immunized", 
+       Hispanic_Partial_Vax = "vac_demo_county_partially_hispa",
+       Hispanic_Full_Vax = "vac_demo_county_fully_hispanic", 
+       Population = "vac_demo_county_population", 
+       County_Pct_Dose_1 = "vac_demo_county_percent_dose_1",
+       County_Pct_Dose_2 = "vac_demo_county_percent_dose_2",
+       County_Pct_Population = "vac_demo_county_percent_populat",
+       White_Partial_Pct= "vac_demo_county_partially_white",
+       Black_Partial_Pct= "vac_demo_county_partially_black",
+       Asian_Partial_Pct = "vac_demo_county_partially_aian",
+       Non_Hispanic_Partial_Pct= "vac_demo_county_partially_nhopi",
+       White_Full_Pct = "vac_demo_county_fully_white", 
+       Black_Full_Pct = "vac_demo_county_fully_black", 
+       Asian_Full_Pct= "vac_demo_county_fully_aian", 
+       Non_Hispanic_Full_Pct = "vac_demo_county_fully_nhopi")
 
-glimpse(vax1)
+vax1 <- vax %>% 
+  select(Date, County_Name, County_Vax_Total,  Dose_1, Dose_2, Unk_Dose, Partial_Vax,
+         Fully_Vax, White_Total, White_Full_Pct, Black_Total, Black_Full_Pct,
+         Native_American_Total, Asian_Total, Asian_Full_Pct, Pacific_Islander_Total,
+         Unk_Race_Total, Other_Race_Total, Hispanic_Total, Hispanic_Partial_Vax,
+         Hispanic_Full_Vax, Population, County_Pct_Dose_1, County_Pct_Dose_2,
+         White_Partial_Pct, Black_Partial_Pct, Asian_Partial_Pct,
+         Non_Hispanic_Partial_Pct, Non_Hispanic_Full_Pct)
+
+write.csv(vax1, "vaccine_county_full.csv")
+
+vaccine_county <- vax1 %>% 
+  select(County_Name, Date, County_Vax_Total, Partial_Vax, Fully_Vax,Unk_Dose, Population) %>% 
+  mutate(Full_Pct =(Fully_Vax/Population))
+
+vaccine_county$Full_Pct <- formattable::percent(vaccine_county$Full_Pct, 1)
+
+write.csv(vaccine_county, "vaccine_county.csv")
+date <- Sys.Date()
+vaxname <- paste("vaccine_county_",date,".csv",sep="")
+write.csv(vax1, file=vaxname) 
+write.csv(vaccine_county, file=vaxname) 
+
+#Feeds to homepage map
+#https://www.datawrapper.de/_/HZNsT/
+#This is autoloaded to Github via the vaccine_county.csv
+
+#Feeds to vaccine chart
+#https://www.datawrapper.de/_/dDKzc/
+
+```
+
+#Feed to vaccine chart
+```{r}
+
+vaccinecounty1 <- vax1 %>% 
+  select(County_Name, Partial_Vax, Partial_Pct, Full_Vax, Full_Pct, Unknown_Dose, Unknown_Pct, population, Date)
+
+head(vaccinecounty1)
+
+write.csv(vaccinecounty1, file = "MasterData/vaccinecounty.csv")
+
+#Write a copy with a date for archiving
+#Put this file into the Vaccine History folder in GitHub #https://github.com/Arkansascovid/Main/tree/master/Vaccine_History 
+date <- Sys.Date()
+vaccinecounty2 <- paste("vaccinecounty",date,".csv",sep="")
+write.csv(vaccinecounty1, file=vaccinecounty2) 
+
+
+```
+
+
+#Add to master file
+```{r}
+vaxmaster <- rio::import("https://raw.githubusercontent.com/Arkansascovid/Main/master/vaccine_master.csv")
+
+# vaxmaster <- vaxmaster [ -c(31) ]
+# vaxmaster <- vaxmaster %>% 
+#   rename(Date = "date")
+
+vaccine_master <- smartbind(vax1, vaxmaster)
+# vaccine_master <- vaccine_master [ -c(30) ]
+
+write.csv(vaccine_master, "vaccine_master.csv")
+
+```
+
+#fix All_Doses_Given
+```{r}
+All_Doses_Given <- sum(vax1$County_Vax_Total)
+```
+
+## Retrieve Old Vaccine Data from ADH FEED
+```{r}
+#New County json feed
+#6 Variables
+qqq <- fromJSON('https://services.arcgis.com/PwY9ZuZRDiI5nXUB/ArcGIS/rest/services/ADH_COVID19_VACCINATIONS_ADMIN_DIST/FeatureServer/0/query?where=0%3D0&objectIds=&time=&resultType=none&outFields=*&returnIdsOnly=false&returnUniqueIdsOnly=false&returnCountOnly=false&returnDistinctValues=false&cacheHint=false&orderByFields=&groupByFieldsForStatistics=&outStatistics=&having=&resultOffset=&resultRecordCount=&sqlFormat=none&f=pjson&token=')
+
+#Pulls in the data that matters to 'q'
+vax_old <- qqq[["features"]][["attributes"]]
+
+vax1_old <- as.data.frame(t(vax_old))
+vax1_old <- vax1_old[-c(1), ] 
+names(vax1_old) <- lapply(vax1_old[1, ], as.character)
+vax1_old <- vax1_old[-1,] 
+vax1_old$date <- Sys.Date()
+
+#Change this date if a day old
+#vax1$date <- Sys.Date()-1
+
+vax1_old <- clean_names(vax1_old)
+
+colnames(vax1_old)[1:7] <- c("All_Doses_Given", "All_Doses_Received", "Long_Term_Care_Doses", "Doses_Received", "Long_Term_Care_Given", "Doses_Given", "Date")
+vax1_old [1:6] <- lapply(vax1_old [1:6], as.character)
+vax1_old [1:6] <- lapply(vax1_old [1:6], as.numeric)
+
+#fix All_Doses_Given
+vax1_old$All_Doses_Given <- All_Doses_Given
+
 #makes a spreadsheet
 #write.csv(vax1, "vaccine_api.csv")
+
 ```
+
+
+
 
 # IMPORT THE Vaccine Data GitHub
 
 ```{r include=FALSE}
+
 vax2 <- rio::import("https://raw.githubusercontent.com/Arkansascovid/Main/master/vaccine.csv")
 vax2 [3:9] <- lapply(vax2 [3:9], as.numeric)
 vax2$Date <- as.Date(vax2$Date)
+#vax2$Date <- mdy(vax2$Date)
 
 #If this is a day old, run this
-#vax2 <- vax2 %>% 
-#  filter(Date <= (yesterday))
+# vax2 <- vax2 %>% 
+#   filter(Date <= (yesterday))
 ```
 
 
@@ -401,7 +534,7 @@ vax2$Date <- as.Date(vax2$Date)
 ```{r}
 
 #one time combo
-vaccine <- smartbind(vax1, vax2)
+vaccine <- smartbind(vax1_old, vax2)
 
 vaccine <- vaccine %>% 
   select(Date, Doses_Given, Doses_Received, Long_Term_Care_Doses, Long_Term_Care_Given, All_Doses_Received, All_Doses_Given, New_Doses_Today, Pct_Doses_Total) %>% 
@@ -422,6 +555,8 @@ vaccine$Pct_Doses_Total <- formattable::percent(vaccine$Pct_Doses_Total, 1)
 glimpse(vaccine)
 
 write.csv(vaccine, file = "MasterData/vaccine.csv")
+#Feeds to Flourish daily chart
+#https://app.flourish.studio/visualisation/4988228/edit
 ```
 
 
@@ -435,125 +570,6 @@ write.csv(vaccinemarshallese, "Marshallese/vaccine_marshallese.csv")
 
 ```
 
-
-```{r}
-#VACCINATIONS_BY_HAA
-
-pp <- fromJSON('https://services.arcgis.com/PwY9ZuZRDiI5nXUB/arcgis/rest/services/ADH_COVID19_VACCINATIONS_BY_HAA/FeatureServer/0/query?where=0%3D0&objectIds=&time=&geometry=&geometryType=esriGeometryEnvelope&inSR=&spatialRel=esriSpatialRelIntersects&resultType=none&distance=0.0&units=esriSRUnit_Meter&returnGeodetic=false&outFields=*&returnGeometry=true&returnCentroid=false&featureEncoding=esriDefault&multipatchOption=xyFootprint&maxAllowableOffset=&geometryPrecision=&outSR=&datumTransformation=&applyVCSProjection=false&returnIdsOnly=false&returnUniqueIdsOnly=false&returnCountOnly=false&returnExtentOnly=false&returnQueryGeometry=false&returnDistinctValues=false&cacheHint=false&orderByFields=&groupByFieldsForStatistics=&outStatistics=&having=&resultOffset=&resultRecordCount=&returnZ=false&returnM=false&returnExceededLimitFeatures=true&quantizationParameters=&sqlFormat=none&f=pjson&token=')
-
-#Pulls in the data that matters to 'p'
-vax_haa <- pp[["features"]][["attributes"]]
-
-#Rename Variables
-
-colnames(vax_haa)[1:23] <-c("objectid","Health_Region","objectid2", "haa_regions", "All_Doses_Given_Region", 
- "White", "Black","Native_American","Asian","Pacific_Islander", 
- "Unk_Race", "Other_Race","Population", "Dose_1_Total", "Dose_2_Total", "Unknown_Dose_Total", "Hispanic","Dose_1_Pct","Dose_2_Pct","All_Doses_Pct_Population", 
-"Hispanic_Pct", "shape_area", "shape_length")
-
-vax_haa$date <- Sys.Date()
-glimpse(vax_haa)
-write.csv(vax_haa, "vax_haa.csv")
-```
-```{r}
-race3 <- rio::import("https://raw.githubusercontent.com/Arkansascovid/Main/master/race_main_file.csv")
-race <- race3 %>% 
-  select(Total_State_Population_African_American, Total_State_Population_Asian, Total_State_Population_Hispanic, Total_State_Population_Multi_Racial, Total_State_Population_White, Total_State_Population_Other, Total_State_Population_Native_American, Total_State_Population_Pacific_Islander, Total_State_Population_Race_Or_Ethnicity_Unknown, Pct_State_Population_African_American, Pct_State_Population_Asian, Pct_State_Population_White, Pct_State_Population_Other, Pct_State_Population_Pacific_Islander, Pct_State_Population_African_American, Pct_State_Population_Hispanic, Pct_State_Population_Multi_Racial, Pct_State_Population_Native_American, Pct_State_Population_Race_Or_Ethnicity_Unknown)
-
-race$date <- Sys.Date()
-
-glimpse(race)
-
-```
-
-```{r}
-vax_haa_total <- vax_haa %>%
-    summarize_if(is.numeric, sum, na.rm=TRUE)
-vax_haa_total$haa_regions <- "Total"
-vax_haa_total$Health_Region <- "Total"
-vax_haa_total$date <- Sys.Date()
-
-
-vax_haa_total <- vax_haa_total %>% 
-  select(Health_Region, haa_regions, All_Doses_Given_Region, White, Black, Hispanic, Native_American, Asian, Pacific_Islander, Unk_Race, Other_Race, Population, Dose_1_Total, Dose_2_Total, Unknown_Dose_Total, Hispanic_Pct, date)
-
-vax_haa2 <- smartbind(vax_haa, vax_haa_total)
-
-glimpse(vax_haa2)
-```
-```{r}
-vax_haa_race <- vax_haa_total %>% 
-    inner_join(race, by=c("date")) %>% 
-  distinct()
-
-glimpse(vax_haa_race)
-```
-
-```{r}
-vaa2_haa_race <- vax_haa_race %>% 
-  mutate(Pct_White_Vax =(White/Total_State_Population_White)) %>% 
-  mutate(Pct_Black_Vax =(Black/Total_State_Population_African_American)) %>% 
-  mutate(Pct_Hispanic_Vax =(Hispanic/Total_State_Population_Hispanic)) %>%
-    mutate(Pct_Native_Am_Vax =(Native_American/Total_State_Population_Native_American)) %>%
-    mutate(Pct_Pacific_Island_Vax =(Pacific_Islander/Total_State_Population_Pacific_Islander)) %>% 
-      mutate(Pct_Asian_Vax =(Asian/Total_State_Population_Asian)) 
-
-write.csv(vaa2_haa_race, "vaccine_race_May8.csv" )
-
-```
-
-Vaccine Race Slide
-```{r}
-names(vaa2_haa_race)
-
-abc <- vaa2_haa_race %>% 
-  select(White, Black, Hispanic, Native_American, Asian, Pacific_Islander)
-
-def <- vaa2_haa_race %>% 
-  select(Pct_White_Vax, Pct_Black_Vax, Pct_Hispanic_Vax, Pct_Native_Am_Vax, Pct_Asian_Vax, Pct_Pacific_Island_Vax)
-
-#flip
-abc1 <- gather(abc, key = "Race_Ethnicity", value = "Overall_Doses", White, Black, Hispanic, Native_American, Asian, Pacific_Islander)
-
-
-def1 <- gather(def, key = "Race_Ethnicity", value = "Pct_Vax", Pct_White_Vax, Pct_Black_Vax, Pct_Hispanic_Vax, Pct_Native_Am_Vax, Pct_Asian_Vax, Pct_Pacific_Island_Vax)
-
-
-def2 <- def1 %>%
-  mutate(Race_Ethnicity = case_when(
-    str_detect(Race_Ethnicity, "Pct_White_Vax") ~ "White",
-    str_detect(Race_Ethnicity, "Pct_Black_Vax") ~ "Black",
-    str_detect(Race_Ethnicity, "Pct_Hispanic_Vax") ~ "Hispanic",
-    str_detect(Race_Ethnicity, "Pct_Native_Am_Vax") ~ "Native_American",
-    str_detect(Race_Ethnicity, "Pct_Asian_Vax") ~ "Asian",
-    str_detect(Race_Ethnicity, "Pct_Pacific_Island_Vax") ~ "Pacific_Islander",
-    TRUE ~ Race_Ethnicity
-  ))
-  
-#join
-vaccine_race_slide <- abc1 %>% 
-  inner_join(def2, by = "Race_Ethnicity")
-
-vaccine_race_slide$Pct_Vax <- formattable::percent(vaccine_race_slide$Pct_Vax, 2)
-
-vaccine_race_slide <- vaccine_race_slide %>% 
-  select(Race_Ethnicity, Overall_Doses, Pct_Vax)
-
-write.csv(vaccine_race_slide, "vaccine_race_slide.csv")
-
-
-```
-
-
-```{r}
-#For Footer on Graphic
-#This excludes XXXXXvaccines that were counted as 'Unknown Race' or 'Other Race'
-vax_haa_race$Unk_Race + vax_haa_race$Other_Race 
-
-
-#Feeds this chart
-#https://app.flourish.studio/visualisation/5535824/edit
-```
 
 #-----------------------------------
 #Flourish Chart Formatting Section
