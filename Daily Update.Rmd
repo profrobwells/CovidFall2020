@@ -443,8 +443,8 @@ write.csv(vaccine_county, file=vaxname)
 #Feed to vaccine chart
 ```{r}
 
-vaccinecounty1 <- vax1 %>% 
-  select(County_Name, Partial_Vax, Partial_Pct, Full_Vax, Full_Pct, Unknown_Dose, Unknown_Pct, population, Date)
+vaccinecounty1 <- vaccine_county %>% 
+  select(County_Name, Partial_Vax, Fully_Vax, Full_Pct, Unk_Dose, Population, Date)
 
 head(vaccinecounty1)
 

@@ -1,7 +1,7 @@
 ---
 title: "Hospital Data_April29"
 author: "Rob Wells, Katy Seiter"
-date: "4/29/2021"
+date: "5/20/2021"
 output: html_document
 ---
 
@@ -51,6 +51,29 @@ hospital <- read_sheet(url2, sheet = "Hospital-TWEET SLIDE",  col_types = NULL, 
 #hospital <- rio::import("/Users/rswells/Dropbox/Classes/Data Fall 2020/ArkansasCovid/Hospital Data - Manual Input - Hospital-TWEET SLIDE.csv", which = "Hospital-TWEET SLIDE")
 ```
 
+
+#Set Dates
+```{r}
+#today's date
+today <- Sys.Date()
+
+#NOTE: IF YOU ARE RUNNING THIS A DAY LATE, USE THIS CODE TO WORK PROPERLY
+#today <- Sys.Date()-1
+#today_county$mydate <-"2020-09-22- THE OLD DATE...."
+
+#yesterday's date
+yesterday <- (today-1)
+
+```
+
+#If needed Roll back a day
+```{r}
+# hospital <- hospital %>% 
+#   filter(Date<=(yesterday))
+
+```
+
+
 #clean names
 ```{r include=FALSE}
 hospital <- janitor::clean_names(hospital)
@@ -63,6 +86,7 @@ hospital <- hospital %>%
 ```  
 
 ```{r warning=FALSE}
+hospital <- as.data.frame(hospital)
 hospital <- hospital [ -c(1) ]
 colnames(hospital)[2:5] <- c("Hospitalized", "Vent", "Ever_Hospitalized", "Ever_on_a_Vent")
 hospital[2:5] <- lapply((hospital)[2:5], as.numeric)
@@ -78,9 +102,16 @@ main_hospital <- master2 %>%
   filter(county_nam=="Arkansas_all_counties") %>% 
   select(mydate, confirmed_active, active_cases) 
  
+#If needed Roll back a day
+# main_hospital <- main_hospital %>%
+#    filter(mydate<=("2021-05-17"))
+
+
 main_hospital2 <- left_join(hospital, main_hospital, by=c("date"="mydate"))
 glimpse(main_hospital2)
 ```
+
+
 
 #Hospital Math
 
@@ -97,7 +128,9 @@ hospital1 <- main_hospital2 %>%
 #   filter(date ==(today))
 
 # hospital1 <- hospital1 %>%
-#   filter(date >=("2020-11-19"))
+#   filter(date >=("2021-05-17"))
+
+
 
  hospital1 <- hospital1 %>% 
    filter(date >(yesterday))
@@ -174,31 +207,3 @@ h %>%
 ```
 
 
-# IMPORT THE DAILY EMAILED HOSPITAL DATA FROM THE GOOGLE Form
-
-```{r include=FALSE}
-url3 <- ("https://docs.google.com/spreadsheets/d/1ikblX8tikM59ma1AftkqgGbyeZkXB6DuBtwMsVeoGYw/edit?usp=sharing")
-
-hospitalemail <- read_sheet(url3, sheet = "Hospital_email",  col_types = NULL, na = "",trim_ws = TRUE)
-```
-
-```{r}
-# hospitalemail <- rio::import("/Users/rswells/Dropbox/Classes/Data Fall 2020/ArkansasCovid/Hospital Data - Manual Input.xlsx", which = "Hospital_email")
-```
-
-```{r}
-#clean names
-hospitalemail <- janitor::clean_names(hospitalemail)
-hospitalemail  <- hospitalemail  %>% 
-  arrange(desc(date))
-hospitalemail  <- hospitalemail  [ -c(1) ]
-glimpse(hospitalemail)
-colnames(hospitalemail)[1:10] <- c("Date", "Hospitalized", "Total_Beds", "Total_Beds_Available", "Total_ICU_Beds", "Total_ICU_Beds_Available", "Total_Vents", "Total_Vents_Available","Total_Covid_In_ICU","Total_Covid_Patients_Vent")
-hospitalemail$Date <- as.Date(hospitalemail$Date)
-```
-
-
-```{r}
-write.csv(hospitalemail, file = "MasterData/hospital_email_data.csv")
-head(hospitalemail)
-```
