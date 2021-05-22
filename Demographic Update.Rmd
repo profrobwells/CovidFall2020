@@ -1,12 +1,9 @@
 ---
 title: "Demographic Update Arkansas Covid"
 author: "Rob Wells and Mary Hennigan, Translation by Rachell Sanchez-Smith"
-date: "3/6/2021"
+date: "5/21/2021"
 output: pdf_document
 ---
-
-#This is New
-#This is New
 
 #Create the following folders in your working directory in R
 Demographics
@@ -137,7 +134,7 @@ glimpse(today_age)
 #Today_yesterday
 #Import age master file
 ```{r}
-age3 <- rio::import("https://raw.githubusercontent.com/Arkansascovid/Main/master/age_master.csv")
+age3 <- rio::import("https://raw.githubusercontent.com/Arkansascovid/Main/master/MasterData/age_master.csv")
 #age3 <- rio::import("age_master.csv")
 
 #age3 <- janitor::clean_names(age3)
@@ -208,6 +205,7 @@ age_master <- smartbind(age3, today_age_calcs)
 age_master <- age_master %>% 
   arrange(desc(Date))
 
+#Remove first row
 #age_master <- slice(age_master, -c(1))
 #remove first two columns of garbage index if needed
 #age_master <- age_master[ -c(1) ]
@@ -382,7 +380,7 @@ glimpse(today_race)
 #Import the master file for race from GitHub
 
 ```{r}
-race3 <- rio::import("https://raw.githubusercontent.com/Arkansascovid/Main/master/race_main_file.csv")
+race3 <- rio::import("https://raw.githubusercontent.com/Arkansascovid/Main/master/MasterData/race_main_file.csv")
 #race3 <- rio::import("race_main_file.csv")
 race3$Date <- lubridate::ymd(race3$Date)
 
@@ -732,7 +730,7 @@ glimpse(today_gender2)
 
 ```{r}
 #gender_master <- rio::import("gender_master.csv")
-gender_master <- rio::import("https://raw.githubusercontent.com/Arkansascovid/Main/master/gender_master.csv")
+gender_master <- rio::import("https://raw.githubusercontent.com/Arkansascovid/Main/master/MasterData/gender_master.csv")
 gender_master$Date <- lubridate::ymd(gender_master$Date)
 
 
@@ -769,8 +767,11 @@ mutate(New_Cases_Male = (Cases_Male -lead(Cases_Male))) %>%
   mutate(New_Cases_Female = (Cases_Female-lead(Cases_Female))) %>% 
   mutate(New_Cases_Gender_Unknown = (Cases_Gender_Unknown-lead(Cases_Gender_Unknown)))
 
-head(gender2)
 
+
+#cut first row if needed for cleaning
+#gender2 <- slice(gender2, -c(1))
+head(gender2)
 write.csv(gender2, file = "Demographics/gender_master.csv")
 write.csv(gender2, file = "MasterData/gender_master.csv")
 write.csv(gender2, file = "Demographics/gender_FLOURISH_master.csv")

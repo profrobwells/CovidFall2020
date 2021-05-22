@@ -1,7 +1,7 @@
 ---
 title: "Daily Update Arkansas Covid"
 author: "Rob Wells, Katy Seiter and Mary Hennigan"
-date: "5/19/2021"
+date: "5/21/2021"
 output: pdf_document
 ---
 
@@ -95,7 +95,7 @@ today_county$mydate <- as.Date(today_county$mydate)
 
 -**Import and Clean Yesterday's Data**
 ```{r}
-yesterday_county <- rio::import("https://raw.githubusercontent.com/Arkansascovid/Main/master/master_file.csv")
+yesterday_county <- rio::import("https://raw.githubusercontent.com/Arkansascovid/Main/master/MasterData/master_file.csv")
 #yesterday_county <- yesterday_county [ -c(1) ]
 yesterday_county$mydate <- as.Date(yesterday_county$mydate)
 #ran this to test it out on today's data
@@ -351,7 +351,7 @@ ggsave("Deaths_2_Day_avg.png",device = "png",width=9,height=6, dpi=400)
 
 #-------------------------------------------
 #-------------------------------------------
-#Vaccine Data - New Section May 19, 2021
+#Vaccine Data - New Section May 21, 2021
 #County vaccination data here
 #-------------------------------------------
 #-------------------------------------------
@@ -417,7 +417,7 @@ vax1 <- vax %>%
          White_Partial_Pct, Black_Partial_Pct, Asian_Partial_Pct,
          Non_Hispanic_Partial_Pct, Non_Hispanic_Full_Pct)
 
-write.csv(vax1, "vaccine_county_full.csv")
+write.csv(vax1, "HomePageData/vaccine_county_full.csv")
 
 vaccine_county <- vax1 %>% 
   select(County_Name, Date, County_Vax_Total, Partial_Vax, Fully_Vax,Unk_Dose, Population) %>% 
@@ -425,7 +425,7 @@ vaccine_county <- vax1 %>%
 
 vaccine_county$Full_Pct <- formattable::percent(vaccine_county$Full_Pct, 1)
 
-write.csv(vaccine_county, "vaccine_county.csv")
+write.csv(vaccine_county, "HomePageData/vaccine_county.csv")
 date <- Sys.Date()
 vaxname <- paste("vaccine_county_",date,".csv",sep="")
 write.csv(vax1, file=vaxname) 
@@ -438,6 +438,9 @@ write.csv(vaccine_county, file=vaxname)
 #Feeds to vaccine chart
 #https://www.datawrapper.de/_/dDKzc/
 
+#Documentation for live updated charts
+#https://academy.datawrapper.de/article/60-external-data-sources
+#https://academy.datawrapper.de/article/236-how-to-create-a-live-updating-symbol-map-or-choropleth-map
 ```
 
 #Feed to vaccine chart
@@ -448,7 +451,7 @@ vaccinecounty1 <- vaccine_county %>%
 
 head(vaccinecounty1)
 
-write.csv(vaccinecounty1, file = "MasterData/vaccinecounty.csv")
+write.csv(vaccinecounty1, file = "HomePageData/vaccinecounty.csv")
 
 #Write a copy with a date for archiving
 #Put this file into the Vaccine History folder in GitHub #https://github.com/Arkansascovid/Main/tree/master/Vaccine_History 
@@ -462,7 +465,7 @@ write.csv(vaccinecounty1, file=vaccinecounty2)
 
 #Add to master file
 ```{r}
-vaxmaster <- rio::import("https://raw.githubusercontent.com/Arkansascovid/Main/master/vaccine_master.csv")
+vaxmaster <- rio::import("https://raw.githubusercontent.com/Arkansascovid/Main/master/HomePageData/vaccine_master.csv")
 
 # vaxmaster <- vaxmaster [ -c(31) ]
 # vaxmaster <- vaxmaster %>% 
@@ -471,7 +474,7 @@ vaxmaster <- rio::import("https://raw.githubusercontent.com/Arkansascovid/Main/m
 vaccine_master <- smartbind(vax1, vaxmaster)
 # vaccine_master <- vaccine_master [ -c(30) ]
 
-write.csv(vaccine_master, "vaccine_master.csv")
+write.csv(vaccine_master, "HomePageData/vaccine_master.csv")
 
 ```
 
@@ -519,7 +522,7 @@ vax1_old$All_Doses_Given <- All_Doses_Given
 
 ```{r include=FALSE}
 
-vax2 <- rio::import("https://raw.githubusercontent.com/Arkansascovid/Main/master/vaccine.csv")
+vax2 <- rio::import("https://raw.githubusercontent.com/Arkansascovid/Main/master/HomePageData/vaccine.csv")
 vax2 [3:9] <- lapply(vax2 [3:9], as.numeric)
 vax2$Date <- as.Date(vax2$Date)
 #vax2$Date <- mdy(vax2$Date)
@@ -554,7 +557,7 @@ vaccine <- vaccine %>%
 vaccine$Pct_Doses_Total <- formattable::percent(vaccine$Pct_Doses_Total, 1)
 glimpse(vaccine)
 
-write.csv(vaccine, file = "MasterData/vaccine.csv")
+write.csv(vaccine, file = "HomePageData/vaccine.csv")
 #Feeds to Flourish daily chart
 #https://app.flourish.studio/visualisation/4988228/edit
 ```
