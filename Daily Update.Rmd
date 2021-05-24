@@ -442,6 +442,10 @@ write.csv(vaccine_county, file=vaxname)
 #Documentation for live updated charts
 #https://academy.datawrapper.de/article/60-external-data-sources
 #https://academy.datawrapper.de/article/236-how-to-create-a-live-updating-symbol-map-or-choropleth-map
+
+#Definitions for the data feed
+#https://docs.google.com/spreadsheets/d/1gJ8aEnX5zmT5ru-WPJjBQ2gEEaGZ4vc_A8hgWK69IdE/edit?usp=sharing
+
 ```
 
 #Feed to vaccine chart
