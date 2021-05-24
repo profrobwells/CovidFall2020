@@ -249,7 +249,7 @@ daily2 <- daily2[-c(1), ]
 daily2
 
 write.csv(daily2, file = "HomePageData/daily.csv")
-#It feeds this Flourish graphic: https://app.flourish.studio/visualisation/4895391/edit 
+#It feeds this Flourish graphic: https://app.flourish.studio/visualisation/4947109/edit
 ```
 
 
@@ -426,6 +426,7 @@ vaccine_county <- vax1 %>%
 vaccine_county$Full_Pct <- formattable::percent(vaccine_county$Full_Pct, 1)
 
 write.csv(vaccine_county, "HomePageData/vaccine_county.csv")
+write.csv(vaccine_county, "MasterData/vaccine_county.csv")
 date <- Sys.Date()
 vaxname <- paste("vaccine_county_",date,".csv",sep="")
 write.csv(vax1, file=vaxname) 
@@ -558,6 +559,7 @@ vaccine$Pct_Doses_Total <- formattable::percent(vaccine$Pct_Doses_Total, 1)
 glimpse(vaccine)
 
 write.csv(vaccine, file = "HomePageData/vaccine.csv")
+write.csv(vaccine, file = "MasterData/vaccine.csv")
 #Feeds to Flourish daily chart
 #https://app.flourish.studio/visualisation/4988228/edit
 ```
