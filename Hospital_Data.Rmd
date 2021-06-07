@@ -44,7 +44,7 @@ q <- fromJSON('https://services.arcgis.com/PwY9ZuZRDiI5nXUB/ArcGIS/rest/services
 #OnVents and PositiveAdmits represent the same data in the daily Tweet slide for vents and total hospitalized
 hospital_new <- q[["features"]][["attributes"]]
 
-hospital_new$Date <- Sys.Date()-1
+hospital_new$Date <- Sys.Date()
 
 
 #makes a spreadsheet
@@ -58,7 +58,7 @@ sum(hospital_new$OnVents)
 #Set Dates
 ```{r}
 #today's date
-today <- Sys.Date()-1
+today <- Sys.Date()
 
 #NOTE: IF YOU ARE RUNNING THIS A DAY LATE, USE THIS CODE TO WORK PROPERLY
 #today <- Sys.Date()-1
