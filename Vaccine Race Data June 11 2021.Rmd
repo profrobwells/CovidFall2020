@@ -1,0 +1,155 @@
+---
+title: "Vaccine Race Data"
+output: html_document
+---
+
+#ARKANSAS POPULATION BY RACE AND AGE
+#SOURCE DATA: https://www.cdc.gov/nchs/nvss/bridged_race/data_documentation.htm#vintage2019
+#We downloaded "pcen_v2019_y1019.sas7bdat.zip zip icon[SAS – 58 MB] (Released 7/9/2020)"
+#Then carved out the Arkansas portion
+#Then matched the county FIPS data for county names
+#Then filtered for population age 12+ in all counties
+#Then summarized the file to provide total race by age 12+
+
+```{r include=FALSE}
+#install.packages("slider")
+#install.packages("zoo")
+#install.packages("gtools")
+#install.packages("kableExtra")
+#install.packages("formattable")
+library(tidyverse)
+library(janitor)
+library(lubridate)
+library(jsonlite)
+library(gtools)
+library(zoo)  
+library(reshape2)
+library(slider)
+library(formattable)
+
+```
+
+
+
+#REPRODUCIBLE EXAMPLE FROM HERE -- SEE LINES 101-156 ON HOW ARK_RACE WAS CREATED
+```{r}
+
+ark_race <- rio::import("https://raw.githubusercontent.com/profrobwells/CovidFall2020/master/ark_race.csv")
+ark_race[2:10] <- lapply(ark_race[2:10], as.numeric)
+
+```
+
+
+#sum race all ages
+```{r}
+ark_race2 <- ark_race %>% 
+  select(County, co_fips, age, hisp, racesex, race4, pop2019, st_fips) %>% 
+  group_by(County, race4) %>% 
+  summarize(total_pop2019=sum(pop2019))
+
+
+```
+
+
+```{r}
+#Population totals by race
+#Thanks Sean, Kara and Nick:
+ark_race2 <- ark_race2 %>%
+  mutate(Race = as.character(race4)) %>%   
+     mutate(Race = case_when(
+    str_detect(Race, "1") ~ "White",
+     str_detect(Race, "2") ~ "Black",
+     str_detect(Race, "3") ~ "Nat_Am",
+     str_detect(Race, "4") ~ "Asian",
+    TRUE ~ Race
+  ))
+```
+
+#sum hispanic all gaes
+```{r}
+ark_race_hisp <- ark_race %>% 
+  select(County, co_fips, age, hisp, racesex, race4, pop2019, st_fips) %>% 
+  group_by(County, hisp) %>% 
+  summarize(total_pop2019=sum(pop2019)) %>% 
+  filter(hisp=="2") 
+
+ark_race_hisp$Race <- str_replace_all(ark_race_hisp$hisp, pattern=fixed('2'), replacement=fixed('Hispanic') )
+
+ark_race_hisp <- ark_race_hisp %>% 
+  select(County, total_pop2019, Race)
+
+```
+
+```{r}
+
+x <- ark_race2 %>% 
+  select(County, total_pop2019, Race)
+
+Arkansas_Race_Population <- rbind(ark_race_hisp,x)
+
+write.csv(Arkansas_Race_Population, "Arkansas_Race_Population.csv")
+
+```
+
+
+#Your TURN, Robert Stewart!!
+#fact check using the following steps but eliminate the age filter at line 40-41. 
+#see if the population totals align with the census 2019 population totals. if they do, then we are in business
+
+#CREATING ARK_RACE
+
+#Import nationwide race and county data
+```{r}
+sas <- rio::import("/Volumes/1TB SDD MacTower/Wells Data/Dropbox/Classes/Data Fall 2020/ArkansasCovid/Vaccine Race Data/pcen_v2019_y1019.sas7bdat")
+
+sas <- janitor::clean_names(sas)
+names(sas)
+
+```
+
+#Subset an Arkansas dataframe from above
+```{r}
+sas_ark <- sas %>% 
+  filter(st_fips =="5")
+
+ark_12_older <- sas_ark %>% 
+  filter(age >11)
+
+#select just 2019 data
+ark_12_older <- ark_12_older %>% 
+  select(age, hisp, racesex, vintage, race4, pop2019, st_fips, co_fips)
+
+```
+
+#join county data
+```{r}
+
+counties2 <- rio::import("https://raw.githubusercontent.com/kjhealy/fips-codes/master/state_and_county_fips_master.csv")
+
+
+ar_counties <- counties %>% 
+  filter(state== "AR")
+
+ar_counties$fips1 <- ar_counties$fips
+#split data into two columns
+ar_counties <- separate(data = ar_counties, col = fips1, into = c("junk", "fips2"), sep = "5", extra = "merge", fill = "right")
+
+#numeric value
+ar_counties$fips2 <- as.numeric(ar_counties$fips2)
+
+#merge with ar_12_older
+
+ark_race <- ark_12_older %>% 
+  inner_join(ar_counties, by=c("co_fips"="fips2"))
+
+ark_race <- ark_race %>% 
+  rename(County = name)
+
+ark_race$County <- gsub(" County", "", ark_race$County)
+
+write.csv(ark_race, "ark_race.csv")
+
+names(ark_race)
+```
+
+
