@@ -99,7 +99,8 @@ ark_race_hisp <- ark_race %>%
 
 #Create a special table with the Hispanic percentage per county
 ark_race_hisp_pct <- ark_race_hisp %>% 
-  mutate(Pct_Hisp = (total_pop2019/lag(total_pop2019)))
+  mutate(total2 =(total_pop2019+lag(total_pop2019))) %>% 
+  mutate(Pct_Hisp = (total_pop2019/total2))
 
 ark_race_hisp_pct$Pct_Hisp <- formattable::percent(ark_race_hisp_pct$Pct_Hisp)
 write.csv(ark_race_hisp_pct, "ark_race_hisp_pct.csv")
