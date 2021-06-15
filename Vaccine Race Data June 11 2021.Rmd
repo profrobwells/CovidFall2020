@@ -1,6 +1,9 @@
 ---
 title: "Vaccine Race Data"
+author: "By Rob Wells. Thanks to Robert Stewart"
+date: "6/15/2021"
 output: html_document
+
 ---
 
 #ARKANSAS POPULATION BY RACE AND AGE
@@ -67,14 +70,42 @@ ark_race2 <- ark_race2 %>%
 
 #sum hispanic all gaes
 ```{r}
+# ark_race_hisp <- ark_race %>% 
+#   select(County, co_fips, age, hisp, racesex, race4, pop2019, st_fips) %>% 
+#   group_by(County, hisp) %>% 
+#   summarize(total_pop2019=sum(pop2019)) %>% 
+#   filter(hisp=="2") 
+# 
+# ark_race_hisp$Race <- str_replace_all(ark_race_hisp$hisp, pattern=fixed('2'), replacement=fixed('Hispanic') )
+# 
+# ark_race_hisp <- ark_race_hisp %>% 
+#   select(County, total_pop2019, Race)
+
+```
+
+
+#sum hispanic all gaes and percent
+```{r}
 ark_race_hisp <- ark_race %>% 
   select(County, co_fips, age, hisp, racesex, race4, pop2019, st_fips) %>% 
   group_by(County, hisp) %>% 
   summarize(total_pop2019=sum(pop2019)) %>% 
-  filter(hisp=="2") 
+  mutate(Race = as.character(hisp)) %>%   
+     mutate(Race = case_when(
+    str_detect(Race, "1") ~ "Non_Hispanic",
+     str_detect(Race, "2") ~ "Hipanic",
+    TRUE ~ Race
+  ))
 
-ark_race_hisp$Race <- str_replace_all(ark_race_hisp$hisp, pattern=fixed('2'), replacement=fixed('Hispanic') )
+#Create a special table with the Hispanic percentage per county
+ark_race_hisp_pct <- ark_race_hisp %>% 
+  mutate(Pct_Hisp = (total_pop2019/lag(total_pop2019)))
 
+ark_race_hisp_pct$Pct_Hisp <- formattable::percent(ark_race_hisp_pct$Pct_Hisp)
+write.csv(ark_race_hisp_pct, "ark_race_hisp_pct.csv")
+
+
+#Create final Hispanic table to join with the race table
 ark_race_hisp <- ark_race_hisp %>% 
   select(County, total_pop2019, Race)
 
