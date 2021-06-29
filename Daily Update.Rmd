@@ -67,7 +67,7 @@ today_county <- janitor::clean_names(today_county)
 #Set Dates
 ```{r}
 #today's date
-today <- Sys.Date()-3
+today <- Sys.Date()
 
 #NOTE: IF YOU ARE RUNNING THIS A DAY LATE, USE THIS CODE TO WORK PROPERLY
 #today <- Sys.Date()-1
@@ -297,7 +297,7 @@ df4$Amount <- round(df4$Amount,0)
 ggplot(df4,aes(x = mydate, y = Amount, label = Amount, fill= Detail)) + 
 geom_bar(stat="identity", position="dodge", color="white")+
 scale_fill_manual(values=c("#B3BF08", "#08B3BF", "#D68037"))+
-scale_y_continuous(limits=c(0, 500))  +
+scale_y_continuous(limits=c(0, 1500))  +
   theme_bw() + 
   theme(
     plot.title = element_text(face = "bold", size = 16),
@@ -314,7 +314,7 @@ scale_y_continuous(limits=c(0, 500))  +
    geom_col(position = position_dodge2(width = 0.9, preserve = "single")) +
   geom_text(position = position_dodge2(width = 0.9, preserve = "single"), vjust=-0.5, hjust=+0.5) +
   labs(title = "New Cases & Recoveries in Arkansas Announced Today", 
-       subtitle = "Confirmed + Probable,  ADH Data for May 12, 2021",
+       subtitle = "Confirmed + Probable,  ADH Data for June 29, 2021",
        caption = "Graphic by ArkansasCovid.com",
        y="Amount",
        x="Date")
@@ -341,7 +341,7 @@ scale_fill_manual(values=c("#08B3BF", "#D68037"))+
   geom_text(position = position_dodge2(width = 0.9, preserve = "single"), vjust=-0.5, hjust=+0.5) +
   scale_y_continuous(limits=c(0, 15)) + 
   labs(title = "New Deaths in Arkansas Announced Today", 
-       subtitle = "Confirmed + Probable,  ADH Data for May 12, 2021",
+       subtitle = "Confirmed + Probable,  ADH Data for June 29, 2021",
        caption = "Graphic by ArkansasCovid.com",
        y="Amount",
        x="Date")
@@ -939,104 +939,6 @@ datawrapper_marshallese <- countyonlytoday_marshallese %>%
   select(County_Name, Date, Case_ko_rōkāāl_rainin)
 write.csv(datawrapper_marshallese, file = "Marshallese/datawrapper_marshallese.csv")
 ```
-
-
-#---------------------------------------------------------
-
-#New Table only for Monday data starting June 28, 2021
-#One-day totals obtained from email / tweet slide
-
-
-#---------------------------------------------------------
-
-
-```{r}
-#The Monday modified "PRETTY SLIDE"
-
-#Our Google Form
-#disable scientific notation
-options(scipen = 999)
-
-New_Cases_Today <- c(300)
-New_Deaths_Today <- c(5)
-active_cases <- c(3000)
-deaths <- c(6000)
-positive <- c(348000)
-mydate <- as.Date(c('2021-06-28'))
-
-daily2 <- data.frame(mydate, New_Cases_Today, New_Deaths_Today, active_cases, positive, deaths)
-
-daily <- daily2 %>% 
-  rename('New Cases Today' =  New_Cases_Today, 'New Deaths Today' = New_Deaths_Today, 'Active Cases' = active_cases, 'Deaths' = deaths, 'Positive' = positive, 'Date' = mydate)
-
-dailyT<- as.data.frame(t(daily))
-
-write.csv(dailyT, "dailyT.csv")
-daily2 <- rio::import("dailyT.csv")
-colnames(daily2) <- c("Item", "Amount")
-daily2 <- daily2[-c(1), ] 
-daily2
-
-write.csv(daily2, file = "HomePageData/daily.csv")
-#It feeds this Flourish graphic: https://app.flourish.studio/visualisation/4947109/edit
-```
-
-#Weekend Data Update
-#GOOGLE FORM! REPLACE THE NUMBERS WITH THE SATURDAY / SUNDAY ADH DATA
-```{r}
-
-#GOOGLE FORM! REPLACE THE NUMBERS WITH THE SATURDAY ADH DATA
-Sat_New_Cases_Today <- c(250)
-Sat_New_Deaths_Today <- c(3)
-Sat_active_cases <- c(2950)
-Sat_deaths <- c(5900)
-Sat_positive <- c(349000)
-mydate <- as.Date(c('2021-06-26'))
-
-sat_daily <- data.frame(mydate, Sat_New_Cases_Today, Sat_New_Deaths_Today, Sat_active_cases, Sat_positive, Sat_deaths)
-
-sat_daily <- sat_daily %>% 
-  rename('New Cases Today' =  Sat_New_Cases_Today, 'New Deaths Today' = Sat_New_Deaths_Today, 'Active Cases' = Sat_active_cases, 'Deaths' = Sat_deaths, 'Positive' = Sat_positive, 'Date' = mydate)
-
-
-#GOOGLE FORM! REPLACE THE NUMBERS WITH THE SATURDAY ADH DATA
-Sun_New_Cases_Today <- c(275)
-Sun_New_Deaths_Today <- c(6)
-Sun_active_cases <- c(2970)
-Sun_deaths <- c(5950)
-Sun_positive <- c(350000)
-mydate <- as.Date(c('2021-06-27'))
-
-sun_daily <- data.frame(mydate, Sun_New_Cases_Today, Sun_New_Deaths_Today, Sun_active_cases, Sun_positive, Sun_deaths)
-
-sun_daily <- sun_daily %>% 
-  rename('New Cases Today' =  Sun_New_Cases_Today, 'New Deaths Today' = Sun_New_Deaths_Today, 'Active Cases' = Sun_active_cases, 'Deaths' = Sun_deaths, 'Positive' = Sun_positive, 'Date' = mydate)
-
-weekend <- rbind(daily, sat_daily, sun_daily)
-
-weekend <- weekend %>% 
-  arrange(desc(Date))
-
-write.csv(weekend, file = "HomePageData/weekend.csv")
-```
-
-#Averages
-```{r}
-
-weekend1 <- weekend %>% 
-  summarise_if(is.numeric, mean) 
-
-weekend1$'New Cases Today' <- round(weekend1$'New Cases Today', 0)
-weekend1$'New Deaths Today' <- round(weekend1$'New Deaths Today', 0)
-weekend1$'Active Cases' <- round(weekend1$'Active Cases', 0)
-weekend1$Positive <- round(weekend1$Positive, 0)
-weekend1$Deaths <- round(weekend1$Deaths, 0)
-
-write.csv(weekend1, file = "HomePageData/weekend1.csv")
-
-
-```
-
 
 
 
