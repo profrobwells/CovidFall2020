@@ -46,7 +46,7 @@ mydate <- as.Date(c('2021-06-28'))
 
 daily2 <- data.frame(mydate, New_Cases_Today, New_Deaths_Today, active_cases, positive, deaths)
 
-daily <- daily2 %>%
+fri_daily <- daily2 %>%
   rename('New Cases Today' =  New_Cases_Today, 'New Deaths Today' = New_Deaths_Today, 'Active Cases' = active_cases, 'Deaths' = deaths, 'Positive' = positive, 'Date' = mydate)
 ```
 
@@ -125,9 +125,8 @@ today <- Sys.Date()
 #today <- Sys.Date()-1
 #today_county$mydate <-"2020-09-22- THE OLD DATE...."
 
-#yesterday's date
 #Changed to capture Friday instead of just the previous day
-yesterday <- (today-3)
+friday <- (today-3)
 
 ```
 
@@ -147,14 +146,14 @@ today_county$county_nam  <- gsub("[[:space:]]", "", today_county$county_nam)
 today_county$mydate <- as.Date(today_county$mydate)
 ```
 
--**Import and Clean Yesterday's Data**
+-**Import and Clean Friday's Data**
 ```{r}
 yesterday_county <- rio::import("https://raw.githubusercontent.com/Arkansascovid/Main/master/MasterData/master_file.csv")
 #yesterday_county <- yesterday_county [ -c(1) ]
 yesterday_county$mydate <- as.Date(yesterday_county$mydate)
 #ran this to test it out on today's data
  yesterday_county <- yesterday_county %>% 
-  filter(mydate<=(yesterday))
+  filter(mydate<=(friday))
 yesterday_county[4:45] <- lapply(yesterday_county[4:45], as.numeric)
 ```
 # .
@@ -167,7 +166,7 @@ yesterday_county[4:45] <- lapply(yesterday_county[4:45], as.numeric)
 
 ```{r}
 countytemp <- yesterday_county %>% 
-  filter(mydate>=(yesterday)) %>%  
+  filter(mydate>=(friday)) %>%  
   arrange(county_nam) 
 ```
 
@@ -180,7 +179,7 @@ twodays <- df_master %>%
 ```
 
 
--**The Today-Yesterday Calculations**
+-**The Today-Friday Calculations**
 
 ```{r}
 twodays <- twodays %>%
@@ -193,7 +192,7 @@ twodays <- twodays %>%
 
 - **IMPORTANT: FILTER TABLE TO TODAY'S RESULTS**
 ```{r}
-twodays <- twodays %>% filter(mydate > yesterday) #SHOULD GET 77 ROWS IN twodays
+twodays <- twodays %>% filter(mydate > friday) #SHOULD GET 77 ROWS IN twodays
 ```
 
 
@@ -326,7 +325,7 @@ test <- test %>%
 test2 <- test %>% 
   select(mydate, county_nam, positive, Positive_7_Day_Avg, New_Cases_Today, New_Cases_7_Day_Avg, New_Deaths_Today, New_Deaths_7_Day_Avg, Recovered_Since_Yesterday, active_cases) %>% 
   filter(county_nam=="Arkansas_all_counties") %>% 
-  filter(mydate>=(yesterday))
+  filter(mydate>=(friday))
 
 #Alex Nichol decimal rounding:
 test2$Positive_7_Day_Avg <-round(test2$Positive_7_Day_Avg, 1)
@@ -1071,7 +1070,7 @@ write.csv(datawrapper_marshallese, file = "Marshallese/datawrapper_marshallese.c
 
 
 # 
-weekend <- rbind(daily, sat_daily, sun_daily)
+weekend <- rbind(fri_daily, sat_daily, sun_daily)
 #
 weekend <- weekend %>%
    arrange(desc(Date))
@@ -1101,6 +1100,42 @@ write.csv(weekend1, file = "HomePageData/weekend1.csv")
 ```
 
 
+#New: The Monday 3-day total compared to the prior Monday 3-day total
+-**Import and Clean Yesterday's Data**
+```{r}
+monday_county <- yesterday_county %>% 
+  filter(mydate==("2021-06-28")) %>% 
+  arrange(county_nam) 
+
+monday_county[4:45] <- lapply(monday_county[4:45], as.numeric)
+```
+# .
+# Previous Date Calculations
+
+You should get a df with 154 observations (two days' worth a data)
+```{r}
+monday_master <- smartbind(today_county, monday_county)
+
+monday_twodays <- monday_master %>% 
+  arrange((county_nam))
+```
+
+
+-**The Today-Yesterday Calculations**
+
+```{r}
+monday_twodays <- monday_twodays %>%
+  mutate(Number_Tested=(positive+negative)) %>% 
+  mutate(New_Cases_Today = (positive-lead(positive))) %>%
+  mutate(Recovered_Since_Yesterday = (recoveries-lead(recoveries))) %>%
+  mutate(New_Deaths_Today = (deaths-lead(deaths))) %>%
+  mutate(New_Tests_Dashboard = (Number_Tested-lead(Number_Tested)))
+```
+
+- **IMPORTANT: FILTER TABLE TO TODAY'S RESULTS**
+```{r}
+#monday_twodays <- monday_twodays %>% filter(mydate > friday) #SHOULD GET 77 ROWS IN twodays
+```
 
 
 
