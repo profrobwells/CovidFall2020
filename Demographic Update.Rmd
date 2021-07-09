@@ -1,7 +1,7 @@
 ---
 title: "Demographic Update Arkansas Covid"
 author: "Rob Wells and Mary Hennigan, Translation by Rachell Sanchez-Smith"
-date: "5/21/2021"
+date: "7/9/2021"
 output: pdf_document
 ---
 
@@ -41,8 +41,9 @@ library(slider)
 ## Retrieve State Arkansas Covid Data from ADH FEED
 ```{r}
 #New County json feed
-#38 Variables
-z <- fromJSON('https://services.arcgis.com/PwY9ZuZRDiI5nXUB/ArcGIS/rest/services/UPDATED_ADH_COVID19_STATE_METRICS/FeatureServer/0/query?where=0%3D0&objectIds=&time=&resultType=none&outFields=*&returnIdsOnly=false&returnUniqueIdsOnly=false&returnCountOnly=false&returnDistinctValues=false&cacheHint=false&orderByFields=&groupByFieldsForStatistics=&outStatistics=&having=&resultOffset=&resultRecordCount=&sqlFormat=none&f=pjson&token=')
+# #38 Variables
+
+z <- fromJSON('https://services5.arcgis.com/vlhGQkz6fSnofVMD/ArcGIS/rest/services/ADH_COVID19_STATS_BY_STATE/FeatureServer/0/query?where=0%3D0&objectIds=&time=&resultType=none&outFields=*&returnIdsOnly=false&returnUniqueIdsOnly=false&returnCountOnly=false&returnDistinctValues=false&cacheHint=false&orderByFields=&groupByFieldsForStatistics=&outStatistics=&having=&resultOffset=&resultRecordCount=&sqlFormat=none&f=pjson&token=')
 
 df <- z[["features"]][["attributes"]]
 #print's today's date as a date field
@@ -51,6 +52,7 @@ df$date <- Sys.Date()
 #austin help on that
 #if file exists = check if current data is different and if that is true then append today's data set to master dataset and resave
 today_demo <- df
+
 ```
 
 #This is the API feed. It is called "today_demo" for demographics. Get it?

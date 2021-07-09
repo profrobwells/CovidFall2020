@@ -1,7 +1,7 @@
 ---
 title: "Hospital"
 author: "By Rob Wells. Thanks to Ravi Brock"
-date: "6/01/2021"
+date: "7/9/2021"
 output: pdf_document
 ---
 
@@ -37,9 +37,12 @@ library(formattable)
 
 ## Retrieve Regional Hospital Data from ADH FEED
 ```{r}
-#New County json feed
+#New json feed ver July 9
 #38 Variables
-q <- fromJSON('https://services.arcgis.com/PwY9ZuZRDiI5nXUB/ArcGIS/rest/services/UPDATED_ADH_COVID19_HEALTH_REGION_METRICS/FeatureServer/0/query?where=0%3D0&objectIds=&time=&geometry=&geometryType=esriGeometryEnvelope&inSR=&spatialRel=esriSpatialRelIntersects&resultType=none&distance=0.0&units=esriSRUnit_Meter&returnGeodetic=false&outFields=*&returnGeometry=true&returnCentroid=false&featureEncoding=esriDefault&multipatchOption=xyFootprint&maxAllowableOffset=&geometryPrecision=&outSR=&datumTransformation=&applyVCSProjection=false&returnIdsOnly=false&returnUniqueIdsOnly=false&returnCountOnly=false&returnExtentOnly=false&returnQueryGeometry=false&returnDistinctValues=false&cacheHint=false&orderByFields=&groupByFieldsForStatistics=&outStatistics=&having=&resultOffset=&resultRecordCount=&returnZ=false&returnM=false&returnExceededLimitFeatures=true&quantizationParameters=&sqlFormat=none&f=pjson&token=')
+
+
+q <- fromJSON('https://services5.arcgis.com/vlhGQkz6fSnofVMD/ArcGIS/rest/services/UPDATED_ADH_COVID19_HEALTH_REGION_METRICS/FeatureServer/0/query?where=0%3D0&objectIds=&time=&geometry=&geometryType=esriGeometryEnvelope&inSR=&spatialRel=esriSpatialRelIntersects&resultType=none&distance=0.0&units=esriSRUnit_Meter&returnGeodetic=false&outFields=*&returnGeometry=true&returnCentroid=false&featureEncoding=esriDefault&multipatchOption=xyFootprint&maxAllowableOffset=&geometryPrecision=&outSR=&datumTransformation=&applyVCSProjection=false&returnIdsOnly=false&returnUniqueIdsOnly=false&returnCountOnly=false&returnExtentOnly=false&returnQueryGeometry=false&returnDistinctValues=false&cacheHint=false&orderByFields=&groupByFieldsForStatistics=&outStatistics=&having=&resultOffset=&resultRecordCount=&returnZ=false&returnM=false&returnExceededLimitFeatures=true&quantizationParameters=&sqlFormat=none&f=pjson&token=')
+
 
 #OnVents and PositiveAdmits represent the same data in the daily Tweet slide for vents and total hospitalized
 hospital_new <- q[["features"]][["attributes"]]
@@ -113,7 +116,7 @@ hospital_master <- hospital_master %>%
 
 #roll back a date
 # hospital_master <- hospital_master %>%
-#     filter(date<=("2021-05-30"))
+#      filter(date<=("2021-06-09"))
 
 
 #Join new to old
@@ -248,14 +251,14 @@ df5 <- df5 %>%
 ggplot(df5,aes(x = Date, y = Amount, label = Amount, fill= Detail)) + 
 geom_bar(stat="identity", position="dodge", color="white")+
 scale_fill_manual(values=c("#B3BF08", "#08B3BF", "#D68037"))+
-scale_y_continuous(limits=c(0, 350))  +
+scale_y_continuous(limits=c(0, 700))  +
   theme_bw() + 
   theme(
     plot.title = element_text(face = "bold", size = 16),
     legend.background = element_rect(fill = "white", size = .01, colour = "white"),
     legend.justification = c(0, 1),
     #adjust the box position. First number horizontal, second, vertical 
-    legend.position = c(.617, .96),
+    legend.position = c(.780, .96),
     #legend.position = c(.617, .38),
     #legend.position = c(.1, .38),
     axis.ticks = element_line(colour = "grey70", size = 0.2),
