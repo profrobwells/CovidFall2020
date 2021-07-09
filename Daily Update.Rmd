@@ -1,7 +1,7 @@
 ---
 title: "Daily Update Arkansas Covid"
 author: "Rob Wells, Katy Seiter and Mary Hennigan"
-date: "6/28/2021"
+date: "7/8/2021"
 output: pdf_document
 ---
 
@@ -34,22 +34,31 @@ library(formattable)
 
 ```
 
-## Retrieve State Arkansas Covid Data from ADH FEED
+## County Level Arkansas Covid Data from ADH FEED
 ```{r}
 #New County json feed
 #38 Variables
-q <- fromJSON('https://services.arcgis.com/PwY9ZuZRDiI5nXUB/ArcGIS/rest/services/UPDATED_ADH_COVID19_COUNTY_METRICS/FeatureServer/0/query?where=0%3D0&objectIds=&time=&geometry=&geometryType=esriGeometryEnvelope&inSR=&spatialRel=esriSpatialRelIntersects&resultType=none&distance=0.0&units=esriSRUnit_Meter&returnGeodetic=false&outFields=*&returnGeometry=true&returnCentroid=false&featureEncoding=esriDefault&multipatchOption=xyFootprint&maxAllowableOffset=&geometryPrecision=&outSR=&datumTransformation=&applyVCSProjection=false&returnIdsOnly=false&returnUniqueIdsOnly=false&returnCountOnly=false&returnExtentOnly=false&returnQueryGeometry=false&returnDistinctValues=false&cacheHint=false&orderByFields=&groupByFieldsForStatistics=&outStatistics=&having=&resultOffset=&resultRecordCount=&returnZ=false&returnM=false&returnExceededLimitFeatures=true&quantizationParameters=&sqlFormat=none&f=pjson&token=')
+qq <- fromJSON('https://services5.arcgis.com/vlhGQkz6fSnofVMD/ArcGIS/rest/services/ADH_COVID19_STATS_BY_COUNTY/FeatureServer/0/query?where=0%3D0&objectIds=&time=&geometry=&geometryType=esriGeometryEnvelope&inSR=&spatialRel=esriSpatialRelIntersects&resultType=none&distance=0.0&units=esriSRUnit_Meter&returnGeodetic=false&outFields=*&returnGeometry=true&returnCentroid=false&featureEncoding=esriDefault&multipatchOption=xyFootprint&maxAllowableOffset=&geometryPrecision=&outSR=&datumTransformation=&applyVCSProjection=false&returnIdsOnly=false&returnUniqueIdsOnly=false&returnCountOnly=false&returnExtentOnly=false&returnQueryGeometry=false&returnDistinctValues=false&cacheHint=false&orderByFields=&groupByFieldsForStatistics=&outStatistics=&having=&resultOffset=&resultRecordCount=&returnZ=false&returnM=false&returnExceededLimitFeatures=true&quantizationParameters=&sqlFormat=none&f=pjson&token=')
 
-df3 <- q[["features"]][["attributes"]]
+df33 <- qq[["features"]][["attributes"]]
 #print's today's date as a date field
-df3$mydate <- Sys.Date()
+df33$mydate <- Sys.Date()
 #file.exists(filename)
 #austin help on that
 #if file exists = check if current data is different and if that is true then append today's data set to master dataset and resave
-today_county <- df3
+#today_county_new <- df33
+today_county <- df33
+
+today_county <- today_county %>% 
+  select(county_nam, Pop_5YR_EST_2018,positive,negative,pending,lab_prvt,
+lab_pub,deaths,total_tests,pos_range,
+neg_range,active_cases,confirmed_pos,probable_pos,
+confirmed_recov,probable_recov,confirmed_death,probable_death,
+confirmed_active,probable_active,pcr_pos_test,pcr_neg_test,
+antigen_pos_test,antigen_neg_test,total_pos_test,total_neg_test,
+POP_5YR_EST_2018_2019, antigen_test,pcr_test,recoveries,
+Shape__Area,Shape__Length,mydate)
 ```
-
-
 
 ```{r}
 #If this fails, check the backup from Austin
@@ -61,6 +70,7 @@ today_county <- df3
 
 ```{r}
 today_county <- janitor::clean_names(today_county)
+#write.csv(today_county, "today_county_july5.csv")
 ```
 
 
@@ -80,8 +90,9 @@ yesterday <- (today-1)
 
 #Quick Calculation of State Totals 
 ```{r}
-today_county <- today_county [ -c(1) ]
-today_county [2:37] <- lapply(today_county [2:37], as.numeric)
+#today_county <- today_county [ -c(1) ]
+
+today_county [2:33] <- lapply(today_county [2:33], as.numeric)
 #Calculate statewide totals
 
 today_county <- today_county %>%
@@ -116,6 +127,9 @@ yesterday_county[4:45] <- lapply(yesterday_county[4:45], as.numeric)
 countytemp <- yesterday_county %>% 
   filter(mydate>=(yesterday)) %>%  
   arrange(county_nam) 
+
+
+
 ```
 
 You should get a df with 154 observations (two days' worth a data)
@@ -198,7 +212,7 @@ master2$Pct_Positive_New_to_Dashboard <- round(master2$Pct_Positive_New_to_Dashb
 master2$Pct_Deaths_vs_Recoveries <- round(master2$Pct_Deaths_vs_Recoveries, 2)
 master2$Pct_Recoveries_vs_Deaths <- round(master2$Pct_Recoveries_vs_Deaths, 2)
 
-#write.csv(master2, "master_file_9_18.csv")
+write.csv(master2, "master_TEST_file_7_6.csv")
 write.csv(master2, file = "MasterData/master_file.csv")
 ```
 
@@ -274,6 +288,7 @@ test2 <- test %>%
   select(mydate, county_nam, positive, Positive_7_Day_Avg, New_Cases_Today, New_Cases_7_Day_Avg, New_Deaths_Today, New_Deaths_7_Day_Avg, Recovered_Since_Yesterday, active_cases) %>% 
   filter(county_nam=="Arkansas_all_counties") %>% 
   filter(mydate>=(yesterday))
+  #filter(mydate  >="2021-07-02")
 
 #Alex Nichol decimal rounding:
 test2$Positive_7_Day_Avg <-round(test2$Positive_7_Day_Avg, 1)
@@ -297,7 +312,7 @@ df4$Amount <- round(df4$Amount,0)
 ggplot(df4,aes(x = mydate, y = Amount, label = Amount, fill= Detail)) + 
 geom_bar(stat="identity", position="dodge", color="white")+
 scale_fill_manual(values=c("#B3BF08", "#08B3BF", "#D68037"))+
-scale_y_continuous(limits=c(0, 1500))  +
+scale_y_continuous(limits=c(0, 3500))  +
   theme_bw() + 
   theme(
     plot.title = element_text(face = "bold", size = 16),
@@ -314,7 +329,7 @@ scale_y_continuous(limits=c(0, 1500))  +
    geom_col(position = position_dodge2(width = 0.9, preserve = "single")) +
   geom_text(position = position_dodge2(width = 0.9, preserve = "single"), vjust=-0.5, hjust=+0.5) +
   labs(title = "New Cases & Recoveries in Arkansas Announced Today", 
-       subtitle = "Confirmed + Probable,  ADH Data for June 29, 2021",
+       subtitle = "Confirmed + Probable,  ADH Data for July 8, 2021",
        caption = "Graphic by ArkansasCovid.com",
        y="Amount",
        x="Date")
@@ -341,7 +356,7 @@ scale_fill_manual(values=c("#08B3BF", "#D68037"))+
   geom_text(position = position_dodge2(width = 0.9, preserve = "single"), vjust=-0.5, hjust=+0.5) +
   scale_y_continuous(limits=c(0, 15)) + 
   labs(title = "New Deaths in Arkansas Announced Today", 
-       subtitle = "Confirmed + Probable,  ADH Data for June 29, 2021",
+       subtitle = "Confirmed + Probable,  ADH Data for July 6, 2021",
        caption = "Graphic by ArkansasCovid.com",
        y="Amount",
        x="Date")
@@ -359,9 +374,11 @@ ggsave("Deaths_2_Day_avg.png",device = "png",width=9,height=6, dpi=400)
 
 ## Retrieve County Vaccine Data from ADH FEED
 ```{r}
-#New County json feed
+#County vaccination json feed
 #35 Variables
-qq <- fromJSON('https://services.arcgis.com/PwY9ZuZRDiI5nXUB/ArcGIS/rest/services/ADH_COVID19_VACCINATIONS_BY_COUNTY/FeatureServer/0/query?where=0%3D0&objectIds=&time=&geometry=&geometryType=esriGeometryEnvelope&inSR=&spatialRel=esriSpatialRelIntersects&resultType=none&distance=0.0&units=esriSRUnit_Meter&returnGeodetic=false&outFields=*&returnGeometry=true&returnCentroid=false&featureEncoding=esriDefault&multipatchOption=xyFootprint&maxAllowableOffset=&geometryPrecision=&outSR=&datumTransformation=&applyVCSProjection=false&returnIdsOnly=false&returnUniqueIdsOnly=false&returnCountOnly=false&returnExtentOnly=false&returnQueryGeometry=false&returnDistinctValues=false&cacheHint=false&orderByFields=&groupByFieldsForStatistics=&outStatistics=&having=&resultOffset=&resultRecordCount=&returnZ=false&returnM=false&returnExceededLimitFeatures=true&quantizationParameters=&sqlFormat=none&f=pjson&token=')
+
+qq <- fromJSON('https://services5.arcgis.com/vlhGQkz6fSnofVMD/ArcGIS/rest/services/ADH_COVID19_VACCINATIONS_BY_COUNTY/FeatureServer/0/query?where=0%3D0&objectIds=&time=&geometry=&geometryType=esriGeometryEnvelope&inSR=&spatialRel=esriSpatialRelIntersects&resultType=none&distance=0.0&units=esriSRUnit_Meter&returnGeodetic=false&outFields=*&returnGeometry=true&returnCentroid=false&featureEncoding=esriDefault&multipatchOption=xyFootprint&maxAllowableOffset=&geometryPrecision=&outSR=&datumTransformation=&applyVCSProjection=false&returnIdsOnly=false&returnUniqueIdsOnly=false&returnCountOnly=false&returnExtentOnly=false&returnQueryGeometry=false&returnDistinctValues=false&cacheHint=false&orderByFields=&groupByFieldsForStatistics=&outStatistics=&having=&resultOffset=&resultRecordCount=&returnZ=false&returnM=false&returnExceededLimitFeatures=true&quantizationParameters=&sqlFormat=none&f=pjson&token=')
+
 
 #Pulls in the data that matters to 'q'
 vax <- qq[["features"]][["attributes"]]
@@ -417,6 +434,7 @@ vax1 <- vax %>%
          Hispanic_Full_Vax, Population, County_Pct_Dose_1, County_Pct_Dose_2,
          White_Partial_Pct, Black_Partial_Pct, Asian_Partial_Pct,
          Non_Hispanic_Partial_Pct, Non_Hispanic_Full_Pct)
+
 
 write.csv(vax1, "HomePageData/vaccine_county_full.csv")
 
@@ -491,9 +509,10 @@ All_Doses_Given <- sum(vax1$County_Vax_Total)
 
 ## Retrieve Old Vaccine Data from ADH FEED
 ```{r}
-#New County json feed
+#Simple statewide json feed
 #6 Variables
-qqq <- fromJSON('https://services.arcgis.com/PwY9ZuZRDiI5nXUB/ArcGIS/rest/services/ADH_COVID19_VACCINATIONS_ADMIN_DIST/FeatureServer/0/query?where=0%3D0&objectIds=&time=&resultType=none&outFields=*&returnIdsOnly=false&returnUniqueIdsOnly=false&returnCountOnly=false&returnDistinctValues=false&cacheHint=false&orderByFields=&groupByFieldsForStatistics=&outStatistics=&having=&resultOffset=&resultRecordCount=&sqlFormat=none&f=pjson&token=')
+
+qqq <- fromJSON('https://services5.arcgis.com/vlhGQkz6fSnofVMD/ArcGIS/rest/services/ADH_COVID19_VACCINATIONS_ADMIN_DIST/FeatureServer/0/query?where=0%3D0&objectIds=&time=&resultType=none&outFields=*&returnIdsOnly=false&returnUniqueIdsOnly=false&returnCountOnly=false&returnDistinctValues=false&cacheHint=false&orderByFields=&groupByFieldsForStatistics=&outStatistics=&having=&resultOffset=&resultRecordCount=&sqlFormat=none&f=pjson&token=')
 
 #Pulls in the data that matters to 'q'
 vax_old <- qqq[["features"]][["attributes"]]
@@ -515,6 +534,7 @@ vax1_old [1:6] <- lapply(vax1_old [1:6], as.numeric)
 
 #fix All_Doses_Given
 vax1_old$All_Doses_Given <- All_Doses_Given
+
 
 #makes a spreadsheet
 #write.csv(vax1, "vaccine_api.csv")
@@ -777,6 +797,30 @@ newcases <- df1 %>%
   summarise(week_newcases = sum(New_Cases_Today, na.rm = TRUE))
 ```
 
+#calculations by 2021 week
+```{r}
+newcases_2021 <- df1 %>%
+  filter(Date >= "2021-01-04") %>% 
+  group_by(week) %>%
+  summarise(week_newcases = sum(New_Cases_Today, na.rm = TRUE)) %>% 
+  mutate(Year=("2021"))
+  
+```
+
+
+```{r}
+newcases_2020 <- df1 %>%
+  filter(Date < "2021-01-04") %>% 
+  group_by(week) %>%
+  summarise(week_newcases = sum(New_Cases_Today, na.rm = TRUE)) %>% 
+  mutate(Year=("2020"))
+```
+
+```{r}
+newcases <- rbind(newcases_2021, newcases_2020) 
+```  
+
+
 #import table to name the weeks beginning Monday
 ```{r}
 weeks_numbers <- rio::import("https://raw.githubusercontent.com/profrobwells/CovidFall2020/master/weeks_numbers.csv")
@@ -786,11 +830,22 @@ weeks_numbers$Date <- lubridate::mdy(weeks_numbers$Date)
 
 #Join with cases; manually change date filter after a week
 ```{r}
-weeklycases <- newcases %>% 
+weeklycases_2020 <- newcases_2020 %>% 
+  right_join(weeks_numbers, by=c("week"="Number")) %>% 
+  filter(Date < "2021-01-04") %>% 
+  distinct() %>% 
+  arrange(desc(Date))
+
+weeklycases_2021 <- newcases_2021 %>% 
   right_join(weeks_numbers, by=c("week"="Number")) %>% 
   filter(Date<today) %>% 
   distinct() %>% 
   arrange(desc(Date))
+
+weeklycases_2021 <- weeklycases_2021 %>% 
+  filter(Date > "2021-01-04") 
+
+weeklycases <- rbind(weeklycases_2021, weeklycases_2020 )
 
 weeklycases <- weeklycases %>%
   rename(Weekly_Total_New_Cases = week_newcases, Week_Beginning = Date)
