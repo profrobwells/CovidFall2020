@@ -34,30 +34,15 @@ library(formattable)
 ```
 
 ##
-```{r}
-#GOOGLE FORM! REPLACE THE NUMBERS WITH THE FRIDAY ADH DATA
-
-New_Cases_Today <- c(276)
-New_Deaths_Today <- c(3)
-active_cases <- c(3169)
-deaths <- c(5897)
-positive <- c(348220)
-mydate <- as.Date(c('2021-06-28'))
-
-daily2 <- data.frame(mydate, New_Cases_Today, New_Deaths_Today, active_cases, positive, deaths)
-
-fri_daily <- daily2 %>%
-  rename('New Cases Today' =  New_Cases_Today, 'New Deaths Today' = New_Deaths_Today, 'Active Cases' = active_cases, 'Deaths' = deaths, 'Positive' = positive, 'Date' = mydate)
-```
 
 ```{r}
 #GOOGLE FORM! REPLACE THE NUMBERS WITH THE SATURDAY ADH DATA
-Sat_New_Cases_Today <- c(392)
-Sat_New_Deaths_Today <- c(1)
-Sat_active_cases <- c(3078)
-Sat_deaths <- c(5894)
-Sat_positive <- c(347646)
-mydate <- as.Date(c('2021-06-26'))
+Sat_New_Cases_Today <- c(764)
+Sat_New_Deaths_Today <- c(3)
+Sat_active_cases <- c(4912)
+Sat_deaths <- c(5916)
+Sat_positive <- c(351342)
+mydate <- as.Date(c('2021-07-03'))
 
 sat_daily <- data.frame(mydate, Sat_New_Cases_Today, Sat_New_Deaths_Today, Sat_active_cases, Sat_positive, Sat_deaths)
 # 
@@ -71,12 +56,12 @@ sat_daily <- sat_daily %>%
 
 ```{r}
 #GOOGLE FORM! REPLACE THE NUMBERS WITH THE SUNDAY ADH DATA
-Sun_New_Cases_Today <- c(298)
-Sun_New_Deaths_Today <- c(0)
-Sun_active_cases <- c(3199)
-Sun_deaths <- c(5894)
-Sun_positive <- c(347944)
-mydate <- as.Date(c('2021-06-27'))
+Sun_New_Cases_Today <- c(244)
+Sun_New_Deaths_Today <- c(3)
+Sun_active_cases <- c(4886)
+Sun_deaths <- c(5919)
+Sun_positive <- c(351587)
+mydate <- as.Date(c('2021-07-04'))
 
 # 
 sun_daily <- data.frame(mydate, Sun_New_Cases_Today, Sun_New_Deaths_Today, Sun_active_cases, Sun_positive, Sun_deaths)
@@ -85,22 +70,47 @@ sun_daily <- sun_daily %>%
   rename('New Cases Today' =  Sun_New_Cases_Today, 'New Deaths Today' = Sun_New_Deaths_Today, 'Active Cases' = Sun_active_cases, 'Deaths' = Sun_deaths, 'Positive' = Sun_positive, 'Date' = mydate)
 ```
 
+# ```{r}
+# #GOOGLE FORM! REPLACE THE NUMBERS WITH THE Monday ADH DATA
+# 
+# New_Cases_Today <- c(238)
+# New_Deaths_Today <- c(1)
+# active_cases <- c(4752)
+# deaths <- c(5920)
+# positive <- c(351825)
+# mydate <- as.Date(c('2021-07-05'))
+# 
+# mon_daily <- data.frame(mydate, New_Cases_Today, New_Deaths_Today, active_cases, positive, deaths)
+# 
+# mon_daily <- mon_daily %>%
+#   rename('New Cases Today' =  New_Cases_Today, 'New Deaths Today' = New_Deaths_Today, 'Active Cases' = active_cases, 'Deaths' = deaths, 'Positive' = positive, 'Date' = mydate)
+# ```
 
-## Retrieve State Arkansas Covid Data from ADH FEED
+## County Level Arkansas Covid Data from ADH FEED
 ```{r}
 #New County json feed
 #38 Variables
-q <- fromJSON('https://services.arcgis.com/PwY9ZuZRDiI5nXUB/ArcGIS/rest/services/UPDATED_ADH_COVID19_COUNTY_METRICS/FeatureServer/0/query?where=0%3D0&objectIds=&time=&geometry=&geometryType=esriGeometryEnvelope&inSR=&spatialRel=esriSpatialRelIntersects&resultType=none&distance=0.0&units=esriSRUnit_Meter&returnGeodetic=false&outFields=*&returnGeometry=true&returnCentroid=false&featureEncoding=esriDefault&multipatchOption=xyFootprint&maxAllowableOffset=&geometryPrecision=&outSR=&datumTransformation=&applyVCSProjection=false&returnIdsOnly=false&returnUniqueIdsOnly=false&returnCountOnly=false&returnExtentOnly=false&returnQueryGeometry=false&returnDistinctValues=false&cacheHint=false&orderByFields=&groupByFieldsForStatistics=&outStatistics=&having=&resultOffset=&resultRecordCount=&returnZ=false&returnM=false&returnExceededLimitFeatures=true&quantizationParameters=&sqlFormat=none&f=pjson&token=')
+qq <- fromJSON('https://services5.arcgis.com/vlhGQkz6fSnofVMD/ArcGIS/rest/services/ADH_COVID19_STATS_BY_COUNTY/FeatureServer/0/query?where=0%3D0&objectIds=&time=&geometry=&geometryType=esriGeometryEnvelope&inSR=&spatialRel=esriSpatialRelIntersects&resultType=none&distance=0.0&units=esriSRUnit_Meter&returnGeodetic=false&outFields=*&returnGeometry=true&returnCentroid=false&featureEncoding=esriDefault&multipatchOption=xyFootprint&maxAllowableOffset=&geometryPrecision=&outSR=&datumTransformation=&applyVCSProjection=false&returnIdsOnly=false&returnUniqueIdsOnly=false&returnCountOnly=false&returnExtentOnly=false&returnQueryGeometry=false&returnDistinctValues=false&cacheHint=false&orderByFields=&groupByFieldsForStatistics=&outStatistics=&having=&resultOffset=&resultRecordCount=&returnZ=false&returnM=false&returnExceededLimitFeatures=true&quantizationParameters=&sqlFormat=none&f=pjson&token=')
 
-df3 <- q[["features"]][["attributes"]]
+df33 <- qq[["features"]][["attributes"]]
 #print's today's date as a date field
-df3$mydate <- Sys.Date()
+df33$mydate <- Sys.Date()
 #file.exists(filename)
 #austin help on that
 #if file exists = check if current data is different and if that is true then append today's data set to master dataset and resave
-today_county <- df3
-```
+#today_county_new <- df33
+today_county <- df33
 
+today_county <- today_county %>% 
+  select(county_nam, Pop_5YR_EST_2018,positive,negative,pending,lab_prvt,
+lab_pub,deaths,total_tests,pos_range,
+neg_range,active_cases,confirmed_pos,probable_pos,
+confirmed_recov,probable_recov,confirmed_death,probable_death,
+confirmed_active,probable_active,pcr_pos_test,pcr_neg_test,
+antigen_pos_test,antigen_neg_test,total_pos_test,total_neg_test,
+POP_5YR_EST_2018_2019, antigen_test,pcr_test,recoveries,
+Shape__Area,Shape__Length,mydate)
+```
 
 
 ```{r}
@@ -128,6 +138,7 @@ today <- Sys.Date()
 #Changed to capture Friday instead of just the previous day
 friday <- (today-3)
 
+yesterday <- (today-1)
 ```
 
 #Quick Calculation of State Totals 
@@ -156,7 +167,39 @@ yesterday_county$mydate <- as.Date(yesterday_county$mydate)
   filter(mydate<=(friday))
 yesterday_county[4:45] <- lapply(yesterday_county[4:45], as.numeric)
 ```
-# .
+#Weekend Totals Added to yesterday_county 
+
+```{r}
+# 
+weekend <- rbind(sat_daily, sun_daily)
+#
+weekend <- weekend %>%
+     arrange(desc(Date))
+
+weekend <- weekend %>%
+  arrange(desc(Date))
+
+weekend <- weekend %>%
+  rename(New_Cases_Today = 'New Cases Today', New_Deaths_Today = 'New Deaths Today', active_cases = 'Active Cases', positive = Positive, deaths = Deaths, mydate = Date)
+
+weekend <- weekend %>% 
+  mutate(county_nam = 'Arkansas_all_counties')
+
+#
+#write.csv(weekend, file = "HomePageData/weekend.csv")
+
+#feeds this slide
+#https://app.flourish.studio/visualisation/6569275/edit
+
+yesterday_county <- smartbind(yesterday_county, weekend)
+
+yesterday_county$mydate <- ymd(yesterday_county$mydate)
+
+yesterday_county <- yesterday_county%>%
+  arrange(desc(mydate))
+
+```
+
 # Previous Date Calculations
 #  .
 -**This section performs all of the county calculations**   
@@ -170,6 +213,16 @@ countytemp <- yesterday_county %>%
   arrange(county_nam) 
 ```
 
+#Optional- specify the date
+
+```{r}
+#For Friday, specify the date
+# countytemp <- yesterday_county %>% 
+#   filter(mydate>=("2021-07-02")) %>%  
+#   arrange(county_nam) 
+
+```
+
 You should get a df with 154 observations (two days' worth a data)
 ```{r}
 df_master <- smartbind(today_county, countytemp)
@@ -180,19 +233,18 @@ twodays <- df_master %>%
 
 
 -**The Today-Friday Calculations**
-
+#No Recovered Since Yesterday Calculation
 ```{r}
 twodays <- twodays %>%
   mutate(Number_Tested=(positive+negative)) %>% 
   mutate(New_Cases_Today = (positive-lead(positive))) %>%
-  mutate(Recovered_Since_Yesterday = (recoveries-lead(recoveries))) %>%
   mutate(New_Deaths_Today = (deaths-lead(deaths))) %>%
   mutate(New_Tests_Dashboard = (Number_Tested-lead(Number_Tested)))
 ```
 
 - **IMPORTANT: FILTER TABLE TO TODAY'S RESULTS**
 ```{r}
-twodays <- twodays %>% filter(mydate > friday) #SHOULD GET 77 ROWS IN twodays
+twodays <- twodays %>% filter(mydate > friday) 
 ```
 
 
@@ -229,7 +281,7 @@ master2 <- smartbind(twodays, yesterday_county, fill=0)
 ```{r}
 
 master2 <- master2 %>% 
-  select("county_nam","mydate","deaths","fhwa_numbe","fips","positive","negative","recoveries","total_tests","active_cases","pop_5yr_est_2018","confirmed_pos","probable_pos","confirmed_neg","probable_neg","confirmed_recov","probable_recov","confirmed_death","probable_death", "confirmed_active","probable_active","pcr_test","antigen_test","pcr_pos_test", "pcr_neg_test","antigen_pos_test","antigen_neg_test","total_pos_test","total_neg_test",
+  select("county_nam","mydate","deaths","fhwa_numbe","fips","positive","negative","recoveries","total_tests","active_cases","pop_5yr_est_2018","pop_5yr_est_2018_2019","confirmed_pos","probable_pos","confirmed_neg","probable_neg","confirmed_recov","probable_recov","confirmed_death","probable_death", "confirmed_active","probable_active","pcr_test","antigen_test","pcr_pos_test", "pcr_neg_test","antigen_pos_test","antigen_neg_test","total_pos_test","total_neg_test",
 "New_Cases_Today","Recovered_Since_Yesterday","New_Deaths_Today","New_Tests_Dashboard","Cases_Population","Tested_Population","New_Cases_Today_10k_Pop","Active_Cases_10k_Pop","Confirmed_Active_Cases_10k_Pop", "Pct_Positive_Cumulative","Pct_Positive_New_to_Dashboard","Closed","Pct_Deaths_vs_Recoveries","Pct_Recoveries_vs_Deaths","lab_prvt","lab_pub")
 master2$mydate <- as.Date(master2$mydate)
 glimpse(master2)
@@ -283,8 +335,6 @@ instagram
 ```{r}
 daily <- instagram %>% 
   select(mydate, New_Cases_Today,New_Deaths_Today, active_cases, positive, deaths) %>% 
-
-  
   rename('New Cases Today' =  New_Cases_Today, 'New Deaths Today' = New_Deaths_Today, 'Active Cases' = active_cases, 'Deaths' = deaths, 'Positive' = positive, 'Date' = mydate)
 
 ```
@@ -336,74 +386,40 @@ test2$New_Deaths_7_Day_Avg <-round(test2$New_Deaths_7_Day_Avg, 1)
 ```
 
 
-#Redo this slide to compare three days to three days
 
-# CREATE NEW CASES AND RECOVERIES SLIDE - 2 DAYS
+#New Monday Case Slide Graphic
 ```{r}
 
-# df4 <- melt(test2[,c("mydate", "New_Cases_Today","New_Cases_7_Day_Avg", "Recovered_Since_Yesterday")], id.vars = 1)
-# 
-# df4 <- df4 %>% 
-#   rename(Detail = variable, Amount = value)
-# 
-# df4$Amount <- round(df4$Amount,0)
-# 
-# ggplot(df4,aes(x = mydate, y = Amount, label = Amount, fill= Detail)) + 
-# geom_bar(stat="identity", position="dodge", color="white")+
-# scale_fill_manual(values=c("#B3BF08", "#08B3BF", "#D68037"))+
-# scale_y_continuous(limits=c(0, 1300))  +
-#   theme_bw() + 
-#   theme(
-#     plot.title = element_text(face = "bold", size = 16),
-#     legend.background = element_rect(fill = "white", size = .01, colour = "white"),
-#     legend.justification = c(0, 1),
-#     #adjust the box position. First number horizontal, second, vertical 
-#     legend.position = c(.617, .96),
-#     #legend.position = c(.617, .38),
-#     #legend.position = c(.1, .38),
-#     axis.ticks = element_line(colour = "grey70", size = 0.2),
-#     panel.grid.major = element_line(colour = "grey70", size = 0.2),
-#     panel.grid.minor = element_blank()
-#   )+
-#    geom_col(position = position_dodge2(width = 0.9, preserve = "single")) +
-#   geom_text(position = position_dodge2(width = 0.9, preserve = "single"), vjust=-0.5, hjust=+0.5) +
-#   labs(title = "New Cases & Recoveries in Arkansas Announced Today", 
-#        subtitle = "Weekend and Monday Data. Confirmed + Probable,  ADH Data for June 26-28, 2021",
-#        caption = "Graphic by ArkansasCovid.com",
-#        y="Amount",
-#        x="Date")
-# ggsave("Changes_2_Day_avg.png",device = "png",width=9,height=6, dpi=400)
+monday_slide <- test2 %>% 
+  select(mydate, New_Cases_Today,New_Cases_7_Day_Avg, Recovered_Since_Yesterday) %>% 
+  rename('New Cases' = New_Cases_Today, Recoveries = Recovered_Since_Yesterday)
+
+monday_slide$New_Cases_7_Day_Avg <- round(monday_slide$New_Cases_7_Day_Avg,0)
+
+write.csv(monday_slide, "monday_slide.csv")
+#Feeds this slide
+#https://app.flourish.studio/visualisation/6656839/edit?
+  
 ```
 
-#Redo this slide to compare three days to three days
-#Deal with the problematic date and X axis
 
-
-# CREATE DEATHS SLIDE - 2 DAYS
+#New Monday Death Slide Graphic
 ```{r}
-# df5 <- melt(test2[,c("mydate", "New_Deaths_Today","New_Deaths_7_Day_Avg")], id.vars = 1)
-# 
-# df5 <- df5 %>% 
-#   rename(Detail = variable, Amount = value)
-# 
-# df5$Amount <- round(df5$Amount,0)
-# 
-# #deaths 2-day snapshot
-# ggplot(df5,aes(x = mydate, y = Amount, label = Amount, fill= Detail)) + 
-# geom_bar(stat="identity", position="dodge", color="white")+
-# scale_fill_manual(values=c("#08B3BF", "#D68037"))+
-#   theme(legend.position = "bottom") +
-#   geom_col(position = position_dodge2(width = 0.9, preserve = "single"), show.legend = T) +
-#   geom_text(position = position_dodge2(width = 0.9, preserve = "single"), vjust=-0.5, hjust=+0.5) +
-#   scale_y_continuous(limits=c(0, 15)) + 
-#   labs(title = "New Deaths in Arkansas Announced Since Friday", 
-#        subtitle = "Confirmed + Probable,  ADH Data for June 26-28, 2021",
-#        caption = "Graphic by ArkansasCovid.com",
-#        y="Amount",
-#        x="Date")
-# ggsave("Deaths_2_Day_avg.png",device = "png",width=9,height=6, dpi=400)
 
+monday_death_slide <- test2 %>% 
+  select(mydate, New_Deaths_Today,New_Deaths_7_Day_Avg) %>% 
+  rename('New Deaths' = New_Deaths_Today)
+
+monday_death_slide$New_Deaths_7_Day_Avg <- round(monday_death_slide$New_Deaths_7_Day_Avg,0)
+
+write.csv(monday_death_slide, "monday_death_slide.csv")
+#Feeds this slide
+#https://app.flourish.studio/visualisation/6656839/edit?
+  
 ```
+
+
+#Redo cases, deaths slide to compare three days to three days
 
 
 #-------------------------------------------
@@ -590,8 +606,8 @@ vax2$Date <- as.Date(vax2$Date)
 #vax2$Date <- mdy(vax2$Date)
 
 #If this is a day old, run this
-# vax2 <- vax2 %>% 
-#   filter(Date <= (yesterday))
+ vax2 <- vax2 %>% 
+   filter(Date < (today))
 ```
 
 
@@ -654,49 +670,47 @@ names(master)
 #Homepage Numbers
 ```{r}
 library(formattable)
-# homepage <- master %>% 
-#   select(County_Name, Date, New_Cases_Today, New_Deaths_Today, Deaths, Active_Cases) %>% 
-#  filter(County_Name=="Arkansas_all_counties") %>% 
-#   filter(Date==today)
-# 
-# # homepage$New_Cases_Today <- accounting(homepage$New_Cases_Today, digits = 0)
-# # homepage$New_Deaths_Today <- accounting(homepage$New_Deaths_Today, digits = 0)
-# # homepage$Deaths <- accounting(homepage$Deaths, digits = 0)
-# # homepage$Active_Cases <- accounting(homepage$Active_Cases, digits = 0)
-# 
-# write.csv(homepage, file = "HomePageData/homepage.csv")
+homepage <- master %>%
+  select(County_Name, Date, New_Cases_Today, New_Deaths_Today, Deaths, Active_Cases) %>%
+ filter(County_Name=="Arkansas_all_counties") %>%
+  filter(Date==today)
+
+ # homepage$New_Cases_Today <- accounting(homepage$New_Cases_Today, digits = 0)
+# homepage$New_Deaths_Today <- accounting(homepage$New_Deaths_Today, digits = 0)
+# homepage$Deaths <- accounting(homepage$Deaths, digits = 0)
+# homepage$Active_Cases <- accounting(homepage$Active_Cases, digits = 0)
+
+write.csv(homepage, file = "HomePageData/homepage.csv")
 ```
 
 
 ```{r}
 #The Monday modified "PRETTY SLIDE"
-
-
-#disable scientific notation
-options(scipen = 999)
-
-
-
 # 
-daily2 <- data.frame(mydate, New_Cases_Today, New_Deaths_Today, active_cases, positive, deaths)
 # 
-homepage <- daily2 %>% 
-   rename(Active_Cases = active_cases, Deaths = deaths, Positive = positive, Date = mydate)
-write.csv(homepage, file = "HomePageData/homepage.csv")  
-  
-daily <- daily2 %>% 
-   rename('New Cases Today' =  New_Cases_Today, 'New Deaths Today' = New_Deaths_Today, 'Active Cases' = active_cases, 'Deaths' = deaths, 'Positive' = positive, 'Date' = mydate)
+# #disable scientific notation
+# options(scipen = 999)
 # 
-dailyT<- as.data.frame(t(daily))
 # 
-write.csv(dailyT, "dailyT.csv")
-daily2 <- rio::import("dailyT.csv")
-colnames(daily2) <- c("Item", "Amount")
-daily2 <- daily2[-c(1), ]
-daily2
-
+# daily2 <- data.frame(mydate, New_Cases_Today, New_Deaths_Today, active_cases, positive, deaths)
+# # 
+# homepage <- daily2 %>% 
+#    rename(Active_Cases = active_cases, Deaths = deaths, Positive = positive, Date = mydate)
+# write.csv(homepage, file = "HomePageData/homepage.csv")  
+#   
+# daily <- daily2 %>% 
+#    rename('New Cases Today' =  New_Cases_Today, 'New Deaths Today' = New_Deaths_Today, 'Active Cases' = active_cases, 'Deaths' = deaths, 'Positive' = positive, 'Date' = mydate)
+# # 
+# dailyT<- as.data.frame(t(daily))
+# # 
+# write.csv(dailyT, "dailyT.csv")
+# daily2 <- rio::import("dailyT.csv")
+# colnames(daily2) <- c("Item", "Amount")
+# daily2 <- daily2[-c(1), ]
+# daily2
+# 
 write.csv(daily2, file = "HomePageData/daily.csv")
-#It feeds this Flourish graphic: https://app.flourish.studio/visualisation/4947109/edit
+# #It feeds this Flourish graphic: https://app.flourish.studio/visualisation/4947109/edit
 ```
 
 
@@ -742,7 +756,7 @@ countyonlytoday$County_Name <- str_replace_all(countyonlytoday$County_Name, patt
 countyonlytoday$County_Name <- str_replace_all(countyonlytoday$County_Name, pattern=fixed('LittleRiver'), replacement=fixed('Little River') )
 countyonlytoday$County_Name <- str_replace_all(countyonlytoday$County_Name, pattern=fixed('HotSpring'), replacement=fixed('Hot Spring') )
 countyonlytoday$County_Name <- str_replace_all(countyonlytoday$County_Name, pattern=fixed('VanBuren'), replacement=fixed('Van Buren') )
-countyonlytoday$County_Name <- str_replace_all(countyonlytoday$County_Name, pattern=fixed('St.Francis'), replacement=fixed('St. Francis') )
+# countyonlytoday$County_Name <- str_replace_all(countyonlytoday$County_Name, pattern=fixed('St.Francis'), replacement=fixed('St. Francis') )
 
 write.csv(countyonlytoday, file = "HomePageData/countyonlytoday.csv")
 ```
@@ -859,6 +873,29 @@ newcases <- df1 %>%
   group_by(week) %>%
   summarise(week_newcases = sum(New_Cases_Today, na.rm = TRUE))
 ```
+#calculations by 2021 week
+```{r}
+newcases_2021 <- df1 %>%
+  filter(Date >= "2021-01-04") %>% 
+  group_by(week) %>%
+  summarise(week_newcases = sum(New_Cases_Today, na.rm = TRUE)) %>% 
+  mutate(Year=("2021"))
+  
+```
+
+#calculations by 2020 week
+```{r}
+newcases_2020 <- df1 %>%
+  filter(Date < "2021-01-04") %>% 
+  group_by(week) %>%
+  summarise(week_newcases = sum(New_Cases_Today, na.rm = TRUE)) %>% 
+  mutate(Year=("2020"))
+```
+
+#Table with 2021, 2020 years separated
+```{r}
+newcases <- rbind(newcases_2021, newcases_2020) 
+```  
 
 #import table to name the weeks beginning Monday
 ```{r}
@@ -869,11 +906,24 @@ weeks_numbers$Date <- lubridate::mdy(weeks_numbers$Date)
 
 #Join with cases; manually change date filter after a week
 ```{r}
-weeklycases <- newcases %>% 
+#Join with cases; manually change date filter after a week
+```{r}
+weeklycases_2020 <- newcases_2020 %>% 
+  right_join(weeks_numbers, by=c("week"="Number")) %>% 
+  filter(Date < "2021-01-04") %>% 
+  distinct() %>% 
+  arrange(desc(Date))
+
+weeklycases_2021 <- newcases_2021 %>% 
   right_join(weeks_numbers, by=c("week"="Number")) %>% 
   filter(Date<today) %>% 
   distinct() %>% 
   arrange(desc(Date))
+
+weeklycases_2021 <- weeklycases_2021 %>% 
+  filter(Date > "2021-01-04") 
+
+weeklycases <- rbind(weeklycases_2021, weeklycases_2020 )
 
 weeklycases <- weeklycases %>%
   rename(Weekly_Total_New_Cases = week_newcases, Week_Beginning = Date)
@@ -1066,21 +1116,6 @@ write.csv(datawrapper_marshallese, file = "Marshallese/datawrapper_marshallese.c
 
 #Weekend Data Update
 
-```{r}
-
-
-# 
-weekend <- rbind(fri_daily, sat_daily, sun_daily)
-#
-weekend <- weekend %>%
-   arrange(desc(Date))
-#
-write.csv(weekend, file = "HomePageData/weekend.csv")
-
-#feeds this slide
-#https://app.flourish.studio/visualisation/6569275/edit
-```
-
 #Averages
 ```{r}
 # 
@@ -1090,7 +1125,7 @@ weekend1 <- weekend %>%
 weekend1$'New Cases Today' <- round(weekend1$'New Cases Today', 0)
 weekend1$'New Deaths Today' <- round(weekend1$'New Deaths Today', 0)
 weekend1$'Active Cases' <- round(weekend1$'Active Cases', 0)
-weekend1$Positive <- round(weekend1$Positive, 0)
+#weekend1$Positive <- round(weekend1$Positive, 0)
 weekend1$Deaths <- round(weekend1$Deaths, 0)
 
 write.csv(weekend1, file = "HomePageData/weekend1.csv")
@@ -1103,18 +1138,18 @@ write.csv(weekend1, file = "HomePageData/weekend1.csv")
 #New: The Monday 3-day total compared to the prior Monday 3-day total
 -**Import and Clean Yesterday's Data**
 ```{r}
-monday_county <- yesterday_county %>% 
+last_monday_county <- yesterday_county %>% 
   filter(mydate==("2021-06-28")) %>% 
   arrange(county_nam) 
 
-monday_county[4:45] <- lapply(monday_county[4:45], as.numeric)
+last_monday_county[4:45] <- lapply(last_monday_county[4:45], as.numeric)
 ```
 # .
 # Previous Date Calculations
 
 You should get a df with 154 observations (two days' worth a data)
 ```{r}
-monday_master <- smartbind(today_county, monday_county)
+monday_master <- smartbind(today_county, last_monday_county)
 
 monday_twodays <- monday_master %>% 
   arrange((county_nam))
@@ -1134,7 +1169,13 @@ monday_twodays <- monday_twodays %>%
 
 - **IMPORTANT: FILTER TABLE TO TODAY'S RESULTS**
 ```{r}
-#monday_twodays <- monday_twodays %>% filter(mydate > friday) #SHOULD GET 77 ROWS IN twodays
+monday_twodays <- monday_twodays %>% filter(mydate == today) #SHOULD GET 77 ROWS IN twodays
+
+monday_weekly_total <- monday_twodays %>% 
+  select(county_nam, New_Cases_Today, Recovered_Since_Yesterday, New_Deaths_Today) %>% 
+  rename(County = county_nam, Weekly_Case_Total = New_Cases_Today, Recovered_Weekly = Recovered_Since_Yesterday, Deaths_Weekly = New_Deaths_Today)
+
+write.csv(monday_weekly_total, "monday_weektotals.csv")
 ```
 
 

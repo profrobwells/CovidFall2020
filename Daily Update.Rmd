@@ -191,7 +191,7 @@ master2 <- smartbind(twodays, yesterday_county, fill=0)
 ```{r}
 
 master2 <- master2 %>% 
-  select("county_nam","mydate","deaths","fhwa_numbe","fips","positive","negative","recoveries","total_tests","active_cases","pop_5yr_est_2018","confirmed_pos","probable_pos","confirmed_neg","probable_neg","confirmed_recov","probable_recov","confirmed_death","probable_death", "confirmed_active","probable_active","pcr_test","antigen_test","pcr_pos_test", "pcr_neg_test","antigen_pos_test","antigen_neg_test","total_pos_test","total_neg_test",
+  select("county_nam","mydate","deaths","fhwa_numbe","fips","positive","negative","recoveries","total_tests","active_cases","pop_5yr_est_2018", "pop_5yr_est_2018_2019","confirmed_pos","probable_pos","confirmed_neg","probable_neg","confirmed_recov","probable_recov","confirmed_death","probable_death", "confirmed_active","probable_active","pcr_test","antigen_test","pcr_pos_test", "pcr_neg_test","antigen_pos_test","antigen_neg_test","total_pos_test","total_neg_test",
 "New_Cases_Today","Recovered_Since_Yesterday","New_Deaths_Today","New_Tests_Dashboard","Cases_Population","Tested_Population","New_Cases_Today_10k_Pop","Active_Cases_10k_Pop","Confirmed_Active_Cases_10k_Pop", "Pct_Positive_Cumulative","Pct_Positive_New_to_Dashboard","Closed","Pct_Deaths_vs_Recoveries","Pct_Recoveries_vs_Deaths","lab_prvt","lab_pub")
 master2$mydate <- as.Date(master2$mydate)
 glimpse(master2)
@@ -329,7 +329,7 @@ scale_y_continuous(limits=c(0, 3500))  +
    geom_col(position = position_dodge2(width = 0.9, preserve = "single")) +
   geom_text(position = position_dodge2(width = 0.9, preserve = "single"), vjust=-0.5, hjust=+0.5) +
   labs(title = "New Cases & Recoveries in Arkansas Announced Today", 
-       subtitle = "Confirmed + Probable,  ADH Data for July 8, 2021",
+       subtitle = "Confirmed + Probable,  ADH Data for July 9, 2021",
        caption = "Graphic by ArkansasCovid.com",
        y="Amount",
        x="Date")
@@ -356,7 +356,7 @@ scale_fill_manual(values=c("#08B3BF", "#D68037"))+
   geom_text(position = position_dodge2(width = 0.9, preserve = "single"), vjust=-0.5, hjust=+0.5) +
   scale_y_continuous(limits=c(0, 15)) + 
   labs(title = "New Deaths in Arkansas Announced Today", 
-       subtitle = "Confirmed + Probable,  ADH Data for July 6, 2021",
+       subtitle = "Confirmed + Probable,  ADH Data for July 9, 2021",
        caption = "Graphic by ArkansasCovid.com",
        y="Amount",
        x="Date")
@@ -667,7 +667,7 @@ countyonlytoday$County_Name <- str_replace_all(countyonlytoday$County_Name, patt
 countyonlytoday$County_Name <- str_replace_all(countyonlytoday$County_Name, pattern=fixed('LittleRiver'), replacement=fixed('Little River') )
 countyonlytoday$County_Name <- str_replace_all(countyonlytoday$County_Name, pattern=fixed('HotSpring'), replacement=fixed('Hot Spring') )
 countyonlytoday$County_Name <- str_replace_all(countyonlytoday$County_Name, pattern=fixed('VanBuren'), replacement=fixed('Van Buren') )
-countyonlytoday$County_Name <- str_replace_all(countyonlytoday$County_Name, pattern=fixed('St.Francis'), replacement=fixed('St. Francis') )
+# countyonlytoday$County_Name <- str_replace_all(countyonlytoday$County_Name, pattern=fixed('St.Francis'), replacement=fixed('St. Francis') )
 
 write.csv(countyonlytoday, file = "HomePageData/countyonlytoday.csv")
 ```
@@ -816,6 +816,7 @@ newcases_2020 <- df1 %>%
   mutate(Year=("2020"))
 ```
 
+#Table with 2021, 2020 years separated
 ```{r}
 newcases <- rbind(newcases_2021, newcases_2020) 
 ```  
