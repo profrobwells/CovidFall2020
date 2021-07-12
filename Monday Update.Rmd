@@ -1,7 +1,7 @@
 ---
 title: "MONDAY Daily Update Arkansas Covid"
 author: "Rob Wells, Katy Seiter and Mary Hennigan"
-date: "6/28/2021"
+date: "7/12/2021"
 output: pdf_document
 ---
 
@@ -37,12 +37,12 @@ library(formattable)
 
 ```{r}
 #GOOGLE FORM! REPLACE THE NUMBERS WITH THE SATURDAY ADH DATA
-Sat_New_Cases_Today <- c(764)
-Sat_New_Deaths_Today <- c(3)
-Sat_active_cases <- c(4912)
-Sat_deaths <- c(5916)
-Sat_positive <- c(351342)
-mydate <- as.Date(c('2021-07-03'))
+Sat_New_Cases_Today <- c(760)
+Sat_New_Deaths_Today <- c(1)
+Sat_active_cases <- c(6995)
+Sat_deaths <- c(5949)
+Sat_positive <- c(356220)
+mydate <- as.Date(c('2021-07-10'))
 
 sat_daily <- data.frame(mydate, Sat_New_Cases_Today, Sat_New_Deaths_Today, Sat_active_cases, Sat_positive, Sat_deaths)
 # 
@@ -56,12 +56,12 @@ sat_daily <- sat_daily %>%
 
 ```{r}
 #GOOGLE FORM! REPLACE THE NUMBERS WITH THE SUNDAY ADH DATA
-Sun_New_Cases_Today <- c(244)
-Sun_New_Deaths_Today <- c(3)
-Sun_active_cases <- c(4886)
-Sun_deaths <- c(5919)
-Sun_positive <- c(351587)
-mydate <- as.Date(c('2021-07-04'))
+Sun_New_Cases_Today <- c(965)
+Sun_New_Deaths_Today <- c(0)
+Sun_active_cases <- c(7528)
+Sun_deaths <- c(5949)
+Sun_positive <- c(357185)
+mydate <- as.Date(c('2021-07-11'))
 
 # 
 sun_daily <- data.frame(mydate, Sun_New_Cases_Today, Sun_New_Deaths_Today, Sun_active_cases, Sun_positive, Sun_deaths)
@@ -143,8 +143,8 @@ yesterday <- (today-1)
 
 #Quick Calculation of State Totals 
 ```{r}
-today_county <- today_county [ -c(1) ]
-today_county [2:37] <- lapply(today_county [2:37], as.numeric)
+#today_county <- today_county [ -c(1) ]
+today_county [2:33] <- lapply(today_county [2:33], as.numeric)
 #Calculate statewide totals
 
 today_county <- today_county %>%
@@ -160,11 +160,13 @@ today_county$mydate <- as.Date(today_county$mydate)
 -**Import and Clean Friday's Data**
 ```{r}
 yesterday_county <- rio::import("https://raw.githubusercontent.com/Arkansascovid/Main/master/MasterData/master_file.csv")
-#yesterday_county <- yesterday_county [ -c(1) ]
+yesterday_county <- yesterday_county [ -c(1) ]
 yesterday_county$mydate <- as.Date(yesterday_county$mydate)
 #ran this to test it out on today's data
- yesterday_county <- yesterday_county %>% 
-  filter(mydate<=(friday))
+
+yesterday_county <- yesterday_county %>% 
+ filter(mydate <= (friday))
+
 yesterday_county[4:45] <- lapply(yesterday_county[4:45], as.numeric)
 ```
 #Weekend Totals Added to yesterday_county 
@@ -907,7 +909,6 @@ weeks_numbers$Date <- lubridate::mdy(weeks_numbers$Date)
 #Join with cases; manually change date filter after a week
 ```{r}
 #Join with cases; manually change date filter after a week
-```{r}
 weeklycases_2020 <- newcases_2020 %>% 
   right_join(weeks_numbers, by=c("week"="Number")) %>% 
   filter(Date < "2021-01-04") %>% 
@@ -1119,8 +1120,15 @@ write.csv(datawrapper_marshallese, file = "Marshallese/datawrapper_marshallese.c
 #Averages
 ```{r}
 # 
+
 weekend1 <- weekend %>%
-  summarise_if(is.numeric, mean)
+  rename('New Cases Today' = New_Cases_Today, 'New Deaths Today'= New_Deaths_Today, 'Active Cases' = active_cases, Positive = positive, Deaths = deaths, Date = mydate)
+
+# weekend1 <- weekend1 %>%
+#   summarise_if(is.numeric, mean)
+
+
+
 
 weekend1$'New Cases Today' <- round(weekend1$'New Cases Today', 0)
 weekend1$'New Deaths Today' <- round(weekend1$'New Deaths Today', 0)
@@ -1139,7 +1147,7 @@ write.csv(weekend1, file = "HomePageData/weekend1.csv")
 -**Import and Clean Yesterday's Data**
 ```{r}
 last_monday_county <- yesterday_county %>% 
-  filter(mydate==("2021-06-28")) %>% 
+  filter(mydate==(today-7)) %>% 
   arrange(county_nam) 
 
 last_monday_county[4:45] <- lapply(last_monday_county[4:45], as.numeric)
