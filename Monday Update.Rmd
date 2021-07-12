@@ -70,22 +70,6 @@ sun_daily <- sun_daily %>%
   rename('New Cases Today' =  Sun_New_Cases_Today, 'New Deaths Today' = Sun_New_Deaths_Today, 'Active Cases' = Sun_active_cases, 'Deaths' = Sun_deaths, 'Positive' = Sun_positive, 'Date' = mydate)
 ```
 
-# ```{r}
-# #GOOGLE FORM! REPLACE THE NUMBERS WITH THE Monday ADH DATA
-# 
-# New_Cases_Today <- c(238)
-# New_Deaths_Today <- c(1)
-# active_cases <- c(4752)
-# deaths <- c(5920)
-# positive <- c(351825)
-# mydate <- as.Date(c('2021-07-05'))
-# 
-# mon_daily <- data.frame(mydate, New_Cases_Today, New_Deaths_Today, active_cases, positive, deaths)
-# 
-# mon_daily <- mon_daily %>%
-#   rename('New Cases Today' =  New_Cases_Today, 'New Deaths Today' = New_Deaths_Today, 'Active Cases' = active_cases, 'Deaths' = deaths, 'Positive' = positive, 'Date' = mydate)
-# ```
-
 ## County Level Arkansas Covid Data from ADH FEED
 ```{r}
 #New County json feed
@@ -187,13 +171,16 @@ weekend <- weekend %>%
 weekend <- weekend %>% 
   mutate(county_nam = 'Arkansas_all_counties')
 
+weekend3 <- weekend %>%
+  select(county_nam, active_cases, positive, deaths, mydate)
+
 #
 #write.csv(weekend, file = "HomePageData/weekend.csv")
 
 #feeds this slide
 #https://app.flourish.studio/visualisation/6569275/edit
 
-yesterday_county <- smartbind(yesterday_county, weekend)
+yesterday_county <- smartbind(yesterday_county, weekend3)
 
 yesterday_county$mydate <- ymd(yesterday_county$mydate)
 
@@ -277,6 +264,10 @@ twodays
 
 #Merges the Today's Arkanas_All_Counties line with yesterday's data. 
 ```{r}
+yesterday_county <- yesterday_county %>% 
+  filter(mydate <= friday)
+
+
 master2 <- smartbind(twodays, yesterday_county, fill=0)
 ```
 
@@ -394,7 +385,7 @@ test2$New_Deaths_7_Day_Avg <-round(test2$New_Deaths_7_Day_Avg, 1)
 
 monday_slide <- test2 %>% 
   select(mydate, New_Cases_Today,New_Cases_7_Day_Avg, Recovered_Since_Yesterday) %>% 
-  rename('New Cases' = New_Cases_Today, Recoveries = Recovered_Since_Yesterday)
+  rename('New Cases' = New_Cases_Today, Recoveries = Recovered_Since_Yesterday) 
 
 monday_slide$New_Cases_7_Day_Avg <- round(monday_slide$New_Cases_7_Day_Avg,0)
 
@@ -1143,48 +1134,48 @@ write.csv(weekend1, file = "HomePageData/weekend1.csv")
 ```
 
 
-#New: The Monday 3-day total compared to the prior Monday 3-day total
--**Import and Clean Yesterday's Data**
-```{r}
-last_monday_county <- yesterday_county %>% 
-  filter(mydate==(today-7)) %>% 
-  arrange(county_nam) 
+<!-- #New: The Monday 3-day total compared to the prior Monday 3-day total -->
+<!-- -**Import and Clean Yesterday's Data** -->
+<!-- ```{r} -->
+<!-- last_monday_county <- yesterday_county %>%  -->
+<!--   filter(mydate==(today-7)) %>%  -->
+<!--   arrange(county_nam)  -->
 
-last_monday_county[4:45] <- lapply(last_monday_county[4:45], as.numeric)
-```
-# .
-# Previous Date Calculations
+<!-- last_monday_county[4:45] <- lapply(last_monday_county[4:45], as.numeric) -->
+<!-- ``` -->
+<!-- # . -->
+<!-- # Previous Date Calculations -->
 
-You should get a df with 154 observations (two days' worth a data)
-```{r}
-monday_master <- smartbind(today_county, last_monday_county)
+<!-- You should get a df with 154 observations (two days' worth a data) -->
+<!-- ```{r} -->
+<!-- monday_master <- smartbind(today_county, last_monday_county) -->
 
-monday_twodays <- monday_master %>% 
-  arrange((county_nam))
-```
+<!-- monday_twodays <- monday_master %>%  -->
+<!--   arrange((county_nam)) -->
+<!-- ``` -->
 
 
--**The Today-Yesterday Calculations**
+<!-- -**The Today-Yesterday Calculations** -->
 
-```{r}
-monday_twodays <- monday_twodays %>%
-  mutate(Number_Tested=(positive+negative)) %>% 
-  mutate(New_Cases_Today = (positive-lead(positive))) %>%
-  mutate(Recovered_Since_Yesterday = (recoveries-lead(recoveries))) %>%
-  mutate(New_Deaths_Today = (deaths-lead(deaths))) %>%
-  mutate(New_Tests_Dashboard = (Number_Tested-lead(Number_Tested)))
-```
+<!-- ```{r} -->
+<!-- monday_twodays <- monday_twodays %>% -->
+<!--   mutate(Number_Tested=(positive+negative)) %>%  -->
+<!--   mutate(New_Cases_Today = (positive-lead(positive))) %>% -->
+<!--   mutate(Recovered_Since_Yesterday = (recoveries-lead(recoveries))) %>% -->
+<!--   mutate(New_Deaths_Today = (deaths-lead(deaths))) %>% -->
+<!--   mutate(New_Tests_Dashboard = (Number_Tested-lead(Number_Tested))) -->
+<!-- ``` -->
 
-- **IMPORTANT: FILTER TABLE TO TODAY'S RESULTS**
-```{r}
-monday_twodays <- monday_twodays %>% filter(mydate == today) #SHOULD GET 77 ROWS IN twodays
+<!-- - **IMPORTANT: FILTER TABLE TO TODAY'S RESULTS** -->
+<!-- ```{r} -->
+<!-- monday_twodays <- monday_twodays %>% filter(mydate == today) #SHOULD GET 77 ROWS IN twodays -->
 
-monday_weekly_total <- monday_twodays %>% 
-  select(county_nam, New_Cases_Today, Recovered_Since_Yesterday, New_Deaths_Today) %>% 
-  rename(County = county_nam, Weekly_Case_Total = New_Cases_Today, Recovered_Weekly = Recovered_Since_Yesterday, Deaths_Weekly = New_Deaths_Today)
+<!-- monday_weekly_total <- monday_twodays %>%  -->
+<!--   select(county_nam, New_Cases_Today, Recovered_Since_Yesterday, New_Deaths_Today) %>%  -->
+<!--   rename(County = county_nam, Weekly_Case_Total = New_Cases_Today, Recovered_Weekly = Recovered_Since_Yesterday, Deaths_Weekly = New_Deaths_Today) -->
 
-write.csv(monday_weekly_total, "monday_weektotals.csv")
-```
+<!-- write.csv(monday_weekly_total, "monday_weektotals.csv") -->
+<!-- ``` -->
 
 
 
