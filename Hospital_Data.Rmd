@@ -1,7 +1,7 @@
 ---
 title: "Hospital"
 author: "By Rob Wells. Thanks to Ravi Brock"
-date: "7/9/2021"
+date: "7/20/2021"
 output: pdf_document
 ---
 
@@ -75,6 +75,7 @@ yesterday <- (today-1)
 #Quick Calculation of State Totals 
 ```{r}
 #Calculate statewide totals
+hospital_new$OBJECTID <- as.character(hospital_new$OBJECTID)
 
 hospital_new <- hospital_new %>%
   janitor::adorn_totals("row")
@@ -98,25 +99,29 @@ hospital_today <- hospital_today %>%
 hospital_today <- hospital_today %>% 
   select(date, Hospitalized, Vent)
 
-#One time fix
-# hospital_today$Hospitalized <- ("187")
-# hospital_today$Vent <- ("33")
-
-# hospital_today [2:3] <- lapply(hospital_today [2:3], as.numeric)
-# glimpse(hospital_today)
-
 ```
 
 
 ```{r}
 hospital_master <- rio::import("https://raw.githubusercontent.com/Arkansascovid/Main/master/MasterData/hospital_master.csv")
 
-hospital_master <- hospital_master %>% 
-  select(date, Hospitalized, Vent, Hosp_Change_from_Yesterday, Pct_Vent, Pct_Hospitalized, active_cases, confirmed_active)
-
+# Emergency rescue code - Wells will use only
+#Cut Columns
+# # hospital_master1 <- hospital_master1[ -c(1) ]
+# # 
+# # #Cut rows from df
+# # hospital_master1 <- slice(hospital_master1, -c(1))
+# hospital_master1[3:9] <- lapply(hospital_master1[3:9], as.numeric)
+# hospital_master1$date <- mdy(hospital_master1$date)
 #roll back a date
 # hospital_master <- hospital_master %>%
 #      filter(date<=("2021-06-09"))
+# Emergency rescue code - Wells will use only
+
+
+hospital_master <- hospital_master %>% 
+  select(date, Hospitalized, Vent, Hosp_Change_from_Yesterday, Pct_Vent, Pct_Hospitalized, active_cases, confirmed_active)
+
 
 
 #Join new to old
@@ -131,27 +136,16 @@ main_hospital <- master2 %>%
   filter(county_nam=="Arkansas_all_counties") %>% 
   select(mydate, confirmed_active, active_cases) %>% 
   rename('date' = mydate)
- 
-# #If needed Roll back a day
-#  main_hospital <- main_hospital %>%
-#     filter(date<=("2021-05-31"))
- 
- 
+
+main_hospital$date <- ymd(main_hospital$date)
+# hospital2$date <- ymd(hospital2$date)
+
 
 hospital2 <- hospital_master %>% 
   select(date, Hospitalized, Vent)
 
 main_hospital2 <- inner_join(main_hospital, hospital2, by=c("date"="date"))
  
-# main_hospital3 <- main_hospital2 %>% 
-#   mutate(Vent_Change_from_Yesterday = (Vent-lead(Vent)))
-
-
-# main_hospital2 <- inner_join(main_hospital, hospital_master, by=c("date"="date", "active_cases"="active_cases", "confirmed_active"="confirmed_active"))
-
-
-# glimpse(main_hospital)
-# glimpse(hospital_master)
 glimpse(main_hospital2)
 ```
 
@@ -164,14 +158,6 @@ hospital1 <- main_hospital2 %>%
   #mutate(Vent_Change_from_Yesterday = (Vent-lead(Vent))) %>% 
   mutate(Pct_Vent = (Vent/Hospitalized)*100) %>% 
   mutate(Pct_Hospitalized = (Hospitalized/active_cases)*100)
-
-# hospital1 <- hospital1 %>%
-#   filter(date ==(today))
-
-# hospital1 <- hospital1 %>%
-#   filter(date >=("2021-05-17"))
-
-
 
 hospital1 <- hospital1 %>% 
    filter(date >(yesterday))
@@ -251,7 +237,7 @@ df5 <- df5 %>%
 ggplot(df5,aes(x = Date, y = Amount, label = Amount, fill= Detail)) + 
 geom_bar(stat="identity", position="dodge", color="white")+
 scale_fill_manual(values=c("#B3BF08", "#08B3BF", "#D68037"))+
-scale_y_continuous(limits=c(0, 700))  +
+scale_y_continuous(limits=c(0, 1000))  +
   theme_bw() + 
   theme(
     plot.title = element_text(face = "bold", size = 16),
@@ -274,5 +260,19 @@ scale_y_continuous(limits=c(0, 700))  +
        x="Date")
 ggsave("Hospital.png",device = "png",width=9,height=6, dpi=400)
 ```
+
+#Hospital Regions Special Slide to Compare Admits by Region
+```{r}
+hospital_new2 <- hospital_new %>% 
+  mutate(Covid_per_100_bed = (PositiveAdmits/TotalBeds)*100) %>% 
+  mutate(Vents_per_100_bed = (OnVents/TotalBeds)*100) %>% 
+  select(Date, Region_Hospitals, Covid_per_100_bed, Vents_per_100_bed, PositiveAdmits, OnVents, TotalBeds)
+
+ 
+
+write.csv(hospital_new2, "hospital_july20.csv")
+#Feeds this slide: https://app.flourish.studio/visualisation/6620583/edit?
+```
+
 
 -**30**
