@@ -1,7 +1,7 @@
 ---
 title: "Demographic Update Arkansas Covid"
 author: "Rob Wells and Mary Hennigan, Translation by Rachell Sanchez-Smith"
-date: "7/16/2021"
+date: "7/22/2021"
 output: pdf_document
 ---
 
@@ -89,7 +89,6 @@ glimpse(today_demo)
 ```
 
 ```{r}
-
 #rename  rename(NEW NAME = OLD NAME,
 today_demo <- today_demo %>% 
 rename(Black = black, White = white, 
@@ -132,31 +131,15 @@ Cases_65 = age_8,
 Deaths_65 = d_age_8,
 Noncovid_Death = noncovid_death, Date = date)
 ```
-```
-
-#Rename Variables
-# ```{r}
-# colnames(today_demo)[1:59] <-c("Objectid","Fips","Black", "White", "Na", 
-#  "Asian", "Pi","Other_Race","Unk_Race","Multi_Race", 
-#  "Nonhispanic", "Hispanic","Deaths_Black", "Deaths_White", "Deaths_Na", 
-# "Deaths_Asian", "Deaths_Pi","Deaths_Other_Race","Deaths_Unk_Race","Deaths_Multi_Race", 
-# "Cases_0_10", "Cases_11_17", "Cases_18_24", "Cases_25_34", "Cases_35_44", "Deaths_0_10"   
-# , "Deaths_11_17", "Deaths_18_24", "Deaths_25_34", "Deaths_35_44", "Male","Female","Unk_Gender","Diabetes","Cardiac_Disease",
-# "Hypertension","Cpd", "Ckd", "Immunocompromised", "Healthcare", 
-# "Nursing_Home","Jailed","Positives", "Deaths_Nursing_Home","Deaths_Jailed", 
-# "Deaths", "Deaths_Hispanic", "Deaths_Nonhispanic", "Cases_45_54", "Deaths_45_54", "Cases_55_64", "Deaths_55_64", "Cases_65", "Deaths_65", 
-# "Noncovid_Death", "Pos_24Hr", "Cases_Unknown", "Deaths_Unknown","Date")
-# 
-glimpse(today_demo)
-
-
 #----------------------------------------------------------------------------------------------------#
 #----------------------------------------------------------------------------------------------------#
 #AGE calculations
 #----------------------------------------------------------------------------------------------------#
 #----------------------------------------------------------------------------------------------------#
 #Today's data with age
+
 ```{r}
+
 today_age <- today_demo %>% 
   select("Date", 
  "Cases_0_10"   
@@ -174,11 +157,11 @@ today_age <- today_demo %>%
 , "Cases_55_64" 
 , "Deaths_55_64"              
 , "Cases_65"                               
-, "Deaths_65")                        
+, "Deaths_65")   
+
 
 glimpse(today_age)
 ```
-
 #Today_yesterday
 #Import age master file
 ```{r}
@@ -194,7 +177,7 @@ glimpse(age3)
 
 ```{r}
 yesterday_age <- age3 %>% 
-   select("Date", "Cases_0_10", "Cases_11_17", "Cases_18_24", "Cases_25_34", "Cases_35_44", "Cases_45_54", "Cases_55_64", "Cases_65", "Cases_Unknown", "Deaths_0_10", "Deaths_11_17", "Deaths_18_24", "Deaths_25_34", "Deaths_35_44", "Deaths_45_54", "Deaths_55_64", "Deaths_65", "Deaths_Unknown") %>% 
+   select("Date", "Cases_0_10", "Cases_11_17", "Cases_18_24", "Cases_25_34", "Cases_35_44", "Cases_45_54", "Cases_55_64", "Cases_65", "Deaths_0_10", "Deaths_11_17", "Deaths_18_24", "Deaths_25_34", "Deaths_35_44", "Deaths_45_54", "Deaths_55_64", "Deaths_65") %>% 
   filter(Date==yesterday)
 
 #if you miss a day, fill this out and run instead
@@ -298,6 +281,8 @@ age_new_cases_spanish$Grupo_de_Edad <- str_replace_all(age_new_cases_spanish$Gru
 
 write.csv(age_new_cases_spanish, file = "SpanishData/age_new_cases_spanish.csv")
 age_new_cases_spanish
+#fact check totals
+sum(age_new_cases$New_Cases)
 ```
 
 #New Deaths Today Table for Flourish
@@ -321,6 +306,9 @@ age_new_deaths_spanish <- age_new_deaths %>%
 age_new_deaths_spanish$Grupo_de_Edad <- str_replace_all(age_new_deaths_spanish$Grupo_de_Edad, pattern=fixed('New_Deaths_'), replacement=fixed('') )
 
 age_new_deaths_spanish
+
+#Fact Check
+sum(age_new_deaths$New_Deaths, na.rm=TRUE)
 
 write.csv(age_new_deaths_spanish, file = "SpanishData/age_new_deaths_spanish.csv")
 ```
@@ -589,6 +577,7 @@ race_new_cases <- gather(x, key = "Race", value = "New_Cases", New_Cases_African
 
 write.csv(race_new_cases, file = "Demographics/race_new_cases.csv")
 race_new_cases
+sum(race_new_cases$New_Cases, na.rm=TRUE)
 ```
 
 
