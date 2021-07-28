@@ -1,0 +1,1595 @@
+---
+title: "November 2020 Summary"
+author: "Rob Wells"
+date: "11/30/2020"
+output: html_document
+---
+
+
+#Load Software
+```{r}
+library(tidyverse)
+#install.packages("rio") 
+#install.packages("lubridate")
+library(lubridate)
+```
+#rio handles more than two dozen formats including tab-separated data (with the extension .tsv), 
+#JSON, Stata, and fixed-width format data (.fwf).
+
+
+#IMPORT the master file from the Arkansascovid GitHub site
+```{r}
+master <- rio::import("https://raw.githubusercontent.com/Arkansascovid/Main/master/MasterData/master_file.csv")
+```
+
+#Convert date to mdy 
+```{r}
+#format dates
+#library(lubridate)
+master$date <- ymd(master$mydate)
+master$year <- year(master$date)
+master$month <- month(master$date, label=TRUE)
+master$week <- week(master$date)
+master$day <- day(master$date)
+master$weekday <- wday(master$date, label=TRUE, abbr=FALSE)
+
+#Mini table
+mini <- master %>% 
+  select(county_nam, date, year, month, week, day, weekday)
+mini
+```
+
+#Create Monday-only table, statewide data
+```{r}
+month <- master %>% 
+  select(county_nam, date, New_Cases_Today, month) %>% 
+  filter(county_nam=="Arkansas_all_counties") %>% 
+   arrange(desc(New_Cases_Today))
+
+month
+```
+
+
+#GroupBy
+#Using master_file, develop monthly totals and percentage changes for new cases and deaths
+```{r}
+monthly_cases <- master %>% 
+  select(county_nam, month, year, New_Cases_Today, New_Deaths_Today) %>% 
+  filter(county_nam=="Arkansas_all_counties") %>% 
+  group_by(month, year) %>% 
+  summarise(month_newcases = sum(New_Cases_Today, na.rm = TRUE)) %>% 
+  arrange((month))
+
+monthly_cases
+write.csv(monthly_cases, "monthly_cases.csv")
+```
+
+#Deaths
+```{r}
+monthly_deaths <- master %>% 
+  select(county_nam, month, year, New_Deaths_Today) %>% 
+  filter(county_nam=="Arkansas_all_counties") %>% 
+  group_by(year, month) %>% 
+  summarise(month_deaths = sum(New_Deaths_Today, na.rm = TRUE)) %>% 
+  arrange(month)
+
+monthly_deaths
+write.csv(monthly_cases, "monthly_cases.csv")
+```
+
+```{r}
+monthly_deaths1 <- master %>% 
+  select(county_nam, month, year, New_Deaths_Today) %>% 
+  filter(county_nam=="Arkansas_all_counties") %>% 
+  filter(month=="Jul")
+
+monthly_deaths1
+#write.csv(monthly_deaths1, "monthly_deaths1.csv")
+```
+
+
+#Percentage change by month new cases
+```{r}
+monthly_cases <- monthly_cases %>% 
+  mutate(cases_diff_monthly = (month_newcases-lead(month_newcases))) %>% 
+   mutate(cases_pct_monthly = (month_newcases-lead(month_newcases))/lead(month_newcases)) 
+
+
+#To quickly format into percents, load
+#install.packages("formattable")
+#library(formattable)
+
+monthly_cases$cases_pct_monthly <- formattable::percent(monthly_cases$cases_pct_monthly)
+
+
+monthly_cases <- monthly_cases %>% 
+  arrange(month)
+monthly_cases
+write.csv(monthly_cases, "monthly_cases.csv")
+```
+
+
+#####Ends Monday Nov 30#######
+
+
+#Hospital
+
+
+```{r}
+hospital <- rio::import('https://raw.githubusercontent.com/Arkansascovid/Main/master/hospital_master.csv')
+head(hospital)
+```
+
+- **Clean Names**
+```{r}
+
+hospital <- janitor::clean_names(hospital)
+```
+
+- **Cleaning: Convert data from List variables to numeric**
+
+```{r include=FALSE}
+
+#text to date
+hospital$date <- as.Date(hospital$date)
+#text to numeric
+hospital[3:6] <- lapply((hospital)[3:6], as.numeric)
+
+```
+
+```{r}
+#Eliminate junk first column
+hospital <- hospital [ -c(1) ]
+```
+
+```{r}
+#Rename columns
+#colnames(hospital)[2:5] <- c("Hospitalized", "Vent", "Ever_Hospitalized", "Ever_on_a_Vent")
+```
+
+#----------------------------------------------------------------------------------#
+#Filtering and Selecting Columns
+#----------------------------------------------------------------------------------#
+
+
+#Create a table sorted by number of hospitalized
+```{r include=FALSE}
+
+#Always a good idea to rename the target as something different in case you mess up something
+#this is hospital1
+hospital1 <- hospital %>% 
+  arrange(desc(hospitalized))
+```
+
+```{r}
+#Check out the new table, all sorted cool
+head(hospital1)
+
+```
+
+#YOUR TURN: Create a Table sorted by vent
+```{r}
+
+vent <- hospital %>% 
+  arrange(desc(vent))
+head(vent)
+```
+
+#Filtering and Selecting Columns
+```{r}
+#Filter just the October entries
+hospital1 <- hospital %>% 
+  filter(date > "2020-09-30")
+
+(hospital1)
+
+```
+
+#Fix the dates for chronological order
+```{r}
+#Fix the dates for chronological order
+hospital1 <- hospital1 %>% 
+  arrange(desc(date))
+
+(hospital1)
+
+```
+
+#YOUR TURN: Create a Table just with the August entries
+#HINT: https://stackoverflow.com/questions/22420487/subsetting-data-table-set-by-date-range-in-r
+#https://rstudio.com/wp-content/uploads/2015/02/data-wrangling-cheatsheet.pdf
+testset[date>="2013-08-02" & date<="2013-11-01"]
+```{r}
+
+hospital1 <- hospital %>% 
+  filter(date >= "2020-08-01" & date <= "2020-08-31")
+hospital1
+
+```
+
+#dplyr
+#We are using basic commands in the dplyr package
+#https://dplyr.tidyverse.org/
+
+#Select just three columns
+```{r}
+vent2 <- hospital %>% 
+  select(date, vent, ever_on_a_vent)
+head(vent2)
+write.csv(vent2, "vent2.csv")
+```
+
+
+#YOUR TURN
+#IMPORT the master file from the Arkansascovid GitHub site
+#1) Create a new filtered table with October only files
+#2) Create a new table just with deaths, but for all dates
+#3) Create a new table with all of the testing data
+
+#Bonus: Take tables 1, 2 & 3 and build Flourish Charts with them
+
+#IF YOU FINISH THAT, REVEL IN YOUR NERD POWERS
+
+#IMPORT the master file from the Arkansascovid GitHub site
+```{r}
+master <- rio::import("https://raw.githubusercontent.com/Arkansascovid/Main/master/master_file.csv")
+
+master$mydate <- as.Date(master$mydate)
+head(master)
+```
+
+#2) Create a new table just with deaths, but for all dates
+#Build Confirmed Table
+
+
+```{r}
+deaths <- master %>% 
+  select(mydate, county_nam, deaths, New_Deaths_Today, confirmed_death, probable_death, Pct_Deaths_vs_Recoveries, Pct_Recoveries_vs_Deaths )
+head(deaths)
+write.csv(deaths, "deaths.csv")
+```
+
+#2a) Using advanced dplyr command
+```{r}
+#Use contains to search by string to find the variables by name
+#this grabs everything except date
+x <- select(master, contains("death"))
+names(x)
+```
+
+```{r}
+#copy those names into a select sequence
+death2 <- master %>% 
+  select("mydate", "deaths", "confirmed_death",  "probable_death", "New_Deaths_Today", "Pct_Deaths_vs_Recoveries", "Pct_Recoveries_vs_Deaths" )
+
+```
+
+
+#3) Create a new table with all of the testing data
+```{r}
+test <- master %>% 
+  select("mydate", "total_tests", "pcr_test",  "antigen_test", "pcr_pos_test",  "pcr_neg_test", "antigen_pos_test", "antigen_neg_test",    "total_pos_test", "total_neg_test", "New_Tests_Dashboard", "Tested_Population" )
+```
+
+
+#3a) Using advanced dplyr command
+```{r}
+#Use contains to search by string to find the variables by name
+#this grabs everything except date
+x <- select(master, contains("test"))
+names(x)
+```
+
+```{r}
+#copy those names into a select sequence
+test <- master %>% 
+  select("mydate", "total_tests",   "pcr_test",            "antigen_test",        "pcr_pos_test",        "pcr_neg_test",        "antigen_pos_test",   
+"antigen_neg_test",    "total_pos_test",      "total_neg_test",      "New_Tests_Dashboard", "Tested_Population" )
+
+```
+
+#----------------------------------------------------------------------------------#
+# Math
+#----------------------------------------------------------------------------------#
+###Summary Statistics
+Here is a quick way to view the range of your data  
+
+```{R}
+summary(master$death)
+```
+
+```{r}
+#Crime$Murder.Robbery <- Crime$Murder + Crime$Robbery
+
+death2$NEWtotal <- death2$confirmed_death + death2$probable_death
+head(death2)
+
+```
+
+```{r}
+#percentage of a column
+#calculate confirmed as percentage of total deaths
+
+death2$pct_confirmed <- (death2$confirmed_death / death2$deaths)*100
+head(death2)
+glimpse(master)
+```
+
+#YOUR TURN
+#1) Antigen positivity rate 
+#2) Antigen positive rate, just for state of Arkansas
+#3) Percent positive rate overall (positive / total tests)
+#4) Percent positive rate overall, just for state of Arkansas
+#5) Percent positive rate, just Arkansas, highest to lowest by date
+#6) Create a heatmap with results from #5
+
+#----------------------------------------------------------------------#
+#Student Feedback
+#----------------------------------------------------------------------#
+#1) Antigen positivity rate
+```{r}
+#Error - you overwrote your data with this calculation. Need to create a new column
+#master2$antigen_pos_test <- (master2$antigen_pos_test / master2$antigen_test)*100
+
+master$antigen_pct <- (master$antigen_pos_test / master$antigen_test)*100
+
+
+#Wells edit - create mini table to look at results
+antigen <- master %>% 
+  select(county_nam, mydate, antigen_pos_test, antigen_test, antigen_pct)
+  
+
+head(antigen)
+```
+
+#1 Antigen positivity rate
+```{r}
+master <- master %>% 
+  mutate(Antigen_positivity_rate1 = (antigen_test / total_pos_test)*100) %>% 
+  mutate(Antigen_positivity_rate2 = (antigen_pos_test / antigen_test)*100)
+
+test2 <- master %>% 
+  select(county_nam, mydate, antigen_pos_test, antigen_test, total_pos_test, Antigen_positivity_rate1, Antigen_positivity_rate2)
+
+head(test2)
+
+```
+
+
+#3) Percent positive rate overall (positive / total tests)
+```{r}
+
+master <- master %>% 
+  mutate(PCR_Percent_positive = (pcr_pos_test / pcr_test)*100) %>% 
+  mutate(Percent_positive = (positive / total_tests)*100)
+
+test4 <- master %>% 
+  select(county_nam, mydate, Percent_positive, PCR_Percent_positive, positive, total_tests, pcr_pos_test, pcr_test )
+
+head(test4)
+
+
+```
+
+
+#5) Percent positive rate, just Arkansas, highest to lowest by date
+```{r}
+
+test <- master %>% 
+  select(county_nam, mydate, PCR_Percent_positive) %>% 
+  filter(county_nam == "Arkansas_all_counties") %>% 
+  arrange(desc(PCR_Percent_positive))
+  
+test
+
+```
+
+
+
+#----------------------------------------------------------------------------------#
+# Lubridate Introduction
+#      Lubridate vignette   
+```{r}
+browseVignettes("lubridate")   
+```
+#Introduction to Lubridate
+#Tutorials Based on Andrew Ba Tran dealing-with-dates.R
+
+#Install lubridate if you haven't already
+```{r}
+#install.packages("lubridate")
+#library(lubridate)
+```
+#Load some data
+
+```{r}
+some_date <- "12-31-1999"
+```
+
+```{r}
+# NOTE: IF YOU GET AN ERROR ABOUT NOT HAVING A PACKAGE CALLED stringi
+# UNCOMMENT AND RUN THE LINES BELOW IF YOU HAVE A MAC MACHINE
+
+#install.packages("glue", type="mac.binary")
+#install.packages("stringi", type="mac.binary")
+#install.packages("stringr", type="mac.binary")
+#install.packages("lubridate", type="mac.binary")
+```
+#Ok, here we go
+```{r}
+library(lubridate)
+
+mdy(some_date)
+```
+```{r}
+data <- data.frame(First=c("Charlie", "Lucy", "Peppermint"),
+                   Last=c("Brown", "van Pelt", "Patty"),
+                   birthday=c("10-31-06", "2/4/2007", "June 1, 2005"))
+data$DOB <- mdy(data$birthday)
+
+data
+```
+
+```{r}
+data$year <- year(data$DOB)
+data$month <- month(data$DOB, label=TRUE)
+data$week <- week(data$DOB)
+data$day <- day(data$DOB)
+data$weekday <- wday(data$DOB, label=TRUE, abbr=FALSE)
+
+data
+```
+
+
+#------------------------------------------------------#
+#Now, apply this to the Covid data
+#------------------------------------------------------#
+
+
+#Load the Covid master_file
+#IMPORT the master file from the Arkansascovid GitHub site
+```{r}
+master <- rio::import("https://raw.githubusercontent.com/Arkansascovid/Main/master/master_file.csv")
+str(master)
+```
+
+#Question 1: Convert date to mdy -- see line 376
+```{r}
+master$date <- ymd(master$mydate)
+#str(master)
+```
+
+
+#Question 2: Mini table for Master to just county_nam, date, positive, Pct_Positive_Cumulative
+```{r}
+test5 <- master %>% 
+  select(county_nam, date, positive, Pct_Positive_Cumulative)
+head(test5)
+```
+
+#Create Separate Year Field
+```{r}
+test5$year <- year(test5$date)
+test5
+```
+
+#Create Separate Month Column
+```{r}
+test5$month <- month(test5$date, label=TRUE)
+test5
+```
+
+#Create Separate Week Column
+
+```{r}
+test5$week <- week(test5$date)
+test5
+```
+
+#Create Separate Day Column
+```{r}
+test5$day <- day(test5$date)
+test5
+```
+#Create Separate Weekday Column
+```{r}
+test5$weekday <- wday(test5$date, label=TRUE, abbr=FALSE)
+test5
+```
+
+
+#---------------------------------------------------------
+#Resume Here Monday
+#---------------------------------------------------------
+
+#Using master_file, answer record number of cases for a Monday
+
+#Bring in Master file, format dates
+```{r}
+master <- rio::import("https://raw.githubusercontent.com/Arkansascovid/Main/master/master_file.csv")
+
+#format dates
+library(lubridate)
+master$date <- ymd(master$mydate)
+master$year <- year(master$date)
+master$month <- month(master$date, label=TRUE)
+master$week <- week(master$date)
+master$day <- day(master$date)
+master$weekday <- wday(master$date, label=TRUE, abbr=FALSE)
+
+#Mini table
+mini <- master %>% 
+  select(county_nam, date, year, month, week, day, weekday)
+mini
+```
+
+#Create Monday-only table, statewide data
+```{r}
+mon <- master %>% 
+  select(county_nam, date, New_Cases_Today, weekday) %>% 
+  filter(county_nam=="Arkansas_all_counties") %>% 
+  filter(weekday == "Monday") %>% 
+  arrange(desc(New_Cases_Today))
+
+mon
+```
+
+#Make a Basic Chart
+```{r}
+
+ggplot(mon, aes(x=date, y=New_Cases_Today, color = New_Cases_Today, fill=New_Cases_Today)) +
+  geom_col() +
+  theme(axis.text.x = element_text(angle = 45, vjust = 1.2, hjust = 2.1)) +
+  labs(y="Cases Per Day", title="Record COVID-19 Cases on Wednesdays in Arkansas", caption="Source: ADH")+
+  theme(legend.position="none") 
+ggsave("monday top cases 11_16.png", device = "png", width=10,height=8, dpi=800)
+```
+
+#Improve on Chart, flipped and with labels
+
+```{r}
+mon %>% 
+  filter(date > "2020-03-26") %>% 
+  filter(New_Cases_Today > 500) %>% 
+  ggplot(aes(x = reorder(date, New_Cases_Today), 
+             y = New_Cases_Today,
+             fill = New_Cases_Today)) +
+  geom_col(position = "dodge", show.legend = FALSE) +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
+  #label formatting. Scales, into percentages. hjust moves to the grid
+  geom_text(aes(label = (New_Cases_Today)), position = position_stack(vjust = 1), hjust = -5., size = 2.5)  +
+  #format the x axis. sets the grid to maximum 30%
+  scale_y_continuous(limits=c(0, 1800)) +
+  coord_flip() +
+  labs(title = "Record COVID-19 Cases on Wednesdays in Arkansas",
+       subtitle = "Cases 500 and Greater",
+       caption = "Graphic by Rob Wells, 11-11-2020",
+       y="Source: Arkansas Dept of Health",
+       x="")
+
+ggsave("monday top cases 11_16.png", device = "png", width=10,height=8, dpi=800)
+
+```
+
+#Or Use top_n
+```{r}
+mon %>% 
+  top_n(10, New_Cases_Today) %>% 
+  ggplot(aes(x = reorder(date, New_Cases_Today), 
+             y = New_Cases_Today,
+             fill = New_Cases_Today)) +
+  geom_col(position = "dodge", show.legend = FALSE) +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
+  #label formatting. Scales, into percentages. hjust moves to the grid
+  geom_text(aes(label = (New_Cases_Today)), position = position_stack(vjust = 1), hjust = -5., size = 2.5)  +
+  #format the x axis. sets the grid to maximum 30%
+  scale_y_continuous(limits=c(0, 1800)) +
+  coord_flip() +
+  labs(title = "Record COVID-19 Cases on Wednesdays in Arkansas",
+       subtitle = "Cases 500 and Greater",
+       caption = "Graphic by Rob Wells, 11-11-2020",
+       y="Source: Arkansas Dept of Health",
+       x="")
+
+ggsave("monday top cases 11_16.png", device = "png", width=10,height=8, dpi=800)
+
+```
+
+#Reader Question: Number of Deaths since Oct 8
+
+```{r}
+deaths <- master2 %>% 
+  select(mydate, county_nam, New_Deaths_Today) %>% 
+  filter(mydate >= ("2020-10-08")) %>% 
+  filter(county_nam =="Arkansas_all_counties") %>% 
+  summarize(total= sum(New_Deaths_Today))
+```
+
+
+
+#----------------------------------------------------------------------------------#
+#  Group_By
+#----------------------------------------------------------------------------------#
+#Takes existing data and groups specific variables together for future operations. Many operations are performed on groups.
+
+
+
+#----------------------------------------------------------------------------------#
+#  Make a List of Top 10, or Top 5 or Top anything
+#----------------------------------------------------------------------------------#
+#top_n
+#https://www.rdocumentation.org/packages/dplyr/versions/0.7.8/topics/top_n
+
+
+#Top 10 days with new deaths
+```{r}
+top_deaths <- master %>% 
+  select(county_nam, mydate, New_Deaths_Today) %>% 
+  filter(county_nam == "Arkansas_all_counties") %>% 
+  top_n(10, New_Deaths_Today) %>% 
+  arrange(desc(New_Deaths_Today))
+top_deaths
+```
+
+
+#Table with the top five counties by deaths for November
+```{r}
+#Create month column
+master$date <- ymd(master$mydate)
+master$month <- month(master$date, label=TRUE)
+glimpse(master)
+```
+
+
+```{r}
+#Mini table with 
+novdeath <- master %>% 
+  select(month, county_nam, New_Deaths_Today) %>% 
+  filter(month =="Nov") %>% 
+  filter(!(county_nam == "Arkansas_all_counties")) %>% 
+  group_by(county_nam, month) %>% 
+  summarise(Nov_deaths = sum(New_Deaths_Today, na.rm = TRUE)) 
+novdeath
+```
+
+```{r}
+
+novdeath1 <- top_n(ungroup(novdeath), 5, Nov_deaths) 
+novdeath1 <- novdeath1 %>% 
+  arrange(desc(Nov_deaths))
+novdeath1
+```
+
+#Top 10 days with new deaths
+```{r}
+top_deaths <- master %>% 
+  select(county_nam, mydate, New_Deaths_Today) %>% 
+  filter(county_nam == "Arkansas_all_counties") %>% 
+  #filter just the counties
+  #filter(!(county_nam == "Arkansas_all_counties")) %>% 
+  top_n(10, New_Deaths_Today) %>% 
+  arrange(desc(New_Deaths_Today))
+top_deaths
+```
+
+
+
+#Percentage change by month new cases
+```{r}
+monthly_cases <- monthly_cases %>% 
+  mutate(cases_diff_monthly = (month_newcases-lead(month_newcases))) %>% 
+   mutate(cases_pct_monthly = (month_newcases-lead(month_newcases))/lead(month_newcases)) 
+
+
+#To quickly format into percents, load
+#install.packages("formattable")
+#library(formattable)
+
+monthly_cases$cases_pct_monthly <- formattable::percent(monthly_cases$cases_pct_monthly)
+
+monthly_cases 
+write.csv(monthly_cases, "monthly_cases.csv")
+```
+
+
+#Percentage change by month new deaths
+```{r}
+monthly_deaths <- master %>% 
+  select(county_nam, month, New_Deaths_Today) %>% 
+  filter(county_nam=="Arkansas_all_counties") %>% 
+  group_by(month) %>% 
+  summarise(month_deaths = sum(New_Deaths_Today, na.rm = TRUE)) %>% 
+  arrange(desc(month)) %>% 
+  mutate(deaths_diff_monthly = (month_deaths-lead(month_deaths))) %>% 
+  mutate(deaths_pct_monthly = (month_deaths-lead(month_deaths))/lead(month_deaths)) 
+
+monthly_deaths
+```
+
+#White House Report
+# Arkansas had 193 new cases per 100,000 population in the last week, compared to a national average of 90 per 100,000.
+#CALCULATE total new cases by week, divide into our population
+
+```{r}
+weekly <- master %>% 
+  select("county_nam","week", "New_Cases_Today", "pop_5yr_est_2018", "date" ) %>% 
+filter(county_nam == "Arkansas_all_counties")  %>% 
+#  group_by(week) %>% 
+#added population to this able
+group_by(week, pop_5yr_est_2018) %>% 
+summarise(week_newcases = sum(New_Cases_Today, na.rm = TRUE)) %>% 
+#arrange(desc(week_newcases))
+arrange(desc(week))
+weekly
+```
+
+```{r}
+weekly <- weekly %>% 
+  mutate(Cases_Per_100k = ((week_newcases / pop_5yr_est_2018)*100000)) %>% 
+arrange(desc(week))
+weekly
+```
+
+#----------------------------------------------------------------------------------#
+#  Charts by Day, Weeks
+#----------------------------------------------------------------------------------#
+
+```{r}
+glimpse(master)
+```
+
+#Your Turn
+#Deaths on Saturdays: A table just with date, New Deaths
+```{r}
+sat <- master %>% 
+   filter(county_nam=="Arkansas_all_counties") %>% 
+   select(date, New_Cases_Today, weekday) %>% 
+  filter(weekday == "Saturday") %>% 
+  top_n(5, New_Cases_Today) %>% 
+  arrange(desc(New_Cases_Today))
+
+sat
+```
+
+```{r}
+sat <- master %>% 
+   filter(county_nam=="Arkansas_all_counties") %>% 
+   select(weekday, date, New_Cases_Today) %>% 
+  filter(weekday == "Saturday") %>% 
+  top_n(5, New_Cases_Today) %>% 
+  arrange(desc(New_Cases_Today))
+
+sat
+```
+
+#Graphics
+```{r}
+ggplot(sat, aes(x=date, y=New_Deaths_Today, color = New_Deaths_Today, fill=New_Deaths_Today)) +
+  geom_col() +
+  theme(axis.text.x = element_text(angle = 45, vjust = 1.2, hjust = 2.1)) +
+  labs(y="Deaths Per Day", title="Arkansas COVID-19 Deaths on Saturdays", caption="Source: ADH")+
+  theme(legend.position="none") 
+
+```
+
+#Average Cases Per Day
+#The governor has been focusing his comments on beating the previous weeks numbers. Let's get some averages by weekday since August
+
+```{r}
+weekavg <- master %>% 
+   filter(county_nam=="Arkansas_all_counties") %>% 
+   select(date, New_Cases_Today, weekday) %>% 
+   filter(date >= "2020-08-01") 
+ 
+weekavg 
+
+```
+```{r}
+weekavg <- weekavg %>% 
+  select(weekday, New_Cases_Today) %>% 
+  group_by(weekday) %>% 
+  summarize(Weekday_Avg=mean(New_Cases_Today))
+ 
+weekavg 
+```
+
+
+#----------------------------------------------------------------------------------#
+## NOTES: HOW TO Retrieve Data from Your Hard Drive
+#----------------------------------------------------------------------------------#
+- **Download Daily Hospital Data - Manual Input" from Google Sheet**
+https://docs.google.com/spreadsheets/d/1ikblX8tikM59ma1AftkqgGbyeZkXB6DuBtwMsVeoGYw/edit#gid=701586163
+
+- **Get the File Path on Your Hard Drive**
+    
+    1) Find the File and LEFT CLICK on it (or Control + Click).
+        A menu appears. 
+    2) Continue holding down CONTROL. 
+    3) Now Hold down CONTROL + OPTION at same time. 
+    Copy "Daily State Data - Manual Input" as Path. 
+    It will look like this:
+    /Users/rswells/Downloads/Daily State Data - Manual Input.xlsx
+    4) Paste that path below
+
+
+```{r}
+#An example of downloading data from your hard drive
+#hospital <- rio::import("/Users/rswells/Downloads/Daily State Data - Manual Input.xlsx")
+#This loads in "Daily State Data - Manual Input" from Google Sheet
+
+```
+
+#----------------------------------------------------------------------------------#
+## For Future Lessons Below
+#----------------------------------------------------------------------------------#
+
+
+#NOTES
+
+```{r}
+# monthly2 <- master %>% 
+#   filter(date =="2020-10-31") | filter(date =="2020-09-30")
+# 
+# df <- master
+# 
+ # monthly2 <- master %>% 
+ #   filter((date == "2020-10-31") | (date == "2020-09-30"))
+df2 <- with(df, df[(date == "2020-10-31") | (date == "2020-09-30") | (date == "2020-08-31") | (date == "2020-07-31") | date ==("2020-06-30") | date ==("2020-05-31") | date ==("2020-04-30") | date==("2020-03-31"), ])
+
+monthly3 <- df2 %>% 
+  filter(county_nam=="Arkansas_all_counties") %>% 
+   mutate(cases_diff_monthly = (confirmed_pos-lead(confirmed_pos))) %>% 
+   mutate(cases_pct_monthly = (confirmed_pos-lead(confirmed_pos))/lead(confirmed_pos)) %>% 
+  select(county_nam, mydate, positive, confirmed_pos, cases_diff_monthly, cases_pct_monthly)  
+
+monthly3
+```
+
+
+#new deaths
+monthly <- master %>% 
+  select(county_nam, month, New_Cases_Today, New_Deaths_Today) %>% 
+  filter(county_nam=="Arkansas_all_counties") %>% 
+  group_by(month) %>% 
+    summarise(month_newdeaths) = sum(New_Deaths_Today, na.rm = TRUE) 
+
+
+
+
+
+```{r}
+test8 <- master %>% 
+  select(county_nam, mydate, New_Cases_Today, positive, pop_5yr_est_2018) %>% 
+  mutate(PCT_Cases_Population = (positive / pop_5yr_est_2018)*100) %>% 
+  mutate(New_Cases_Today_100k_Pop = (New_Cases_Today/pop_5yr_est_2018)*10000) %>% 
+  filter(county_nam=="Arkansas_all_counties")
+test8
+```
+
+
+
+
+--**Check the date is correct**
+
+```{r}
+#today's date
+today <- Sys.Date()
+
+#NOTE - IF YOU DON'T HAVE TODAY'S DATA, THEN RUN THIS LINE INSTEAD AND COMMENT OUT today <- Sys.Date()
+#today <- Sys.Date()-1
+
+#yesterday's date
+yesterday <- (today-1)
+
+```
+
+
+#Bring in master file and join with hospital
+
+```{r}
+master2 <- rio::import('https://raw.githubusercontent.com/Arkansascovid/Main/master/master_file.csv')
+master2$mydate <- as.Date(master2$mydate)
+head(master2)
+```
+
+#Joining selected columns from master file
+```{r}
+main_hospital <- master2 %>% 
+  filter(county_nam=="Arkansas_all_counties") %>% 
+  select(mydate, confirmed_active, active_cases) 
+ 
+main_hospital2 <- left_join(hospital, main_hospital, by=c("date"="mydate"))
+glimpse(main_hospital2)
+```
+
+#Hospital Math
+
+```{r}
+hospital1 <- main_hospital2 %>% 
+  mutate(New_Admits = (Ever_Hospitalized-lead(Ever_Hospitalized))) %>% 
+  mutate(Hosp_Change_from_Yesterday = (Hospitalized-lead(Hospitalized))) %>% 
+  mutate(New_Discharges_Deaths = (New_Admits-Hosp_Change_from_Yesterday)) %>% 
+  mutate(Pct_Vent = (Vent/Hospitalized)*100) %>% 
+  mutate(New_on_Vent = (Ever_on_a_Vent-lead(Ever_on_a_Vent,na.rm=TRUE)))%>% 
+  mutate(Pct_Hospitalized = (Hospitalized/active_cases)*100)
+
+#hospital1 <- hospital1 %>% 
+#  filter(date ==(today))
+```
+
+```{r}
+head(hospital1)
+```
+
+
+```{r}
+write.csv(hospital1, "hospital1_test.csv")
+```
+
+
+
+#Slide on hospitalized
+```{r}
+ggplot(hospital1, aes(x = date, y = Hospitalized, label = Hospitalized, fill= Hospitalized)) + 
+  geom_bar(aes(fill = Hospitalized), stat = "identity", position = "dodge") +
+  labs(title = "Hospitalizations in Arkansas",  
+       subtitle = "ADH Data for Sept. 27, 2020",
+       caption = "Graphic by ArkansasCovid.com",
+       y="Hospitalized",
+       x="Date")
+ggsave("test.png",device = "png",width=9,height=6, dpi=400)
+
+```
+
+
+#Advanced Hospital Slide
+
+```{r}
+df <- hospital1 %>% 
+    filter(date>=(yesterday))
+
+# Date <- df$mydate
+# New_Cases <- df$New_Cases_Today
+# Deaths <- df$deaths
+
+library(reshape2)
+
+df2 <- melt(df[,c("date", "New_Admits", "New_on_Vent")], id.vars = 1)
+
+ggplot(df2,aes(x = date, y = value, label = value, fill= variable)) + 
+  #geom_bar(aes(fill = variable), stat = "identity", position = "dodge") +
+  geom_col(position = position_dodge2(width = 0.9, preserve = "single"), show.legend = T) +
+  geom_text(position = position_dodge2(width = 0.9, preserve = "single"), vjust=-1, hjust=+1) +
+  scale_y_continuous(limits=c(0, 20)) + 
+  labs(title = "Admits and Vents in Arkansas ", 
+       subtitle = "ADH Data for Sept. 27, 2020",
+       caption = "Graphic by ArkansasCovid.com",
+       y="Amount",
+       x="Date")
+ggsave("test2.png",device = "png",width=9,height=6, dpi=400)
+```
+
+
+#--------------------------------------------------------------------#
+#REVIEW 
+#--------------------------------------------------------------------#
+
+# vignettes: Learn about packages and commands
+```{r}
+browseVignettes("tidyverse")
+```
+
+```{r}
+??tidyverse
+```
+#Converting character strings into numeric
+#What is the character type? Glimpse function
+```{r}
+glimpse(hospital_master1)
+```
+
+#chr stands for character vectors, or strings.
+#int stands for integers.
+#dbl stands for doubles, or real numbers.
+#dttm stands for date-times (a date + a time).
+
+#Convert numbers to "numeric" data
+#We want to turn all columns after HMC2 into numeric
+#HMC2 is Column #10
+
+
+
+# Part 2: Math on State Data   
+
+- **Now We Do The Math**
+- **Previous Date Calculations**
+
+Create Temporary Table Two Days' Worth of Data
+Sort Alphbetically and Run Calculations
+You should get a df with 150 observations (two days' worth a data)
+
+
+--**Check the dates are correct and that the data is filtered for today, yesterday**
+
+```{r}
+twodays <- state %>% 
+  filter(Date >= yesterday) %>%  #get two days' of data
+arrange(desc(Date)) 
+```
+
+```{r}
+head(twodays) 
+```
+
+
+-**The Today-Yesterday Calculations**
+
+    This calculates:
+    CHECKED Column K New Cases Today=Positive - (yesterday) Positive) J2-J3 
+    CHECKED Column N Recovered Since Yesterday: Recovered - (yesterday) Recovered =M2-M3)
+    CHECKED Column P New Deaths Today: = Total Deaths-(yesterday(Total Deaths) O2-O3)
+    
+    (FIELD IS IN STATE-HOSPITALS)
+    CHECKED Column R New Tests Dashboard: = Number tested-(YESTERDAY) Number tested Q2-Q3)
+    
+    CHECKED Column Z (hosp_change_from_yesterday: Hospitals -(yesterday) Hospitals
+    
+    CHECKED Column AB (new_admits = ever_hospitalized-(yesterday) ever_hospitalized)
+    CHECKED Column AC (new_discharges_deaths = new admits - HOSPITAL CHANGE)
+    CHECKED Column AD (pct_hospitalized = hospitalized / current infections) * 100
+    CHECKED Column AG (new_on_vent = ever_on_a_vent - (yesterday) ever_on_a_vent
+    CHECKED Column AH (pct_vent = vent / hospitalized) * 100                  
+
+```{r}
+temp <- twodays %>%
+  mutate(New_Cases_Today = (Positive-lead(Positive))) %>%
+  mutate(Recovered_Since_Yesterday = (Recovered-lead(Recovered))) %>%
+  mutate(New_Deaths_Today = (Total_Deaths-lead(Total_Deaths))) %>%
+  #mutate(New_Tests_Dashboard = (Number_Tested-lead(Number_Tested))) %>% 
+  mutate(Hosp_Change_from_Yesterday = (Hospitalized-lead(Hospitalized))) %>% 
+  mutate(New_Admits = (Ever_Hospitalized-lead(Ever_Hospitalized))) %>% 
+  mutate(New_Discharges_Deaths = (New_Admits-Hosp_Change_from_Yesterday)) %>% 
+  mutate(Pct_Hospitalized = (Hospitalized/Current_Infections)*100) %>% 
+  mutate(New_on_Vent = (Ever_on_a_Vent-lead(Ever_on_a_Vent))) %>% 
+  mutate(Pct_Vent = (Vent/Hospitalized)*100) 
+```
+
+```{r}
+glimpse(temp)
+```
+
+-**More Percentage Calculations**
+
+    CHECKED Column E (Cases/population = (positive / population) *100
+    CHECKED ***MAYBE ELIMINATE*** Column F (Tested/population = (Number tested / population) *100
+    CHECKED Column G (New Cases Today per 10k Population = (New Cases Today / population) *10000
+    CHECKED Column H (Active Cases per 10k = (current_infections / population) *10000
+    CHECKED Column T (% Positive Cumulative = (positive / Number tested) *100
+    CHECKED Column U (% Positive New to Dashboard = New Cases Today / New Tests Dashboard) * 100
+    CHECKED Column V (Closed = Recovered + Total Deaths)
+    CHECKED Column W (% Deaths vs. Recoveries = Total Deaths / Closed) * 100
+    CHECKED Column X (% Recoveries vs. Deaths = Recovered / Closed) * 100
+
+```{r}
+temp <- temp %>%
+  mutate(Cases_Population = (Positive / Population)*100) %>% 
+  #mutate(Tested_Population = (Number_Tested / Population)*100) %>% 
+  mutate(New_Cases_Today_10k_Pop = (New_Cases_Today/Population)*10000) %>% 
+  mutate(Active_Cases_10k_Pop = (Current_Infections/Population)*10000) %>% 
+  #mutate(Pct_Positive_Cumulative = (Positive/Number_Tested)*100) %>% 
+  #mutate(Pct_Positive_New_to_Dashboard = (New_Cases_Today/New_Tests_Dashboard)*100) %>% 
+  mutate(Closed = (Recovered + Total_Deaths)) %>% 
+  mutate(Pct_Deaths_vs_Recoveries = (Total_Deaths/Closed)*100) %>% 
+  mutate(Pct_Recoveries_vs_Deaths = (Recovered/Closed)*100) %>% 
+  mutate(County = "Arkansas_all_counties")
+  
+temp
+```
+
+```{r}
+glimpse(temp)
+```
+
+- **Align names in order of covid table**
+#Cut Tested_Population, Number_Tested,New_Tests_Dashboard,Pct_Positive_Cumulative, Pct_Positive_New_to_Dashboard
+```{r}
+temp <- temp %>% select(County, Date, Population, Cases_Population,,New_Cases_Today_10k_Pop,Active_Cases_10k_Pop,Current_Infections,Positive, New_Cases_Today, Recovered, Recovered_Since_Yesterday, Total_Deaths, New_Deaths_Today, Closed, Pct_Deaths_vs_Recoveries, Pct_Recoveries_vs_Deaths, Hospitalized, Hosp_Change_from_Yesterday, Ever_Hospitalized, New_Admits, New_Discharges_Deaths, Pct_Hospitalized, Vent, Ever_on_a_Vent, New_on_Vent, Pct_Vent)
+
+names(temp)
+```
+
+
+# Part 3: Joining and Archiving   
+
+-**Update the main sheet, archiving**
+```{r}
+#Create a standalone copy of the TODAY'S data with the calculations
+TODAY <- temp %>% 
+  filter(Date > yesterday)
+glimpse(TODAY)
+```
+
+-**Import Whole Table**
+#IMPORTANT - CHECK THIS TABLE HAS YESTERDAY'S DATA
+```{r}
+wholetable <- rio::import("https://raw.githubusercontent.com/Arkansascovid/Main/master/state_hospitals_part1.csv")
+
+```
+
+-**Fix Date, Eliminate V1 index**
+```{r}
+wholetable$Date <- as.Date(wholetable$Date)
+#cut timestamp column
+wholetable <- wholetable[ -c(1) ]
+#wholetable <- wholetable[ -c(27:33) ]
+
+#If you need to eliminate today's data, run this
+#wholetable <- wholetable %>% 
+#  filter(Date < today)
+```
+
+
+```{r}
+names(TODAY)
+```
+
+```{r}
+glimpse(wholetable)
+```
+
+-**Join with Wholetable**
+```{r}
+wholetable <- rbind(wholetable, TODAY)
+
+wholetable <- wholetable %>% 
+  arrange(desc(Date))
+```
+
+
+```{r}
+head(wholetable)
+```
+
+-**You've finished Part 1 State Calculations**
+
+
+# Part 2: Build Simple Charts and Tables with Data
+
+-**Main Numbers for the Day**
+
+-**The goal is to build code to create this table automatically**
+ 
+    Here is a quick look at today’s COVID-19 numbers:  
+    66,804 Positive Cases (+398 today) 
+    60,668 Recoveries (+748 today) 
+    940 Total Deaths (+12 today) 
+    *5,196 Total Active Cases Today 
+    All charts will be updated on the website later this afternoon with cou @maryhennigan_ 
+
+```{r}
+DailyUpdate <- wholetable %>% 
+  select(Date, Positive, Current_Infections, Total_Deaths, New_Admits) %>% 
+  filter(Date >= yesterday)
+DailyUpdate
+```
+
+
+```{r}
+DailyUpdate %>% 
+  ggplot(aes(x = Date, y = Total_Deaths, fill=Total_Deaths)) + 
+  geom_bar(stat = "identity", show.legend = FALSE) +
+  scale_y_continuous(limits=c(0, 1200)) +
+  geom_text(aes(label = Total_Deaths), vjust = -1.1, size = 5) +
+  #coord_flip() +    #this makes it a horizontal bar chart instead of vertical
+  labs(title = "Today's Death Trends", 
+       subtitle = "Source: ADH ",
+       caption = "Graphic by Wells",
+       y="Total Deaths",
+       x="Date")
+```
+
+#Now we will refine it further
+
+
+
+
+# Upload This to Google Drive: state_hospitals_part1.csv
+-**Change File Name to Today's Date**
+
+```{r}
+write.csv(wholetable, "state_hospitals_part1.csv")
+```
+
+- **Loading and basic file management**
+
+    Bringing in data
+    Data Frames
+    Extracting interesting details
+    Cleaning the data
+    Reshaping the format
+    Manipulating the data
+    Exporting  
+    Add a column with a math conversion  
+
+#--------------------------------------------------------------------#
+# Loading Data from Scratch
+#--------------------------------------------------------------------#
+
+#Loading data
+#RSQlite - read data from a database
+#xlsx - read in Excel spreadsheets
+
+#Import Income data from US Census
+#INCOME IN THE PAST 12 MONTHS (IN 2017 INFLATION-ADJUSTED DOLLARS) 
+#2013-2017 American Community Survey 5-Year Estimates. S1901. All Arkansas Counties
+
+https://factfinder.census.gov/faces/tableservices/jsf/pages/productview.xhtml?pid=ACS_17_5YR_S1901&prodType=table
+
+#Load Data
+```{r}
+ArkCo_Income_2017 <- rio::import("Data/ArkCo_Income_2017.csv")
+```
+
+#Look at the table
+```{r}
+View(ArkCo_Income_2017)
+```
+# How many rows?  
+```{r}
+nrow(ArkCo_Income_2017)
+```
+# How many columns?
+```{r}
+ncol(ArkCo_Income_2017)
+```
+#Install dplyr or tibble for the glimpse function if you haven't already
+#library (tibble)
+    
+#Check data types
+```{r}
+glimpse(ArkCo_Income_2017)
+```
+
+#What is the issue? (Don't read ahead and spoil the fun)
+
+#Delete First Row Headers
+#Reimport the data and skip the first row
+#read.csv(.... , skip=1)
+
+```{r}
+ArkCo_Income_2017 <- rio::import("Data/ArkCo_Income_2017.csv", skip=1)
+View(ArkCo_Income_2017)
+```
+#Clean Headers - Janitor package
+```{r}
+library(janitor)
+```
+# Clean up column names to they are R friendly
+```{r}
+ArkCo_Income_2017 <- janitor::clean_names(ArkCo_Income_2017)
+View(ArkCo_Income_2017)
+```     
+
+# Still need to fix column names
+```{r}
+colnames(ArkCo_Income_2017)
+```
+#You can do it one at a time
+#Column 4 households_estimate_total renamed to household_income
+```{r}
+colnames(ArkCo_Income_2017)[4] <- "household_income"
+colnames(ArkCo_Income_2017)
+```
+#change it back
+```{r}
+colnames(ArkCo_Income_2017)[4] <- "households_estimate_total"
+colnames(ArkCo_Income_2017)
+```
+#------------------------------------------#
+#Rename a whole slug of columns at once!
+#So the following is a *little intense*
+#------------------------------------------#
+
+#Use setnames from the data.tablepackage will work on data.frames or data.tables
+#Example
+#library(data.table)
+#setnames(d, old = c('a','d'), new = c('anew','dnew'))
+#d
+
+
+#We are changing all of the old column names to new ones
+#That's 19 column names we are changing.
+
+#New Names
+```{r}
+library(data.table)
+
+data.table::setnames(ArkCo_Income_2017, old = c('id', 'id2', 'geography', 'households_estimate_total', 
+  'households_estimate_less_than_10_000', 'households_estimate_10_000_to_14_999', 
+  'households_estimate_15_000_to_24_999', 'households_estimate_25_000_to_34_999', 
+  'households_estimate_35_000_to_49_999', 'households_estimate_50_000_to_74_999', 
+  'households_estimate_75_000_to_99_999', 'households_estimate_100_000_to_149_999', 
+  'households_estimate_150_000_to_199_999', 'households_estimate_200_000_or_more',
+  'households_estimate_median_income_dollars', 'households_estimate_mean_income_dollars',
+  'households_estimate_percent_allocated_household_income_in_the_past_12_months',
+  'households_estimate_percent_allocated_family_income_in_the_past_12_months',
+  'households_estimate_percent_allocated_nonfamily_income_in_the_past_12_months'),
+   new = c('id','id2','geography','households_estimate_total','less10_000','10k_to_14_999','15k_to_24_999',
+           '25k_to_34_999', '35k_to_49_999','50k_to_74_999','75k_to_99_999','100k_to_149_999',
+           '150k_to_199_999','200k_plus','median_income','mean_income',
+           'pct_allocated_household_income','pct_allocated_family_income','pct_allocated_nonfamily_income'))
+
+View(ArkCo_Income_2017)  
+```
+#Manipulating data
+#dplyr - fast data work
+#stringr - work with strings
+
+#Data Management
+#mutate - Create new column(s) in the data, or change existing column(s).
+#mutate() adds new variables and preserves existing;
+# Newly created variables are available immediately
+
+#An example:
+```{r}
+mtcars <- as.data.frame(mtcars)
+View(mtcars)
+```
+
+```{r}
+mtcars2 <- mtcars %>% as_tibble() %>% mutate(
+  cyl2 = cyl * 2,
+  cyl4 = cyl2 * 2
+)
+```
+
+# window functions are useful for grouped mutates
+```{r}
+mtcars %>%
+  group_by(cyl) %>%
+  mutate(rank = min_rank(desc(mpg)))
+```
+
+#Use mutate to add together the percentages of low-wage households
+```{r}
+ArkCo_Income_2017 <- ArkCo_Income_2017 %>%
+  replace(is.na(.), 0) %>%
+  mutate(Low_Wage_Households = rowSums(.[5:7]))
+```
+#Export data 
+Write Export output this file to a CSV or Excel  write.csv or write.excel
+```{r}
+write.csv(ArkCo_Income_2017,"ArkCo_Income_2017.csv") 
+```
+
+
+#Exercises
+# 1) Create a column for working class households: $25,000 to $50,000
+# 2) Create a column for middle class households: $50,000 to $150,000
+# 3) Create a column for upper income households: More than $150,000
+# 4) Using these percentages, create new columns for low-wage, working class, middle class, and upper income 
+# and calculate the actual number of people in each income group
+# This will require looking at the table data structure, so go to the census.gov link provided above
+
+
+#Answers
+# 1) Create a column for working class households: $25,000 to $50,000
+```{r}
+ArkCo_Income_2017 <- ArkCo_Income_2017 %>%
+  replace(is.na(.), 0) %>%
+  mutate(WorkingClass = rowSums(.[8:9]))
+```
+
+# 2) Create a column for middle class households: $50,000 to $150,000
+```{r}
+ArkCo_Income_2017 <- ArkCo_Income_2017 %>%
+  replace(is.na(.), 0) %>%
+  mutate(MiddleClass = rowSums(.[10:12]))
+```
+
+# 3) Create a column for upper income households: More than $150,000
+```{r}
+ArkCo_Income_2017 <- ArkCo_Income_2017 %>%
+  replace(is.na(.), 0) %>%
+  mutate(UpperIncome = rowSums(.[13:14]))
+```
+
+# 4) Using these percentages, create new columns for low-wage, working class, middle class, and upper income 
+# and calculate the actual number of people in each income group
+# This will require looking at the table data structure, so go to the census.gov link provided above
+
+#Copied this as a test
+#ArkCensus$Pct2017 <- ((ArkCensus$x2017-ArkCensus$x2016)/(ArkCensus$x2016))
+
+```{r}
+ArkCo_Income_2017$LowWagePop <- ((ArkCo_Income_2017$households_estimate_total*ArkCo_Income_2017$Low_Wage_Households)/100)
+```
+
+
+```{r}
+ArkCo_Income_2017$WorkingClassPop <- ((ArkCo_Income_2017$households_estimate_total*ArkCo_Income_2017$WorkingClass)/100)
+
+ArkCo_Income_2017$MiddleClassPop <- ((ArkCo_Income_2017$households_estimate_total*ArkCo_Income_2017$MiddleClass)/100)
+
+ArkCo_Income_2017$UpperIncomePop <- ((ArkCo_Income_2017$households_estimate_total*ArkCo_Income_2017$UpperIncome)/100)
+```
+
+#For amusement, see if they all add up
+```{r}
+ArkCo_Income_2017 <- ArkCo_Income_2017 %>%
+  replace(is.na(.), 0) %>%
+  mutate(SumPop = rowSums(.[24:27]))
+```
+
+#Eyeball the two columns, household_estimate_total and our SumPop
+#df1 <- select(AR2016ALL, V4:V8, V10:20)
+```{r}
+PopCheck <- select(ArkCo_Income_2017, households_estimate_total, SumPop) 
+```       
+#which ones varied the most?
+
+```{r}
+PopCheck$variance <- (ArkCo_Income_2017$households_estimate_total- ArkCo_Income_2017$SumPop) 
+```
+#nerdy checking individual
+```{r}
+ArkCo_Income_2017 <- ArkCo_Income_2017 %>%
+  +   replace(is.na(.), 0) %>%
+  +   mutate(SumIndivdPct = rowSums(.[5:14]))
+```
+#more sum groups
+```{r}
+ArkCo_Income_2017 <- ArkCo_Income_2017 %>%
+  replace(is.na(.), 0) %>%
+  mutate(SumGroupPct = rowSums(.[20:23]))
+```
+
+```{r}
+PopCheck <- select(ArkCo_Income_2017, households_estimate_total, SumPop, SumIndivdPct, SumGroupPct) 
+```
+
+#Other tools
+
+#rename - Rename column(s).  
+#bind_rows - Merge two data frames into one, combining data from columns with the same name.
+
+
+#Other data cleaning tricks
+#Change column to number format (first you have to strip out the $)  
+--The $ is a special character  
+-- earnings$TOTAL.EARNINGS <- gsub("\\$", "", earnings$TOTAL.EARNINGS) 
+
+
+#Quick Data Viz
+#Basic graphs
+```{r}
+plot(ArkCo_Income_2017$median_income)
+```
+
+```{r}
+hist(ArkCo_Income_2017$median_income)  
+```
+
+```{r}
+boxplot(ArkCo_Income_2017$median_income)
+```
+
+```{r}
+barplot(ArkCo_Income_2017$median_income)
+```
+
+```{r}
+barplot(sort(ArkCo_Income_2017$median_income, decreasing = TRUE))
+```
+
+
+#More Census Exercises
+--Census Data: Examine median household income; income by women-led households; income by latino-based households; income by black-led households. Compare to state and national averages. Data dictionary required
+
+- **The course GitHub Page**
+> [**Here it is**](https://github.com/profrobwells/Data-Analysis-Class-Jour-405v-5003){target="_blank"} 
+
+- **See Data folder**   
+   
+    Click USArk_Counties_Poverty_ACS_16_5YR_DP03_Jan_24.xlsxAOC.csv   
+    "View raw"   
+    Cntl + click (or right click) - Save As - Census.csv   
+    Create R Markdown File
+    Import into R
+
+
+![](Images/ImportingDataTip.jpg)
+
+#--------------------------------------------------------------------#
+#More Advanced Section from Machlis Book, Ch. 4
+#--------------------------------------------------------------------#
+
+
+#get data for tutorial
+```{r}
+download.file("http://bit.ly/BostonSnowfallCSV", "BostonWinterSnowfalls.csv")
+```
+
+#load into memory
+```{r}
+snowdata <- rio::import("BostonWinterSnowfalls.csv")
+```
+
+
+#Data Cleaning install own function in my own rmiscutils package 
+#turns “character strings” -- numbers with commas back into numbers
+```{r}
+pacman::p_load_gh("smach/rmiscutils")
+```
+
+#more software
+```{r}
+install.packages("remotes")
+install.packages("githubinstall")
+githubinstall::gh_install_packages("rmiscutils")
+install.packages("htmltab")
+library(htmltab)
+```
+
+```{r}
+citytable <- htmltab(
+  "https://en.wikipedia.org/wiki/List_of_United_States_cities_by_population", 
+  which = 5)
+colnames(citytable)
+```
+
+```{r}
+library(rmiscutils)
+citytable$PopEst2017 <- number_with_commas(citytable$`2017estimate`)
+```
+#parsing numbers with readr
+#After installing readr, you could generate numbers from the 
+#2017 estimate column with readr:
+  
+```{r}  
+citytable$PopEst2017 <- readr::parse_number(citytable$`2017 estimate`)
+```
+
+
+--------------------------------------------------------------------   
+
+- **Common Problems**   
+
+    ``"What the hell? I converted population to numeric and the calculations come out as NA values!
+      This is driving me insane! What is going on?"
+
+**Answer**:   
+One of the obnoxious things about R is it considers commas as text. So it will show 720 as a number but 2,810 as not a number for calculations because it has a friggin comma.   
+
+**Never fear.** There is a solution. Run the find and replace function, called gsub   
+
+Example:
+Crimedata$Population <- gsub(",", "", Crimedata$Population)   
+
+Translation:   
+Crimedata$Population   
+-- is the population column in your crime dataset     
+gsub(",", "",  
+finds a comma and replaces it with nothing.  --    
+and it found the comma in the column Crimedata$Population)
+and the <- dumps the results back into the Crimedata$Population  column.
+
+Fancy!   
+
+**Question**:
+"How do I get rid of the last row that only has text in the table that I just imported?"   
+
+**Answer**:
+Get rid of row using base R commands   
+Crimedata <- Crimedata[-c(187), ]    
+
+Translation:     
+Crimedata[-c(187), ]    looks for row #187, which has this garbage text, and gives it the big minus sign, which eliminates it.    
+Crimedata <-  dumps this slimmed down table back into your table and so you are good to go.   
+
+
+ **--30--**
+
+
+
+
