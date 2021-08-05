@@ -1,7 +1,7 @@
 ---
 title: "Daily Update Arkansas Covid"
 author: "Rob Wells, Katy Seiter and Mary Hennigan"
-date: "7/8/2021"
+date: "8/5/2021"
 output: pdf_document
 ---
 
@@ -17,11 +17,14 @@ output: pdf_document
 # Part 1: Import State Data, Clean It
 
 ```{r include=FALSE}
-#install.packages("slider")
-#install.packages("zoo")
-#install.packages("gtools")
-#install.packages("kableExtra")
-#install.packages("formattable")
+# install.packages("slider")
+# install.packages("zoo")
+# install.packages("gtools")
+# install.packages("kableExtra")
+# install.packages("formattable")
+#install.packages("janitor")
+#install.packages("tidyverse")
+#install.packages("reshape2")
 library(tidyverse)
 library(janitor)
 library(lubridate)
@@ -200,7 +203,6 @@ glimpse(master2)
 
 
 
-
 #Save master file
 ```{r}
 master2$Cases_Population <- round(master2$Cases_Population, 2)
@@ -212,7 +214,6 @@ master2$Pct_Positive_New_to_Dashboard <- round(master2$Pct_Positive_New_to_Dashb
 master2$Pct_Deaths_vs_Recoveries <- round(master2$Pct_Deaths_vs_Recoveries, 2)
 master2$Pct_Recoveries_vs_Deaths <- round(master2$Pct_Recoveries_vs_Deaths, 2)
 
-write.csv(master2, "master_TEST_file_7_6.csv")
 write.csv(master2, file = "MasterData/master_file.csv")
 ```
 
@@ -312,7 +313,7 @@ df4$Amount <- round(df4$Amount,0)
 ggplot(df4,aes(x = mydate, y = Amount, label = Amount, fill= Detail)) + 
 geom_bar(stat="identity", position="dodge", color="white")+
 scale_fill_manual(values=c("#B3BF08", "#08B3BF", "#D68037"))+
-scale_y_continuous(limits=c(0, 3500))  +
+scale_y_continuous(limits=c(0, 4000))  +
   theme_bw() + 
   theme(
     plot.title = element_text(face = "bold", size = 16),
@@ -329,7 +330,7 @@ scale_y_continuous(limits=c(0, 3500))  +
    geom_col(position = position_dodge2(width = 0.9, preserve = "single")) +
   geom_text(position = position_dodge2(width = 0.9, preserve = "single"), vjust=-0.5, hjust=+0.5) +
   labs(title = "New Cases & Recoveries in Arkansas Announced Today", 
-       subtitle = "Confirmed + Probable,  ADH Data for July 9, 2021",
+       subtitle = "Confirmed + Probable,  ADH Data for August 4, 2021",
        caption = "Graphic by ArkansasCovid.com",
        y="Amount",
        x="Date")
@@ -354,9 +355,9 @@ scale_fill_manual(values=c("#08B3BF", "#D68037"))+
   theme(legend.position = "bottom") +
   geom_col(position = position_dodge2(width = 0.9, preserve = "single"), show.legend = T) +
   geom_text(position = position_dodge2(width = 0.9, preserve = "single"), vjust=-0.5, hjust=+0.5) +
-  scale_y_continuous(limits=c(0, 15)) + 
+  scale_y_continuous(limits=c(0, 25)) + 
   labs(title = "New Deaths in Arkansas Announced Today", 
-       subtitle = "Confirmed + Probable,  ADH Data for July 9, 2021",
+       subtitle = "Confirmed + Probable,  ADH Data for August 4, 2021",
        caption = "Graphic by ArkansasCovid.com",
        y="Amount",
        x="Date")
@@ -492,6 +493,11 @@ write.csv(vaccinecounty1, file=vaccinecounty2)
 vaxmaster <- rio::import("https://raw.githubusercontent.com/Arkansascovid/Main/master/HomePageData/vaccine_master.csv")
 
 # vaxmaster <- vaxmaster [ -c(31) ]
+# 
+# vaxmaster <- vaxmaster %>% 
+#   filter(Date < "2021-07-30")
+
+# vaxmaster <- vaxmaster [ -c(31) ]
 # vaxmaster <- vaxmaster %>% 
 #   rename(Date = "date")
 
@@ -554,8 +560,8 @@ vax2$Date <- as.Date(vax2$Date)
 #vax2$Date <- mdy(vax2$Date)
 
 #If this is a day old, run this
-# vax2 <- vax2 %>% 
-#   filter(Date <= (yesterday))
+# vax2 <- vax2 %>%
+#     filter(Date <= (yesterday))
 ```
 
 
@@ -586,7 +592,8 @@ glimpse(vaccine)
 write.csv(vaccine, file = "HomePageData/vaccine.csv")
 write.csv(vaccine, file = "MasterData/vaccine.csv")
 #Feeds to Flourish daily chart
-#https://app.flourish.studio/visualisation/4988228/edit
+#https://app.flourish.studio/story/950991/edit
+
 ```
 
 
