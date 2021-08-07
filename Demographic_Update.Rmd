@@ -1,7 +1,7 @@
 ---
 title: "Demographic Update Arkansas Covid"
 author: "Rob Wells, Thanks to Mary Hennigan, Translation by Rachell Sanchez-Smith"
-date: "8/6/2021"
+date: "8/7/2021"
 output: pdf_document
 ---
 
@@ -174,7 +174,10 @@ Total_intub	=	total_intub,
 Date = date)
 
 #Change the date on the .csv file below
-write.csv(today_demo, "demographics_AugXX.csv")
+demname <- paste("demographics_",date,".csv",sep="")
+write.csv(today_demo, file=demname)
+
+write.csv(today_demo, "demographics_Aug7.csv")
 
 ```
 #----------------------------------------------------------------------------------------------------#
@@ -272,8 +275,6 @@ today_age_calcs <- twodays %>%
     filter(Date ==today)
   #if you miss a day, fill this out and run instead
   #filter(date == "2020-10-14") 
-
-today_age_calcs$New_Deaths_0_17 <- as.numeric("3")
 
 #today_age_calcs <- janitor::clean_names(today_age_calcs)
 glimpse(today_age_calcs)
@@ -943,7 +944,9 @@ active_age <- today_demo %>%
   select(Date, Active_0_4, Active_5_11, Active_12_18, Active_19_24, Active_25_34, Active_35_44, Active_45_54, Active_55_64,
 Active_65_Plus)
 
-write.csv(active_age, "active_age.csv")
+#Change the date on the .csv file below
+agename <- paste("active_age_",date,".csv",sep="")
+write.csv(active_age, file=agename)
 
 ```
 
@@ -952,7 +955,10 @@ hospital_age <- today_demo %>%
   select(Date, Hosp_0_10, Hosp_11_17, Hosp_18_24, Hosp_25_34, Hosp_35_44, Hosp_45_54, 
 Hosp_55_64, Hosp_65)
 
-write.csv(hospital_age, "hospital_age.csv")
+#Change the date on the .csv file below
+hospname <- paste("hospital_age_",date,".csv",sep="")
+write.csv(hospital_age, file=hospname)
+
 
 
 
@@ -963,7 +969,11 @@ write.csv(hospital_age, "hospital_age.csv")
 stats <- today_demo %>% 
   select(Date, active_cases, percent_fully_active, percent_fully_cases, percent_fully_deaths, percent_fully_hosp, percent_fully_intub)
 
-write.csv(stats, "stats.csv")
+#Change the date on the .csv file below
+statsname <- paste("stats_",date,".csv",sep="")
+write.csv(stats, file=statsname)
+
+
 ```
 
 
