@@ -40,7 +40,7 @@ This course will report on an evolving news story, the COVID-19 outbreak in Arka
 
  We will examine Covid-19 data in Arkansas and produce stories based on this data, primarily on racial disparities with the disease. We will send out Tweets and produce podcasts.
 
-Students will use Tableau for data visualization and will learn how to code in R. Both are powerful tools used in modern news reporting. Quality reporting in newsrooms requires a solid foundation of data analysis. 
+Students will learn to create data visualization and receive an introduction to coding in R. Both are powerful tools used in modern news reporting. Quality reporting in newsrooms requires a solid foundation of data analysis. 
 
 
 **Learning Outcomes:** 
@@ -49,23 +49,25 @@ Students will use Tableau for data visualization and will learn how to code in R
     You will be able to gather data and conduct basic and intermediate calculations using Excel. You will be able to import text and .csv files into Excel, format the data properly. 
 
     Basic proficiency with data visualization. 
-    You will learn best practices to organize your data and to present it in charts and graphics. You will be able to create a chart using Tableau Public ready for publication from a basic spreadsheet. You will create a basic interactive map from a dataset. 
+    You will learn best practices to organize your data and to present it in charts and graphics. You will be able to create a chart using Tableau Public ready for publication from a basic spreadsheet. You will create a basic      interactive map from a dataset. 
 
     Reporting with data. 
-    You will understand basic ethical issues with data journalism and how data journalism can advance reporting on diverse communities. You will learn basic numeracy and how to avoid common problems with numbers. You will learn best practices for fact checking data. You will learn basic statistical concepts and best practices, and how they apply to data journalism. You will learn best practices for news reporting with Twitter and Facebook.
+    You will understand basic ethical issues with data journalism and how data journalism can advance reporting on   diverse communities. You will learn basic numeracy and how to avoid common problems with numbers. You will learn best practices for fact checking data. You will learn basic statistical concepts and best practices, and how they apply to data journalism. You will learn best practices for news reporting with Twitter and Facebook.
 
     Introduction to Coding.   
-    You will receive an introduction to the R programming language, which is used widely in newsrooms for data gathering, statistical modeling and data visualization. At the end of the course, you will be able to execute basic R commends and perform simple calculations.
+    You will receive an introduction to the R programming language, which is used widely in newsrooms for data gathering, statistical modeling and data visualization. At the end of the course, you will be able to execute basic R  commands and perform simple calculations.
 
     Website Operation.  
-    The class assist in publication of Arkansascovid.com -- https://arkansascovid.com/ -- a popular data portal. You will learn to use WordPress to manage and display your multimedia stories. This will include formatting photos, videos and audio and displaying text in a format appropriate for mobile news consumers.
+    The class assist in publication of Arkansascovid.com -- https://arkansascovid.com/ -- a popular data portal. You will learn to use WordPress to manage and display your multimedia stories. This will include formatting photos,  videos and audio and displaying text in a format appropriate for mobile news consumers.
 
 
 
 **Class Text:**    
 
 All required materials will be delivered via an ebook and Blackboard.   
-Here is the ebook link: https://bookdown.org/connect/#/apps/f79d74ff-4d33-4bfd-a1aa-de6aaf4e340a/access  
+
+> [**Here is the ebook link**: "CNTL" + click for a New Tab](https://bookdown.org/connect/#/apps/f79d74ff-4d33-4bfd-a1aa-de6aaf4e340a/access){target="_blank"}   
+
 
 The book is under development under an open textbook grant from the university - so please be patient! Send any notes about issues to me, please.
 
@@ -161,16 +163,17 @@ In most cases, students will be able to make up work following an illness.
 
 **Class Communications:**  
 
-    1) Teams: This platform, widely used for project management, will be the heart of our communications for reporting and editing graphics and stories. Students can create their own discussion groups as circumstances warrant. Breaking news and important documents related to our reporting will be distributed in Teams. Like email, I will expect a timely reply to a direct query to a student on a particular issue. 
-    Teams is free through your university Office365 account. Download the Teams App through the Office365 suite https://its.uark.edu/communication-collaboration/office365/office365-desktop-apps.php
+    1) Teams: This platform, widely used for project management, will be the heart of our communications for         reporting and editing graphics and stories. Students can create their own discussion groups as circumstances     warrant. Breaking news and important documents related to our reporting will be distributed in Teams. Like email, I will expect a timely reply to a direct query to a student on a particular issue. 
+    Teams is free through your university Office365 account. Download the Teams App through the Office365 suite 
+    https://its.uark.edu/communication-collaboration/office365/office365-desktop-apps.php
 
-    2) Ebook. Instructional content will be delivered via an ebook. The ebook is under development and will be released by Aug. 23.
+    2) Ebook. Instructional content will be delivered via an ebook. 
     
     3) Blackboard: Your graded material will be posted to the course Blackboard site. 
     
-    4) UofA email: I will send messages to students via the UofA email accounts about important issues but expect much of our communication will be in Teams. 
+    4) UofA email: I will send messages to students via the UofA email accounts about important issues but expect    much of our communication will be in Teams. 
 
-    5) Google Docs / Google Sheets: We will write and edit articles in Google Docs, which permits collaborative writing and editing. Google Sheets will be used to keep track of important data and for project management. 
+    5) Google Docs / Google Sheets: We will write and edit articles in Google Docs, which permits collaborative      writing and editing. Google Sheets will be used to keep track of important data and for project management. 
     
     
 **Expectations for Communications**       
@@ -207,6 +210,9 @@ Wells is the former deputy bureau chief for Dow Jones Newswires/Wall Street Jour
 **Schedule of Instruction**  
 
 Please see the attached schedule with a weekly outline of instruction.
+
+> [**Course Schedule**: "CNTL" + click for a New Tab](https://profrobwells.github.io/CovidFall2020/Fall2021/Schedule_Fall2021_Jour4083_Data.html){target="_blank"}   
+
 
 
 **Homework:**
