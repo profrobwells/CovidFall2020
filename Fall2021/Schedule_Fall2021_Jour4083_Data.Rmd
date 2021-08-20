@@ -1,0 +1,1071 @@
+---
+title: 'Schedule: Fall 2021 Data Journalism'
+output:
+  html_document:
+    toc: yes
+    toc_float: yes
+    toc_depth: 2
+  pdf_document:
+    toc: yes
+    toc_depth: '2'
+---
+\newpage
+
+**Data Journalism in Arkansas**   
+**Jour 4083, Fall 2021**      
+**Class Time: KIMP 145, Monday-Wednesday,  3:30 p.m.-4:45 p.m.**    
+**Aug. 23 - Dec. 9, 2020**
+
+![](Images/UARK logo NEW.png)
+
+**Rob Wells, Ph.D.**   
+    rswells@uark.edu   
+    @rwells1961  
+
+
+<img src="Images/ArkansasCovid.png" width="100" height="100" />
+
+
+> [**Syllabus - Jour 4083**: "CNTL" + click for a New Tab](https://profrobwells.github.io/CovidFall2020/Fall2021/Syllabus_Jour4083_Fall2021.html){target="_blank"}   
+
+> [**Course Text**: "CNTL" + click for a New Tab](https://bookdown.org/connect/#/apps/f79d74ff-4d33-4bfd-a1aa-de6aaf4e340a/access){target="_blank"}   
+
+
+# Summary Course Assignments
+
+These assignments topics may shift and evolve as we continue our reporting during the semester. I will provide advance notice of any changes.
+
+**1: Data Analysis.**   Due Sept. 12
+Students will gather, analyze and visualize Arkansascovid data and report and write a 400 word story and provide social media with a basic chart. 
+
+**2: Reporting Memo with Tableau Chart.**  Due Oct 3  
+Students gather, analyze and visualize Arkansascovid data and produce a Tableau chart suitable for publication. Data dictionary required. Report and write a 400 word story and provide social media.
+
+**3: Interactive Map.** Due Oct 24 
+Students will build interactive maps of Arkansascovid data. Results will be posted on GitHub. Data dictionary required. Basic R used for analysis. Report and write a 400 word story.
+
+**4: Interactive Data Visualization.** Due Nov 14.
+Students build multipanel interactive graphics / maps of Arkansascovid data by school district. Basic R used for analysis. Results will be posted on GitHub. Data dictionary required. Report and write a 600 word story.
+
+**5: Multimedia Data Story.** Due Dec 5.
+Students will produce a blog post with photos, a short video, a map and an interactive graphic plus a 400 word story. Basic R used for analysis. Results will be posted on GitHub. Data dictionary required.
+
+\newpage
+
+----------------- 
+
+## Monday, Aug. 23: Course Tools, Excel Basics 
+
+**Agenda:**   
+
+    --Discuss syllabus
+    --Blackboard site
+    --Teams
+    --Intellectual Property / Data Sharing Releases
+    --Arkansascovid.com
+    --Excel Exercise with Arkansascovid data
+    
+**Teams**   
+
+    See Chapter: Teams
+https://bookdown.org/connect/#/apps/f79d74ff-4d33-4bfd-a1aa-de6aaf4e340a/access    
+
+
+**Intellectual Property / Data Sharing Releases**
+
+    UofA Rules of Conduct
+https://docs.google.com/document/d/1YkdkRIzIs1WQ3P9KIICvHcppfWvwTyo2bRhGwQPsgVE/edit
+
+    License Agreement
+https://docs.google.com/document/d/1AahzxDOzTf9Z6PBjBvFBOjnn9_BiM4YldnXW-mHZr9s/edit
+    
+
+**Basic Excel**   
+
+Intro Excel w Exercise #2   
+Link for Today’s Course:    
+https://wordpressua.uark.edu/datareporting/basic-excel-introduction-to-data/
+
+**Homework**
+
+You Have Skills. Tell Us About Them.
+Due Tuesday, 11:59 pm, Blackboard.
+
+**Read Before Next Class**    
+
+Sheffo, Catherine. “How to Avoid 10 Common Mistakes in Data Reporting.” 
+American Press Institute (blog), August 9, 2016.   https://www.americanpressinstitute.org/publications/data-reporting-common-mistakes/
+
+Flourish Tutorial:
+https://www.youtube.com/watch?v=fKO_jjqgooc&feature=emb_title
+   
+
+**Jour 5083 _ Nerd Corner**
+
+    --Import Arkansascovid.com vaccine data, chart vaccination trends since July 1, 2021
+    --Post your visualization with Homework
+    
+https://raw.githubusercontent.com/Arkansascovid/Main/master/MasterData/vaccine.csv
+
+
+----------------- 
+
+## Wednesday, Aug. 25: Excel, Flourish  
+
+**Agenda**  
+      
+      Arkansascovid.com
+      Excel exercises - sorting
+      Intro to Flourish
+
+**Excel Proficiency**  
+
+Entering data, cursors, formatting, sum, average, median, change, percent change
+https://raw.githubusercontent.com/Arkansascovid/Main/master/MasterData/vaccine.csv
+
+Skills: Data Dictionary, Part 1
+Skills: Organize Your Data. Finder, Storage, File Organization
+
+**How to Create a Flourish Chart**     
+
+      Create a Flourish account    
+https://app.flourish.studio/login      
+
+    See Chapter: Flourish
+https://bookdown.org/connect/#/apps/f79d74ff-4d33-4bfd-a1aa-de6aaf4e340a/access    
+
+
+**Basic Flourish**  
+
+    Videos to Get Started
+    Beginning Documents
+    Flourish Design Tips
+    Flourish Links
+
+
+**Jour 5083 _ Nerd Corner**
+
+      Those of you who don't need a Flourish introduction, please do this
+      1) Create a new Flourish project and link to this Sheet
+https://raw.githubusercontent.com/Arkansascovid/Main/master/MasterData/vaccine.csv
+
+
+**Read Before Next Class**  
+
+Sage Research Methods: Choosing the Right Visualization Tools for COVID-19 Data
+https://methods.sagepub.com/video/srmpromo/UEODnk/choosing-the-right-visualization-tools-for-covid-19-data
+
+
+Principles of Data Visualization
+https://wordpressua.uark.edu/datareporting/data-visualization/
+
+
+Gov. Hutchison's YouTube Channel. Check the Aug. 19 event
+https://www.youtube.com/channel/UCLJcNdgp2PMEmiqJEoYzqwQ
+
+
+**Homework due Friday, Aug. 27, 11:59 p.m.**
+--See Blackboard for Excel assignment
+
+--See Blackboard, Data Literacy Test
+    
+   
+----------------- 
+
+## Monday, Aug. 31: Excel and Flourish
+
+**Agenda**
+
+    Excel
+    Flourish
+ 
+ **Excel**
+ 
+    Percentage Change
+    Average
+    Tabs
+    Data Dictionary
+    
+https://raw.githubusercontent.com/Arkansascovid/Main/master/MasterData/vaccine.csv
+
+**Flourish**  
+
+    Visualization Options
+    Headline, Footer Formatting
+    Sourcing
+    Colors
+    
+
+----------------- 
+
+**Homework due Tuesday, Aug 31, 11:59 p.m.**  
+--See Blackboard, Aug 31 
+
+
+**Read Before Next Class** 
+
+Chapter: Introduction to Data Analysis
+https://bookdown.org/connect/#/apps/f79d74ff-4d33-4bfd-a1aa-de6aaf4e340a/access
+
+
+**View and Read Flourish Tutorials Before Next Class**    
+ 
+- **Ravi Brock and Flourish in 9 mins**       
+https://video.uark.edu/media/Flourish+tutorial+with+Ravi+Brock/1_g6nzw3h0
+  
+- **Cairo and Flourish - Overview**     
+https://www.youtube.com/watch?v=cN1Q9MusZbc
+
+- **Cairo - Flourish - Stories**      
+https://www.youtube.com/watch?v=P7AmUdSBOVU
+
+   
+----------------- 
+
+## Wednesday, Sept. 1 - Flourish, Excel
+
+**Agenda**
+
+    Excel
+    Flourish
+    Review Introduction to Data Analysis
+    
+**Introduction to data analysis, including math for journalists**     
+
+    Basics of Data Analysis
+    Numbers in the Newsroom
+    Excel Exercise: Transit Data and Calculating a Rate
+    Review: Mac OSX Basics    
+    
+**Reminder: Assignment 1: Data Analysis.**   Due Sept. 12
+Students will gather, analyze and visualize Arkansascovid data and report and write a 400 word story and provide social media with a basic chart. 
+
+Talk to me about your ideas.
+    
+**Homework / Reading due Friday, Sept. 3, 11:59 p.m.**
+
+See Blackboard.
+
+Chapter: Data Visualization
+https://bookdown.org/connect/#/apps/f79d74ff-4d33-4bfd-a1aa-de6aaf4e340a/access
+
+
+-----------------   
+
+## Monday, Sept. 6: Data Types, Tableau
+  
+**Happy Labor Day!** 
+**No Class**
+
+
+----------------- 
+
+## Wednesday, Sept. 8: Data Types, Data Cleaning   
+
+**Agenda**
+    
+    Sorting
+    Data Cleaning
+    Discuss, Work on Data Analysis Assignment.
+
+**Data cleaning**  
+
+    Filtering
+    Reading Data Dictionaries
+    Data Cleaning Exercises    
+
+**Homework: See Blackboard, Sept. 10 Homework**  
+
+**Reminder: Assignment 1: Data Analysis. Due Sept. 12**
+Talk to me about your ideas.
+
+
+- **Exercise**    
+    
+**Read Before Next Class** 
+
+   Chapter: Data Visualization 
+https://bookdown.org/connect/#/apps/f79d74ff-4d33-4bfd-a1aa-de6aaf4e340a/access
+
+----------------- 
+
+## Monday, Sept. 13: Data Visualizatiion 
+
+**Agenda** 
+    
+    Principles of Data Visualization
+    Tableau
+
+
+#### Assignment 1: Data Analysis. Due Sept. 12  
+Students will gather, analyze and visualize Arkansascovid data and report and 
+write a 400 word story and provide social media with a basic chart.    
+
+
+**Data Visualization**  
+
+    Principles of Data Visualization
+    Cleveland McGill Scale
+    Important Resources for Surveying the Data Visualization Options
+    Color Choices
+    Build a Cover Image Using Canva or InDesign or Powerpoint
+    Higher Resolution Graphics in Tableau
+
+**Basic Tableau**
+
+    Downloading instructions for Tableau
+    Getting started tutorial with video
+    Building a basic COVID data chart with video and transcript
+    Using filters and calculations with video and transcript
+    Tutorial on Tableau calculations with video
+    Proper formatting of a filter bar in Tableau, video
+    Links to additional Tableau Tutorials
+
+
+-**Read our reader feedback on the new site. Draft a response to this person. We'll discuss and then send one**   
+
+See "Stacy Robinson Your Post on Twitter" in Files | Teams    
+https://bit.ly/32tw7Q1
+
+
+
+**Read Before Next Class** 
+
+Chapter: Tableau
+https://bookdown.org/connect/#/apps/f79d74ff-4d33-4bfd-a1aa-de6aaf4e340a/access
+    
+
+----------------- 
+
+## Wednesday, Sept. 15: Tableau
+
+**Agenda** 
+    
+    Tableau
+
+**Read Before Next Class** 
+
+Chapter: Writing About Data
+https://bookdown.org/connect/#/apps/f79d74ff-4d33-4bfd-a1aa-de6aaf4e340a/access
+   
+
+**Homework: See Blackboard, Friday Sept. 17 **
+
+----------------- 
+
+
+## Monday, Sept. 20: Tableau, Writing About Data  
+
+**Agenda** 
+
+**Basic Tableau**
+
+    Downloading instructions for Tableau
+    Getting started tutorial with video
+    Building a basic COVID data chart with video and transcript
+    Using filters and calculations with video and transcript
+    Tutorial on Tableau calculations with video
+    Proper formatting of a filter bar in Tableau, video
+    Links to additional Tableau Tutorials
+
+
+
+-**For Wednesday**
+
+  Chapter: Writing About Data
+  https://bookdown.org/connect/#/apps/f79d74ff-4d33-4bfd-a1aa-de6aaf4e340a/access
+  
+----------------- 
+
+## Wednesday, Sept. 22
+
+**Agenda** 
+    
+    Writing About Data
+
+
+**Writing About Data**
+
+    Writing Style Notes
+    Common Errors – Math
+    AP Style with Numbers
+    
+**Exercise: Peer Editing of Unedited Data Stories**    
+
+    
+
+**Read Before Next Class**  
+
+Chapter: Tableau Maps
+https://bookdown.org/connect/#/apps/f79d74ff-4d33-4bfd-a1aa-de6aaf4e340a/access
+
+----------------- 
+
+## Monday Sept. 27: Tableau Maps 
+
+**Agenda**  
+
+**Tableau - Maps**
+
+    Mapping tutorial & sample dataset
+    Build a Map COVID-19 Positivity in Arkansas Counties
+    Video
+    Dual Mapping - Bubble Maps
+
+
+**Reminder: Assignment 2: Reporting Memo with Tableau Chart, Due Oct 3  **
+Students gather, analyze and visualize Arkansascovid data and produce a Tableau chart suitable for publication. Data dictionary required. Report and write a 400 word story and provide social media.
+
+
+
+**Read Before Next Class** 
+
+
+Chapter: Tableau Maps
+https://bookdown.org/connect/#/apps/f79d74ff-4d33-4bfd-a1aa-de6aaf4e340a/access
+
+----------------- 
+
+
+## Wednesday Sept. 29: Tableau Maps
+
+**Agenda**
+
+    Tableau Maps
+    Questions About Assignment 2, due Monday
+
+**Tableau - Maps**
+
+    Mapping tutorial & sample dataset
+    Build a Map COVID-19 Positivity in Arkansas Counties
+    Video
+    Dual Mapping - Bubble Maps
+    
+**Tableau - Maps**
+
+    Mapping tutorial & sample dataset
+    Build a Map COVID-19 Positivity in Arkansas Counties
+    Video
+    Dual Mapping - Bubble Maps
+
+**Exercises**
+
+**Read Before Next Class** 
+
+Chapter: WordPress
+https://bookdown.org/connect/#/apps/f79d74ff-4d33-4bfd-a1aa-de6aaf4e340a/access
+
+ 
+-----------------  
+
+## Monday Oct. 4: WordPress  
+
+
+**WordPress**
+
+      Using WordPress
+      Access back end
+      Embedding interactive data 
+      Embed Flourish in WordPress
+      Embed Tableau in WordPress
+      Building the Web Page
+
+**Agenda**    
+
+    Embed visualizations in WordPress
+
+#### Assignment 2: Reporting Memo with Tableau Chart  
+Due Oct 3  
+Students gather, analyze and visualize Arkansascovid data and produce a Tableau
+chart suitable for publication. Data dictionary required. Report and write a 
+400 word story and provide social media.
+
+----------------- 
+
+## Wednesday Oct. 6: WordPress
+
+**Agenda**
+    
+**WordPress**
+
+      Using WordPress
+      Access back end
+      Embedding interactive data 
+      Embed Flourish in WordPress
+      Embed Tableau in WordPress
+      Building the Web Page    
+
+----------------- 
+
+## Monday, Oct. 12: Flourish  
+
+**Agenda**
+
+**More Flourish**
+
+    Videos to Get Started
+    Beginning Documents
+    Flourish Design Tips
+    More Resources
+    Adam Marton Cheat Sheet
+    Flourish newsrooms plan
+    Flourish - Stories
+    Examples from Fall Class
+    Basic Map
+    View and Read More Flourish Tutorials 
+    
+    
+    Flourish - Stories
+    https://www.youtube.com/watch?v=P7AmUdSBOVU
+    Bar chart race template
+    https://towardsdatascience.com/step-by-step-tutorial-create-a-bar-chart-race-animation-da7d5fcd7079
+    Content to popups
+    https://help.flourish.studio/article/69-how-to-add-custom-content-to-your-popups
+    
+**Discuss Story #3: Interactive Map - Use This Form**:   
+
+https://docs.google.com/forms/d/e/1FAIpQLScws1-wOhgQ7DV4MhGNoX8QbJFdX6LH91oY6NBv76GtRzTBTA/viewform   
+      **Assignment 3: Interactive Map.**   
+      
+      Due Oct 24 
+      Students will build interactive maps of Arkansascovid data. 
+      Results will be posted on GitHub. Data dictionary required. 
+      Basic R used for analysis. Report and write a 400 word story.
+      
+      
+**Exercises**     
+    
+    
+**Watch Before Next Class**
+
+    Alberto Cairo, Flourish Tutorials, Parts 1-6    
+    https://www.youtube.com/user/albertocairo1706/videos
+
+----------------- 
+    
+## Wednesday Oct. 13: Flourish - Map Story Pitches
+
+
+**Agenda**
+ 
+    Flourish Workbook Updates    
+    
+**More Flourish**
+
+    Videos to Get Started
+    Beginning Documents
+    Flourish Design Tips
+    More Resources
+    Adam Marton Cheat Sheet
+    Flourish newsrooms plan
+    Flourish - Stories
+    Examples from Fall Class
+    Basic Map
+    Flourish Links
+    
+**Homework: See Blackboard for Friday Oct 15**
+
+-----------------  
+
+## Monday Oct. 18: Introduction to R
+
+**Agenda**      
+    R Introduction
+    Discuss Assignment 3 Interactive Map
+
+    Chapter: R_Intro
+    https://bookdown.org/connect/#/apps/f79d74ff-4d33-4bfd-a1aa-de6aaf4e340a/access
+
+
+**Introduction to R**
+
+      Install R and R Studio.
+      Basic tutorial on R
+      R1_Intro-to-R exercises
+      Reading
+      Reproducible research Repetitive tasks in modern newsrooms
+      Popular R Libraries
+      Data Types and R
+      Reference: Logical Operators in R
+      Packages
+      Important Reference Materials
+      R and R Studio     
+
+**Discuss Assignment 3: Interactive Map. Due Oct 24**   
+
+    Students will build interactive maps of Arkansascovid data. Results will be posted on GitHub.      Data dictionary required. Basic R used for analysis. Report and write a 400 word story.
+
+<img src="Images/RStudio-Logo-Blue-Gradient.png" width="300" height="100" />
+
+
+**Exercise**   
+
+--Left click on the link below, remove .txt extension, save as all files 
+
+https://github.com/profrobwells/CovidFall2020/blob/master/Exercises/Intro%20to%20R%208-20-2020.Rmd
+
+Second option: If that isn't successful, then go to the 
+https://raw.githubusercontent.com/profrobwells/CovidFall2020/master/Exercises/Intro%20to%20R%208-20-2020.Rmd
+--Left Click on document
+--Save as ALL FILES. REMOVE .TXT extension
+
+
+Third option: Download "Intro to R 8_20_2020.rmd from your browser directly.
+https://github.com/profrobwells/CovidFall2020/tree/master/Exercises
+
+    
+**Homework: Finish Tutorial R1_Intro-to-R exercises**
+
+Chapter: R Intro
+https://bookdown.org/connect/#/apps/f79d74ff-4d33-4bfd-a1aa-de6aaf4e340a/access
+
+----------------- 
+
+## Wednesday, Oct. 20: Introduction to R
+
+**Agenda**
+
+    Introduction to R
+    
+**Key Points**
+
+     Reproducible research   
+     Repetitive tasks in modern newsrooms.  Employment reports, crime stats, budgets
+     Variables - an R object
+     Assignment operator <-
+     Case sensitive
+     Vector: A vector can only have one type of data - all integers, all strings
+     Dataframe - like a spreadsheet
+     Save files - Don’t save workspace: because all of your variables will be 
+     stored and re-loaded the next time you launch RStudio. 
+     It’s too easy to forget about previously stored variables that can 
+     interfere with later work
+
+**Software packages**: tidyverse, rio, pacman
+
+<img src="Images/Popular R libraries.png" width="500" height="250" />
+
+--**Exercises**
+
+
+**Homework: Friday Oct. 22 Homework.** 
+    --See Blackboard
+    
+----------------- 
+
+## Monday Oct 25: Basic R  
+
+**Agenda**
+
+    R Tables Exercises  
+
+    
+#### Assignment 3: Interactive Map 
+Due Oct 24 
+Students will build interactive maps of Arkansascovid data. Results will be posted on GitHub. Data dictionary required. Basic R used for analysis. Report and write a 400 word story.
+
+
+**Pipes - a Much-Used Command to Link Filters, Functions**
+
+    pipe %>%
+    CMD +  Shift + M   
+
+- **Dplyr Presentation*  
+
+
+    Five basic verbs
+    filter()
+    select()
+    arrange()
+    mutate()
+    summarize()
+    plus group_by()
+
+
+      Check what software packages are running: Global Environment
+      Navigation:
+     ^ + shift + 8 = Zoom to Environment 
+     AP Style on numbers: AP Numerals Entry.pdf
+
+
+----------------- 
+
+
+## Wednesday Oct 27: Tidyverse and R
+
+**Agenda**   
+
+    Tidyverse
+    Dplyr
+    Math with R    
+    
+        
+**Exercises**   
+
+    
+    
+
+**Homework: Friday, Oct 29** 
+--See Blackboard
+
+----------------- 
+
+
+## Monday, Nov. 1: Dates in R
+
+**Agenda**  
+
+    Lubridate
+    top_n 
+    
+**Top_n**   
+
+     List of Days of Most New Cases  
+https://app.flourish.studio/visualisation/4007988/edit 
+    
+     Data is topcases.csv 
+     Values: Date, New Cases Today (column D) 
+     --R table automatically selects the top 10. 
+     --no filter  
+
+**Exercises**   
+
+     Using Lubridate    
+     Download:
+
+https://github.com/profrobwells/CovidFall2020/blob/master/Exercises/Slicing-Dicing%20Data%2010-14-2020.Rmd
+
+
+**Homework: Tuesday, Nov. 2 Homework**
+-See Blackboard
+
+-----------------  
+
+## Wednesday, Nov. 3: Lubridate
+
+**Agenda**  
+
+     Continue R exercises   
+     Filter between dates
+     
+**Exercises**   
+
+https://github.com/profrobwells/CovidFall2020/blob/master/Reading/Transforming%20and%20Analyzing%20Data%20dplyr.pdf
+
+**Notes: How Do I?**
+https://smach.github.io/R4JournalismBook/HowDoI.html
+
+
+
+Download:   
+
+https://github.com/profrobwells/CovidFall2020/blob/master/Exercises/Slicing-Dicing%20Data%2010-14-2020.Rmd   
+
+
+**Read Before Next Class**   
+
+-----------------   
+
+##  Monday, Nov. 8: Calculations in R
+
+**Agenda**
+
+    Calculations in R   
+    Discuss Assignment 4
+
+**Assignment 4: Interactive Data Visualization. Due Nov 14.**
+Students build multipanel interactive graphics / maps of Arkansascovid data by school district. Basic R used for analysis. Results will be posted on GitHub. Data dictionary required. Report and write a 600 word story.
+
+
+**Exercises**  
+
+Using R to Shorten, Simplify the Master File 
+https://github.com/profrobwells/CovidFall2020/blob/master/Exercises/Slicing-Dicing%20Data%2010-14-2020.Rmd
+
+
+    Red vs Blue Covid election results map   
+https://apnews.com/article/counties-worst-virus-surges-voted-trump-d671a483534024b5486715da6edb6ebf
+
+
+----------------- 
+
+## Wednesday, Nov. 10: R Data Visualization
+
+
+**Agenda**  
+
+    Graphics - ggplot     
+    Discuss Assignment #4
+    
+**Quick Charts in Daily Script**
+<center>
+
+<img src="Images/Changes_2_Day_avg.png" width="500" height="500" />
+
+
+</center> 
+
+      How We Did This: Daily Update Script
+https://raw.githubusercontent.com/profrobwells/CovidFall2020/master/Daily%20Update.Rmd
+
+
+**R data visualization**
+
+      Basic GGPLOT
+      Using color
+      Formatting PNG for export
+      Scatterplots
+      Histograms
+      Box plots
+      Line graphs
+      ggplot cookbook 4-26-20.rmd
+
+
+
+**We will build this today**
+
+<center>
+
+<img src="Images/Wednesday top cases 11_11.png" width="500" height="500" />
+
+
+</center>  
+
+**GGPLOT Cookbook**  
+
+https://raw.githubusercontent.com/profrobwells/CovidFall2020/master/Exercises/ggplot%20cookbook%204-26-20.Rmd   
+
+
+**New Fun with Sicing and Dicing**      
+https://github.com/profrobwells/CovidFall2020/blob/master/Exercises/Slicing-Dicing%20Data%2010-14-2020.Rmd  
+
+----------------- 
+
+## Monday, Nov. 15: R Graphics  
+
+**Agenda**
+
+    Graphics  
+    Red vs Blue Covid election results map    
+
+
+#### Assignment 4: Interactive Data Visualization
+    
+    Due Nov 14.
+    Students build multipanel interactive graphics / maps of Arkansascovid data by school district.     Basic R used for analysis. Results will be posted on GitHub. Data dictionary required. Report      and write a 600 word story.
+
+
+**Exercises**   
+
+**We will build this today**
+
+<center>
+
+<img src="Images/Wednesday top cases 11_11.png" width="500" height="500" />
+
+
+</center>  
+
+**GGPLOT Cookbook**  
+
+https://raw.githubusercontent.com/profrobwells/CovidFall2020/master/Exercises/ggplot%20cookbook%204-26-20.Rmd   
+
+
+**New Fun with Sicing and Dicing**      
+https://github.com/profrobwells/CovidFall2020/blob/master/Exercises/Slicing-Dicing%20Data%2010-14-2020.Rmd  
+
+----------------- 
+    
+## Wednesday, Nov. 17
+
+**Agenda** 
+
+     GGPLOT
+     Feeding R to Flourish
+
+**Exercise**
+
+Katy's Chart
+
+https://app.flourish.studio/visualisation/4380046/edit
+
+
+Tutorial
+    
+    Details on Line Chart Race
+https://help.flourish.studio/article/75-line-chart-race-an-overview
+
+    Details of a Bar Chart Race
+https://help.flourish.studio/article/44-bar-chart-race-an-overview
+
+    Attempt at a Bar Chart Race by County on New Deaths
+    --Formatting Data to Match Flourish Requirements.
+    --Pivot Table
+    
+    
+https://app.flourish.studio/visualisation/4379103/edit
+
+    Your Turn:
+
+    Build Cases Per 10,000
+    Build Demographics Over Time
+    Build Counties Over Time    
+    
+**Read Before Next Class** 
+
+  
+-----------------  
+
+## Nov. 22-26: Thanksgiving Week, Holiday
+
+
+-----------------   
+
+## Monday, Nov. 30: Reporting
+
+**Agenda**
+
+    Discuss Assignment 5
+    Datawrapper
+    
+
+**Assignment 5: Multimedia Data Story.** 
+Due Dec 5.
+Students will produce a blog post with photos, a short video, a map and an interactive graphic plus a 400 word story. Basic R used for analysis. Results will be posted on GitHub. Data dictionary required.
+
+
+**Datawrapper**
+
+https://app.datawrapper.de/
+
+
+
+**Exercises**
+
+**Create Monthly Totals for November**
+
+    Create a New R Markdown File for November Totals   
+    Use this Slicing and Dicing Exercise as a Template  
+    Monthly Totals for Hospitals, Deaths, New Cases  
+    Visualize in Flourish  
+    Post your code on Teams 
+    
+https://github.com/profrobwells/CovidFall2020/blob/master/Exercises/Slicing-Dicing%20Data%2010-14-2020.Rmd  
+
+
+**Homework: Tuesday, Nov. 30.**
+--See Blackboard
+
+----------------- 
+
+## Wednesday, Dec. 1: Assignment 5
+
+**Agenda**
+    
+    Workshop on Assignment 5
+    
+-----------------  
+
+## Monday, Dec. 6: Wrapup
+
+**Agenda**   
+
+    Datawrapper
+     
+
+#### Assignment 5: Multimedia Data Story 
+Due Dec 5.
+Students will produce a blog post with photos, a short video, a map and an interactive graphic plus a 400 word story. Basic R used for analysis. Results will be posted on GitHub. Data dictionary required.
+
+
+**Important!**
+
+    Course Evaluation
+    Please do me  a favor and evaluate this course. 
+    It's important to me and the department to get your thoughts
+    on what worked and what did not. 
+    If you think it is important, 
+    then please take five minutes to fill out the survey.
+https://courseval.uark.edu/
+    
+
+
+
+**Exercises: Basic GitHub**    
+
+    This class is intended to teach you modern workflow techniques for coding. A centerpiece of that workflow is GitHub. This is a website with a system that allows you to collaborate with other programmers on coding projects. It manages versions of software code and is a very popular with the tech elite. 
+
+    Your GitHub account, which is public, represents an important professional image. Prospective employers and collaborators will look at your GitHub account.
+    
+    Create a GitHub account   
+https://github.com/    
+
+
+**Exercise #1: Hello World Setup**    
+
+https://guides.github.com/activities/hello-world/
+
+**Exercise #2: GitHub flow**   
+
+https://guides.github.com/introduction/flow/   
+
+**Help Files**  
+
+https://help.github.com/en/desktop    
+
+
+**Exercise #3: Pull Request**   
+https://docs.google.com/presentation/d/1MbltRcOerktc-E26HMDjYj0BO9CTubQWu1Z2bB9CpVY/edit#slide=id.g448ccc227721fe56_10
+
+      See the above link, Max Harlow on How to Use GitHub   
+      1. Create a test repository, call it "Junk"
+      2. Commit copies of a random R script and a random text .txt file
+      3. Pair up with a buddy. Follow them on GitHub
+      4. Fork their Junk repository
+      5. Report an Issue on their repository. See slides #47-53
+      6. Create a pull request on their repository. See slides #54-68
+      7. Resolve the issues and pull request for your own GitHub account.
+      8. Revel in your nerd powers. Watch Star Trek reruns. Eat Pringles.
+      
+    
+**GitHub Resources**
+
+**Basic GitHub 4-22-19.R**   
+https://bit.ly/2UAMGTd
+
+**Another GitHub guide**     
+https://andrewbtran.github.io/NICAR/2018/workflow/docs/03-integrating_github.html  
+
+**Simplified GitHub- GitHub Desktop**   
+https://help.github.com/en/desktop
+
+**Setting up an R Workflow**  
+http://learn.r-journalism.com/en/publishing/workflow/r-projects/
+
+**Advanced: Set Up GitHub in an R Project**
+https://support.rstudio.com/hc/en-us/articles/200532077?version=1.2.5033&mode=desktop 
+
+----------------- 
+
+## Wednesday, Dec. 8
+
+**Agenda**
+      
+      GitHub   
+      Wrap up       
+      
+----------------- 
+
+
+**Congratulations! **
+    
+     We covered a lot this semester
+  
+     
+
+
+---   
+
+
+
+**--30--**
