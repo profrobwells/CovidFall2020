@@ -1,7 +1,7 @@
 ---
 title: "Daily Update Arkansas Covid"
 author: "Rob Wells, Katy Seiter and Mary Hennigan"
-date: "8/5/2021"
+date: "8/23/2021"
 output: pdf_document
 ---
 
@@ -10,7 +10,7 @@ output: pdf_document
 - **This notebook retrieves data the ADH API and produces tables for upload to Arkansascovid.com GitHub.**
 #  https://github.com/Arkansascovid/Main
 
-#Adds new Monday three day totals and averages at Line 945
+#Fixes, refines vaccine data
 
 - **Separately, run Hospital Data_April 29 and Demographic Update **
 
@@ -313,7 +313,7 @@ df4$Amount <- round(df4$Amount,0)
 ggplot(df4,aes(x = mydate, y = Amount, label = Amount, fill= Detail)) + 
 geom_bar(stat="identity", position="dodge", color="white")+
 scale_fill_manual(values=c("#B3BF08", "#08B3BF", "#D68037"))+
-scale_y_continuous(limits=c(0, 4000))  +
+scale_y_continuous(limits=c(0, 5500))  +
   theme_bw() + 
   theme(
     plot.title = element_text(face = "bold", size = 16),
@@ -330,7 +330,7 @@ scale_y_continuous(limits=c(0, 4000))  +
    geom_col(position = position_dodge2(width = 0.9, preserve = "single")) +
   geom_text(position = position_dodge2(width = 0.9, preserve = "single"), vjust=-0.5, hjust=+0.5) +
   labs(title = "New Cases & Recoveries in Arkansas Announced Today", 
-       subtitle = "Confirmed + Probable,  ADH Data for August 4, 2021",
+       subtitle = "Confirmed + Probable,  ADH Data for August 19, 2021",
        caption = "Graphic by ArkansasCovid.com",
        y="Amount",
        x="Date")
@@ -355,9 +355,9 @@ scale_fill_manual(values=c("#08B3BF", "#D68037"))+
   theme(legend.position = "bottom") +
   geom_col(position = position_dodge2(width = 0.9, preserve = "single"), show.legend = T) +
   geom_text(position = position_dodge2(width = 0.9, preserve = "single"), vjust=-0.5, hjust=+0.5) +
-  scale_y_continuous(limits=c(0, 25)) + 
+  scale_y_continuous(limits=c(0, 50)) + 
   labs(title = "New Deaths in Arkansas Announced Today", 
-       subtitle = "Confirmed + Probable,  ADH Data for August 4, 2021",
+       subtitle = "Confirmed + Probable,  ADH Data for August 19, 2021",
        caption = "Graphic by ArkansasCovid.com",
        y="Amount",
        x="Date")
@@ -434,16 +434,16 @@ vax1 <- vax %>%
          Unk_Race_Total, Other_Race_Total, Hispanic_Total, Hispanic_Partial_Vax,
          Hispanic_Full_Vax, Population, County_Pct_Dose_1, County_Pct_Dose_2,
          White_Partial_Pct, Black_Partial_Pct, Asian_Partial_Pct,
-         Non_Hispanic_Partial_Pct, Non_Hispanic_Full_Pct)
+         Non_Hispanic_Partial_Pct, Non_Hispanic_Full_Pct) %>% 
+  mutate(Full_Pct =(Fully_Vax/Population)) 
+  
+vax1$Full_Pct <- formattable::percent(vax1$Full_Pct, 1)
 
 
 write.csv(vax1, "HomePageData/vaccine_county_full.csv")
 
 vaccine_county <- vax1 %>% 
-  select(County_Name, Date, County_Vax_Total, Partial_Vax, Fully_Vax,Unk_Dose, Population) %>% 
-  mutate(Full_Pct =(Fully_Vax/Population))
-
-vaccine_county$Full_Pct <- formattable::percent(vaccine_county$Full_Pct, 1)
+  select(County_Name, Date, County_Vax_Total, Partial_Vax, Fully_Vax,Unk_Dose, Population, Full_Pct) 
 
 write.csv(vaccine_county, "HomePageData/vaccine_county.csv")
 write.csv(vaccine_county, "MasterData/vaccine_county.csv")
@@ -495,9 +495,9 @@ vaxmaster <- rio::import("https://raw.githubusercontent.com/Arkansascovid/Main/m
 # vaxmaster <- vaxmaster [ -c(31) ]
 # 
 # vaxmaster <- vaxmaster %>% 
-#   filter(Date < "2021-07-30")
+#    filter(Date < "2021-08-23")
 
-# vaxmaster <- vaxmaster [ -c(31) ]
+#vaxmaster <- vaxmaster [ -c(30) ]
 # vaxmaster <- vaxmaster %>% 
 #   rename(Date = "date")
 
@@ -507,6 +507,7 @@ vaccine_master <- smartbind(vax1, vaxmaster)
 write.csv(vaccine_master, "HomePageData/vaccine_master.csv")
 
 ```
+
 
 #fix All_Doses_Given
 ```{r}
