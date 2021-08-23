@@ -60,41 +60,47 @@ Students will produce a blog post with photos, a short video, a map and an inter
 
     --Discuss syllabus
     --Blackboard site
-    --Teams
-    --Intellectual Property / Data Sharing Releases
     --Arkansascovid.com
-    --Excel Exercise with Arkansascovid data
-    
+    --Excel / Flourish Exercise with Arkansascovid data
+    --Teams
+    --Interview a classmate for homework
+
+**Discuss Syllabus**
+
+https://forms.office.com/r/nrySuungzH
+  
+**Basic Excel**   
+
+    Click below on the ebook link, See Section "3 Introduction to Data Analysis"
+https://bookdown.org/connect/#/apps/f79d74ff-4d33-4bfd-a1aa-de6aaf4e340a/access  
+
+**Create a Flourish account**  
+
+https://app.flourish.studio/login 
+
 **Teams**   
 
     See Chapter: Teams
 https://bookdown.org/connect/#/apps/f79d74ff-4d33-4bfd-a1aa-de6aaf4e340a/access    
 
 
-**Intellectual Property / Data Sharing Releases**
-
-    UofA Rules of Conduct
-https://docs.google.com/document/d/1YkdkRIzIs1WQ3P9KIICvHcppfWvwTyo2bRhGwQPsgVE/edit
-
-    License Agreement
-https://docs.google.com/document/d/1AahzxDOzTf9Z6PBjBvFBOjnn9_BiM4YldnXW-mHZr9s/edit
-    
-
-**Basic Excel**   
-
-Intro Excel w Exercise #2   
-Link for Today’s Course:    
-https://wordpressua.uark.edu/datareporting/basic-excel-introduction-to-data/
-
 **Homework**
 
-You Have Skills. Tell Us About Them.
+Write 200 Word Story Introducing A Classmate To The Rest of Us.
 Due Tuesday, 11:59 pm, Blackboard.
 
-**Read Before Next Class**    
+What questions will you ask? Let's brainstorm
+
+https://docs.google.com/document/d/10ZlhnxEkJi88spQ_3lyGni8TtF97KcIu1R5nAQonfLk/edit?usp=sharing
+
+
+**Read / View Before Next Class**    
 
 Sheffo, Catherine. “How to Avoid 10 Common Mistakes in Data Reporting.” 
 American Press Institute (blog), August 9, 2016.   https://www.americanpressinstitute.org/publications/data-reporting-common-mistakes/
+
+Chapter 3 Introduction to Data Analysis
+https://bookdown.org/connect/#/apps/f79d74ff-4d33-4bfd-a1aa-de6aaf4e340a/access  
 
 Flourish Tutorial:
 https://www.youtube.com/watch?v=fKO_jjqgooc&feature=emb_title
@@ -117,6 +123,16 @@ https://raw.githubusercontent.com/Arkansascovid/Main/master/MasterData/vaccine.c
       Arkansascovid.com
       Excel exercises - sorting
       Intro to Flourish
+      Intellectual Property / Data Sharing Releases
+
+**Intellectual Property / Data Sharing Releases**
+
+    UofA Rules of Conduct
+https://docs.google.com/document/d/1YkdkRIzIs1WQ3P9KIICvHcppfWvwTyo2bRhGwQPsgVE/edit
+
+    License Agreement
+https://docs.google.com/document/d/1AahzxDOzTf9Z6PBjBvFBOjnn9_BiM4YldnXW-mHZr9s/edit
+    
 
 **Excel Proficiency**  
 
