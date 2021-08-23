@@ -11,7 +11,7 @@ output:
 ---  
 
 Class Time: Monday-Wednesday,  3:30 p.m.-4:45 p.m.    
-KIMP 145      
+By Zoom      
 Aug. 23 - Dec. 9, 2020   
 
 ---   
@@ -31,14 +31,14 @@ E-mail: rswells@uark.edu
 **Course Description:**  The class provides an introduction to the basic data reporting skills, but it is much more than learning software and pressing buttons. This class will describe how to use data to guide and inform your reporting, and how this will change your relationship with sources and the people you cover. At each step, this class describes real-world examples of ethical issues and best practices in data reporting. The end goal is to use data to advance important journalism that helps us tell stories that better serve the public. 
 
 
-**Cultural Diversity:** This course will advance the broader goal of the School of Journalism and Strategic Media to provide a learning atmosphere that represents a variety of perspectives. Good journalism creates well-rounded, whole pictures that tell stories from multiple points of view. For that reason, this course will examine data sources that describe a diversity of sources and viewpoints, ranging from people of different color to different income levels, different sexual orientation, and different backgrounds. For example, this class will explore datasets that describe analyze racial disparities in COVID-19 data. In the course of this class, students will learn the basic reporting and statistical tools to ask questions about such disparities. We will explore how a major government agency categorizes race, the pitfalls with this data collection problem and consequences for society. We will be speaking with members of local communities, such as the African American and Hispanic communities, as well as local business leaders, about the data we develop and solicit their perspectives on our findings. These activities will permit an exploration of questions about income inequality among gender and racial lines.
+**Cultural Diversity:** This course will advance the broader goal of the School of Journalism and Strategic Media to provide a learning atmosphere that represents a variety of perspectives. Good journalism creates well-rounded, whole pictures that tell stories from multiple points of view. For that reason, this course will examine data sources that describe a diversity of sources and viewpoints, ranging from people of color to people of varying income levels or sexual orientation, and different backgrounds. For example, this class will explore datasets that describe analyze racial disparities in COVID-19 data. 
+
+In the course of this class, students will learn the basic reporting and statistical tools to ask questions about such disparities. We will explore how a major government agency categorizes race, the pitfalls with this data collection problem and consequences for society. We will be speaking with members of local communities, such as the African American and Hispanic communities, as well as local business leaders, about the data we develop and solicit their perspectives on our findings. These activities will permit an exploration of questions about income inequality among gender and racial lines.
 
 The University of Arkansas, nor Dr. Wells, will not tolerate statements, behavior, tokens or insignias that deride or disparage an individual or group because of race, ethnicity, creed or personal lifestyle, when such actions or statements fulfill no educational goal.
 
 
-This course will report on an evolving news story, the COVID-19 outbreak in Arkansas.
-
- We will examine Covid-19 data in Arkansas and produce stories based on this data, primarily on racial disparities with the disease. We will send out Tweets and produce podcasts.
+This course will report on an evolving news story, the COVID-19 outbreak in Arkansas. We will examine Covid-19 data in Arkansas and produce stories based on this data. We will send out Tweets, stories and produce data visualizations.
 
 Students will learn to create data visualization and receive an introduction to coding in R. Both are powerful tools used in modern news reporting. Quality reporting in newsrooms requires a solid foundation of data analysis. 
 
@@ -69,7 +69,7 @@ All required materials will be delivered via an ebook and Blackboard.
 > [**Here is the ebook link**: "CNTL" + click for a New Tab](https://bookdown.org/connect/#/apps/f79d74ff-4d33-4bfd-a1aa-de6aaf4e340a/access){target="_blank"}   
 
 
-The book is under development under an open textbook grant from the university - so please be patient! Send any notes about issues to me, please.
+The book is under development, funded by an open textbook grant from the university. Please notify me about any issues.
 
 **Supplementary Texts:**  
 
@@ -144,12 +144,9 @@ Any story that includes libelous material will result in an F (55 percent). Exam
 
 The COVID-19 pandemic is in a highly dangerous and somewhat unpredictable phase. Arkansas' hospitals are full with COVID-19 patients, including younger people. Although we cannot require vaccination by Arkansas state law, we know that the more students, faculty, and staff who are vaccinated, the healthier and safer we are as a campus community. Until the community is better protected, it is important that we follow all masking mandates and other important COVID-19 guidelines to protect each other’s health and that of our community. So wear a mask, per university requirements.
 
-Due to the uncertainty surrounding COVID-19, this course may have to switch to remote delivery on short notice. I will keep you informed about any such developments.
-
 Please review the university’s COVID-19 response page, which answers many questions: 
 
 https://health.uark.edu/coronavirus/
-
 
 
 **Attendance and Your Health:**
@@ -189,7 +186,6 @@ If for some reason you cannot make a class or a publishing assignment, please le
 **Class Etiquette:**  
 Let us all resist the temptation to multitask during class and instead **be present in the brief time we have together.** 
 
-Bring headsets or earbuds to class to listen to any video / podcast material.
 
 **Academic Honesty:**  
 Please refer to  https://honesty.uark.edu/policy/index.php for the academic integrity policy.
