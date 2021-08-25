@@ -12,8 +12,8 @@ output:
 \newpage
 
 **Data Journalism in Arkansas**   
-**Jour 4083, Fall 2021**      
-**Class Time: KIMP 145, Monday-Wednesday,  3:30 p.m.-4:45 p.m.**    
+**Jour 401v - Jour 508v, Fall 2021**      
+**Class Time: Monday-Wednesday,  3:30 p.m.-4:45 p.m.**    
 **Aug. 23 - Dec. 9, 2020**
 
 ![](Images/UARK logo NEW.png)
@@ -26,7 +26,7 @@ output:
 <img src="Images/ArkansasCovid.png" width="100" height="100" />
 
 
-> [**Syllabus - Jour 4083**: "CNTL" + click for a New Tab](https://profrobwells.github.io/CovidFall2020/Fall2021/Syllabus_Jour4083_Fall2021.html){target="_blank"}   
+> [**Syllabus - Jour 401v**: "CNTL" + click for a New Tab](https://profrobwells.github.io/CovidFall2020/Fall2021/Syllabus_Jour4083_Fall2021.html){target="_blank"}   
 
 > [**Course Text**: "CNTL" + click for a New Tab](https://bookdown.org/connect/#/apps/f79d74ff-4d33-4bfd-a1aa-de6aaf4e340a/access){target="_blank"}   
 
@@ -106,14 +106,6 @@ Flourish Tutorial:
 https://www.youtube.com/watch?v=fKO_jjqgooc&feature=emb_title
    
 
-**Jour 5083 _ Nerd Corner**
-
-    --Import Arkansascovid.com vaccine data, chart vaccination trends since July 1, 2021
-    --Post your visualization with Homework
-    
-https://raw.githubusercontent.com/Arkansascovid/Main/master/MasterData/vaccine.csv
-
-
 ----------------- 
 
 ## Wednesday, Aug. 25: Excel, Flourish  
@@ -121,9 +113,12 @@ https://raw.githubusercontent.com/Arkansascovid/Main/master/MasterData/vaccine.c
 **Agenda**  
       
       Arkansascovid.com
-      Excel exercises - sorting
-      Intro to Flourish
+      Introduction Stories
       Intellectual Property / Data Sharing Releases
+      Pair-Share on Sheffro reading
+      Resume Excel exercise - sorting
+      Intro to Flourish
+      
 
 **Intellectual Property / Data Sharing Releases**
 
@@ -133,37 +128,33 @@ https://docs.google.com/document/d/1YkdkRIzIs1WQ3P9KIICvHcppfWvwTyo2bRhGwQPsgVE/
     License Agreement
 https://docs.google.com/document/d/1AahzxDOzTf9Z6PBjBvFBOjnn9_BiM4YldnXW-mHZr9s/edit
     
-
-**Excel Proficiency**  
-
-Entering data, cursors, formatting, sum, average, median, change, percent change
-https://raw.githubusercontent.com/Arkansascovid/Main/master/MasterData/vaccine.csv
-
-Skills: Data Dictionary, Part 1
-Skills: Organize Your Data. Finder, Storage, File Organization
-
 **How to Create a Flourish Chart**     
 
       Create a Flourish account    
 https://app.flourish.studio/login      
 
     See Chapter: Flourish
-https://bookdown.org/connect/#/apps/f79d74ff-4d33-4bfd-a1aa-de6aaf4e340a/access    
+https://bookdown.org/connect/#/apps/f79d74ff-4d33-4bfd-a1aa-de6aaf4e340a/access  
+
+**Excel Proficiency**  
+
+Entering data, cursors, formatting, sum, average, median, change, percent change. 
+
+--See exercise in Ch. 4 Excel Bootcamp
 
 
-**Basic Flourish**  
-
-    Videos to Get Started
-    Beginning Documents
-    Flourish Design Tips
-    Flourish Links
+    See Ch. 7, Organize Your Data   
+    Skills: Data Dictionary, Part 1   
+    Skills: Organize Your Data. Finder, Storage, File Organization   
+https://bookdown.org/connect/#/apps/f79d74ff-4d33-4bfd-a1aa-de6aaf4e340a/access  
 
 
-**Jour 5083 _ Nerd Corner**
+**Jour 5083 _ Nerd Corner**   
 
-      Those of you who don't need a Flourish introduction, please do this
-      1) Create a new Flourish project and link to this Sheet
-https://raw.githubusercontent.com/Arkansascovid/Main/master/MasterData/vaccine.csv
+    Ch. 13 R Introduction, get the program loaded on your computer, walk through a script in the next class.
+    
+https://bookdown.org/connect/#/apps/f79d74ff-4d33-4bfd-a1aa-de6aaf4e340a/access
+
 
 
 **Read Before Next Class**  
@@ -206,11 +197,15 @@ https://raw.githubusercontent.com/Arkansascovid/Main/master/MasterData/vaccine.c
 
 **Flourish**  
 
+    Videos to Get Started
+    Beginning Documents
+    Flourish Design Tips
+    Flourish Links    
     Visualization Options
     Headline, Footer Formatting
     Sourcing
     Colors
-    
+
 
 ----------------- 
 

@@ -1,5 +1,5 @@
 ---
-title: 'Jour 4083 Data Journalism: Fall 2021 Syllabus'
+title: 'Jour 401v, Advanced Practices Data Journalism: Fall 2021 Syllabus'
 output:
   html_document: default
   pdf_document: default
@@ -12,14 +12,13 @@ output:
 
 Class Time: Monday-Wednesday,  3:30 p.m.-4:45 p.m.    
 By Zoom      
-Aug. 23 - Dec. 9, 2020   
+Aug. 23 - Dec. 9, 2021   
 
 ---   
 
 Instructor: 	Rob Wells, Ph.D.  
-Office: KIMP 128  
 Office phone: 479-575-6305  
-Office hours: Monday-Wednesday online 2:30 p.m-3:30 p.m.    
+Office hours: Monday-Wednesday 1 p.m-2 p.m.    
 and by appointment: https://calendly.com/rswells/30min    
 E-mail: rswells@uark.edu  
 
