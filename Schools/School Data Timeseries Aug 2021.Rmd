@@ -7,6 +7,10 @@ output: pdf_document
 
 # Compilation of School COVID-19 Reports for Arkansascovid.com Calculations
 
+#Here's a video on how to process PDFs into data
+https://video.uark.edu/media/Capturing+Data+from+ADH+School+Reports+and+Cleaning+In+R/1_1il3ruhu
+
+
 - **This notebook retrieves data from an Excel sheet and compiles a time series of ADH school infection reports for the Fall 2021 school year**
 
 -**It creates a masterfile: schools_master_2021.csv**
@@ -17,15 +21,8 @@ output: pdf_document
 #install.packages("slider")
 #install.packages("zoo")
 #install.packages("gtools")
-# vignette("basic-usage", package="googlesheets")
-#install.packages("googledrive")
-#install.packages("googlesheets4")
 library(tidyverse)
 library(janitor)
-library(lubridate)
-library(googlesheets4)
-library(googledrive)
-library(tidyr)
 library(jsonlite)
 library(gtools)
 library(zoo)
@@ -35,41 +32,257 @@ library(slider)
 
 #Type in the report date of the ADH document
 ```{r}
-reportdate <- "2021-08-16"
+reportdate <- "2021-08-19"
 ```
 
 #Import the Excel sheet
 ```{r include=FALSE}
-schoolraw <- rio::import("/Users/robwells/Dropbox/Classes/Data Fall 2020/ArkansasCovid/School Report 08162021.xlsx", which = "Aug16_2021")
 
+schoolraw <- rio::import("/Users/robwells/Dropbox/Classes/Data Fall 2020/ArkansasCovid/Schools/School_Report_08192021.xlsx")
 schoolraw <- janitor::clean_names(schoolraw)
 
 schoolraw <- schoolraw %>% 
-   select(date, type, school_name, active_cases, cumulative_faculty_staff_casesa, cumulative_student_casesa, cumulative_totalb)
+   select(date, type, name, active_cases, cumulative_faculty_staff_casesa, cumulative_student_casesa, cumulative_totalb, cumulative_faculty_staff_cases2, cumulative_student_cases2)
    
 schoolraw <- schoolraw %>% 
-   rename(Date = date, Type = type, Name = school_name, Active_Cases = active_cases, Cumulative_Faculty_Staff_Cases = cumulative_faculty_staff_casesa, Cumulative_Student_Cases = cumulative_student_casesa, Cumulative_Total=cumulative_totalb)
+   rename(Date = date, Type = type, Name = name, Active_Cases = active_cases, Cumulative_Faculty_Staff_Cases = cumulative_faculty_staff_casesa, Cumulative_Student_Cases = cumulative_student_casesa, Cumulative_Total=cumulative_totalb, All_Faculty_Staff_Total = cumulative_faculty_staff_cases2, All_Student_Total = cumulative_student_cases2)
+
+
+
+schoolraw <- schoolraw[!grepl("Timeframe", schoolraw$Name),]
+schoolraw <- schoolraw[!grepl("Counts of less than", schoolraw$Name),]
+schoolraw <- schoolraw[!grepl("cases may not add up to", schoolraw$Name),]
+schoolraw <- schoolraw[!grepl("Counts of less than five", schoolraw$Name),]
+schoolraw <- schoolraw[!grepl("cAugust 19, 2021", schoolraw$Name),]
+schoolraw <- schoolraw[!grepl("totals", schoolraw$Name),]
+schoolraw <- schoolraw[!grepl("Cumulative", schoolraw$All_Faculty_Staff_Total),]
+
+
 
 schoolname <- paste("schools_", reportdate,".csv",sep="")
 write.csv(schoolraw, file=schoolname)
 
 ```
 
+#Add to master file
 ```{r}
-schools_Aug16_2021 <- rio::import("/Users/robwells/Dropbox/Classes/Data Fall 2020/ArkansasCovid/CovidFall2020/schools_2021-08-16.csv")
-schools_Aug19_2021  <-rio::import("/Users/robwells/Dropbox/Classes/Data Fall 2020/ArkansasCovid/CovidFall2020/schools_2021-08-19.csv")
+schools_master_2021 <- rio::import("https://raw.githubusercontent.com/profrobwells/CovidFall2020/master/Schools/schools_master_2021.csv")
+schools_master_2021 <- schools_master_2021[ -c(1,2) ]
 
-schools_master_2021 <- rbind(schools_Aug16_2021, schools_Aug19_2021)
+schools_master_2021 <- rbind(schoolraw, schools_master_2021)
 
 write.csv(schools_master_2021, "schools_master_2021.csv")
+```
+
+```{r}
+school <- schools_master_2021
+school <- janitor::clean_names(school)
+school$district <- tolower(school$name)
+school$district <- gsub(" ", "_", school$district)
+school$district <- gsub("southside_school_dist(independence)", "southside_school_dist_(independence)", school$district)
+school[4:7] <- lapply(school[4:7], as.numeric)
+school$date <- as.Date(school$date)
+head(school)
+```
+
+```{r}
+#schoolethnicity <- rio::import('/Users/abbyzimmardi/Downloads/Data Fall 2020/Data Story 2/Schools_Race_2020.xlsx')
+schoolethnicity <- rio::import('https://raw.githubusercontent.com/profrobwells/CovidFall2020/master/School_Districts_FY31_Districts_EnrollmentByRace.csv')
+schoolethnicity<- janitor::clean_names(schoolethnicity)
+schoolethnicity$district <- tolower(schoolethnicity$district_description)
+schoolethnicity$district <- gsub("district", "dist", schoolethnicity$district)
+schoolethnicity$district <- gsub(" ", "_", schoolethnicity$district)
+head(schoolethnicity)
+```
+
+#join tables
+#need to fix the independence thing
+```{r}
+schools_combo <- school %>% 
+  inner_join(schoolethnicity, by=c("district"))
+glimpse(schools_combo)
+```
+
+
+#Math
+```{r}
+schools_combo <- schools_combo %>% 
+  mutate(Pct_Hispanic = (hispanic_total/student_total)) %>% 
+   mutate(Pct_White = (white_total/student_total)) %>% 
+   mutate(Pct_Black = (black_total/student_total))
+
+factcheck <- schools_combo %>% 
+  select(district,  student_total, hispanic_total, Pct_Hispanic, white_total, Pct_White, black_total, Pct_Black)
+factcheck
+
+schools_combo$Pct_Hispanic <- round(schools_combo$Pct_Hispanic, 2)
+schools_combo$Pct_White <- round(schools_combo$Pct_White, 2)
+schools_combo$Pct_Black <- round(schools_combo$Pct_Black, 2)
+```
+
+#Covid per 1000 students
+```{r}
+schools_combo <- schools_combo %>% 
+  mutate(Student_Covid_Per1000=(cumulative_student_cases/student_total)*1000) %>% 
+  mutate(Active_Covid_Per1000=(active_cases/student_total)*1000)
+#Active_Covid_Per1000 could be an issue if the active cases are both students and faculty
+
+schools_combo$Student_Covid_Per1000 <- round(schools_combo$Student_Covid_Per1000, 2)
+schools_combo$Active_Covid_Per1000 <- round(schools_combo$Active_Covid_Per1000, 2)
+```
+
+```{r}
+write.csv(schools_combo, "public_schools_combo.csv")
+```
+
+#Notes Below
+#Notes Below
+#Notes Below
+
+#Notes Below - under construction
+
+#One time
+```{r}
+# 
+# schools8_26 <- schoolraw
+# schools8_23 <- schoolraw
+# schools8_16 <- schoolraw
+# schools8_19 <- schoolraw
+
+# 
+# schools_master_2021 <- rbind(schools8_26, schools8_23, schools8_19, schools8_16)
+# write.csv(schools_master_2021, "schools_master_2021.csv")
+
+# schools8_23 <- schools8_23 %>% 
+#    mutate(Date = "2021-08-23")
+
+
+
+# schools_Aug16_2021 <- rio::import("/Users/robwells/Dropbox/Classes/Data Fall 2020/ArkansasCovid/CovidFall2020/schools_2021-08-16.csv")
+# schools_Aug19_2021  <-rio::import("/Users/robwells/Dropbox/Classes/Data Fall 2020/ArkansasCovid/CovidFall2020/schools_2021-08-19.csv")
+# 
+# schools_master_2021 <- rbind(schools_Aug16_2021, schools_Aug19_2021)
+# 
+# write.csv(schools_master_2021, "schools_master_2021.csv")
+
+```
+
+```{r}
+
+xx <- schools_Aug19_2021 %>% 
+   inner_join(schools_Aug16_2021, by=c("Name"))
+
+xxx <- xx %>% 
+   select(Date.x, Type.x, Name, Active_Cases.x, Cumulative_Faculty_Staff_Cases.x, Cumulative_Student_Cases.x, Cumulative_Total.x, Date.y, Active_Cases.y, Cumulative_Faculty_Staff_Cases.y, Cumulative_Student_Cases.y, Cumulative_Total.y) 
+
+xxx <- xxx %>% 
+   rename(Date_819 = "Date.x", Type = "Type.x", Active_Cases_819 = "Active_Cases.x", Cumulative_Faculty_Staff_Cases_819 = "Cumulative_Faculty_Staff_Cases.x", Cumulative_Student_Cases_819 = "Cumulative_Student_Cases.x", Cumulative_Total_819 = "Cumulative_Total.x", Date_816 = "Date.y", Active_Cases_816 = "Active_Cases.y", Cumulative_Faculty_Staff_Cases_816 = "Cumulative_Faculty_Staff_Cases.y", Cumulative_Student_Cases_816 = "Cumulative_Student_Cases.y")
+
+
+xxx[10] <- lapply(xxx[10], as.numeric)
+
+
+schoolmath <- xxx %>% 
+   mutate(Active_Case_Change = (Active_Cases_819-Active_Cases_816)) %>%    mutate(Total_Student_Change = (Cumulative_Student_Cases_819-Cumulative_Student_Cases_816 ))
+
+schoolcovid <- schoolmath %>% 
+   select(Name, Active_Cases_816, Active_Cases_819, Active_Case_Change, Cumulative_Faculty_Staff_Cases_816, Cumulative_Student_Cases_819, Total_Student_Change, Type)
+
+write.csv(schoolcovid, "schoolcovid8_19.csv")
+
+```
+
+   "      
+[15] "Cumulative_Total.y"
+
+x <- schools_master_2021 %>% 
+   group_by(Name, Date) %>% 
+   distinct(Name)
+
+mydata[!duplicated(mydata$NAME), ] 
+https://www.datasciencemadesimple.com/remove-duplicate-rows-r-using-dplyr-distinct-function/
+   
+   
+xx <- x[duplicated(x$Name, x$Type), ]
+
+
+xx <- x[!unique(x$Name), ]
+
+if name has two entries, then keep it, otherwise delete it
+
+row_lt2 <- which(sapply(mylist, nrow) < 2)
+mylist[-row_lt2]
+
+row_lt2 <- which(sapply(x, nrow) < 2)
+x[-row_lt2]
+
+xx <- ((x$Name) <2)
+
+
+```
+
+
+```
+
+#Notes Below
+#Notes Below
+#Notes Below
+
+
+
+
+
+#Table of green forest school district
+```{r}
+xy <- schools_combo %>% 
+  select(date, district, cumulative_student_cases, student_total, Student_Covid_Per1000) %>% 
+  filter(district=="green_forest_school_dist")
+xy
+```
+
+#statewide average Student_Covid_Per1000 for Aug 23: 7.67
+```{r}
+xyz <- schools_combo %>% 
+  select(date, district, cumulative_student_cases, student_total, Student_Covid_Per1000) %>% 
+  filter(date=="2021-08-23")
+
+mean(xyz$Student_Covid_Per1000, na.rm=TRUE)
+
+
+```
+
+#statewide average Student_Covid_Per1000 for Aug 16: 5.28
+```{r}
+xyzz <- schools_combo %>% 
+  select(date, district, cumulative_student_cases, student_total, Student_Covid_Per1000) %>% 
+  filter(date=="2021-08-16")
+
+mean(xyzz$Student_Covid_Per1000, na.rm=TRUE)
+
 
 ```
 
 
 
-#Notes Below
-#Notes Below
-#Notes Below
+
+```{r}
+hispanic_covid <- schools_combo %>% 
+  select(date, district, cumulative_student_cases, student_total, hispanic_total, Pct_Hispanic, Student_Covid_Per1000,Active_Covid_Per1000) %>% 
+  filter(Pct_Hispanic > .20)
+```
+
+
+#average for school districts with at least 20% Hispanic population Student_Covid_Per1000 for Nov 19= 21.7
+```{r}
+q <- hispanic_covid %>% 
+  select(date, district,Student_Covid_Per1000, Pct_Hispanic, cumulative_student_cases, student_total) %>% 
+  filter(date=="2020-11-19")
+
+mean(q$Student_Covid_Per1000, na.rm=TRUE)
+```
+
+
+
 #Notes Below
 #Notes Below
 
@@ -206,637 +419,3 @@ write.csv(schools_master8, "schools_master.csv")
 
 
 
-
-#This section for building the table from individual sheets
-
-#For Googlesheet access
-```{r include=FALSE}
-url2 <- ("https://docs.google.com/spreadsheets/d/1UmaSSoMbou2MpvGmihP5cZPNqBnaxqIH60cs10sShB8/edit#gid=748934096")
-
-school12_3 <- read_sheet(url2, sheet = "Nov19",  col_types = NULL, na = "",trim_ws = TRUE)
-school12_3$date <- "2020-11-19"
-```
-
-
-```{r include=FALSE}
-# school12_3 <- rio::import("SchoolMaster.xlsx", which = "Nov19")
-# school10_15 <- rio::import("SchoolMaster.xlsx", which = "Oct15")
-# school10_15 <- rio::import("SchoolMaster.xlsx", which = "Oct15")
-# school10_15$date <- "2020-10-15"
-# school10_12 <- rio::import("SchoolMaster.xlsx", which = "Oct12")
-# school10_8 <- rio::import("SchoolMaster.xlsx", which = "Oct8")
-# school10_5 <- rio::import("SchoolMaster.xlsx", which = "Oct5")
-# school10_1 <- rio::import("SchoolMaster.xlsx", which = "Oct1")
-# school9_28 <- rio::import("SchoolMaster.xlsx", which = "XXXSept28")
-# school10_12$date <- "2020-10-12"
-# school10_8$date <- "2020-10-08"
-# school10_5$date <- "2020-10-05"
-# school10_1$date <- "2020-10-01"
-# school9_28$date <- "2020-09-28"
-```
-
-
-```{r}
-#glimpse(school12_3)
-```
-
-```{r}
-school12_3 <- janitor::clean_names(school12_3)
-names(school12_3)
-```
-
-#Subset tables
-#Public School
-
-```{r}
-#Rename
-school12_3_bak <- school12_3
-#Subset public schools
- ps <- school12_3 %>%
-   select("date", "public_school_district","active_cases_2", "cumulative_faculty_staff_cases_3", "cumulative_student_cases_4", "cumulative_total_5")
- 
- # ps <- school12_3 %>% 
- #   select("date", "public_school_district","active_cases_2", "cumulative_faculty_staff_cases_3", "cumulative_student_cases_4", "cumulative_total_5")
-
-#create type
- ps <- ps %>% 
-   mutate(type="public_schools")
-
-#rename columns
-colnames(ps)[2:6] <-c("name", "active_cases", "cumulative_faculty_staff_cases", "cumulative_student_cases", "cumulative_total") 
-
-ps <- as.data.frame(ps)
-
-```
-
-#Private School
-
-```{r}
-#Subset private schools
- private <- school12_3 %>% 
-   select("date", "private_school","active_cases_7", "cumulative_faculty_staff_cases_8",                   "cumulative_student_cases_9", "cumulative_total_10")
-#create type
-private <- private %>% 
-   mutate(type="private_schools")
-
-#rename columns
-colnames(private)[2:6] <-c("name", "active_cases", "cumulative_faculty_staff_cases", "cumulative_student_cases", "cumulative_total") 
-
-private <- private %>% 
-  distinct()
-private <- as.data.frame(private)
-private
-```
-
-#College
-
-```{r}
-#Subset private schools
- college <- school12_3 %>% 
-   select("date", "college_university","active_cases_12", "cumulative_faculty_staff_cases_13",                   "cumulative_student_cases_14", "cumulative_total_15")
-#create type
-college <- college %>% 
-   mutate(type="college")
-
-#rename columns
-colnames(college)[2:6] <-c("name", "active_cases", "cumulative_faculty_staff_cases", "cumulative_student_cases", "cumulative_total") 
-
-college <- college %>% 
-  distinct()
-college <- as.data.frame(college)
-college
-```
-
-```{r}
-names(school12_3)
-```
-
-#schools_with_less_than_5_active_cases
-
-```{r}
-#Subset schools_with_less_than_5_active_cases
-less5 <- school12_3 %>% 
-   select("date", "totals_among_schools_with_less_than_5_active_cases","cumulative_active_cases_17", "cumulative_faculty_staff_cases_18", "cumulative_student_cases_19", "cumulative_total_20")
-#create type
-less5 <- less5 %>% 
-   mutate(type="less5")
-
-#rename columns
-colnames(less5)[2:6] <-c("name", "cumulative_active_cases", "cumulative_faculty_staff_cases", "cumulative_student_cases", "cumulative_total") 
-
-less5 <- less5 %>% 
-  distinct()
-less5 <- as.data.frame(less5)
-less5
-```
-
-#totals_for_all_schools
-"totals_for_all_schools"                            
-[22] "cumulative_active_cases_22"                        
-[23] "cumulative_faculty_staff_cases_23"                 
-[24] "cumulative_student_cases_24"                       
-[25] "cumulative_total_25"          
-```{r}
-#Subset totals_for_all_schools
-totals_all_schools <- school12_3 %>% 
-   select("date", "totals_for_all_schools","cumulative_active_cases_22", "cumulative_faculty_staff_cases_23", "cumulative_student_cases_24", "cumulative_total_25")
-#create type
-totals_all_schools<- totals_all_schools %>% 
-   mutate(type="totals_all_schools")
-
-#rename columns
-colnames(totals_all_schools)[2:6] <-c("name", "cumulative_active_cases", "cumulative_faculty_staff_cases", "cumulative_student_cases", "cumulative_total") 
-
-totals_all_schools <- totals_all_schools %>% 
-  distinct()
-totals_all_schools <- as.data.frame(totals_all_schools)
-totals_all_schools
-```
-
-COMBINE USING smartbind
-```{r}
-schools_master <- smartbind(ps,private,college,less5,totals_all_schools)
-head(schools_master)
-masterschools <- rio::import("https://raw.githubusercontent.com/profrobwells/CovidFall2020/master/schools_master.csv")
-schools_master <- smartbind(schools_master, masterschools)
-write.csv(schools_master, "schools_master.csv")
-```
-
-#repeat lines 61-174 for each:
-school10_12
-school10_8
-school10_5
-school10_1
-
-```{r}
-school10_12 <- janitor::clean_names(school10_12)
-names(school10_12)
-```
-
-#Subset tables
-#Public School
-
-```{r}
-#Rename
-school10_12_bak <- school10_12
-#Subset public schools
- ps <- school10_12 %>% 
-   select("date", "public_school_district","active_cases_2", "cumulative_faculty_staff_cases_3",                   "cumulative_student_cases_4", "cumulative_total_5")
-#create type
- ps <- ps %>% 
-   mutate(type="public_schools")
-
-#rename columns
-colnames(ps)[2:6] <-c("name", "active_cases", "cumulative_faculty_staff_cases", "cumulative_student_cases", "cumulative_total") 
-
-ps <- as.data.frame(ps)
-
-```
-
-#Private School
-
-```{r}
-#Subset private schools
- private <- school10_12 %>% 
-   select("date", "private_school","active_cases_7", "cumulative_faculty_staff_cases_8",                   "cumulative_student_cases_9", "cumulative_total_10")
-#create type
-private <- private %>% 
-   mutate(type="private_schools")
-
-#rename columns
-colnames(private)[2:6] <-c("name", "active_cases", "cumulative_faculty_staff_cases", "cumulative_student_cases", "cumulative_total") 
-
-private <- private %>% 
-  distinct()
-private <- as.data.frame(private)
-private
-```
-
-#College
-
-```{r}
-#Subset private schools
- college <- school10_12 %>% 
-   select("date", "college_university","active_cases_12", "cumulative_faculty_staff_cases_13",                   "cumulative_student_cases_14", "cumulative_total_15")
-#create type
-college <- college %>% 
-   mutate(type="college")
-
-#rename columns
-colnames(college)[2:6] <-c("name", "active_cases", "cumulative_faculty_staff_cases", "cumulative_student_cases", "cumulative_total") 
-
-college <- college %>% 
-  distinct()
-college <- as.data.frame(college)
-college
-```
-
-```{r}
-names(school10_12)
-```
-
-#schools_with_less_than_5_active_cases
-
-```{r}
-#Subset schools_with_less_than_5_active_cases
-less5 <- school10_12 %>% 
-   select("date", "totals_among_schools_with_less_than_5_active_cases","cumulative_active_cases_17", "cumulative_faculty_staff_cases_18", "cumulative_student_cases_19", "cumulative_total_20")
-#create type
-less5 <- less5 %>% 
-   mutate(type="less5")
-
-#rename columns
-colnames(less5)[2:6] <-c("name", "cumulative_active_cases", "cumulative_faculty_staff_cases", "cumulative_student_cases", "cumulative_total") 
-
-less5 <- less5 %>% 
-  distinct()
-less5 <- as.data.frame(less5)
-less5
-```
-
-#totals_for_all_schools
-"totals_for_all_schools"                            
-[22] "cumulative_active_cases_22"                        
-[23] "cumulative_faculty_staff_cases_23"                 
-[24] "cumulative_student_cases_24"                       
-[25] "cumulative_total_25"          
-```{r}
-#Subset totals_for_all_schools
-totals_all_schools <- school10_12 %>% 
-   select("date", "totals_for_all_schools","cumulative_active_cases_22", "cumulative_faculty_staff_cases_23", "cumulative_student_cases_24", "cumulative_total_25")
-#create type
-totals_all_schools<- totals_all_schools %>% 
-   mutate(type="totals_all_schools")
-
-#rename columns
-colnames(totals_all_schools)[2:6] <-c("name", "cumulative_active_cases", "cumulative_faculty_staff_cases", "cumulative_student_cases", "cumulative_total") 
-
-totals_all_schools <- totals_all_schools %>% 
-  distinct()
-totals_all_schools <- as.data.frame(totals_all_schools)
-totals_all_schools
-```
-
-COMBINE USING smartbind
-```{r}
-schools_master15 <- rio::import("https://raw.githubusercontent.com/profrobwells/CovidFall2020/master/schools_master.csv")
-schools_master12 <- smartbind(ps,private,college,less5,totals_all_schools)
-head(schools_master)
-schools_master <- smartbind(schools_master12, schools_master15)
-```
-
-#school10_08
-```{r}
-school10_8 <- janitor::clean_names(school10_8)
-names(school10_8)
-```
-
-#Subset tables
-#Public School
-
-```{r}
-#Rename
-school10_8_bak <- school10_8
-#Subset public schools
- ps <- school10_8 %>% 
-   select("date", "public_s_d_rict","ps_active_cases", "ps_cumulative_faculty_staff_cases", "ps_cumulative_student_cases", "ps_cumulative_total")
-#create type
- ps <- ps %>% 
-   mutate(type="public_schools")
-
-#rename columns
-colnames(ps)[2:6] <-c("name", "active_cases", "cumulative_faculty_staff_cases", "cumulative_student_cases", "cumulative_total") 
-
-ps <- as.data.frame(ps)
-
-```
-
-#Private School
-
-```{r}
-#Subset private schools
- private <- school10_8 %>% 
-   select("date", "private_school","pv_active_cases", "pv_cumulative_faculty_staff_cases",                   "pv_cumulative_student_cases", "pv_cumulative_total")
-#create type
-private <- private %>% 
-   mutate(type="private_schools")
-
-#rename columns
-colnames(private)[2:6] <-c("name", "active_cases", "cumulative_faculty_staff_cases", "cumulative_student_cases", "cumulative_total") 
-
-private <- private %>% 
-  distinct()
-private <- as.data.frame(private)
-private
-```
-
-#College
-
-```{r}
-#Subset private schools
- college <- school10_8 %>% 
-   select("date", "college_university","uni_active_cases", "uni_cumulative_faculty_staff_cases",                   "uni_cumulative_student_cases", "uni_cumulative_total")
-#create type
-college <- college %>% 
-   mutate(type="college")
-
-#rename columns
-colnames(college)[2:6] <-c("name", "active_cases", "cumulative_faculty_staff_cases", "cumulative_student_cases", "cumulative_total") 
-
-college <- college %>% 
-  distinct()
-college <- as.data.frame(college)
-college
-```
-
-```{r}
-names(school10_8)
-```
-
-#schools_with_less_than_5_active_cases
-
-```{r}
-#Subset schools_with_less_than_5_active_cases
-less5 <- school10_8 %>% 
-   select("date", "totals_among_schools_with_less_than_5_active_cases","cumulative_active_cases_less_than_5", "cumulative_faculty_staff_cases_less_than_5", "cumulative_student_cases_less_than_5", "cumulative_total_less_than_5")
-#create type
-less5 <- less5 %>% 
-   mutate(type="less5")
-
-#rename columns
-colnames(less5)[2:6] <-c("name", "cumulative_active_cases", "cumulative_faculty_staff_cases", "cumulative_student_cases", "cumulative_total") 
-
-less5 <- less5 %>% 
-  distinct()
-less5 <- as.data.frame(less5)
-less5
-```
-
-#totals_for_all_schools
-"totals_for_all_schools"                            
-[22] "cumulative_active_cases_22"                        
-[23] "cumulative_faculty_staff_cases_23"                 
-[24] "cumulative_student_cases_24"                       
-[25] "cumulative_total_25"          
-```{r}
-#Subset totals_for_all_schools
-totals_all_schools <- school10_8 %>% 
-   select("date", "totals_for_all_schools","all_schools_cumulative_active_cases", "all_schools_cumulative_faculty_staff_cases", "all_schools_cumulative_student_cases", "all_schools_cumulative_total")
-#create type
-totals_all_schools<- totals_all_schools %>% 
-   mutate(type="totals_all_schools")
-
-#rename columns
-colnames(totals_all_schools)[2:6] <-c("name", "cumulative_active_cases", "cumulative_faculty_staff_cases", "cumulative_student_cases", "cumulative_total") 
-
-totals_all_schools <- totals_all_schools %>% 
-  distinct()
-totals_all_schools <- as.data.frame(totals_all_schools)
-totals_all_schools
-```
-
-COMBINE USING smartbind
-```{r}
-schools_master8 <- smartbind(ps,private,college,less5,totals_all_schools)
-head(schools_master8)
-schools_master <- smartbind(schools_master8, schools_master)
-```
-
-#school10_05
-
-```{r}
-school10_5 <- janitor::clean_names(school10_5)
-names(school10_5)
-```
-
-#Subset tables
-#Public School
-
-```{r}
-#Rename
-school10_05_bak <- school10_5
-#Subset public schools
- ps <- school10_5 %>% 
-   select("date", "public_school_district","ps_active_cases", "ps_cumulative_faculty_staff_cases",                   "ps_cumulative_student_cases", "ps_cumulative_total")
-#create type
- ps <- ps %>% 
-   mutate(type="public_schools")
-
-#rename columns
-colnames(ps)[2:6] <-c("name", "active_cases", "cumulative_faculty_staff_cases", "cumulative_student_cases", "cumulative_total") 
-
-ps <- as.data.frame(ps)
-
-```
-
-#Private School -skip 
-
-```{r}
-# #Subset private schools
-#  private <- school10_5 %>% 
-#    select("date", "private_school","active_cases_7", "cumulative_faculty_staff_cases_8",                   "cumulative_student_cases_9", "cumulative_total_10")
-# #create type
-# private <- private %>% 
-#    mutate(type="private_schools")
-# 
-# #rename columns
-# colnames(private)[2:6] <-c("name", "active_cases", "cumulative_faculty_staff_cases", "cumulative_student_cases", "cumulative_total") 
-# 
-# private <- private %>% 
-#   distinct()
-# private <- as.data.frame(private)
-# private
-```
-
-#College
-
-```{r}
-#Subset private schools
- college <- school10_5 %>% 
-   select("date", "college_university","uni_active_cases", "uni_cumulative_faculty_staff_cases",                   "uni_cumulative_student_cases", "uni_cumulative_total")
-#create type
-college <- college %>% 
-   mutate(type="college")
-
-#rename columns
-colnames(college)[2:6] <-c("name", "active_cases", "cumulative_faculty_staff_cases", "cumulative_student_cases", "cumulative_total") 
-
-college <- college %>% 
-  distinct()
-college <- as.data.frame(college)
-college
-```
-
-```{r}
-names(school10_5)
-```
-
-#schools_with_less_than_5_active_cases
-
-```{r}
-#Subset schools_with_less_than_5_active_cases
-less5 <- school10_5 %>% 
-   select("date", "totals_among_schools_with_less_than_5_active_cases","cumulative_active_cases_less_than_5", "cumulative_faculty_staff_cases_less_than_5", "cumulative_student_cases_less_than_5", "cumulative_total_less_than_5")
-#create type
-less5 <- less5 %>% 
-   mutate(type="less5")
-
-#rename columns
-colnames(less5)[2:6] <-c("name", "cumulative_active_cases", "cumulative_faculty_staff_cases", "cumulative_student_cases", "cumulative_total") 
-
-less5 <- less5 %>% 
-  distinct()
-less5 <- as.data.frame(less5)
-less5
-```
-
-#totals_for_all_schools
-"totals_for_all_schools"                            
-[22] "cumulative_active_cases_22"                        
-[23] "cumulative_faculty_staff_cases_23"                 
-[24] "cumulative_student_cases_24"                       
-[25] "cumulative_total_25"          
-```{r}
-#Subset totals_for_all_schools
-totals_all_schools <- school10_5 %>% 
-   select("date", "totals_for_all_schools","all_schools_cumulative_active_cases", "all_schools_cumulative_faculty_staff_cases", "all_schools_cumulative_student_cases", "all_schools_cumulative_total")
-#create type
-totals_all_schools<- totals_all_schools %>% 
-   mutate(type="totals_all_schools")
-
-#rename columns
-colnames(totals_all_schools)[2:6] <-c("name", "cumulative_active_cases", "cumulative_faculty_staff_cases", "cumulative_student_cases", "cumulative_total") 
-
-totals_all_schools <- totals_all_schools %>% 
-  distinct()
-totals_all_schools <- as.data.frame(totals_all_schools)
-totals_all_schools
-```
-
-COMBINE USING smartbind
-```{r}
-#schools_master5 <- smartbind(ps,private,college,less5,totals_all_schools)
-schools_master5 <- smartbind(ps,college,less5,totals_all_schools)
-head(schools_master5)
-schools_master <- smartbind(schools_master5, schools_master)
-```
-
-#school10_01
-
-```{r}
-school10_1 <- janitor::clean_names(school10_1)
-names(school10_1)
-```
-
-#Subset tables
-#Public School
-
-```{r}
-#Rename
-school10_1_bak <- school10_1
-#Subset public schools
- ps <- school10_1 %>% 
-   select("date", "public_school_district","ps_active_cases", "ps_cumulative_faculty_staff_cases",                   "ps_cumulative_student_cases", "ps_cumulative_total")
-#create type
- ps <- ps %>% 
-   mutate(type="public_schools")
-
-#rename columns
-colnames(ps)[2:6] <-c("name", "active_cases", "cumulative_faculty_staff_cases", "cumulative_student_cases", "cumulative_total") 
-
-ps <- as.data.frame(ps)
-
-```
-
-#Private School - skip
-
-```{r}
-# #Subset private schools
-#  private <- school10_1 %>% 
-#    select("date", "private_school","active_cases_7", "cumulative_faculty_staff_cases_8",                   "cumulative_student_cases_9", "cumulative_total_10")
-# #create type
-# private <- private %>% 
-#    mutate(type="private_schools")
-# 
-# #rename columns
-# colnames(private)[2:6] <-c("name", "active_cases", "cumulative_faculty_staff_cases", "cumulative_student_cases", "cumulative_total") 
-# 
-# private <- private %>% 
-#   distinct()
-# private <- as.data.frame(private)
-# private
-```
-
-#College
-
-```{r}
-#Subset private schools
- college <- school10_1 %>% 
-   select("date", "college_university","uni_active_cases", "uni_cumulative_faculty_staff_cases",                   "uni_cumulative_student_cases", "uni_cumulative_total")
-#create type
-college <- college %>% 
-   mutate(type="college")
-
-#rename columns
-colnames(college)[2:6] <-c("name", "active_cases", "cumulative_faculty_staff_cases", "cumulative_student_cases", "cumulative_total") 
-
-college <- college %>% 
-  distinct()
-college <- as.data.frame(college)
-college
-```
-
-```{r}
-names(school10_1)
-```
-
-#schools_with_less_than_5_active_cases
-
-```{r}
-#Subset schools_with_less_than_5_active_cases
-less5 <- school10_1 %>% 
-   select("date", "totals_among_schools_with_less_than_5_active_cases","cumulative_active_cases_less_than_5", "cumulative_faculty_staff_cases_less_than_5", "cumulative_student_cases_less_than_5", "cumulative_total_less_than_5")
-#create type
-less5 <- less5 %>% 
-   mutate(type="less5")
-
-#rename columns
-colnames(less5)[2:6] <-c("name", "cumulative_active_cases", "cumulative_faculty_staff_cases", "cumulative_student_cases", "cumulative_total") 
-
-less5 <- less5 %>% 
-  distinct()
-less5 <- as.data.frame(less5)
-less5
-```
-
-#totals_for_all_schools
-"totals_for_all_schools"                            
-[22] "cumulative_active_cases_22"                        
-[23] "cumulative_faculty_staff_cases_23"                 
-[24] "cumulative_student_cases_24"                       
-[25] "cumulative_total_25"          
-```{r}
-#Subset totals_for_all_schools
-totals_all_schools <- school10_1 %>% 
-   select("date", "totals_for_all_schools","all_schools_cumulative_active_cases", "all_schools_cumulative_faculty_staff_cases", "all_schools_cumulative_student_cases", "all_schools_cumulative_total")
-#create type
-totals_all_schools<- totals_all_schools %>% 
-   mutate(type="totals_all_schools")
-
-#rename columns
-colnames(totals_all_schools)[2:6] <-c("name", "cumulative_active_cases", "cumulative_faculty_staff_cases", "cumulative_student_cases", "cumulative_total") 
-
-totals_all_schools <- totals_all_schools %>% 
-  distinct()
-totals_all_schools <- as.data.frame(totals_all_schools)
-totals_all_schools
-```
-
-COMBINE USING smartbind
-```{r}
-#schools_master1 <- smartbind(ps,private,college,less5,totals_all_schools)
-schools_master1 <- smartbind(ps,college,less5,totals_all_schools)
-head(schools_master1)
-schools_master <- smartbind(schools_master1, schools_master)
-write.csv(schools_master, "schools_master.csv")
-```
