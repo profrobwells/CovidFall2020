@@ -183,7 +183,7 @@ https://www.youtube.com/channel/UCLJcNdgp2PMEmiqJEoYzqwQ
 
 **Agenda**
 
-    Excel
+    Excel and calculations
     Flourish
  
  **Excel**
@@ -206,12 +206,10 @@ https://raw.githubusercontent.com/Arkansascovid/Main/master/MasterData/vaccine.c
     Sourcing
     Colors
 
-
 ----------------- 
 
 **Homework due Tuesday, Aug 31, 11:59 p.m.**  
 --See Blackboard, Aug 31 
-
 
 **Read Before Next Class** 
 
@@ -220,17 +218,10 @@ https://bookdown.org/connect/#/apps/f79d74ff-4d33-4bfd-a1aa-de6aaf4e340a/access
 
 
 **View and Read Flourish Tutorials Before Next Class**    
- 
-- **Ravi Brock and Flourish in 9 mins**       
-https://video.uark.edu/media/Flourish+tutorial+with+Ravi+Brock/1_g6nzw3h0
-  
+
 - **Cairo and Flourish - Overview**     
 https://www.youtube.com/watch?v=cN1Q9MusZbc
 
-- **Cairo - Flourish - Stories**      
-https://www.youtube.com/watch?v=P7AmUdSBOVU
-
-   
 ----------------- 
 
 ## Wednesday, Sept. 1 - Flourish, Excel
@@ -245,7 +236,7 @@ https://www.youtube.com/watch?v=P7AmUdSBOVU
 
     Basics of Data Analysis
     Numbers in the Newsroom
-    Excel Exercise: Transit Data and Calculating a Rate
+    Excel Exercises 
     Review: Mac OSX Basics    
     
 **Reminder: Assignment 1: Data Analysis.**   Due Sept. 12
@@ -257,7 +248,20 @@ Talk to me about your ideas.
 
 See Blackboard.
 
-Chapter: Data Visualization
+**Homework / Reading due Tuesday, Sept. 7, 11:59 p.m.**
+
+Includes Data Literacy Test
+See Blackboard.
+
+**View and Read Flourish Tutorials Before Next Class** 
+
+- **Ravi Brock and Flourish in 9 mins**       
+https://video.uark.edu/media/Flourish+tutorial+with+Ravi+Brock/1_g6nzw3h0
+
+- **Cairo - Flourish - Stories**      
+https://www.youtube.com/watch?v=P7AmUdSBOVU
+
+- **Chapter: Data Visualization**   
 https://bookdown.org/connect/#/apps/f79d74ff-4d33-4bfd-a1aa-de6aaf4e340a/access
 
 
@@ -288,7 +292,6 @@ https://bookdown.org/connect/#/apps/f79d74ff-4d33-4bfd-a1aa-de6aaf4e340a/access
 **Homework: See Blackboard, Sept. 10 Homework**  
 
 **Reminder: Assignment 1: Data Analysis. Due Sept. 12**
-Talk to me about your ideas.
 
 
 - **Exercise**    
