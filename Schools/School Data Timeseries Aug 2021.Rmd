@@ -32,20 +32,20 @@ library(slider)
 
 #Type in the report date of the ADH document
 ```{r}
-reportdate <- "2021-08-19"
+reportdate <- "2021-08-30"
 ```
 
 #Import the Excel sheet
 ```{r include=FALSE}
 
-schoolraw <- rio::import("/Users/robwells/Dropbox/Classes/Data Fall 2020/ArkansasCovid/Schools/School_Report_08192021.xlsx")
+schoolraw <- rio::import("/Users/robwells/Dropbox/Classes/Data Fall 2020/ArkansasCovid/Schools/School_Report_08302021.xlsx")
 schoolraw <- janitor::clean_names(schoolraw)
 
 schoolraw <- schoolraw %>% 
-   select(date, type, name, active_cases, cumulative_faculty_staff_casesa, cumulative_student_casesa, cumulative_totalb, cumulative_faculty_staff_cases2, cumulative_student_cases2)
+   select(date, type, name, active_cases, cumulative_active_cases, cumulative_faculty_staff_casesa, cumulative_student_casesa, cumulative_totalb, cumulative_faculty_staff_cases2, cumulative_student_cases2, cumulative_total3)
    
 schoolraw <- schoolraw %>% 
-   rename(Date = date, Type = type, Name = name, Active_Cases = active_cases, Cumulative_Faculty_Staff_Cases = cumulative_faculty_staff_casesa, Cumulative_Student_Cases = cumulative_student_casesa, Cumulative_Total=cumulative_totalb, All_Faculty_Staff_Total = cumulative_faculty_staff_cases2, All_Student_Total = cumulative_student_cases2)
+   rename(Date = date, Type = type, Name = name, Active_Cases = active_cases, Cumulative_Faculty_Staff_Cases = cumulative_faculty_staff_casesa, Cumulative_Student_Cases = cumulative_student_casesa, Cumulative_Total=cumulative_totalb, Cumulative_Active_cases=cumulative_active_cases, All_Faculty_Staff_Total = cumulative_faculty_staff_cases2, All_Student_Total = cumulative_student_cases2, Cumulative_Group_Total = cumulative_total3)
 
 
 
@@ -53,7 +53,7 @@ schoolraw <- schoolraw[!grepl("Timeframe", schoolraw$Name),]
 schoolraw <- schoolraw[!grepl("Counts of less than", schoolraw$Name),]
 schoolraw <- schoolraw[!grepl("cases may not add up to", schoolraw$Name),]
 schoolraw <- schoolraw[!grepl("Counts of less than five", schoolraw$Name),]
-schoolraw <- schoolraw[!grepl("cAugust 19, 2021", schoolraw$Name),]
+schoolraw <- schoolraw[!grepl("cAugust 30, 2021", schoolraw$Name),]
 schoolraw <- schoolraw[!grepl("totals", schoolraw$Name),]
 schoolraw <- schoolraw[!grepl("Cumulative", schoolraw$All_Faculty_Staff_Total),]
 
@@ -64,17 +64,92 @@ write.csv(schoolraw, file=schoolname)
 
 ```
 
+```{r}
+#aug30 <- schoolraw
+#aug26 <- schoolraw
+#aug23 <- schoolraw
+#aug19 <- schoolraw
+#aug16 <- schoolraw
+# 
+#schools_master_2021 <- rbind(aug30, aug26, aug23, aug19, aug16)
+
+
+# schools_master_2021[4:11] <- lapply(schools_master_2021[4:11], as.numeric)
+# schools_master_2021$Date <- as.Date(schools_master_2021$Date)
+```
+
+
+
 #Add to master file
 ```{r}
 schools_master_2021 <- rio::import("https://raw.githubusercontent.com/profrobwells/CovidFall2020/master/Schools/schools_master_2021.csv")
-schools_master_2021 <- schools_master_2021[ -c(1,2) ]
+
+#from hard drive
+# schools_master_2021 <- rio::import("/Users/robwells/Dropbox/Classes/Data Fall 2020/ArkansasCovid/CovidFall2020/schools_master_2021.csv")
+
+schools_master_2021 <- schools_master_2021[ -c(1) ]
 
 schools_master_2021 <- rbind(schoolraw, schools_master_2021)
 
 write.csv(schools_master_2021, "schools_master_2021.csv")
 ```
 
+#This part carves off the totals into a separate table and carves off specific schools into a specific table
 ```{r}
+school_master_totals <- schools_master_2021 %>% 
+   filter(Type=="Totals for all schools.") %>% 
+   select(Date, Name, Cumulative_Active_cases, All_Faculty_Staff_Total, All_Student_Total, Cumulative_Group_Total) %>% 
+   arrange(desc(Name)) %>% 
+   mutate(New_Active_Cases = (Cumulative_Active_cases-lead(Cumulative_Active_cases))) %>% 
+   mutate(Pct_Chg_Active = (Cumulative_Active_cases-lead(Cumulative_Active_cases))/lead(Cumulative_Active_cases)) 
+
+
+school_master_totals$Pct_Chg_Active <- formattable::percent(school_master_totals$Pct_Chg_Active)
+
+
+x <- school_master_totals %>% 
+   filter(Date=="2021-08-16") %>% 
+   mutate(Pct_Chg_Active = "-") %>% 
+   mutate(New_Active_Cases = "-")
+
+y <- school_master_totals %>% 
+   filter(Date>"2021-08-16")
+
+z <- smartbind(y,x)
+
+z <- z %>% 
+   arrange(desc(Name))
+
+school_master_totals <- z
+
+write.csv(school_master_totals, "school_master_totals.csv")
+```
+
+
+#This part subsets just the named schools and cuts out the totals
+```{r}
+schools_details <- schools_master_2021 %>% 
+   filter(!(Type=="Totals for all schools.")) %>% 
+   filter(!(Type=="Totals among schools with less than 5 active cases.")) %>% 
+   filter(!(Name=="TOTAL")) %>% 
+   filter(!(Name=="PUBLIC SCHOOL DISTRICT")) %>% 
+   filter(!(Name=="COLLEGE/UNIVERSITY")) %>% 
+   filter(!(Name=="PRIVATE SCHOOL")) %>% 
+   select(Date, Name, Cumulative_Total, Active_Cases, Cumulative_Student_Cases, Cumulative_Faculty_Staff_Cases, Type) %>% 
+   arrange((Name))
+
+schools_details
+
+write.csv(schools_details, "school_details.csv")
+
+```
+
+
+
+#This part calculates COVID per student population by joining the ADH school COVID report with Dept of Education school demographic report
+
+```{r}
+#maybe just do schoolraw here and join to schools_combo later?
 school <- schools_master_2021
 school <- janitor::clean_names(school)
 school$district <- tolower(school$name)
@@ -113,11 +188,13 @@ schools_combo <- schools_combo %>%
 
 factcheck <- schools_combo %>% 
   select(district,  student_total, hispanic_total, Pct_Hispanic, white_total, Pct_White, black_total, Pct_Black)
-factcheck
+
 
 schools_combo$Pct_Hispanic <- round(schools_combo$Pct_Hispanic, 2)
 schools_combo$Pct_White <- round(schools_combo$Pct_White, 2)
 schools_combo$Pct_Black <- round(schools_combo$Pct_Black, 2)
+
+factcheck
 ```
 
 #Covid per 1000 students
