@@ -1,7 +1,7 @@
 ---
 title: "School Data"
-author: "Rob Wells and Katy Seiter" 
-date: "8/23/2021"
+author: "Rob Wells and Katy Seiter, Mary Hennigan" 
+date: "9/2/2021"
 output: pdf_document
 ---
 
@@ -143,13 +143,16 @@ schools_details
 write.csv(schools_details, "school_details.csv")
 
 ```
+#To Run Schools Combo Separately, import data from here first
+```{r}
+# school <- rio::import("https://raw.githubusercontent.com/profrobwells/CovidFall2020/master/Schools/school_details.csv")
 
+```
 
 
 #This part calculates COVID per student population by joining the ADH school COVID report with Dept of Education school demographic report
 
 ```{r}
-#maybe just do schoolraw here and join to schools_combo later?
 school <- schools_master_2021
 school <- janitor::clean_names(school)
 school$district <- tolower(school$name)
@@ -211,6 +214,41 @@ schools_combo$Active_Covid_Per1000 <- round(schools_combo$Active_Covid_Per1000, 
 ```{r}
 write.csv(schools_combo, "public_schools_combo.csv")
 ```
+
+#College Enrollment and Cases
+
+#Import Enrollment Data For Colleges
+```{r}
+collegeenroll <- rio::import("https://github.com/profrobwells/CovidFall2020/blob/master/Schools/School%20College%20Enrollment%20Data.xlsx?raw=true", which = "NCES_College_info")
+
+collegeenroll <- janitor::clean_names(collegeenroll)
+
+collegeenroll$college <- gsub("CENTRAL BAPRIST COLLEGE, CONWAY", "CENTRAL BAPTIST COLLEGE, CONWAY", collegeenroll$college)
+
+```
+
+#join tables
+```{r}
+college_combo <- school %>% 
+  inner_join(collegeenroll, by=c("name"="college")) 
+glimpse(college_combo)
+
+```
+
+#Covid per 1000 college students
+```{r}
+college_combo <- college_combo  %>% 
+  mutate(Student_Covid_Per1000=(cumulative_student_cases/student_population)*1000) %>% 
+  mutate(Active_Covid_Per1000=(active_cases/student_population)*1000)
+#Active_Covid_Per1000 could be an issue if the active cases are both students and faculty
+
+college_combo$Student_Covid_Per1000 <- round(college_combo$Student_Covid_Per1000, 2)
+college_combo$Active_Covid_Per1000 <- round(college_combo$Active_Covid_Per1000, 2)
+
+write.csv(college_combo, "college_combo.csv")
+
+```
+
 
 #Notes Below
 #Notes Below
