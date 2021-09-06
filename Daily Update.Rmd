@@ -1,7 +1,7 @@
 ---
 title: "Daily Update Arkansas Covid"
 author: "Rob Wells, Katy Seiter and Mary Hennigan"
-date: "8/23/2021"
+date: "9/6/2021"
 output: pdf_document
 ---
 
@@ -388,7 +388,7 @@ vax <- qq[["features"]][["attributes"]]
 # vax1 <- vax1[-c(1), ] 
 # names(vax1) <- lapply(vax1[1, ], as.character)
 # vax1 <- vax1[-1,] 
-vax$date <- Sys.Date()
+vax$date <- today
 
 #Change this date if a day old
 #vax1$date <- Sys.Date()-1
@@ -447,7 +447,7 @@ vaccine_county <- vax1 %>%
 
 write.csv(vaccine_county, "HomePageData/vaccine_county.csv")
 write.csv(vaccine_county, "MasterData/vaccine_county.csv")
-date <- Sys.Date()
+date <- today
 vaxname <- paste("vaccine_county_",date,".csv",sep="")
 write.csv(vax1, file=vaxname) 
 write.csv(vaccine_county, file=vaxname) 
@@ -480,7 +480,7 @@ write.csv(vaccinecounty1, file = "HomePageData/vaccinecounty.csv")
 
 #Write a copy with a date for archiving
 #Put this file into the Vaccine History folder in GitHub #https://github.com/Arkansascovid/Main/tree/master/Vaccine_History 
-date <- Sys.Date()
+date <- today
 vaccinecounty2 <- paste("vaccinecounty",date,".csv",sep="")
 write.csv(vaccinecounty1, file=vaccinecounty2) 
 
@@ -528,7 +528,7 @@ vax1_old <- as.data.frame(t(vax_old))
 vax1_old <- vax1_old[-c(1), ] 
 names(vax1_old) <- lapply(vax1_old[1, ], as.character)
 vax1_old <- vax1_old[-1,] 
-vax1_old$date <- Sys.Date()
+vax1_old$date <- today
 
 #Change this date if a day old
 #vax1$date <- Sys.Date()-1
@@ -675,7 +675,7 @@ countyonlytoday$County_Name <- str_replace_all(countyonlytoday$County_Name, patt
 countyonlytoday$County_Name <- str_replace_all(countyonlytoday$County_Name, pattern=fixed('LittleRiver'), replacement=fixed('Little River') )
 countyonlytoday$County_Name <- str_replace_all(countyonlytoday$County_Name, pattern=fixed('HotSpring'), replacement=fixed('Hot Spring') )
 countyonlytoday$County_Name <- str_replace_all(countyonlytoday$County_Name, pattern=fixed('VanBuren'), replacement=fixed('Van Buren') )
-# countyonlytoday$County_Name <- str_replace_all(countyonlytoday$County_Name, pattern=fixed('St.Francis'), replacement=fixed('St. Francis') )
+countyonlytoday$County_Name <- str_replace_all(countyonlytoday$County_Name, pattern=fixed('SaintFrancis'), replacement=fixed('St. Francis') )
 
 write.csv(countyonlytoday, file = "HomePageData/countyonlytoday.csv")
 ```
@@ -770,19 +770,7 @@ write.csv(deaths_daily_marshallese, file = "Marshallese/deaths_daily_marshallese
 #--------------------------------------------------------------------------------#
 #Weekly Change in Cases slide 
 #--------------------------------------------------------------------------------#
-#Set Dates
-```{r}
-#today's date
-today <- Sys.Date()
 
-#NOTE: IF YOU ARE RUNNING THIS A DAY LATE, USE THIS CODE TO WORK PROPERLY
-#today <- Sys.Date()-1
-#today_county$mydate <-"2020-09-22- THE OLD DATE...."
-
-#yesterday's date
-yesterday <- (today-1)
-
-```
 
 ```{r}
 df1 <- master %>% 
