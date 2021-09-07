@@ -1,7 +1,7 @@
 ---
 title: "School Data"
 author: "Rob Wells and Katy Seiter, Mary Hennigan" 
-date: "9/2/2021"
+date: "9/7/2021"
 output: pdf_document
 ---
 
@@ -32,13 +32,13 @@ library(slider)
 
 #Type in the report date of the ADH document
 ```{r}
-reportdate <- "2021-08-30"
+reportdate <- "2021-09-06"
 ```
 
 #Import the Excel sheet
 ```{r include=FALSE}
 
-schoolraw <- rio::import("/Users/robwells/Dropbox/Classes/Data Fall 2020/ArkansasCovid/Schools/School_Report_08302021.xlsx")
+schoolraw <- rio::import("/Users/robwells/Dropbox/Classes/Data Fall 2020/ArkansasCovid/Schools/School_Report_09062021.xlsx")
 schoolraw <- janitor::clean_names(schoolraw)
 
 schoolraw <- schoolraw %>% 
@@ -53,36 +53,25 @@ schoolraw <- schoolraw[!grepl("Timeframe", schoolraw$Name),]
 schoolraw <- schoolraw[!grepl("Counts of less than", schoolraw$Name),]
 schoolraw <- schoolraw[!grepl("cases may not add up to", schoolraw$Name),]
 schoolraw <- schoolraw[!grepl("Counts of less than five", schoolraw$Name),]
-schoolraw <- schoolraw[!grepl("cAugust 30, 2021", schoolraw$Name),]
+schoolraw <- schoolraw[!grepl("cSeptember 06, 2021", schoolraw$Name),]
 schoolraw <- schoolraw[!grepl("totals", schoolraw$Name),]
 schoolraw <- schoolraw[!grepl("Cumulative", schoolraw$All_Faculty_Staff_Total),]
 
+schoolraw[4:11] <- lapply(schoolraw[4:11], as.numeric)
 
 
 schoolname <- paste("schools_", reportdate,".csv",sep="")
-write.csv(schoolraw, file=schoolname)
+write.csv(schoolraw, file = schoolname)
 
 ```
 
-```{r}
-#aug30 <- schoolraw
-#aug26 <- schoolraw
-#aug23 <- schoolraw
-#aug19 <- schoolraw
-#aug16 <- schoolraw
-# 
-#schools_master_2021 <- rbind(aug30, aug26, aug23, aug19, aug16)
 
-
-# schools_master_2021[4:11] <- lapply(schools_master_2021[4:11], as.numeric)
-# schools_master_2021$Date <- as.Date(schools_master_2021$Date)
-```
 
 
 
 #Add to master file
 ```{r}
-schools_master_2021 <- rio::import("https://raw.githubusercontent.com/profrobwells/CovidFall2020/master/Schools/schools_master_2021.csv")
+schools_master_2021 <- rio::import("https://raw.githubusercontent.com/Arkansascovid/Main/master/Schools/schools_master_2021.csv")
 
 #from hard drive
 # schools_master_2021 <- rio::import("/Users/robwells/Dropbox/Classes/Data Fall 2020/ArkansasCovid/CovidFall2020/schools_master_2021.csv")
@@ -91,7 +80,7 @@ schools_master_2021 <- schools_master_2021[ -c(1) ]
 
 schools_master_2021 <- rbind(schoolraw, schools_master_2021)
 
-write.csv(schools_master_2021, "schools_master_2021.csv")
+write.csv(schools_master_2021, "Schools/schools_master_2021.csv")
 ```
 
 #This part carves off the totals into a separate table and carves off specific schools into a specific table
@@ -122,7 +111,9 @@ z <- z %>%
 
 school_master_totals <- z
 
-write.csv(school_master_totals, "school_master_totals.csv")
+write.csv(school_master_totals, "Schools/school_master_totals.csv")
+#Feeds this datawrapper table
+#https://app.datawrapper.de/table/cTtxA/upload
 ```
 
 
@@ -140,7 +131,11 @@ schools_details <- schools_master_2021 %>%
 
 schools_details
 
-write.csv(schools_details, "school_details.csv")
+write.csv(schools_details, "Schools/school_details.csv")
+
+#Feeds this datawrapper table
+# https://app.datawrapper.de/table/5hdkd/upload
+
 
 ```
 #To Run Schools Combo Separately, import data from here first
@@ -174,7 +169,6 @@ head(schoolethnicity)
 ```
 
 #join tables
-#need to fix the independence thing
 ```{r}
 schools_combo <- school %>% 
   inner_join(schoolethnicity, by=c("district"))
@@ -212,7 +206,7 @@ schools_combo$Active_Covid_Per1000 <- round(schools_combo$Active_Covid_Per1000, 
 ```
 
 ```{r}
-write.csv(schools_combo, "public_schools_combo.csv")
+write.csv(schools_combo, "Schools/public_schools_combo.csv")
 ```
 
 #College Enrollment and Cases
@@ -245,7 +239,7 @@ college_combo <- college_combo  %>%
 college_combo$Student_Covid_Per1000 <- round(college_combo$Student_Covid_Per1000, 2)
 college_combo$Active_Covid_Per1000 <- round(college_combo$Active_Covid_Per1000, 2)
 
-write.csv(college_combo, "college_combo.csv")
+write.csv(college_combo, "Schools/college_combo.csv")
 
 ```
 
@@ -253,7 +247,19 @@ write.csv(college_combo, "college_combo.csv")
 #Notes Below
 #Notes Below
 #Notes Below
+```{r}
+#aug30 <- schoolraw
+#aug26 <- schoolraw
+#aug23 <- schoolraw
+#aug19 <- schoolraw
+#aug16 <- schoolraw
+# 
+#schools_master_2021 <- rbind(aug30, aug26, aug23, aug19, aug16)
 
+
+# schools_master_2021[4:11] <- lapply(schools_master_2021[4:11], as.numeric)
+# schools_master_2021$Date <- as.Date(schools_master_2021$Date)
+```
 #Notes Below - under construction
 
 #One time
