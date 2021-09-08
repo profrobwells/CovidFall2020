@@ -279,8 +279,9 @@ https://bookdown.org/connect/#/apps/f79d74ff-4d33-4bfd-a1aa-de6aaf4e340a/access
 
 **Agenda**
     
-    Sorting
-    Data Cleaning
+    Workshop on Assignment #1   
+    Sorting   
+    Flourish Formatting   
     Discuss, Work on Data Analysis Assignment.
 
 **Data cleaning**  
@@ -291,7 +292,7 @@ https://bookdown.org/connect/#/apps/f79d74ff-4d33-4bfd-a1aa-de6aaf4e340a/access
 
 **Homework: See Blackboard, Sept. 10 Homework**  
 
-**Reminder: Assignment 1: Data Analysis. Due Sept. 12**
+**Reminder: Assignment 1: Data Analysis. Due Sunday Sept. 12**
 
 
 - **Exercise**    
