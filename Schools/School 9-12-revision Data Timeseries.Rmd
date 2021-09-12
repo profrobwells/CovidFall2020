@@ -60,7 +60,8 @@ schoolraw
 
 ```{r}
 
-#Create a new column called type. 
+#Create a new column called type, subsetting tables by row number.
+
 #Have it assign PUBLIC SCHOOL DISTRICT in rows 1-191; PRIVATE SCHOOL, 192-196,  COLLEGE/UNIVERSITY, 197-224, etc
 #The problem is these row numbers will change each week.
 
@@ -70,9 +71,32 @@ which(grepl('PUBLIC SCHOOL DISTRICT', schoolraw$name))
 which(grepl('PRIVATE SCHOOL', schoolraw$name)) 
 #find first position for COLLEGE/UNIVERSITY. 197
 which(grepl('COLLEGE/UNIVERSITY', schoolraw$name)) 
-#find first position for Totals among schools with less than 5 active cases
-#find first position for Totals for all schools
-#which(grepl(1578, mydata_2$height_seca1))
+#find first position for Totals among schools with less than 5 active cases. 225
+which(grepl('Totals among schools with less than 5 active cases', schoolraw$name)) 
+#find first position for Totals for all schools. 232
+which(grepl('Totals for all schools', schoolraw$name)) 
+#find last row
+nrow(schoolraw)
+
+
+public <- schoolraw[c(1:191), ]
+private <- schoolraw[c(192:196), ]
+college <- schoolraw[c(197:224), ]
+fiveorless <- schoolraw[c(225:231), ]
+totals <- schoolraw[c(232:238), ]
+
+public <- public %>% 
+   mutate(type = "PUBLIC SCHOOL DISTRICT")
+private <- private %>% 
+   mutate(type = "PRIVATE SCHOOL")  
+college <- college %>% 
+   mutate(type = "COLLEGE/UNIVERSITY")  
+fiveorless<- fiveorless %>% 
+   mutate(type = "Totals among schools with less than 5 active cases")  
+totals  <- totals  %>% 
+   mutate(type = "Totals for all schools") 
+
+newschoolraw <- smartbind(public, private, college, fiveorless, totals)
 
 #My idea: use dplyr to mutate and construct some FOR loop that searches for the first position of PRIVATE SCHOOL and paste PUBLIC SCHOOL DISTRICT in type from row 1 -> until PRIVATE SCHOOL begins. Then find the first position in COLLEGE/UNIVERSITY and it will paste PRIVATE SCHOOL in type until COLLEGE/UNIVERSITY begins etc.
 
