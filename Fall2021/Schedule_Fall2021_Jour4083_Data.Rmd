@@ -38,16 +38,16 @@ These assignments topics may shift and evolve as we continue our reporting durin
 **1: Data Analysis.**   Due Sept. 12
 Students will gather, analyze and visualize Arkansascovid data and report and write a 400 word story and provide social media with a basic chart. 
 
-**2: Reporting Memo with Tableau Chart.**  Due Oct 3  
+**2: Reporting Memo with Tableau Chart.**  Due Oct 5  
 Students gather, analyze and visualize Arkansascovid data and produce a Tableau chart suitable for publication. Data dictionary required. Report and write a 400 word story and provide social media.
 
-**3: Interactive Map.** Due Oct 24 
+**3: Interactive Map.** Due Oct 26 
 Students will build interactive maps of Arkansascovid data. Results will be posted on GitHub. Data dictionary required. Basic R used for analysis. Report and write a 400 word story.
 
-**4: Interactive Data Visualization.** Due Nov 14.
+**4: Interactive Data Visualization.** Due Nov 16.
 Students build multipanel interactive graphics / maps of Arkansascovid data by school district. Basic R used for analysis. Results will be posted on GitHub. Data dictionary required. Report and write a 600 word story.
 
-**5: Multimedia Data Story.** Due Dec 5.
+**5: Multimedia Data Story.** Due Dec 3.
 Students will produce a blog post with photos, a short video, a map and an interactive graphic plus a 400 word story. Basic R used for analysis. Results will be posted on GitHub. Data dictionary required.
 
 \newpage
@@ -428,7 +428,7 @@ https://bookdown.org/connect/#/apps/f79d74ff-4d33-4bfd-a1aa-de6aaf4e340a/access
     Dual Mapping - Bubble Maps
 
 
-**Reminder: Assignment 2: Reporting Memo with Tableau Chart, Due Oct 3  **
+**Reminder: Assignment 2: Reporting Memo with Tableau Chart, Due Oct 5  **
 Students gather, analyze and visualize Arkansascovid data and produce a Tableau chart suitable for publication. Data dictionary required. Report and write a 400 word story and provide social media.
 
 
@@ -490,7 +490,7 @@ https://bookdown.org/connect/#/apps/f79d74ff-4d33-4bfd-a1aa-de6aaf4e340a/access
     Embed visualizations in WordPress
 
 #### Assignment 2: Reporting Memo with Tableau Chart  
-Due Oct 3  
+Due Oct 5  
 Students gather, analyze and visualize Arkansascovid data and produce a Tableau
 chart suitable for publication. Data dictionary required. Report and write a 
 400 word story and provide social media.
@@ -542,7 +542,7 @@ chart suitable for publication. Data dictionary required. Report and write a
 https://docs.google.com/forms/d/e/1FAIpQLScws1-wOhgQ7DV4MhGNoX8QbJFdX6LH91oY6NBv76GtRzTBTA/viewform   
       **Assignment 3: Interactive Map.**   
       
-      Due Oct 24 
+      Due Oct 26 
       Students will build interactive maps of Arkansascovid data. 
       Results will be posted on GitHub. Data dictionary required. 
       Basic R used for analysis. Report and write a 400 word story.
@@ -606,7 +606,7 @@ https://docs.google.com/forms/d/e/1FAIpQLScws1-wOhgQ7DV4MhGNoX8QbJFdX6LH91oY6NBv
       Important Reference Materials
       R and R Studio     
 
-**Discuss Assignment 3: Interactive Map. Due Oct 24**   
+**Discuss Assignment 3: Interactive Map. Due Oct 26**   
 
     Students will build interactive maps of Arkansascovid data. Results will be posted on GitHub.      Data dictionary required. Basic R used for analysis. Report and write a 400 word story.
 
@@ -676,7 +676,7 @@ https://bookdown.org/connect/#/apps/f79d74ff-4d33-4bfd-a1aa-de6aaf4e340a/access
 
     
 #### Assignment 3: Interactive Map 
-Due Oct 24 
+Due Oct 26 
 Students will build interactive maps of Arkansascovid data. Results will be posted on GitHub. Data dictionary required. Basic R used for analysis. Report and write a 400 word story.
 
 
@@ -788,7 +788,7 @@ https://github.com/profrobwells/CovidFall2020/blob/master/Exercises/Slicing-Dici
     Calculations in R   
     Discuss Assignment 4
 
-**Assignment 4: Interactive Data Visualization. Due Nov 14.**
+**Assignment 4: Interactive Data Visualization. Due Nov 16.**
 Students build multipanel interactive graphics / maps of Arkansascovid data by school district. Basic R used for analysis. Results will be posted on GitHub. Data dictionary required. Report and write a 600 word story.
 
 
@@ -866,7 +866,7 @@ https://github.com/profrobwells/CovidFall2020/blob/master/Exercises/Slicing-Dici
 
 #### Assignment 4: Interactive Data Visualization
     
-    Due Nov 14.
+    Due Nov 16.
     Students build multipanel interactive graphics / maps of Arkansascovid data by school district.     Basic R used for analysis. Results will be posted on GitHub. Data dictionary required. Report      and write a 600 word story.
 
 
@@ -945,7 +945,7 @@ https://app.flourish.studio/visualisation/4379103/edit
     
 
 **Assignment 5: Multimedia Data Story.** 
-Due Dec 5.
+Due Dec 3.
 Students will produce a blog post with photos, a short video, a map and an interactive graphic plus a 400 word story. Basic R used for analysis. Results will be posted on GitHub. Data dictionary required.
 
 
@@ -975,6 +975,10 @@ https://github.com/profrobwells/CovidFall2020/blob/master/Exercises/Slicing-Dici
 
 ## Wednesday, Dec. 1: Assignment 5
 
+#### Assignment 5: Multimedia Data Story 
+Due Dec 3.
+Students will produce a blog post with photos, a short video, a map and an interactive graphic plus a 400 word story. Basic R used for analysis. Results will be posted on GitHub. Data dictionary required.
+
 **Agenda**
     
     Workshop on Assignment 5
@@ -988,9 +992,7 @@ https://github.com/profrobwells/CovidFall2020/blob/master/Exercises/Slicing-Dici
     Datawrapper
      
 
-#### Assignment 5: Multimedia Data Story 
-Due Dec 5.
-Students will produce a blog post with photos, a short video, a map and an interactive graphic plus a 400 word story. Basic R used for analysis. Results will be posted on GitHub. Data dictionary required.
+
 
 
 **Important!**

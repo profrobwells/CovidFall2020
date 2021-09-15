@@ -230,15 +230,15 @@ These assignments topics may shift and evolve as we continue our reporting durin
 **1: Data Analysis.**   Due Sept. 12
 Students will gather, analyze and visualize Arkansascovid data and report and write a 400 word story and provide social media with a basic chart. 
 
-**2: Reporting Memo with Tableau Chart.**  Due Oct 3  
+**2: Reporting Memo with Tableau Chart.**  Due Oct 5  
 Students gather, analyze and visualize Arkansascovid data and produce a Tableau chart suitable for publication. Data dictionary required. Report and write a 400 word story and provide social media. Jour 5283 students use R to gather, process data. Turn in R Markdown script.
 
-**3: Interactive Map.** Due Oct 24 
+**3: Interactive Map.** Due Oct 26  
 Students will build interactive maps of Arkansascovid data. Results will be posted on GitHub. Data dictionary required. Basic R used for analysis. Jour 5283 students use R to gather, process data, join tables. Turn in R Markdown script. Report and write a 400 word story.
 
-**4: Interactive Data Visualization.** Due Nov 14.
+**4: Interactive Data Visualization.** Due Nov 16.
 Students build multipanel interactive graphics / maps of Arkansascovid data by school district. Basic R used for analysis. Results will be posted on GitHub. Data dictionary required. Report and write a 600 word story.Jour 5283 students use R to gather, process data, including joining tables. Turn in R Markdown script.
 
-**5: Multimedia Data Story.** Due Dec. 5.
+**5: Multimedia Data Story.** Due Dec. 3.
 Students will produce a blog post with photos, a short video, a map and an interactive graphic plus a 400 word story. Results will be posted on GitHub. Data dictionary required. Jour 5283 students use R to gather, process data and produce static data visualizations. Turn in R Markdown script.
 
