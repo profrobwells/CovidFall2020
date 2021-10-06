@@ -512,35 +512,15 @@ chart suitable for publication. Data dictionary required. Report and write a
 
 ----------------- 
 
-## Monday, Oct. 12: Flourish  
+## Monday, Oct. 12: Context and Story Selection   
 
-**Agenda**
+--Histograms   
+--Rates and Ratios   
+--Weighted Averages   
+--Vaccinations by Race example   
 
-**More Flourish**
 
-    Videos to Get Started
-    Beginning Documents
-    Flourish Design Tips
-    More Resources
-    Adam Marton Cheat Sheet
-    Flourish newsrooms plan
-    Flourish - Stories
-    Examples from Fall Class
-    Basic Map
-    View and Read More Flourish Tutorials 
-    
-    
-    Flourish - Stories
-    https://www.youtube.com/watch?v=P7AmUdSBOVU
-    Bar chart race template
-    https://towardsdatascience.com/step-by-step-tutorial-create-a-bar-chart-race-animation-da7d5fcd7079
-    Content to popups
-    https://help.flourish.studio/article/69-how-to-add-custom-content-to-your-popups
-    
-**Discuss Story #3: Interactive Map - Use This Form**:   
-
-https://docs.google.com/forms/d/e/1FAIpQLScws1-wOhgQ7DV4MhGNoX8QbJFdX6LH91oY6NBv76GtRzTBTA/viewform   
-      **Assignment 3: Interactive Map.**   
+**Assignment 3: Interactive Map.**   
       
       Due Oct 26 
       Students will build interactive maps of Arkansascovid data. 
@@ -551,32 +531,21 @@ https://docs.google.com/forms/d/e/1FAIpQLScws1-wOhgQ7DV4MhGNoX8QbJFdX6LH91oY6NBv
 **Exercises**     
     
     
-**Watch Before Next Class**
 
-    Alberto Cairo, Flourish Tutorials, Parts 1-6    
-    https://www.youtube.com/user/albertocairo1706/videos
 
 ----------------- 
     
-## Wednesday Oct. 13: Flourish - Map Story Pitches
+## Wednesday Oct. 13: Context and Story Selection
 
 
 **Agenda**
- 
-    Flourish Workbook Updates    
-    
-**More Flourish**
 
-    Videos to Get Started
-    Beginning Documents
-    Flourish Design Tips
-    More Resources
-    Adam Marton Cheat Sheet
-    Flourish newsrooms plan
-    Flourish - Stories
-    Examples from Fall Class
-    Basic Map
-    Flourish Links
+--Histograms   
+--Rates and Ratios   
+--Weighted Averages   
+--Vaccinations by Race example   
+ 
+
     
 **Homework: See Blackboard for Friday Oct 15**
 
