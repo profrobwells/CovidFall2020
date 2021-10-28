@@ -1,7 +1,7 @@
 ---
 title: "Daily Update Arkansas Covid"
 author: "Rob Wells, Katy Seiter and Mary Hennigan"
-date: "9/6/2021"
+date: "10/27/2021"
 output: pdf_document
 ---
 
@@ -313,7 +313,7 @@ df4$Amount <- round(df4$Amount,0)
 ggplot(df4,aes(x = mydate, y = Amount, label = Amount, fill= Detail)) + 
 geom_bar(stat="identity", position="dodge", color="white")+
 scale_fill_manual(values=c("#B3BF08", "#08B3BF", "#D68037"))+
-scale_y_continuous(limits=c(0, 5500))  +
+scale_y_continuous(limits=c(0, 1000))  +
   theme_bw() + 
   theme(
     plot.title = element_text(face = "bold", size = 16),
@@ -330,7 +330,7 @@ scale_y_continuous(limits=c(0, 5500))  +
    geom_col(position = position_dodge2(width = 0.9, preserve = "single")) +
   geom_text(position = position_dodge2(width = 0.9, preserve = "single"), vjust=-0.5, hjust=+0.5) +
   labs(title = "New Cases & Recoveries in Arkansas Announced Today", 
-       subtitle = "Confirmed + Probable,  ADH Data for August 19, 2021",
+       subtitle = "Confirmed + Probable,  ADH Data for Oct. 27, 2021",
        caption = "Graphic by ArkansasCovid.com",
        y="Amount",
        x="Date")
@@ -355,9 +355,9 @@ scale_fill_manual(values=c("#08B3BF", "#D68037"))+
   theme(legend.position = "bottom") +
   geom_col(position = position_dodge2(width = 0.9, preserve = "single"), show.legend = T) +
   geom_text(position = position_dodge2(width = 0.9, preserve = "single"), vjust=-0.5, hjust=+0.5) +
-  scale_y_continuous(limits=c(0, 50)) + 
+  scale_y_continuous(limits=c(0, 30)) + 
   labs(title = "New Deaths in Arkansas Announced Today", 
-       subtitle = "Confirmed + Probable,  ADH Data for August 19, 2021",
+       subtitle = "Confirmed + Probable,  ADH Data for Oct. 27, 2021",
        caption = "Graphic by ArkansasCovid.com",
        y="Amount",
        x="Date")
@@ -518,6 +518,9 @@ All_Doses_Given <- sum(vax1$County_Vax_Total)
 ```{r}
 #Simple statewide json feed
 #6 Variables
+
+
+#This feed has not updated since August 26, 2021
 
 qqq <- fromJSON('https://services5.arcgis.com/vlhGQkz6fSnofVMD/ArcGIS/rest/services/ADH_COVID19_VACCINATIONS_ADMIN_DIST/FeatureServer/0/query?where=0%3D0&objectIds=&time=&resultType=none&outFields=*&returnIdsOnly=false&returnUniqueIdsOnly=false&returnCountOnly=false&returnDistinctValues=false&cacheHint=false&orderByFields=&groupByFieldsForStatistics=&outStatistics=&having=&resultOffset=&resultRecordCount=&sqlFormat=none&f=pjson&token=')
 
@@ -927,10 +930,23 @@ deaths <- test %>%
   filter(County_Name=="Arkansas_all_counties") %>% 
   filter(Date>="2020-04-08") 
 
-write.csv(deaths, file = "HomePageData/deaths.csv")
+#Filtering outliers from data cleanup days
+deaths_clean <- deaths %>%
+  mutate(Clean_New_Deaths_Today = New_Deaths_Today)
 
-deaths_spanish <- deaths %>% 
-  rename(Fecha = Date, Condado = County_Name, Positivos_Todos = Total_Positives, Muertes_Todos = Total_Deaths, Nuevas_Muertes_Hoy = New_Deaths_Today, Casos_por_Muertes = Cases_Per_Death )
+deaths_clean <- deaths_clean %>%
+  select(Date, County_Name, Clean_New_Deaths_Today) %>%
+  filter(Date != "2021-02-28") %>%
+  filter(Date != "2021-10-10")
+
+deaths_clean <- merge(deaths, deaths_clean, all.x = TRUE)
+deaths_clean <- deaths_clean %>%
+  unique()
+
+write.csv(deaths_clean, file = "HomePageData/deaths.csv")
+
+deaths_spanish <- deaths_clean %>% 
+  rename(Fecha = Date, Condado = County_Name, Positivos_Todos = Total_Positives, Muertes_Todos = Total_Deaths, Nuevas_Muertes_Hoy = New_Deaths_Today, Casos_por_Muertes = Cases_Per_Death, Limpiar_nuevas_muertes_hoy = Clean_New_Deaths_Today )
 
 write.csv(deaths_spanish, file = "SpanishData/deaths_spanish.csv")
 
