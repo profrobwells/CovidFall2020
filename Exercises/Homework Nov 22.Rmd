@@ -1,0 +1,42 @@
+---
+title: "Nov 22 School Assignment"
+author: "Rob Wells"
+date: "11/28/2021"
+output: html_document
+---
+
+```{r}
+library(tidyverse)
+library(rio)
+library(janitor)
+```
+
+https://raw.githubusercontent.com/profrobwells/CovidFall2020/master/Exercises/schoolNov22.csv
+```{r}
+school_totals <- rio::import("https://raw.githubusercontent.com/profrobwells/CovidFall2020/master/Exercises/schoolNov22.csv")
+```
+
+```{r}
+school_totals <- school_totals %>% 
+   rename(Name = timeframe_8_1_2021_present, All_Active_Cases = active_cases, Cumulative_Faculty_Staff_Cases = cumulative_faculty_staff_casesa, Cumulative_Student_Cases = cumulative_student_casesa, All_Faculty_Staff_Total = x5, All_Student_Total = x7, Total = x9) 
+
+school_totals <- school_totals %>% 
+   select(Type, Name, Cumulative_Student_Cases, Cumulative_Faculty_Staff_Cases, All_Active_Cases, Date) 
+```
+
+```{r}
+#Wells Edit
+
+glimpse(school_totals)
+#Cumulative_Student_Cases  is character values. needs to be converted to numbers
+
+school_totals$Cumulative_Student_Cases <- as.numeric(school_totals$Cumulative_Student_Cases)
+
+Public_top10 <- school_totals %>% 
+  select(Name, Type, Cumulative_Student_Cases) %>% 
+  filter(Type == "PUBLIC SCHOOL DISTRICT") %>% 
+  filter(!Name == "TOTAL") %>% 
+  top_n(10, Cumulative_Student_Cases) %>% 
+  arrange(desc(Cumulative_Student_Cases))
+
+```
