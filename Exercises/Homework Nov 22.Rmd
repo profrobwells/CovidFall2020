@@ -40,3 +40,109 @@ Public_top10 <- school_totals %>%
   arrange(desc(Cumulative_Student_Cases))
 
 ```
+
+
+#Lesson for Monday Nov 28
+#Joining tables
+#Look at this file on enrollment by race
+https://raw.githubusercontent.com/Arkansascovid/Main/master/Schools/School_Districts_FY31_Districts_EnrollmentByRace.csv
+
+#1: Import enrollment data into R - call it schoolethnicity
+
+#KEY: 
+```{r}
+
+```
+
+#How many rows? columns? This is really important when joining tables
+
+
+#2: Use janitor package to clean labels. Simplified labels helps with the matching
+
+```{r}
+schoolethnicity<- janitor::clean_names(schoolethnicity)
+```
+
+
+#join tables
+```{r}
+schools_combo <- school_totals %>% 
+  inner_join(schoolethnicity, by=c("Name"="district_description"))
+glimpse(schools_combo)
+```
+
+#How many matches? What is the issue?
+
+
+
+
+
+
+#3: Standardize the data - make it all lowercase
+
+#standardize school_totals
+```{r}
+school_totals <- janitor::clean_names(school_totals)
+```
+
+#convert a column to a new name and with lower case
+```{r}
+school_totals$district <- tolower(school_totals$name)
+```
+
+#the find / replace using gsub. find a blank, replace with _
+```{r}
+school_totals$district <- gsub(" ", "_", school_totals$district)
+```
+
+
+#standardize schoolethnicity 
+#transform district_description to district as lower case 
+```{r}
+
+
+```
+
+#Find district and replace with dist using gsub
+```{r}
+
+```
+
+#Find blanks and replace with _ using gsub
+```{r}
+
+```
+
+
+#join tables
+```{r}
+schools_combo <- school_totals %>% 
+  inner_join(schoolethnicity, by=c("district"))
+glimpse(schools_combo)
+```
+
+#How many rows? How many columns?
+#Which columns need to be converted to numeric data
+
+#Convert specific columns to numeric
+```{r}
+schools_combo[3:5] <- lapply(schools_combo[3:5], as.numeric)
+glimpse(schools_combo)
+```
+
+#Math
+```{r}
+schools_combo <- schools_combo %>% 
+  mutate(Pct_Hispanic = (hispanic_total/student_total)) %>% 
+   mutate(Pct_White = (white_total/student_total)) %>% 
+   mutate(Pct_Black = (black_total/student_total))
+
+factcheck <- schools_combo %>% 
+  select(district,  student_total, hispanic_total, Pct_Hispanic, white_total, Pct_White, black_total, Pct_Black)
+```
+
+
+#Export a spreadsheet using write.csv
+```{r}
+write.csv(schools_combo, "Schools/public_schools_combo.csv")
+```
